@@ -1,0 +1,25 @@
+:root {
+    --primary-logistic: #D9D9D9;
+    --secondary-logistic: #E42D2D;
+    --white-logistic : #fff;
+    --black-logistic : #252525;
+}
+
+.aside {
+    background-color: var(--primary-logistic);
+}
+
+.aside ul li a:not(.active) {
+    color: #252525;
+}
+
+.active {
+    background: var(--white-logistic);
+    color: var(--primary-logistic);
+}
+
+.box {
+    background-color: var(--primary-logistic);
+    border: none;
+    border-radius: 5px;
+}

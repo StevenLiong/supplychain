@@ -8,60 +8,70 @@ use Illuminate\Http\Request;
 
 class MaterialController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
         $material = Material::all();
         return view('logistic.dataMaster.material.index', compact('material'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('logistic.dataMaster.material.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'kd_material' => 'required|unique:materials,kd_material',
+            'nama_material' => 'required',
+            'satuan' => 'required',
+            'jumlah' => 'required'
+        ];
+
+        $request->validate($rules);
+        Material::create($request->all());
+        return redirect('datamaster/material')->with('success', 'Data berhasil di tambah');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Material $material)
     {
-        //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Material $material)
     {
-        //
+        return view('logistic.dataMaster.material.edit', [
+            'material' => $material
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Material $material)
     {
-        //
+        $rules = [
+            'nama_material' => 'required',
+            'satuan' => 'required',
+            'jumlah' => 'required'
+        ];
+
+        $request->validate($rules);
+
+        $material->update($request->all());
+        return redirect('datamaster/material')->with('success', 'Data berhasil di update');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Material $material)
     {
-        //
+        $material->destroy($material->kd_material);
+
+        return redirect('datamaster/material')->with('success', 'Berhasil di hapus');
+    }
+
+    public function print($kd_material)
+    {
+        $material = Material::find($kd_material);
+        return view('logistic.dataMaster.material.print', [
+            'material' => $material
+        ]);
     }
 }

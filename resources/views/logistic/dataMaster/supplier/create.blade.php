@@ -7,7 +7,7 @@
                 <div class="col-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Form Tambah Data Material</h4>
+                        ">Form Tambah Data Supplier</h4>
                     </div>
                 </div>
             </div>
@@ -16,20 +16,20 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('datamaster/material') }}" method="post">
+                    <form action="{{ url('datamaster/supplier') }}" method="post">
                         @csrf
-                        {{-- Form Tambah Data Material --}}
+                        {{-- Form Tambah Data supplier --}}
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="kd_material" class="form-label ">Kode Material</label>
+                                    <label for="kd_supplier" class="form-label ">Kode Supplier</label>
                                     <input type="text"
-                                        class="form-control @error('kd_material')
+                                        class="form-control @error('kd_supplier')
                                         is-invalid
                                     @enderror"
-                                        id="kd_material" name="kd_material" placeholder="Kode material"
-                                        value="{{ old('kd_material') }}">
-                                    @error('kd_material')
+                                        id="kd_supplier" name="kd_supplier" placeholder="Kode supplier"
+                                        value="{{ old('kd_supplier') }}">
+                                    @error('kd_supplier')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -38,13 +38,13 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="nama_material" class="form-label">Nama Material</label>
+                                    <label for="nama_supplier" class="form-label">Nama Supplier</label>
                                     <input type="text"
-                                        class="form-control @error('nama_material') is-invalid
+                                        class="form-control @error('nama_supplier') is-invalid
                                     @enderror"
-                                        id="nama_material" name="nama_material" placeholder=" Nama Material"
-                                        value="{{ old('nama_material') }}">
-                                    @error('nama_material')
+                                        id="nama_supplier" name="nama_supplier" placeholder=" Nama supplier"
+                                        value="{{ old('nama_supplier') }}">
+                                    @error('nama_supplier')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -53,13 +53,13 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="satuan" class="form-label">Satuan</label>
+                                    <label for="email" class="form-label">Email</label>
                                     <input type="text"
-                                        class="form-control @error('satuan')
+                                        class="form-control @error('email')
                                         is-invalid
                                     @enderror"
-                                        id="satuan" name="satuan" placeholder="Satuan" value="{{ old('satuan') }}">
-                                    @error('satuan')
+                                        id="email" name="email" placeholder="email" value="{{ old('email') }}">
+                                    @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -69,13 +69,13 @@
 
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="jumlah" class="form-label">Jumlah </label>
+                                    <label for="alamat" class="form-label">Alamat </label>
                                     <input type="text"
-                                        class="form-control @error('jumlah')
+                                        class="form-control @error('alamat')
                                         is-invalid
                                     @enderror"
-                                        id="jumlah" name="jumlah" placeholder="Jumlah" value="{{ old('jumlah') }}">
-                                    @error('jumlah')
+                                        id="alamat" name="alamat" placeholder="alamat" value="{{ old('alamat') }}">
+                                    @error('alamat')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>

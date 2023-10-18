@@ -13,12 +13,10 @@
             </div>
             {{-- headline end --}}
 
-            {{-- button print --}}
-            {{-- <div class="btn-print px-3 mb-3">
-                <button class="btn-btn-sm btn-gray" id="print">Cetak</button>
-            </div> --}}
-            {{-- button print end --}}
-
+            {{-- table dry type --}}
+            <div class="btn-create px-3 mb-3">
+                
+            </div>
             <div class="table-responsive px-3">
                 <table class="table table-bordered table-hover">
                     <thead class="table-secondary">
@@ -27,18 +25,18 @@
                             <th>Barcode</th>
                         </tr>
                     </thead>
-                    
+
+                    @foreach ($material as $item)
                     <tbody>
                         <tr>
-                            <td>Gambar QR</td>
-                            <td>Gambar Barcode</td>
+                            <td>{{ $item->qr_code }}</td>
+                            <td>{{ $item->kd_material }}</td>
                         </tr>
                     </tbody>
+                    @endforeach
                 </table>
             </div>
             {{-- table dry type end --}}
         </div>
     </div>
-
-   
 @endsection

@@ -185,4 +185,11 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'units' => [
+        'kd_material' => [
+            'class' => 'App\Models\Material',
+            'attribute' => 'kd_material',
+        ],
+    ],
+
 ];

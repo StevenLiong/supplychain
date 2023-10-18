@@ -7,7 +7,7 @@
                 <div class="col-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Form Tambah Data Material</h4>
+                        ">Form Edit Data Material</h4>
                     </div>
                 </div>
             </div>
@@ -16,8 +16,9 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('datamaster/material') }}" method="post">
+                    <form action="{{ url('datamaster/material/'. $material->kd_material) }}" method="post">
                         @csrf
+                        @method('put')
                         {{-- Form Tambah Data Material --}}
                         <div class="row">
                             <div class="col-lg-3">
@@ -28,7 +29,7 @@
                                         is-invalid
                                     @enderror"
                                         id="kd_material" name="kd_material" placeholder="Kode material"
-                                        value="{{ old('kd_material') }}">
+                                        value="{{ old('kd_material', $material->kd_material) }}" disabled>
                                     @error('kd_material')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -43,7 +44,7 @@
                                         class="form-control @error('nama_material') is-invalid
                                     @enderror"
                                         id="nama_material" name="nama_material" placeholder=" Nama Material"
-                                        value="{{ old('nama_material') }}">
+                                        value="{{ old('nama_material', $material->nama_material) }}">
                                     @error('nama_material')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -58,7 +59,8 @@
                                         class="form-control @error('satuan')
                                         is-invalid
                                     @enderror"
-                                        id="satuan" name="satuan" placeholder="Satuan" value="{{ old('satuan') }}">
+                                        id="satuan" name="satuan" placeholder="Satuan"
+                                        value="{{ old('satuan', $material->satuan) }}">
                                     @error('satuan')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -74,7 +76,8 @@
                                         class="form-control @error('jumlah')
                                         is-invalid
                                     @enderror"
-                                        id="jumlah" name="jumlah" placeholder="Jumlah" value="{{ old('jumlah') }}">
+                                        id="jumlah" name="jumlah" placeholder="Jumlah"
+                                        value="{{ old('jumlah', $material->jumlah) }}">
                                     @error('jumlah')
                                         <div class="invalid-feedback">
                                             {{ $message }}

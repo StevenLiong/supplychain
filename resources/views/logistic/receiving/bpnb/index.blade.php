@@ -16,7 +16,7 @@
             {{-- table dry type --}}
             <div class="btn-create px-3 mb-3">
                 <button type="button" class="btn btn-sm btn-gray"
-                    onclick=window.location="{{ url('bpnb/create') }}">Create BPNB</button>
+                    onclick=window.location="{{ url('receiving/bpnb/create') }}">Create BPNB</button>
             </div>
             <div class="table-responsive px-3">
                 <table class="table table-bordered table-hover">

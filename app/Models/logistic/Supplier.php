@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Material extends Model
+class Supplier extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'kd_material',
-        'nama_material',
-        'satuan',
-        'jumlah',
+        'kd_supplier',
+        'nama_supplier',
+        'email',
+        'alamat'
     ];
 
    /**
-    * Get all of the incoming for the Material
+    * Get all of the incoming for the Supplier
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
@@ -26,5 +26,4 @@ class Material extends Model
    {
        return $this->hasMany(Incoming::class, 'kd_kedatangan', 'id');
    }
-
 }

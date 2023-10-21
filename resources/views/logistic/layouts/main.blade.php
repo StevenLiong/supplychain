@@ -29,7 +29,14 @@
     <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('/') }}assets/plugins/summernote/summernote-bs4.min.css">
 
-   
+   <style>
+        @media print {
+            /* CSS untuk tampilan cetakan */
+            #print, #copyright {
+                display: none; /* Sembunyikan tombol "Cetak" saat mencetak */
+            }
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -94,6 +101,9 @@
     <script src="{{ asset('/') }}assets/dist/js/adminlte.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('/') }}assets/dist/js/pages/dashboard.js"></script>
+
+    <script src="{{ asset('/') }}assets/dist/js/bootstrap.js"></script>
+    
 </body>
 
 </html>

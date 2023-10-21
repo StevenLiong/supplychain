@@ -38,9 +38,12 @@ Route::get('datamaster/oil', function(){
 
 // receiving
 route::resource('receiving/bpnb', BpnbController::class); // BPNB
-// route::resource('receiving/incoming', IncomingController::class); //incoming
+Route::get('receiving/incoming/{bpnb}/scan', [BpnbController::class, 'print']);
 Route::get('receiving/incoming', [IncomingController::class,'index']);
-Route::get('receiving/incoming/print', [IncomingController::class, 'print']);
+Route::get('receiving/incoming/create', [IncomingController::class,'create']);
+Route::post('receiving/incoming/store', [IncomingController::class,'store']);
+Route::get('receiving/scan', [IncomingController::class, 'scan']);
+Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
 
 // logistic end
 

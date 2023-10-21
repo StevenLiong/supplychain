@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Milon\Barcode\BarcodeServiceProvider;
 
 return [
 
@@ -158,16 +159,17 @@ return [
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
          * Package Service Providers...
-         */
-
+         */BarcodeServiceProvider::class,
         /*
          * Application Service Providers...
+          Milon\Barcode\BarcodeServiceProvider::class,
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        'Barryvdh\DomPDF\ServiceProvider',
     ])->toArray(),
 
     /*
@@ -183,13 +185,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
-    'units' => [
-        'kd_material' => [
-            'class' => 'App\Models\Material',
-            'attribute' => 'kd_material',
-        ],
-    ],
 
 ];

@@ -35,6 +35,22 @@
   box-sizing: border-box;
 }
 
+/* custom */
+.lebar-column {
+  max-width: 100px;
+  /* Atur lebar maksimum sesuai kebutuhan Anda */
+}
+
+.column-height {
+  min-height: 300px;
+}
+
+.container-table {
+  height: 400px;
+  border: 1px solid red;
+}
+
+/* custom */
 html {
   font-family: sans-serif;
   line-height: 1.15;

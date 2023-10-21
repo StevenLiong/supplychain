@@ -59,8 +59,14 @@ class IncomingController extends Controller
     {
     }
 
-    public function print()
+    public function print($id)
     {
-        return view('logistic.receiving.print');
+        $incoming = Incoming::find($id);
+        return view('logistic.receiving.print', compact('incoming'));
+    }
+
+    public function scan ()
+    {
+        return view('logistic.receiving.scan');
     }
 }

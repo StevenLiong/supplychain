@@ -16,7 +16,7 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('/receiving/incoming') }}" method="post">
+                    <form action="{{ url('/receiving/incoming/store') }}" method="post">
                         @csrf
                         <div class="table-responsive p-2">
                             <table class="table table-bordered ">

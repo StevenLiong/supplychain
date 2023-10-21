@@ -1,3 +1,3 @@
 <footer class="main-footer">
-    <strong>Copyright &copy; Supply chain</a>.</strong>
+    <strong id="copyright">Copyright &copy; Supply chain</a>.</strong>
 </footer>

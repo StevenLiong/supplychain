@@ -62,4 +62,8 @@ class BpnbController extends Controller
     {
         //
     }
+
+    public function print (){
+        return view('logistic.receiving.bpnb.printbpnb');
+    }
 }

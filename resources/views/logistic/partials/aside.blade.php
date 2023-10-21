@@ -57,6 +57,8 @@
                                      stroke-linecap="round" />
                              </svg>
                          </i>
+
+                         <!-- Data Master -->
                          <p>
                              Data master
                              <i class="right fas fa-angle-left"></i>
@@ -99,7 +101,10 @@
                              </a>
                          </li>
                      </ul>
+
+                     <!-- data master end  -->
                  </li>
+                 <!-- Receiving -->
                  <li class="nav-item {{ request()->segment(1) == 'receiving' ? 'menu-open' : '' }}">
                      <a href="#" class="nav-link">
                          <i class="nav-icon ">
@@ -117,8 +122,7 @@
                                      fill="#565151" mask="url(#path-1-inside-1_2351_2528)" />
                                  <path
                                      d="M1.58984 23.7695V8.48191C1.58984 8.12724 1.86025 7.80583 2.27985 7.66178L18.5462 2.07735C18.8468 1.97422 19.1895 1.97422 19.4901 2.07735L35.7565 7.66178C36.1761 7.80583 36.4465 8.12724 36.4465 8.48191V23.7695C36.4465 24.1242 36.1761 24.4456 35.7565 24.5897L19.4901 30.1741C19.1895 30.2771 18.8468 30.2771 18.5462 30.1741L2.27985 24.5897C1.86025 24.4456 1.58984 24.1242 1.58984 23.7695Z"
-                                     stroke="#565151" stroke-width="3" stroke-linecap="round"
-                                     stroke-linejoin="round" />
+                                     stroke="#565151" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
                                  <path
                                      d="M10.3042 4.90698L27.0425 10.6534C27.4622 10.7975 27.7325 11.1189 27.7325 11.4735V16.8736"
                                      stroke="#565151" stroke-width="3" stroke-linecap="round"
@@ -146,13 +150,17 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="{{ url('receiving/scan') }}" class="nav-link">
+                             <a href="{{ url('receiving/scan') }}"
+                                 class="nav-link {{ request()->segment(2) == 'scan' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Scan</p>
                              </a>
                          </li>
                      </ul>
                  </li>
+                 <!-- Receiving -->
+
+                 <!-- Storge -->
                  <li class="nav-item ">
                      <a href="#" class="nav-link">
                          <i class="nav-icon ">
@@ -183,23 +191,20 @@
                          <li class="nav-item">
                              <a href="./index.html" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Storage 1</p>
+                                 <p>Raw Material</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="./index2.html" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Storage 2</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="./index3.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Storage 3</p>
+                                 <p>Finished Good</p>
                              </a>
                          </li>
                      </ul>
                  </li>
+                 <!-- Storge End-->
+
+                 <!-- Picking -->
                  <li class="nav-item ">
                      <a href="#" class="nav-link">
                          <i class="nav-icon ">
@@ -243,29 +248,26 @@
                          </i>
                          <p>
                              Picking
+                             <i class="right fas fa-angle-left"></i>
                          </p>
                      </a>
                      <ul class="nav nav-treeview">
                          <li class="nav-item">
                              <a href="./index.html" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Picking 1</p>
+                                 <p>Raw Material</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href="./index2.html" class="nav-link">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Picking 2</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="./index3.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Picking 3</p>
+                                 <p>Finished Good</p>
                              </a>
                          </li>
                      </ul>
                  </li>
+                 <!-- Picking End-->
+
                  <li class="nav-item ">
                      <a href="#" class="nav-link">
                          <i class="nav-icon">

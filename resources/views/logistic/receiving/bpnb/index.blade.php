@@ -13,7 +13,7 @@
             </div>
             {{-- headline end --}}
 
-            {{-- table dry type --}}
+            {{-- table bpnb --}}
             <div class="btn-create px-3 mb-3">
                 <button type="button" class="btn btn-sm btn-gray"
                     onclick=window.location="{{ url('receiving/bpnb/create') }}">Create BPNB</button>
@@ -65,7 +65,7 @@
                     </tbody>
                 </table>
             </div>
-            {{-- table dry type end --}}
+            {{-- table bpnb end --}}
 
 
             {{-- pagination --}}

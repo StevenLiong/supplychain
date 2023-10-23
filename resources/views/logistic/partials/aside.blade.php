@@ -80,24 +80,10 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href={{ url('datamaster/drytype') }}
-                                 class="nav-link {{ request()->segment(2) === 'drytype' ? 'active' : '' }}">
+                             <a href={{ url('datamaster/rak') }}
+                                 class="nav-link {{ request()->segment(2) === 'rak' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Gudang RM Dry Type</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="{{ URL('datamaster/ctvt') }}"
-                                 class="nav-link {{ request()->segment(2) === 'ctvt' ? 'active' : '' }}">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Gudang RM CTVT</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="{{ url('datamaster/oil') }}"
-                                 class="nav-link {{ request()->segment(2) === 'oil' ? 'active' : '' }}">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Gudang RM Oil</p>
+                                 <p>Data Rak</p>
                              </a>
                          </li>
                      </ul>

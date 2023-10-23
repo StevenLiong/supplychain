@@ -39,10 +39,10 @@ class MaterialController extends Controller
     {
     }
 
-    public function edit(Material $material)
+    public function edit($id)
     {
         return view('logistic.dataMaster.material.edit', [
-            'material' => $material
+            'material' => Material::find($id)
         ]);
     }
 
@@ -62,16 +62,14 @@ class MaterialController extends Controller
 
     public function destroy(Material $material)
     {
-        $material->destroy($material->kd_material);
+        $material->delete($material->kd_material);
 
         return redirect('datamaster/material')->with('success', 'Berhasil di hapus');
     }
 
-    public function print($kd_material)
+    public function print($id)
     {
-        $material = Material::find($kd_material);
-        return view('logistic.dataMaster.material.print', [
-            'material' => $material
-        ]);
+        $material = Material::find($id);
+        return view('logistic.dataMaster.material.print', compact('material'));
     }
 }

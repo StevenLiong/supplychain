@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
+use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\logistic\SupplierController;
 
 Route::get('/', function () {
@@ -17,8 +18,14 @@ route::get('/logistic', function(){
 });
 
 // master data
+// material
 route::resource('datamaster/material', MaterialController::class);
+Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
+// Route::get('datamaster/material/{material}/print/{id}', [MaterialController::class, 'print']);
+// material end
+
 Route::resource('datamaster/supplier', SupplierController::class); 
+Route::resource('datamaster/rak', RakController::class);
 
 
 Route::get('datamaster/material/{kd_material}/print', [MaterialController::class, 'print']);

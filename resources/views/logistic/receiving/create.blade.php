@@ -64,7 +64,7 @@
                                                             name="kd_supplier" id="kd_supplier">
                                                             <option selected>Pilih kode Supplier</option>
                                                             @foreach ($supplier as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->kd_supplier }}</option>
+                                                            <option value="{{ $item->id }}">{{ $item->nama_supplier }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('kd_supplier')

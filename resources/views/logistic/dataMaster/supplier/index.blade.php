@@ -15,12 +15,12 @@
 
             {{-- notif session --}}
             @if (session()->has('success'))
-                <div class="alert alert-success">
+                <div class="alert alert-success rounded-0 px-3">
                     {{ session('success') }}
                 </div>
             @endif
             {{-- notif session end --}}
-            {{-- table dry type --}}
+            {{-- table supplier --}}
             <div class="btn-create px-3 mb-3">
                 <button type="button" class="btn btn-sm btn-gray"
                     onclick=window.location="{{ url('datamaster/supplier/create') }}">Tambah Data</button>
@@ -49,7 +49,7 @@
                                 <td>{{ $item->alamat }}</td>
                                 <td class="text-center">
                                     {{-- edit --}}
-                                    <a href="{{ url('datamaster/supplier/' . $item->kd_supplier . '/edit') }}">
+                                    <a href="{{ url('datamaster/supplier/' . $item->id . '/edit') }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                             viewBox="0 0 24 24" fill="none">
                                             <path
@@ -63,10 +63,11 @@
                                         </svg>
                                     </a>
                                     {{-- delete --}}
-                                    <form action="{{ url('datamaster/supplier/' . $item->kd_supplier) }}" method="post">
+                                    <form action="{{ url('datamaster/supplier/' . $item->id) }}" method="post">
                                         @csrf
                                         @method('delete')
-                                        <button type="submit" class="btn btn-sm" onclick="return confirm('Yakin hapus data ?')">X</button>
+                                        <button type="submit" class="btn btn-sm"
+                                            onclick="return confirm('Yakin hapus data ?')">X</button>
                                     </form>
                                 </td>
                             </tr>
@@ -74,7 +75,7 @@
                     </tbody>
                 </table>
             </div>
-            {{-- table dry type end --}}
+            {{-- table supplier end --}}
 
 
             {{-- pagination --}}
@@ -95,3 +96,13 @@
         </div>
     </div>
 @endsection
+<script>
+    if (session - > has('success'))
+        Swal.fire({
+            title: 'Sukses',
+            text: '{{ session('success') }}',
+            icon: 'success',
+            timer: 3000
+        });
+    endif
+</script>

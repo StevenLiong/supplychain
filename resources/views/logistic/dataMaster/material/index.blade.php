@@ -41,10 +41,9 @@
                             <th>Nama Material</th>
                             <th>Qty</th>
                             <th>Satuan</th>
-                            <th>Qr Code</th>
+                            <th>Barcode</th>
                             <th>Cetak</th>
                             <th>Aksi</th>
-
                         </tr>
                     </thead>
 
@@ -61,7 +60,7 @@
                                 </td>
                                 <td class="text-center">
                                     {{-- cetak print --}}
-                                    <a href="{{ url('material/' . $item . '/print') }}">
+                                    <a href="{{ url('datamaster/material/print/'.$item->id) }}" target="_blank">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24"
                                             viewBox="0 0 18 24" fill="none">
                                             <path
@@ -70,10 +69,10 @@
                                         </svg>
                                     </a>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center ">
                                     {{-- edit --}}
                                     <a href="{{ url('/datamaster/material/' . $item->id . '/edit') }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             viewBox="0 0 24 24" fill="none">
                                             <path
                                                 d="M7.41256 7H6.49135C6.00271 7 5.53408 7.21071 5.18856 7.58579C4.84304 7.96086 4.64893 8.46957 4.64893 9V18C4.64893 18.5304 4.84304 19.0391 5.18856 19.4142C5.53408 19.7893 6.00271 20 6.49135 20H14.7823C15.2709 20 15.7395 19.7893 16.085 19.4142C16.4306 19.0391 16.6247 18.5304 16.6247 18V17"
@@ -89,7 +88,7 @@
                                         @csrf
                                         @method('delete')
                                         <button class="btn border-none" type="submit" onclick="return confirm('Yakin menghapus ?')">
-                                            <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
+                                            <svg width="18" height="18" viewBox="0 0 21 21" fill="none"
                                                 xmlns="http://www.w3.org/2000/svg">
                                                 <path
                                                     d="M17.2902 9.4043V19.2796C17.2902 19.6278 17.0167 19.9099 16.6793 19.9099H3.64702C3.30964 19.9099 3.03613 19.6278 3.03613 19.2796V9.4043"

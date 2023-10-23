@@ -16,7 +16,7 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('datamaster/supplier/'. $supplier->kd_supplier) }}" method="post">
+                    <form action="{{ url('datamaster/supplier/'. $supplier->id) }}" method="post">
                         @csrf
                         @method('put')
                         {{-- Form Tambah Data supplier --}}

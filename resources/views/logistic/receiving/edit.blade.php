@@ -7,7 +7,7 @@
                 <div class="col-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Input Kedatangan Material</h4>
+                        ">Edit Kedatangan Material</h4>
                     </div>
                 </div>
             </div>
@@ -16,7 +16,9 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="" method="post">
+                    <form action="{{ url('receiving/incoming') }}" method="post">
+                        @csrf
+                        @method('put')
                         <div class="table-responsive p-2">
                             <table class="table table-bordered ">
                                 <tbody>
@@ -32,97 +34,18 @@
                                                 <div class="col-lg-3">
                                                     <div class="mb-3 p-2">
                                                         <label for="kd_material" class="form-label">Kode Material</label>
-                                                        <select class="form-control form-select form-select-lg"
+                                                        <select class="form-control form-select form-select-lg "
                                                             name="kd_material" id="kd_material">
                                                             <option selected>Pilih kode material</option>
-                                                            <option value="M1000">M1000</option>
-                                                            <option value="M1000">M0002</option>
-                                                            <option value="M1000">M0003</option>
+                                                            @foreach ($material as $item)
+                                                                <option value="{{ $item->id }}"
+                                                                    {{ old('kd_material') == $item->id || $incoming->kd_material == $item->id ? 'selected' : '' }}>
+                                                                    {{ $item->kd_material }}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
-                                                    <div class="mb-3 p-2">
-                                                        <label for="spek_tambahan" class="form-label">Spesifikasi
-                                                            Tambahan</label>
-                                                        <input type="text" class="form-control" id="spek_tambahan"
-                                                            name="spek_tambahan" placeholder="Spesifikasi tambahan">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="nama_material" class="form-label">Nama Material</label>
-                                                        <input type="text" class="form-control" id="nama_material"
-                                                            name="nama_material" placeholder=" Nama Material">
-                                                    </div>
-                                                    <div class="mb-3 p-2">
-                                                        <label for="kd_rak" class="form-label">Kode Rak</label>
-                                                        <input type="text" class="form-control" id="kd_rak"
-                                                            name="kd_rak" placeholder="kode rak">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="wkt_kedatangan" class="form-label">Waktu
-                                                            Kedatangan</label>
-                                                        <input type="text" class="form-control" id="wkt_kedatangan"
-                                                            name="wkt_kedatangan" placeholder="waktu kedatangan">
-                                                    </div>
-                                                    <div class="mb-3 p-2">
-                                                        <label for="nama_gudang" class="form-label">Nama Gudang</label>
-                                                        <input type="text" class="form-control" id="nama_gudang"
-                                                            name="nama_gudang" placeholder="Nama Gudang">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="spesifikasi" class="form-label">Spesifikasi</label>
-                                                        <input type="text" class="form-control" id="spesifikasi"
-                                                            name="spesifikasi" placeholder="Spesifikasi Material">
-                                                    </div>
-                                                    <div class="mb-3 p-2">
-                                                        <label for="jenis_material" class="form-label">Jenis
-                                                            Material</label>
-                                                        <input type="text" class="form-control" id="jenis_material"
-                                                            name="jenis_material" placeholder="jenis Material">
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="border-form">
-                                            {{-- form purchase order --}}
-                                            <ul>
-                                                <li>
-                                                    <h3>Purchase Order</h3>
-                                                </li>
-                                            </ul>
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="purchase_order" class="form-label">Purchase
-                                                            Order</label>
-                                                        <input type="text" class="form-control" id="purchase_order"
-                                                            name="purchase_order" placeholder="Input kode Purchase">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="surat_jalan" class="form-label">Surat
-                                                            surat_jalan</label>
-                                                        <input type="text" class="form-control" id="surat_jalan"
-                                                            name="surat_jalan" placeholder="Input kode Surat Jalan">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="batch_datang" class="form-label">Alamat
-                                                            Supplier</label>
-                                                        <input type="text" class="form-control" id="batch_datang"
-                                                            name="batch_datang" placeholder="Input Kode Batch Kedatangan">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {{-- form purchse order end --}}
                                         </td>
                                     </tr>
                                     <tr>
@@ -136,35 +59,114 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3 p-2">
-                                                        <label for="kd_supplier" class="form-label">Kode Material</label>
-                                                        <select class="form-control form-select form-select-lg"
+                                                        <label for="kd_supplier" class="form-label">Kode Supplier</label>
+                                                        <select
+                                                            class="form-control form-select form-select-lg @error('kd_supplier')
+                                                            is-invalid
+                                                        @enderror"
                                                             name="kd_supplier" id="kd_supplier">
                                                             <option selected>Pilih kode Supplier</option>
-                                                            <option value="M1000">M1000</option>
-                                                            <option value="M1000">M0002</option>
-                                                            <option value="M1000">M0003</option>
+                                                            @foreach ($supplier as $item)
+                                                                <option value="{{ $item->id }}"
+                                                                    {{ old('kd_supplier') == $item->id || $incoming->kd_supplier == $item->id ? 'selected' : '' }}>
+                                                                    {{ $item->nama_supplier }} </option>
+                                                            @endforeach
                                                         </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="nama_supplier" class="form-label">Nama
-                                                            Supplier</label>
-                                                        <input type="text" class="form-control" id="nama_supplier"
-                                                            name="nama_supplier" placeholder="Nama Supplier">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <div class="mb-3 p-2">
-                                                        <label for="alamat_supplier" class="form-label">Alamat
-                                                            Supplier</label>
-                                                        <input type="text" class="form-control" id="alamat_supplier"
-                                                            name="alamat_supplier" placeholder="Alamat Supplier">
+                                                        @error('kd_supplier')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
                                             {{-- form supplier end --}}
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-form">
+                                            {{-- form informasi tambahan --}}
+                                            <ul>
+                                                <li>
+                                                    <h3>Informasi Tambahan</h3>
+                                                </li>
+                                            </ul>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 p-2">
+                                                        <label for="no_po" class="form-label"> No Purchase
+                                                            Order</label>
+                                                        <input type="text"
+                                                            class="form-control @error('no_po')
+                                                            is-invalid
+                                                        @enderror"
+                                                            id="no_po" name="no_po" placeholder="Input kode Purchase"
+                                                            value="{{ old('no_po', $incoming->no_po) }}">
+                                                        @error('no_po')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 p-2">
+                                                        <label for="no_surat_jalan" class="form-label">No Surat
+                                                            jalan</label>
+                                                        <input type="text"
+                                                            class="form-control @error('no_surat_jalan')
+                                                            is-invalid
+                                                        @enderror"
+                                                            id="no_surat_jalan" name="no_surat_jalan"
+                                                            placeholder="Input kode Surat Jalan"
+                                                            value="{{ old('no_surat_jalan', $incoming->no_surat_jalan) }}">
+                                                        @error('no_surat_jalan')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 p-2">
+                                                        <label for="batch_datang" class="form-label">Batch
+                                                            Kedatangan</label>
+                                                        <input type="text"
+                                                            class="form-control @error('batch_datang')
+                                                            is-invalid
+                                                        @enderror"
+                                                            id="batch_datang" name="batch_datang"
+                                                            placeholder="Input Kode Batch Kedatangan"
+                                                            value="{{ old('batch_datang', $incoming->batch_datang) }}">
+                                                        @error('batch_datang')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 p-2">
+                                                        <label for="qty_kedatangan" class="form-label">Qty
+                                                            Kedatangan</label>
+                                                        <input type="number"
+                                                            class="form-control @error('qty_kedatangan')
+                                                            is-invalid
+                                                        @enderror"
+                                                            id="qty_kedatangan" name="qty_kedatangan"
+                                                            placeholder="Input Kode Batch Kedatangan"
+                                                            value="{{ old('qty_kedatangan', $incoming->qty_kedatangan) }}">
+                                                        @error('qty_kedatangan')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{-- form informasi tambahan end --}}
+                                        </td>
+
                                     </tr>
                                 </tbody>
                             </table>

@@ -50,13 +50,20 @@ class IncomingController extends Controller
     {
     }
 
-    public function edit()
+    public function edit($id)
     {
-        return view('logistic.receiving.edit');
+        $incoming = Incoming::with('material', 'supplier')->find($id);
+        $material = Material::all();
+        $supplier = Supplier::all();
+        return view('logistic.receiving.edit', compact('incoming', 'material', 'supplier'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Incoming $incoming)
     {
+        $rules = [
+            'kd_material' => 'required',
+            ''
+        ];
     }
 
     public function print($id)

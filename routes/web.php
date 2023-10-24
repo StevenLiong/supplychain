@@ -21,7 +21,6 @@ route::get('/logistic', function(){
 // material
 route::resource('datamaster/material', MaterialController::class);
 Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
-// Route::get('datamaster/material/{material}/print/{id}', [MaterialController::class, 'print']);
 // material end
 
 Route::resource('datamaster/supplier', SupplierController::class); 
@@ -44,13 +43,20 @@ Route::get('datamaster/oil', function(){
 });
 
 // receiving
+Route::resource('receiving/incoming', IncomingController::class);
+
+
+// BPNB
 route::resource('receiving/bpnb', BpnbController::class); // BPNB
 Route::get('receiving/incoming/{bpnb}/scan', [BpnbController::class, 'print']);
-Route::get('receiving/incoming', [IncomingController::class,'index']);
-Route::get('receiving/incoming/create', [IncomingController::class,'create']);
-Route::post('receiving/incoming/store', [IncomingController::class,'store']);
-Route::get('receiving/scan', [IncomingController::class, 'scan']);
-Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
+// BPNB end
+
+
+// Route::get('receiving/incoming', [IncomingController::class,'index']);
+// Route::get('receiving/incoming/create', [IncomingController::class,'create']);
+// Route::post('receiving/incoming/store', [IncomingController::class,'store']);
+// Route::get('receiving/scan', [IncomingController::class, 'scan']);
+// Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
 
 // logistic end
 

@@ -13,7 +13,7 @@ Route::get('/', function () {
 });
 
 // Logistic
-route::get('/logistic', function(){
+route::get('/logistic', function () {
     return view('logistic.dashboard.index');
 });
 
@@ -23,28 +23,19 @@ route::resource('datamaster/material', MaterialController::class);
 Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
 // material end
 
-Route::resource('datamaster/supplier', SupplierController::class); 
+// supplier
+Route::resource('datamaster/supplier', SupplierController::class);
+// supplier end
+
+// rak
 Route::resource('datamaster/rak', RakController::class);
+// rak end
 
-
-Route::get('datamaster/material/{kd_material}/print', [MaterialController::class, 'print']);
-
-
-Route::get('datamaster/drytype', function(){
-    return view ('logistic.dataMaster.drytype');
-});
-
-Route::get('datamaster/ctvt', function(){
-    return view ('logistic.dataMaster.ctvt');
-});
-
-Route::get('datamaster/oil', function(){
-    return view ('logistic.dataMaster.oil');
-});
 
 // receiving
 Route::resource('receiving/incoming', IncomingController::class);
-
+Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
+Route::get('receiving/incoming/scan', [IncomingController::class, 'scan']);
 
 // BPNB
 route::resource('receiving/bpnb', BpnbController::class); // BPNB
@@ -52,14 +43,4 @@ Route::get('receiving/incoming/{bpnb}/scan', [BpnbController::class, 'print']);
 // BPNB end
 
 
-// Route::get('receiving/incoming', [IncomingController::class,'index']);
-// Route::get('receiving/incoming/create', [IncomingController::class,'create']);
-// Route::post('receiving/incoming/store', [IncomingController::class,'store']);
-// Route::get('receiving/scan', [IncomingController::class, 'scan']);
-// Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
-
 // logistic end
-
-
-
-

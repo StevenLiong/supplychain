@@ -1,6 +1,9 @@
 <?php
 
+use App\Providers\AppServiceProvider;
 use Illuminate\Support\Facades\Facade;
+use Milon\Barcode\Facades\DNS1DFacade;
+use Milon\Barcode\Facades\DNS2DFacade;
 use Illuminate\Support\ServiceProvider;
 use Milon\Barcode\BarcodeServiceProvider;
 
@@ -159,7 +162,8 @@ return [
     'providers' => ServiceProvider::defaultProviders()->merge([
         /*
          * Package Service Providers...
-         */BarcodeServiceProvider::class,
+         */
+        BarcodeServiceProvider::class,
         /*
          * Application Service Providers...
           Milon\Barcode\BarcodeServiceProvider::class,
@@ -186,6 +190,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'DNS1D' => DNS1DFacade::class,
+        'DNS2D' => DNS2DFacade::class,
     ])->toArray(),
 
 

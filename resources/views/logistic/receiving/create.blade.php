@@ -66,13 +66,13 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3 p-2">
-                                                        <label for="kd_supplier" class="form-label">Kode Material</label>
+                                                        <label for="kd_supplier" class="form-label">Nama Supplier</label>
                                                         <select
                                                             class="form-control form-select form-select-lg @error('kd_supplier')
                                                             is-invalid
                                                         @enderror"
                                                             name="kd_supplier" id="kd_supplier">
-                                                            <option selected>Pilih kode Supplier</option>
+                                                            <option selected>Pilih Nama Supplier</option>
                                                             @foreach ($supplier as $item)
                                                                 <option value="{{ $item->id }}"
                                                                     {{ old('kd_supplier') == $item->id ? 'selected' : '' }}>

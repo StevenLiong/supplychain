@@ -28,17 +28,17 @@
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody class="justify-content-center text-center">
                         <tr>
-                            <?php 
-                            $item = $incoming->material->kd_material;    
+                            <?php
+                            $item = $incoming->material->kd_material;
+                            $id = $incoming->no_po
                             ?>
                             <td>
-                                {!!  DNS1D::getBarcodeSVG($item, 'C39') !!}
-                                {{-- <img src="data:image/png;base64,'{{DNS1D::getBarcodePNG($item, 'C39+')   }}" alt="barcode">  --}}
+                                  {!! DNS2D::getBarcodeSVG( $item, 'QRCODE', 15,15) !!}
                             </td>
                             {{-- <td>{{ $incoming->material->kd_material }}</td> --}}
-                            <td>{{ $incoming->no_surat_jalan }}</td>
+                            <td>{!! DNS1D::getBarcodeSVG($item, 'C39') !!}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -51,5 +51,4 @@
             window.print(); // Memulai proses pencetakan
         });
     </script>
-    
 @endsection

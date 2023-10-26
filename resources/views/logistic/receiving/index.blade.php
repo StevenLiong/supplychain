@@ -75,7 +75,6 @@
                                     </td>
                                     <td class="">
                                         <div class="btn-group">
-
                                             {{-- lihat --}}
                                             <button type="button"  class="btn btn-xs btn-primary rounded-0" onclick="window.location='{{ url('receiving/incoming/'.$item->id) }}'">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"

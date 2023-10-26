@@ -9,4 +9,6 @@ class Rak extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    
 }

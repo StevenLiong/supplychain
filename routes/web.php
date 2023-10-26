@@ -29,6 +29,7 @@ Route::resource('datamaster/supplier', SupplierController::class);
 
 // rak
 Route::resource('datamaster/rak', RakController::class);
+Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
 // rak end
 
 

@@ -1,7 +1,9 @@
  <aside class="main-sidebar sidebar-light-light elevation-4">
      <!-- Brand Logo -->
+
      <a href="{{ url('logistic') }}" class="brand-link">
-         <span class="brand-text font-weight-light pl-3"><img src="{{ asset('/')}}assets/dist/img/logo-trafo.png"  class="brand-image" style="opacity: .8, text-align: center"></span>
+         <span class="brand-text font-weight-light pl-3"><img src="{{ asset('/')}}assets/dist/img/logo-trafo.png"  class="brand-image" style="opacity: .8, text-align: center">
+         </span>
      </a>
 
      <!-- Sidebar -->
@@ -135,7 +137,7 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="{{ url('receiving/scan') }}"
+                             <a href="{{ url('receiving/incoming/scan') }}"
                                  class="nav-link {{ request()->segment(2) == 'scan' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Scan</p>

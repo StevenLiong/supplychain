@@ -31,6 +31,12 @@ class RakController extends Controller
 
     }
 
+    public function show($id){
+        $rak = Rak::find($id);
+
+        return view('logistic.dataMaster.rack.show', compact('rak'));
+    }
+
     public function edit(Rak $rak) {
        return view('logistic.dataMaster.rack.edit', [
         'rak' => $rak
@@ -54,5 +60,11 @@ class RakController extends Controller
      
         $rak->delete($rak->id);
         return redirect('datamaster/rak')->with('success', 'Data telah di hapus');
+    }
+
+    public function print($id){
+        $rak = Rak::find($id);
+
+        return view('logistic.dataMaster.rack.printRak', compact('rak'));
     }
 }

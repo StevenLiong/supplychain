@@ -28,17 +28,14 @@
                         </tr>
                     </thead>
 
-                    <tbody class="justify-content-center text-center">
+                    <tbody>
                         <tr>
-                            <?php
-                            $item = $incoming->material->kd_material;
-                            $id = $incoming->no_po
-                            ?>
                             <td>
-                                  {!! DNS2D::getBarcodeSVG( $item, 'QRCODE', 15,15) !!}
+                                {!! DNS2D::getBarcodeSVG($rak->kd_rak, 'QRCODE', 15, 15) !!}
                             </td>
-                            {{-- <td>{{ $incoming->material->kd_material }}</td> --}}
-                            <td>{!! DNS1D::getBarcodeSVG($item, 'C39') !!}</td>
+                            <td>
+                                {!! DNS1D::getBarcodeSVG($rak->kd_rak, 'C39') !!}
+                            </td>
                         </tr>
                     </tbody>
                 </table>

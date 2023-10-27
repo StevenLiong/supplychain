@@ -353,26 +353,6 @@
                              <i class="right fas fa-angle-left"></i>
                          </p>
                      </a>
-                     <ul class="nav nav-treeview">
-                         <li class="nav-item">
-                             <a href="./index.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Shipping 1</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="./index2.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Shipping 2</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href="./index3.html" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Shipping 3</p>
-                             </a>
-                         </li>
-                     </ul>
                  </li>
 
                  <!-- Cycle Count -->
@@ -386,9 +366,7 @@
                                 <path d="M22.3636 24.2725H25.2727H28.1818" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M7.81818 9.63627H10.7273M10.7273 9.63627H13.6364M10.7273 9.63627V7.09082M10.7273 9.63627V12.1817" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M8.67065 24.1633L10.7277 22.3634M10.7277 22.3634L12.7847 20.5635M10.7277 22.3634L8.67065 20.5635M10.7277 22.3634L12.7847 24.1633" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                
-                                
+                                </svg>                                
                         </i>
                         <p>
                             Cycle Count

@@ -176,47 +176,17 @@
                         <ul class="nav nav-treeview">
                             <!-- Raw Material -->
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ url('storage/rawmaterial') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Raw Material</p>
-                                    <i class="right fas fa-angle-left"></i>
                                 </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="./raw-material-put-away.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Put Away</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Rack Monitoring</p> 
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                             <!-- Finished Good -->
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="{{ url('storage/finishedgood') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Finished Good</p>
-                                    <i class="right fas fa-angle-left"></i>
                                 </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="./finished-good-put-away.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Put Away</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="./finished-good-rack-monitoring.html" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Rack Monitoring</p>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
                         </ul>
                     </li>

@@ -6,6 +6,7 @@ use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
 use App\Http\Controllers\logistic\RakController;
+use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\SupplierController;
 
 Route::get('/', function () {
@@ -42,6 +43,14 @@ Route::get('receiving/incoming/scan', [IncomingController::class, 'scan']);
 route::resource('receiving/bpnb', BpnbController::class); // BPNB
 Route::get('receiving/incoming/{bpnb}/scan', [BpnbController::class, 'print']);
 // BPNB end
+
+//storage
+Route::resource('storage/rawmaterial', StorageController::class);
+
+
+// rute tambahan untuk "Put Away" dan "Rack Checking":
+Route::get('storage/scan', [StorageController::class, 'scan']);
+Route::get('storage/rackchecking', [StorageController::class, 'rackchecking']);
 
 
 // logistic end

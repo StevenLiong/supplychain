@@ -118,6 +118,8 @@
     <script src="{{ asset('/') }}assets/plugins/sweetalert2/sweetalert2.all.js"></script>
     <script src="{{ asset('vendor/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
 
+    {{-- js scan --}}
+
 
     {{-- print --}}
     <script>

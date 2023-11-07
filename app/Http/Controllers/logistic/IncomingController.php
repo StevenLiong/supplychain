@@ -2,30 +2,31 @@
 
 namespace App\Http\Controllers\logistic;
 
+use Milon\Barcode\DNS2D;
 use Illuminate\Http\Request;
 use App\Models\logistic\Incoming;
 use App\Models\logistic\Material;
 use App\Models\logistic\Supplier;
 use App\Http\Controllers\Controller;
-use Milon\Barcode\DNS2D;
+use App\Models\logistic\MaterialRak;
 
 
 class IncomingController extends Controller
 {
     public function index()
     {
-        $incoming = Incoming::with('material', 'supplier')->get();
+        $incoming = Incoming::with('materialRak', 'supplier')->get();
         return view('logistic.receiving.index', compact('incoming'));
     }
 
     public function create()
     {
-        $incoming = Incoming::with('material', 'supplier');
-        $material = Material::all();
+        $incoming = Incoming::with('materialRak', 'supplier');
         $supplier = Supplier::all();
+        $materialRak =  MaterialRak::all();
         return view('logistic.receiving.create', [
             'incoming' => $incoming,
-            'material' => $material,
+            'materialRak' => $materialRak,
             'supplier' => $supplier
         ]);
     }
@@ -33,12 +34,13 @@ class IncomingController extends Controller
     public function store(Request $request, Incoming $incoming)
     {
         $rules = [
-            'kd_material' => 'required',
+            'kd_material_rak' => 'required',
             'kd_supplier' => 'required',
             'no_po' => 'required',
             'no_surat_jalan' => 'required',
             'batch_datang' => 'required',
             'qty_kedatangan' => 'required|numeric',
+            'tgl_kedatangan' => 'required|date',
         ];
 
         $request->validate($rules);
@@ -50,29 +52,29 @@ class IncomingController extends Controller
 
     public function show($id)
     {
-        $incoming = Incoming::with('material', 'supplier')->find($id);
+        $incoming = Incoming::with('materialRak', 'supplier')->find($id);
         return view('logistic.receiving.show', compact('incoming'));
     }
 
     public function edit($id)
     {
-        $incoming = Incoming::with('material', 'supplier')->find($id);
-        $material = Material::all();
+        $incoming = Incoming::with('materialRak', 'supplier')->find($id);
+        $materialRak = MaterialRak::all();
         $supplier = Supplier::all();
-        return view('logistic.receiving.edit', compact('incoming', 'material', 'supplier'));
+        return view('logistic.receiving.edit', compact('incoming', 'materialRak', 'supplier'));
     }
 
     public function update(Request $request, Incoming $incoming)
-    {
+    {   
         $rules = [
-            'kd_material' => 'required',
+            'kd_material_rak' => 'required',
             'kd_supplier' => 'required',
             'no_po' => 'required',
             'no_surat_jalan' => 'required',
             'batch_datang' => 'required',
             'qty_kedatangan' => 'required|numeric',
+            'tgl_kedatangan' => 'required|date',
         ];
-
         $request->validate($rules);
 
         $incoming->update($request->all());

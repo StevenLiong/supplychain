@@ -32,20 +32,21 @@
                                             <div class="row">
                                                 <div class="col-lg-3">
                                                     <div class="mb-3 p-2">
-                                                        <label for="kd_material" class="form-label">Kode Material</label>
+                                                        <label for="kd_material_rak" class="form-label">Kode
+                                                            Material</label>
                                                         <select
-                                                            class="form-control form-select form-select-lg @error('kd_material')
+                                                            class="form-control form-select form-select-lg @error('kd_material_rak')
                                                             is-invalid
                                                         @enderror"
-                                                            name="kd_material" id="kd_material">
+                                                            name="kd_material_rak" id="kd_material_rak">
                                                             <option selected>Pilih kode material</option>
-                                                            @foreach ($material as $item)
+                                                            @foreach ($materialRak as $item)
                                                                 <option value="{{ $item->id }}"
-                                                                    {{ old('kd_material') == $item->id ? 'selected' : '' }}>
-                                                                    {{ $item->kd_material }}</option>
+                                                                    {{ old('kd_material_rak') == $item->id ? 'selected' : '' }}>
+                                                                    {{ $item->material->kd_material }}</option>
                                                             @endforeach
                                                         </select>
-                                                        @error('kd_material')
+                                                        @error('kd_material_rak')
                                                             <span class="invalid-feedback">
                                                                 <strong>{{ $message }}</strong>
                                                             </span>
@@ -112,6 +113,22 @@
                                                             id="no_po" name="no_po" placeholder="Input kode Purchase"
                                                             value="{{ old('no_po') }}">
                                                         @error('no_po')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3 p-2">
+                                                        <label for="tgl_kedatangan" class="form-label">Tanggal
+                                                            Kedatangan</label>
+                                                        <input type="date"
+                                                            class="form-control @error('tgl_kedatangan')
+                                                            is-invalid
+                                                        @enderror"
+                                                            id="tgl_kedatangan" name="tgl_kedatangan"
+                                                            placeholder="Input kode Purchase"
+                                                            value="{{ old('tgl_kedatangan') }}">
+                                                        @error('tgl_kedatangan')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>
@@ -184,7 +201,6 @@
                             <button class="btn btn-red" type="submit" name="submit" id="submit">Submit</button>
                         </div>
                     </form>
-
                 </div>
             </div>
             {{-- form end --}}
@@ -192,16 +208,3 @@
     </div>
 @endsection
 
-<script>
-    document.getElementById('kd_material').addEventListener('change', function() {
-        var select = this;
-        var selectedOption = select.options[select.selectedIndex];
-        var namaMaterial = selectedOption.getAttribute('data-nama');
-        var satuan = selectedOption.getAttribute('data-satuan');
-        var qty = selectedOption.getAttribute('data-qty');
-
-        document.getElementById('nama_material').value = namaMaterial;
-        document.getElementById('satuan').value = satuan;
-        document.getElementById('qty').value = qty;
-    });
-</script>

@@ -30,15 +30,10 @@
 
                     <tbody class="justify-content-center text-center">
                         <tr>
-                            <?php
-                            $item = $incoming->material->kd_material;
-                            $id = $incoming->no_po
-                            ?>
                             <td>
-                                  {!! DNS2D::getBarcodeSVG( $item, 'QRCODE', 15,15) !!}
+                                {!! DNS2D::getBarcodeSVG($incoming->materialRak->material->kd_material, 'QRCODE', 15, 15) !!}
+                                <strong>{{ $incoming->materialRak->kd_material }}</strong>
                             </td>
-                            {{-- <td>{{ $incoming->material->kd_material }}</td> --}}
-                            <td>{!! DNS1D::getBarcodeSVG($item, 'C39') !!}</td>
                         </tr>
                     </tbody>
                 </table>

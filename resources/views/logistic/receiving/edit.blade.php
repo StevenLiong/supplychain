@@ -16,7 +16,7 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('receiving/incoming/'.$incoming->id) }}" method="post">
+                    <form action="{{ url('receiving/incoming/' . $incoming->id) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="table-responsive p-2">
@@ -34,15 +34,24 @@
                                                 <div class="col-lg-3">
                                                     <div class="mb-3 p-2">
                                                         <label for="kd_material" class="form-label">Kode Material</label>
-                                                        <select class="form-control form-select form-select-lg "
-                                                            name="kd_material" id="kd_material">
-                                                            <option selected>Pilih kode material</option>
-                                                            @foreach ($material as $item)
+                                                        <select
+                                                            class="form-control form-select form-select-lg @error('kd_material_rak')
+                                                            is-invalid
+                                                        @enderror"
+                                                            name="kd_material_rak" id="kd_material">
+                                                            <option>Pilih kode material</option>
+                                                            @foreach ($materialRak as $item)
                                                                 <option value="{{ $item->id }}"
-                                                                    {{ old('kd_material') == $item->id || $incoming->kd_material == $item->id ? 'selected' : '' }}>
-                                                                    {{ $item->kd_material }}</option>
+                                                                    {{ old('kd_material') == $item->id || $incoming->kd_material_rak == $item->id ? 'selected' : '' }}>
+                                                                    {{ $item->material->kd_material }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
+                                                        @error('kd_material_rak')
+                                                            <span class="invalid-feedback">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
                                                     </div>
                                                 </div>
                                             </div>
@@ -73,9 +82,9 @@
                                                             @endforeach
                                                         </select>
                                                         @error('kd_supplier')
-                                                            <div class="invalid-feedback">
-                                                                {{ $message }}
-                                                            </div>
+                                                            <span class="invalid-feedback">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
                                                         @enderror
                                                     </div>
                                                 </div>
@@ -103,6 +112,22 @@
                                                             id="no_po" name="no_po" placeholder="Input kode Purchase"
                                                             value="{{ old('no_po', $incoming->no_po) }}">
                                                         @error('no_po')
+                                                            <div class="invalid-feedback">
+                                                                {{ $message }}
+                                                            </div>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="mb-3 p-2">
+                                                        <label for="tgl_kedatangan" class="form-label">Tanggal
+                                                            Kedatangan</label>
+                                                        <input type="date"
+                                                            class="form-control @error('tgl_kedatangan')
+                                                            is-invalid
+                                                        @enderror"
+                                                            id="tgl_kedatangan" name="tgl_kedatangan"
+                                                            placeholder="Input kode Purchase"
+                                                            value="{{ old('tgl_kedatangan', $incoming->tgl_kedatangan) }}">
+                                                        @error('tgl_kedatangan')
                                                             <div class="invalid-feedback">
                                                                 {{ $message }}
                                                             </div>

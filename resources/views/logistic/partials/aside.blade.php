@@ -2,7 +2,8 @@
      <!-- Brand Logo -->
 
      <a href="{{ url('logistic') }}" class="brand-link">
-         <span class="brand-text font-weight-light pl-3"><img src="{{ asset('/')}}assets/dist/img/logo-trafo.png"  class="brand-image" style="opacity: .8, text-align: center">
+         <span class="brand-text font-weight-light pl-3"><img src="{{ asset('/') }}assets/dist/img/logo-trafo.png"
+                 class="brand-image" style="opacity: .8, text-align: center">
          </span>
      </a>
 
@@ -10,7 +11,9 @@
      <div class="sidebar">
          <!-- Sidebar Menu -->
          <nav class="mt-2">
-             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                 data-accordion="false">
+                 <!--Dashboard -->
                  <li class="nav-item">
                      <a href="{{ url('logistic') }}"
                          class="nav-link {{ request()->segment(1) == 'logistic' ? 'active' : '' }}">
@@ -34,6 +37,8 @@
                          </p>
                      </a>
                  </li>
+
+                 <!-- Data mastemaster -->
                  <li class="nav-item {{ request()->segment(1) == 'datamaster' ? 'menu-open' : '' }}">
                      <a href="" class="nav-link">
                          <i class="nav-icon">
@@ -91,6 +96,7 @@
 
                      <!-- data master end  -->
                  </li>
+
                  <!-- Receiving -->
                  <li class="nav-item {{ request()->segment(1) == 'receiving' ? 'menu-open' : '' }}">
                      <a href="#" class="nav-link">
@@ -112,8 +118,7 @@
                                      stroke="#565151" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
                                  <path
                                      d="M10.3042 4.90698L27.0425 10.6534C27.4622 10.7975 27.7325 11.1189 27.7325 11.4735V16.8736"
-                                     stroke="#565151" stroke-width="3" stroke-linecap="round"
-                                     stroke-linejoin="round" />
+                                     stroke="#565151" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
                              </svg>
                          </i>
                          <p>
@@ -137,62 +142,68 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="{{ url('receiving/incoming/scan') }}"
+                             <a href="{{ url('receiving/incoming/scan/find') }}"
                                  class="nav-link {{ request()->segment(2) == 'scan' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Scan</p>
                              </a>
                          </li>
                          <li class="nav-item">
-                            <a href="{{ url('receiving/scan') }}"
-                                class="nav-link {{ request()->segment(2) == 'scan' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Return</p>
-                            </a>
-                        </li>
+                             <a href="{{ url('receiving/scan') }}"
+                                 class="nav-link {{ request()->segment(2) == 'return' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Return</p>
+                             </a>
+                         </li>
                      </ul>
                  </li>
-                 <!-- Receiving -->
+                 <!-- Receiving End-->
 
                  <!-- Storage -->
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 44 46" fill="none">
-                                    <path d="M2 16.2093L21.5182 2L41.0363 16.2093" stroke="#565151" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M6.3374 43.3361H36.699" stroke="#565151" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M17.1807 14.9175H25.8554" stroke="#565151" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M8.50586 35.5855V22.668" stroke="#565151" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M17.1807 35.5855V22.668" stroke="#565151" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M25.8555 35.5855V22.668" stroke="#565151" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                    <path d="M34.5303 35.5855V22.668" stroke="#565151" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </i>
-                            <p>
-                                Storage
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <!-- Raw Material -->
-                            <li class="nav-item">
-                                <a href="{{ url('storage/rawmaterial') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Raw Material</p>
-                                </a>
-                            </li>
-                            <!-- Finished Good -->
-                            <li class="nav-item">
-                                <a href="{{ url('storage/finishedgood') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Finished Good</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- Storage End -->
-
-
+                 <li class="nav-item {{ request()->segment(1) == 'storage' ? 'menu-open' : '' }}">
+                     <a href="#" class="nav-link">
+                         <i class="nav-icon">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27"
+                                 viewBox="0 0 44 46" fill="none">
+                                 <path d="M2 16.2093L21.5182 2L41.0363 16.2093" stroke="#565151" stroke-width="4"
+                                     stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M6.3374 43.3361H36.699" stroke="#565151" stroke-width="4"
+                                     stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M17.1807 14.9175H25.8554" stroke="#565151" stroke-width="4"
+                                     stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M8.50586 35.5855V22.668" stroke="#565151" stroke-width="4"
+                                     stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M17.1807 35.5855V22.668" stroke="#565151" stroke-width="4"
+                                     stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M25.8555 35.5855V22.668" stroke="#565151" stroke-width="4"
+                                     stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M34.5303 35.5855V22.668" stroke="#565151" stroke-width="4"
+                                     stroke-linecap="round" stroke-linejoin="round" />
+                             </svg>
+                         </i>
+                         <p>
+                             Storage
+                             <i class="right fas fa-angle-left"></i>
+                         </p>
+                     </a>
+                     <ul class="nav nav-treeview">
+                         <!-- Raw Material -->
+                         <li class="nav-item">
+                             <a href="{{ url('storage/rawmaterial') }}" class="nav-link {{ request()->segment(2) == 'rawmaterial' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Raw Material</p>
+                             </a>
+                         </li>
+                         <!-- Finished Good -->
+                         <li class="nav-item">
+                             <a href="{{ url('storage/finishedgood') }}" class="nav-link {{ request()->segment(2) == 'finishedgood' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Finished Good</p>
+                             </a>
+                         </li>
+                     </ul>
+                 </li>
+                 <!-- Storage End -->
 
                  <!-- Services -->
                  <li class="nav-item ">
@@ -242,51 +253,51 @@
                          </p>
                      </a>
                      <ul class="nav nav-treeview">
-                        <!-- Raw Material -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaksi Gudang</p>
-                                <i class="right fas fa-angle-left"></i>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="./raw-material-put-away.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Order</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Picking</p> 
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- Finished Good -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaksi Produksi</p>
-                                <i class="right fas fa-angle-left"></i>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="./finished-good-put-away.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Transfer (T)</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./finished-good-rack-monitoring.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Consumption Report (A)</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+                         <!-- Raw Material -->
+                         <li class="nav-item">
+                             <a href="#" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Transaksi Gudang</p>
+                                 <i class="right fas fa-angle-left"></i>
+                             </a>
+                             <ul class="nav nav-treeview">
+                                 <li class="nav-item">
+                                     <a href="./raw-material-put-away.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Order</p>
+                                     </a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="./raw-material-rack-monitoring.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Picking</p>
+                                     </a>
+                                 </li>
+                             </ul>
+                         </li>
+                         <!-- Finished Good -->
+                         <li class="nav-item">
+                             <a href="#" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Transaksi Produksi</p>
+                                 <i class="right fas fa-angle-left"></i>
+                             </a>
+                             <ul class="nav nav-treeview">
+                                 <li class="nav-item">
+                                     <a href="./finished-good-put-away.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Transfer (T)</p>
+                                     </a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="./finished-good-rack-monitoring.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Consumption Report (A)</p>
+                                     </a>
+                                 </li>
+                             </ul>
+                         </li>
+                     </ul>
                  </li>
                  <!-- Services End-->
 
@@ -327,82 +338,94 @@
 
                  <!-- Cycle Count -->
                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon">
-                            <svg width="26" height="27" viewBox="0 0 36 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2 27.4545V4.54545C2 3.13964 3.30244 2 4.90909 2H31.0909C32.6976 2 34 3.13964 34 4.54545V27.4545C34 28.8604 32.6976 30 31.0909 30H4.90909C3.30244 30 2 28.8604 2 27.4545Z" stroke="black" stroke-opacity="0.6" stroke-width="3"/>
-                                <path d="M22.3636 9.63672H25.2727H28.1818" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M22.3636 20.4551H25.2727H28.1818" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M22.3636 24.2725H25.2727H28.1818" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M7.81818 9.63627H10.7273M10.7273 9.63627H13.6364M10.7273 9.63627V7.09082M10.7273 9.63627V12.1817" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M8.67065 24.1633L10.7277 22.3634M10.7277 22.3634L12.7847 20.5635M10.7277 22.3634L8.67065 20.5635M10.7277 22.3634L12.7847 24.1633" stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>                                
-                        </i>
-                        <p>
-                            Cycle Count
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <!-- Raw Material -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Raw Material</p>
-                                <i class="right fas fa-angle-left"></i>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="./raw-material-put-away.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Create Cycle Count</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Generate & Release</p> 
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./raw-material-put-away.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p> Pending Review</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <!-- Finished Good -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Finished Good</p>
-                                <i class="right fas fa-angle-left"></i>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="./raw-material-put-away.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Create Cycle Count y</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Generate and Release Cycle Count</p> 
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./raw-material-put-away.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Cycle Counting Pending Review</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <!-- Storage End -->
+                     <a href="#" class="nav-link">
+                         <i class="nav-icon">
+                             <svg width="26" height="27" viewBox="0 0 36 32" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                 <path
+                                     d="M2 27.4545V4.54545C2 3.13964 3.30244 2 4.90909 2H31.0909C32.6976 2 34 3.13964 34 4.54545V27.4545C34 28.8604 32.6976 30 31.0909 30H4.90909C3.30244 30 2 28.8604 2 27.4545Z"
+                                     stroke="black" stroke-opacity="0.6" stroke-width="3" />
+                                 <path d="M22.3636 9.63672H25.2727H28.1818" stroke="black" stroke-opacity="0.6"
+                                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M22.3636 20.4551H25.2727H28.1818" stroke="black" stroke-opacity="0.6"
+                                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                                 <path d="M22.3636 24.2725H25.2727H28.1818" stroke="black" stroke-opacity="0.6"
+                                     stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                                 <path
+                                     d="M7.81818 9.63627H10.7273M10.7273 9.63627H13.6364M10.7273 9.63627V7.09082M10.7273 9.63627V12.1817"
+                                     stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round"
+                                     stroke-linejoin="round" />
+                                 <path
+                                     d="M8.67065 24.1633L10.7277 22.3634M10.7277 22.3634L12.7847 20.5635M10.7277 22.3634L8.67065 20.5635M10.7277 22.3634L12.7847 24.1633"
+                                     stroke="black" stroke-opacity="0.6" stroke-width="3" stroke-linecap="round"
+                                     stroke-linejoin="round" />
+                             </svg>
+                         </i>
+                         <p>
+                             Cycle Count
+                             <i class="right fas fa-angle-left"></i>
+                         </p>
+                     </a>
+                     <ul class="nav nav-treeview">
+                         <!-- Raw Material -->
+                         <li class="nav-item">
+                             <a href="#" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Raw Material</p>
+                                 <i class="right fas fa-angle-left"></i>
+                             </a>
+                             <ul class="nav nav-treeview">
+                                 <li class="nav-item">
+                                     <a href="./raw-material-put-away.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Create Cycle Count</p>
+                                     </a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="./raw-material-rack-monitoring.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Generate & Release</p>
+                                     </a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="./raw-material-put-away.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p> Pending Review</p>
+                                     </a>
+                                 </li>
+                             </ul>
+                         </li>
+                         <!-- Finished Good -->
+                         <li class="nav-item">
+                             <a href="#" class="nav-link">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Finished Good</p>
+                                 <i class="right fas fa-angle-left"></i>
+                             </a>
+                             <ul class="nav nav-treeview">
+                                 <li class="nav-item">
+                                     <a href="./raw-material-put-away.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Create Cycle Count y</p>
+                                     </a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="./raw-material-rack-monitoring.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Generate and Release Cycle Count</p>
+                                     </a>
+                                 </li>
+                                 <li class="nav-item">
+                                     <a href="./raw-material-put-away.html" class="nav-link">
+                                         <i class="far fa-circle nav-icon"></i>
+                                         <p>Cycle Counting Pending Review</p>
+                                     </a>
+                                 </li>
+                             </ul>
+                         </li>
+                     </ul>
+                 </li>
+                 <!-- Storage End -->
 
              </ul>
          </nav>

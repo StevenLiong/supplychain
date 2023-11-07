@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Material extends Model
 {
@@ -17,14 +18,14 @@ class Material extends Model
         'jumlah',
     ];
 
-   /**
-    * Get all of the incoming for the Material
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    */
-   public function incoming(): HasMany
-   {
-       return $this->hasMany(Incoming::class, 'kd_kedatangan', 'id');
-   }
-
+    /**
+     * Get all of the materialRak for the Material
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function materialRak(): HasMany
+    {
+        return $this->hasMany(MaterialRak::class);
+    }
+  
 }

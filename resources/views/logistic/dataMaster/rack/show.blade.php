@@ -16,15 +16,7 @@
                                 </tr>
                                 <tr>
                                     <th width="30%">Qty </th>
-                                    <td>: {{ $rak->qty_rak}}</td>
-                                </tr>
-                                <tr>
-                                    <th width="30%">Nama Material</th>
-                                   
-                                </tr>
-                                <tr>
-                                    <th width="30%">Kode Material</th>
-                                    
+                                    <td>: {{ $rak->qty_rak }}</td>
                                 </tr>
                             </table>
 

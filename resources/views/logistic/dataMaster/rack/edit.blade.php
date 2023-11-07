@@ -16,7 +16,7 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('datamaster/rak/'.$rak->id) }}" method="post">
+                    <form action="{{ url('datamaster/rak/' . $rak->id) }}" method="post">
                         @csrf
                         @method('put')
                         {{-- Form Edit Data Rak --}}
@@ -29,7 +29,7 @@
                                         is-invalid
                                     @enderror"
                                         id="kd_rak" name="kd_rak" placeholder="Kode rak"
-                                        value="{{ old('kd_rak', $rak->kd_rak) }}" >
+                                        value="{{ old('kd_rak', $rak->kd_rak) }}" readonly>
                                     @error('kd_rak')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -39,23 +39,19 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="qty_rak" class="form-label">Qty</label>
-                                    <input type="number"
-                                        class="form-control @error('qty_rak')
-                                        is-invalid
-                                    @enderror"
-                                        id="qty_rak" name="qty_rak" placeholder="qty_rak" value="{{ old('qty_rak', $rak->qty_rak) }}">
-                                    @error('qty_rak')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                    <label for="kd_gudang" class="form-label">Gudang</label>
+                                    <select name="kd_gudang" id="kd_gudang" class="form-control">
+                                        <option value="Pilih Gudang"></option>
+                                        @foreach ($gudang as $item)
+                                            <option value="{{ $item->id }}" {{ old('kd_gudang') == $item->id || $rak->kd_gudang == $item->id ? 'selected' : ''}}>{{ $item->nama_gudang }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
                 </div>
                 <div class="m-3">
-                    <button class="btn btn-red" type="submit" >Submit</button>
+                    <button class="btn btn-red" type="submit">Submit</button>
                 </div>
                 </form>
 

@@ -58,8 +58,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $item->no_po }}</td>
                                     <td>{{ $item->no_surat_jalan }}</td>
-                                    <td>{{ $item->material->kd_material }}</td>
-                                    <td>{{ $item->material->nama_material }}</td>
+                                    <td>{{ $item->materialRak->material->kd_material }}</td>
+                                    <td>{{ $item->materialRak->material->nama_material }}</td>
                                     <td>{{ $item->supplier->nama_supplier }}</td>
                                     <td>{{ $item->qty_kedatangan }}</td>
                                     <td>{{ $item->batch_datang }}</td>
@@ -86,7 +86,7 @@
                                             </button>
                                             {{-- lihat end --}}
 
-                                            {{-- edit kedatangan --}}
+                                            {{-- edit rak checking --}}
                                             <button type="button" class="btn btn-xs btn-warning rounded-0"
                                                 onclick="window.location='{{ url('receiving/incoming/' . $item->id . '/edit') }}'">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"

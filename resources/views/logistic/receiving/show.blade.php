@@ -16,7 +16,7 @@
                                 </tr>
                                 <tr>
                                     <th>Nama Barang</th>
-                                    <td>: {{ $incoming->material->nama_material }}</td>
+                                    <td>: {{ $incoming->materialRak->material->nama_material }}</td>
                                 </tr>
                                 <tr>
                                     <th>Nama Supplier</th>
@@ -24,11 +24,15 @@
                                 </tr>
                                 <tr>
                                     <th>Ending Stok</th>
-                                    <td>: {{ $incoming->material->jumlah }}</td>
+                                    <td>: {{ $incoming->materialRak->material->jumlah }}</td>
                                 </tr>
                                 <tr>
                                     <th>Tanggal Kedatangan</th>
-                                    <td>: {{ $incoming->created_at }}</td>
+                                    <td>: {{ $incoming->tgl_kedatangan }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Kode Rak</th>
+                                    <td>: {{ $incoming->materialRak->rak->kd_rak }}</td>
                                 </tr>
                             </table>
 

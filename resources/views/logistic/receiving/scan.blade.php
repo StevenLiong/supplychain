@@ -5,8 +5,8 @@
             <div class="scan m-3">
                 <div class="row justify-content-center">
                     <div class="col-lg-6 col-sm-12">
-                        <div class="card">
-                            <input type="text" id="result">
+                        <div class="card p-3 rounded-0">
+                            <video id="preview"></video>
                         </div>
                         <!-- Button find material  modal -->
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -34,11 +34,12 @@
                                             <form action="" method="post">
                                                 <div class="mb-3">
                                                     <label for="nama_material">Nama Material</label>
-                                                    <input type="text" class="form-control" name="nama_material" id="nama_material">
+                                                    <input type="text" class="form-control" name="nama_material"
+                                                        id="nama_material">
                                                 </div>
                                                 <div class="mb-3">
                                                     <label for="input_stock">Jumlah masuk</label>
-                                                    <input type="text" class="form-control" name="input_stock" >
+                                                    <input type="text" class="form-control" name="input_stock">
                                                 </div>
                                             </form>
                                         </div>
@@ -53,8 +54,31 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <script type="text/javascript">
+        let scanner = new Instascan.Scanner({
+            video: document.getElementById('preview')
+        });
+        scanner.addListener('scan', function(content) {
+            console.log(content);
+        });
+        scanner.addListener('scan', function(content) {
+            let id = content;
+
+            window.location.href = '/receiving/incoming/' +id;
+        });
+        Instascan.Camera.getCameras().then(function(cameras) {
+            if (cameras.length > 0) {
+                scanner.start(cameras[0]);
+            } else {
+                console.error('No cameras found.');
+            }
+        }).catch(function(e) {
+            console.error(e);
+        });
+    </script>
 @endsection

@@ -32,7 +32,7 @@
             </div>
 
             <div class="row px-3">
-                <div class="col-lg-6 col-sm-12">
+                <div class="col-lg-8 col-sm-12">
                     {{-- table rak --}}
                     <div class="table-responsive ">
                         <table class="table table-bordered table-hover ">
@@ -40,10 +40,10 @@
                                 <tr class="text-center">
                                     <th width="5%">No</th>
                                     <th>Kode Rak</th>
-                                    <th width="3%">Qty</th>
+                                    <th width="5%">Kode Gudang</th>
+                                    <th >Nama Gudang</th>
                                     <th width="1%">Cetak</th>
                                     <th width="1%">Aksi</th>
-
                                 </tr>
                             </thead>
 
@@ -52,7 +52,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->kd_rak }}</td>
-                                        <td>{{ $item->qty_rak }}</td>
+                                        <td>{{ $item->gudang->kd_gudang }}</td>
+                                        <td>{{ $item->gudang->nama_gudang }}</td>
                                         <td class="text-center">
                                             {{-- cetak print --}}
                                             <a href="{{ url('datamaster/rak/print/' . $item->id) }}">
@@ -80,7 +81,7 @@
 
                                                 {{-- edit --}}
                                                 <button type="button" class="btn btn-xs btn-warning rounded-0 "
-                                                    onclick="window.location='{{ url('datamaster/rak/' . $item->id . '/edit') }}'">
+                                                    onclick="window.location='{{ url('datamaster/rak/'.$item->id.'/edit') }}'">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                         viewBox="0 0 24 24" fill="none">
                                                         <path
@@ -93,6 +94,8 @@
                                                             stroke-linejoin="round" />
                                                     </svg>
                                                 </button>
+
+                                                <!-- delete -->
                                                 <form action="{{ url('datamaster/rak/' . $item->id) }}" method="post">
                                                     @csrf
                                                     @method('delete')

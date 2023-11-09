@@ -50,7 +50,7 @@
                                         class="form-control @error('rak_id')
                                         is-invalid
                                     @enderror">
-                                        <option value="">Masukan Kode Rak</option>
+                                        <option value="">Masukan Kode Rak</option> 
                                         @foreach ($rak as $item)
                                             <option value="{{ $item->id }}"
                                                 {{ old('rak_id') == $item->id || $materialRak->rak_id == $item->id ? 'selected' : '' }}>

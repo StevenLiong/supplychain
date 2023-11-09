@@ -11,4 +11,10 @@ class StorageController extends Controller
     public function indexHome(){
         return view('logistic.storage.rawmaterial.index');
     }
+
+    public function indexFinishedGood(){
+        return view('logistic.storage.finishedgood.index');
+    }
+
+    
 }

@@ -63,4 +63,20 @@ class MaterialRakController extends Controller
 
         return redirect('storage/rawmaterial/list');
     }
+
+
+    public function scan(){
+        return view('logistic.storage.rawmaterial.scan');
+    }
+
+    public function scanFg(){
+        return view('logistic.storage.finishedgood.scan');
+    }
+
+
+    public function updateQty(){
+        return view('logistic.storage.rawmaterial.updateQty');
+    }
+
+
 }

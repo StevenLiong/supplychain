@@ -45,8 +45,9 @@ route::resource('receiving/bpnb', BpnbController::class); // BPNB
 // Route::get('receiving/incoming/{bpnb}/scan', [BpnbController::class, 'print']);
 // BPNB end
 
-//storage index
+//storage index material dan finishgood
 Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
+Route::get('storage/finishedgood', [StorageController::class, 'indexFinishedGood']);
 
 // storage rak checking dan scan
 // Route::get('storage/rawmaterial/list', [StorageController::class, 'indexMaterial']);
@@ -57,7 +58,13 @@ Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
 // Route::get('storage/scan', [StorageController::class, 'scan']);
 
 
+// untuk rackchecking
 Route::resource('storage/listmaterial', MaterialRakController::class);
+
+// untuk scan
+Route::get('storage/scan', [MaterialRakController::class, 'scan']);
+Route::get('storage/scan/update', [MaterialRakController::class, 'updateQty']);
+
 
 
 

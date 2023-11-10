@@ -5162,7 +5162,7 @@ input[type="button"].btn-block {
   display: flex;
   padding-left: 0;
   list-style: none;
-  border-radius: 0.25rem;
+  border-radius: 2px;
 
 }
 
@@ -5174,7 +5174,7 @@ input[type="button"].btn-block {
   line-height: 1.25;
   color: #252525;
   background-color: #d9d9d9;
-  border: 1px solid #252525;
+  border: 1px solid #6c757d;
 }
 
 .page-link:hover {
@@ -5182,7 +5182,7 @@ input[type="button"].btn-block {
   color: #E42D2DB2;
   text-decoration: none;
   background-color: #e9ecef;
-  border-color: #252525;
+  border-color: #6c757d;
 }
 
 .page-link:focus {
@@ -5205,8 +5205,8 @@ input[type="button"].btn-block {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: rgba(228, 45, 45, 0.70);
+  border-color: #6c757d;
 }
 
 .page-item.disabled .page-link {
@@ -5214,13 +5214,14 @@ input[type="button"].btn-block {
   pointer-events: none;
   cursor: auto;
   background-color: #fff;
-  border-color: #dee2e6;
+  border-color: #6c757d;
 }
 
 .pagination-lg .page-link {
   padding: 0.75rem 1.5rem;
   font-size: 1.25rem;
   line-height: 1.5;
+  
 }
 
 .pagination-lg .page-item:first-child .page-link {

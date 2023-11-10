@@ -163,7 +163,7 @@ return [
         /*
          * Package Service Providers...
          */
-        BarcodeServiceProvider::class,
+        
         /*
          * Application Service Providers...
           Milon\Barcode\BarcodeServiceProvider::class,
@@ -173,6 +173,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        // barcode
+        BarcodeServiceProvider::class,
         'Barryvdh\DomPDF\ServiceProvider',
     ])->toArray(),
 

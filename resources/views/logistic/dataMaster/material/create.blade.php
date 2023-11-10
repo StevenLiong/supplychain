@@ -54,14 +54,26 @@
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
                                     <label for="satuan" class="form-label">Satuan</label>
-                                    <input type="text"
-                                        class="form-control @error('satuan')
+                                    <select name="satuan" id="satuan" class="form-control @error('satuan')
                                         is-invalid
-                                    @enderror"
-                                        id="satuan" name="satuan" placeholder="Satuan" value="{{ old('satuan') }}">
+                                    @enderror">
+                                        <option value="">--</option>
+                                        <option value="Set">Set</option>
+                                        <option value="Kg">Kg</option>
+                                        <option value="Pcs">Pcs</option>
+                                        <option value="Gram">Gram</option>
+                                        <option value="Mililiter">Mililiter</option>
+                                        <option value="Milimeter">Milimeter</option>
+                                        <option value="Roll">Roll</option>
+                                        <option value="Lembaran">Lembaran</option>
+                                        <option value="Liter">Liter</option>
+                                        <option value="Meter">Meter</option>
+                                        <option value="Ton">Ton</option>
+                                        <option value="Unit">Unit</option>
+                                    </select>
                                     @error('satuan')
                                         <div class="invalid-feedback">
-                                            {{ $message }}
+                                            <p>{{ $message }}</p>
                                         </div>
                                     @enderror
                                 </div>

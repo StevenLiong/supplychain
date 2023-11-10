@@ -27,5 +27,7 @@ class Material extends Model
     {
         return $this->hasMany(MaterialRak::class);
     }
+
+    
   
 }

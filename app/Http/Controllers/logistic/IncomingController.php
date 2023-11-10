@@ -15,7 +15,7 @@ class IncomingController extends Controller
 {
     public function index()
     {
-        $incoming = Incoming::with('materialRak', 'supplier')->get();
+        $incoming = Incoming::with('materialRak', 'supplier')->latest()->paginate(1);
         return view('logistic.receiving.index', compact('incoming'));
     }
 
@@ -94,10 +94,5 @@ class IncomingController extends Controller
     {
         $incoming = Incoming::find($id);
         return view('logistic.receiving.print', compact('incoming'));
-    }
-
-    public function scan()
-    {
-        return view('logistic.receiving.scan');
     }
 }

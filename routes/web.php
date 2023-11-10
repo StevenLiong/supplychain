@@ -1,14 +1,16 @@
 <?php
 
+use App\Models\logistic\Material;
 use App\Models\logistic\Supplier;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\logistic\BpnbController;
+use App\Http\Controllers\logistic\ScanController;
+use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
-use App\Http\Controllers\logistic\MaterialRakController;
-use App\Http\Controllers\logistic\RakController;
-use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\SupplierController;
+use App\Http\Controllers\logistic\MaterialRakController;
 
 Route::get('/', function () {
     return view('index');
@@ -23,6 +25,8 @@ route::get('/logistic', function () {
 // material
 route::resource('datamaster/material', MaterialController::class);
 Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
+Route::get('datamaster/material/addstock/{id}', [MaterialController::class, 'addStock']);
+Route::put('datamaster/material/addstock/{id}', [MaterialController::class, 'updateStock']);
 // material end
 
 // supplier
@@ -38,24 +42,24 @@ Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
 // receiving
 Route::resource('receiving/incoming', IncomingController::class);
 Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
-Route::get('receiving/incoming/scan/find', [IncomingController::class, 'scan']);
 
 // BPNB
 route::resource('receiving/bpnb', BpnbController::class); // BPNB
-// Route::get('receiving/incoming/{bpnb}/scan', [BpnbController::class, 'print']);
+Route::get('receiving/incoming/bpnb/print', [BpnbController::class, 'print']);
 // BPNB end
 
 //storage index material dan finishgood
 Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
 Route::get('storage/finishedgood', [StorageController::class, 'indexFinishedGood']);
 
-// storage rak checking dan scan
-// Route::get('storage/rawmaterial/list', [StorageController::class, 'indexMaterial']);
-// Route::get('storage/rawmaterial/list/create', [StorageController::class, 'createMaterial']);
-// Route::post('storage/rawmaterial/list/add', [StorageController::class, 'storeMaterial'])->name('add-material-to-rak');
-// Route::get('storage/rawmaterial/list/{id}/edit', [StorageController::class, 'editMaterial']);
-// Route::put('storage/rawmaterial/list/{id}', [StorageController::class, 'updateMaterialRak']);
-// Route::get('storage/scan', [StorageController::class, 'scan']);
+
+// Scan All
+Route::get('scan/information', [ScanController::class, 'scanInformationMaterial']);
+Route::get('receiving/scan', [ScanController::class, 'receivingScan']);
+Route::get('receiving/scan/stockin', [ScanController::class, 'stockIn']);
+Route::get('scan/stockin/add/{$id}', [MaterialController::class, 'addStock']);
+
+
 
 
 // untuk rackchecking
@@ -63,7 +67,7 @@ Route::resource('storage/listmaterial', MaterialRakController::class);
 
 // untuk scan
 Route::get('storage/scan', [MaterialRakController::class, 'scan']);
-Route::get('storage/scan/update', [MaterialRakController::class, 'updateQty']);
+
 
 
 

@@ -8,30 +8,18 @@
                 <div class="row mt-3">
                     <div class="col-lg-3 col-6 ">
                         <!-- box in -->
+                        <a href="{{ url('scan/information') }}">
                         <div class="small-box ">
-                            <div class="inner text-dark">
-                                <h3>Stock</h3>
-
-                                <p>In</p>
+                                <div class="inner text-dark">
+                                    <h3>Scan</h3>
+    
+                                    <p>Informasi Material</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-camera"></i>
+                                </div>
                             </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-6">
-                        <!--  box out -->
-                        <div class="small-box ">
-                            <div class="inner text-dark">
-                                <h3>Stock</h3>
-
-                                <p>In</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-bag"></i>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
 

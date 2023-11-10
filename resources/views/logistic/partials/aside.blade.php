@@ -142,7 +142,7 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href="{{ url('receiving/incoming/scan/find') }}"
+                             <a href="{{ url('receiving/scan') }}"
                                  class="nav-link {{ request()->segment(2) == 'scan' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Scan</p>

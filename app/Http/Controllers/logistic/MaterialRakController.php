@@ -73,7 +73,6 @@ class MaterialRakController extends Controller
         return view('logistic.storage.finishedgood.scan');
     }
 
-
     public function updateQty(){
         return view('logistic.storage.rawmaterial.updateQty');
     }

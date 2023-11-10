@@ -37,6 +37,7 @@ class MaterialController extends Controller
 
     public function show(Material $material)
     {
+
     }
 
     public function edit($id)
@@ -71,5 +72,24 @@ class MaterialController extends Controller
     {
         $material = Material::find($id);
         return view('logistic.dataMaster.material.print', compact('material'));
+    }
+
+    public function addStock($id)
+    {
+        $material = Material::find($id);
+        return view('logistic.datamaster.material.addStock', compact('material'));
+    }
+
+    public function updateStock(Request $request, $id){
+        $material = Material::find($id);
+        
+        $request->validate([
+            'addstock' => 'required|numeric|min:1',
+        ]);
+
+        $material->jumlah += $request->input('addstock');
+        $material->save();
+
+        return redirect('datamaster/material/addstock/'.$id)->with('success', 'Stock added successfully');
     }
 }

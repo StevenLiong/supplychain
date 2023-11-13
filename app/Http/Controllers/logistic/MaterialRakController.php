@@ -12,7 +12,14 @@ class MaterialRakController extends Controller
 {
     public function index()
     {
-        $materialRak = MaterialRak::with('material', 'rak')->get();
+        $materialRak = MaterialRak::with('material', 'rak')->latest()->paginate(2);
+        $search = strtolower(request('search'));
+
+        if ($search) {
+            $materialRak = MaterialRak::whereHas('material', function($query) use ($search){
+                $query->where('nama_material', 'like', '%' .$search .'%');
+            })->paginate(2);
+        }
         return view('logistic.storage.rawmaterial.rackchecking', compact('materialRak'));
     }
 
@@ -34,7 +41,7 @@ class MaterialRakController extends Controller
 
         MaterialRak::create($request->all());
 
-        return redirect('storage/listmaterial')->with('success', 'Berhasil Menempatkan material ke rak');
+        return redirect('storage/rawmaterial/listmaterial')->with('success', 'Berhasil Menempatkan material ke rak');
     }
 
     public function edit($id)
@@ -61,7 +68,7 @@ class MaterialRakController extends Controller
 
         $materialRak->delete($materialRak->id);
 
-        return redirect('storage/rawmaterial/list');
+        return redirect('storage/rawmaterial/listmaterial')->with('success', 'berhasil di hapus');
     }
 
 

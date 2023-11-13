@@ -189,7 +189,7 @@
                      <ul class="nav nav-treeview">
                          <!-- Raw Material -->
                          <li class="nav-item">
-                             <a href="{{ url('storage/rawmaterial') }}" class="nav-link {{ request()->segment(2) == 'rawmaterial' ? 'active' : '' }}">
+                             <a href="{{ url('storage/rawmaterial') }}" class="nav-link {{ request()->segment(2)  == 'rawmaterial' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Raw Material</p>
                              </a>

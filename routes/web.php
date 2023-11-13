@@ -63,10 +63,10 @@ Route::get('scan/stockin/add/{$id}', [MaterialController::class, 'addStock']);
 
 
 // untuk rackchecking
-Route::resource('storage/listmaterial', MaterialRakController::class);
+Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
 
 // untuk scan
-Route::get('storage/scan', [MaterialRakController::class, 'scan']);
+Route::get('storage/rawmaterial/scan', [MaterialRakController::class, 'scan']);
 
 
 

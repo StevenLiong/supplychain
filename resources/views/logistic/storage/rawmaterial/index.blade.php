@@ -19,7 +19,7 @@
                         <div class="row mt-3">
                             <div class="col-lg-3 col-6">
                                 <!-- Put Away -->
-                                <a href="{{ url('storage/scan') }}">
+                                <a href="{{ url('storage/rawmaterial/scan') }}">
                                     <div class="small-box">
                                         <div class="icon">
                                             <svg width="24" height="24" viewBox="0 0 33 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,7 +36,7 @@
 
                             <div class="col-lg-3 col-6">
                                 <!-- Rack Checking -->
-                                <a href="{{ url('storage/listmaterial') }}">
+                                <a href="{{ url('storage/rawmaterial/listmaterial') }}">
                                     <div class="small-box">
                                         <div class="inner text-dark">
                                             <h5>Rack Checking</h5>

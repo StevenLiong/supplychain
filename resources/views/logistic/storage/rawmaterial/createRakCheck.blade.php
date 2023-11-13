@@ -16,7 +16,7 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('storage/listmaterial') }}" method="post">
+                    <form action="{{ url('storage/rawmaterial/listmaterial') }}" method="post">
                         @csrf
                         {{-- Form Tambah Penyimpanan --}}
                         <div class="row">

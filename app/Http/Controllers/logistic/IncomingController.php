@@ -15,7 +15,13 @@ class IncomingController extends Controller
 {
     public function index()
     {
-        $incoming = Incoming::with('materialRak', 'supplier')->latest()->paginate(1);
+        $incoming = Incoming::with('materialRak', 'supplier')->latest()->paginate(2);
+        $search = strtolower(request('search')) ;
+        if ($search) {
+            $incoming = Incoming::whereHas('materialRak.material', function($query) use ($search){
+                $query->where('nama_material', 'like', '%' . $search . '%');
+            })->paginate(2);
+        }
         return view('logistic.receiving.index', compact('incoming'));
     }
 
@@ -65,7 +71,7 @@ class IncomingController extends Controller
     }
 
     public function update(Request $request, Incoming $incoming)
-    {   
+    {
         $rules = [
             'kd_material_rak' => 'required',
             'kd_supplier' => 'required',
@@ -82,12 +88,18 @@ class IncomingController extends Controller
         return redirect('receiving/incoming')->with('success', 'Berhasil edit data');
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $incoming = Incoming::find($id);
 
         $incoming->delete();
 
         return redirect('receiving/incoming')->with('success', 'Data telah di hapus');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
     }
 
     public function print($id)

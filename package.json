@@ -12,6 +12,8 @@
     },
     "dependencies": {
         "bootstrap-icons": "^1.11.1",
+        "chart.js": "^4.4.0",
+        "fullcalendar": "^6.1.9",
         "html5-qrcode": "^2.3.8"
     }
 }

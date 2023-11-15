@@ -15,7 +15,7 @@
                  data-accordion="false">
                  <!--Dashboard -->
                  <li class="nav-item">
-                     <a href="{{ url('logistic') }}"
+                     <a href="{{ url('dashboard') }}"
                          class="nav-link {{ request()->segment(1) == 'logistic' ? 'active' : '' }}">
                          <i class="nav-icon">
                              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" viewBox="0 0 36 36"

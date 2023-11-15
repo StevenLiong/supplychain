@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Models\logistic\Material;
 use App\Models\logistic\Supplier;
 use Illuminate\Support\Facades\Route;
@@ -16,10 +17,8 @@ Route::get('/', function () {
     return view('index');
 });
 
-// Logistic
-route::get('/logistic', function () {
-    return view('logistic.dashboard.index');
-});
+// Dashboard logistic
+Route::get('dashboard', [DashboardController::class, 'index']);
 
 // master data
 // material

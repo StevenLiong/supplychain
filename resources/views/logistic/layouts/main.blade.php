@@ -35,6 +35,10 @@
     <link rel="stylesheet" href="{{ asset('/') }}assets/plugins/sweetalert2/sweetalert2.min.css">
     <link rel="stylesheet" href="{{ asset('vendor/sweetalert2/dist/sweetalert2.min.css') }}">
 
+    {{-- calendar --}}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css" />
+
 
     <style>
         @media print {
@@ -128,6 +132,15 @@
         });
     </script>
     {{-- print end --}}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.js"></script>
+
+
+    {{-- chart --}}
+    @yield('js')
 
 </body>
 

@@ -69,7 +69,7 @@
         scanner.addListener('scan', function(content) {
             let id = content;
 
-            window.location.href = '/receiving/incoming/' +id;
+            window.location.href = '/storage/rawmaterial/listmaterial/addstock/' +id;
         });
         Instascan.Camera.getCameras().then(function(cameras) {
             if (cameras.length > 0) {

@@ -92,6 +92,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
+                                                    
                                                     {{-- lihat --}}
                                                     <button type="button" class="btn btn-xs btn-primary rounded-0"
                                                         onclick="window.location='{{ url('receiving/incoming/' . $item->id) }}'">

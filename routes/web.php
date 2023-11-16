@@ -57,19 +57,15 @@ Route::get('scan/information', [ScanController::class, 'scanInformationMaterial'
 Route::get('receiving/scan', [ScanController::class, 'receivingScan']);
 Route::get('receiving/scan/stockin', [ScanController::class, 'stockIn']);
 Route::get('scan/stockin/add/{$id}', [MaterialController::class, 'addStock']);
-
-
+// rawmat
+Route::get('storage/rawmaterial/scan', [ScanController::class, 'storageScan']);
 
 
 // untuk rackchecking
 Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
 
-// untuk scan
-Route::get('storage/rawmaterial/scan', [MaterialRakController::class, 'scan']);
-
-
-
-
-
+Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
+Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
 
 // logistic end
+

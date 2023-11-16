@@ -32,7 +32,8 @@
                         {{-- btn create --}}
                         <div class="btn-create ">
                             <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('storage/rawmaterial/listmaterial/create') }}">Plot Material</button>
+                                onclick=window.location="{{ url('storage/rawmaterial/listmaterial/create') }}">Plot
+                                Material</button>
                         </div>
                         {{-- btn create end --}}
 
@@ -77,7 +78,17 @@
                                             <td>{{ $item->qty_rak }}</td>
                                             <td class="text-center ">
                                                 <div class="btn-group">
-
+                                                    {{-- add qty --}}
+                                                    <button class="btn btn-xs btn-primary rounded-0"
+                                                        onclick="window.location='{{ url('storage/rawmaterial/listmaterial/addstock/' . $item->id) }}'">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                            height="20" viewBox="0 0 24 24" fill="none">
+                                                            <path
+                                                                d="M19 12.998H13V18.998H11V12.998H5V10.998H11V4.998H13V10.998H19V12.998Z"
+                                                                fill="#F8F8F8" />
+                                                        </svg>
+                                                    </button>
+                                                    {{-- add qty end --}}
                                                     <!-- edit -->
                                                     <button type="button" class="btn btn-xs btn-warning rounded-0 "
                                                         onclick="window.location='{{ url('storage/rawmaterial/listmaterial/' . $item->id . '/edit') }}'">
@@ -94,7 +105,8 @@
                                                         </svg>
                                                     </button>
                                                     {{-- hapus --}}
-                                                    <form action="{{ url('storage/rawmaterial/listmaterial/' . $item->id) }}"
+                                                    <form
+                                                        action="{{ url('storage/rawmaterial/listmaterial/' . $item->id) }}"
                                                         method="post">
                                                         @csrf
                                                         @method('delete')

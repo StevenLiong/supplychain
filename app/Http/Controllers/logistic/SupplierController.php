@@ -14,10 +14,10 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $supplier = Supplier::paginate(2);
+        $supplier = Supplier::paginate(5);
         $search = strtolower(request('search'));
         if ($search) {
-            $supplier = Supplier::where('nama_supplier', 'like', '%'. $search .'%')->paginate(2);
+            $supplier = Supplier::where('nama_supplier', 'like', '%'. $search .'%')->paginate(5);
         }
         return view('logistic.dataMaster.supplier.index', compact('supplier'));
     }

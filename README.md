@@ -12,12 +12,8 @@
 
 Repository ini merupakan Repository untk projek website supply chain mulai dari planing, logistic samapi dengan produksi.
 
+#akses
 
-
-## Informasi
-- Di halaman projek terdapat board untuk memudahkan plan dalam pembuatn projek
-- Setiap melakukan perubahan harap untuk membuat branch baru, jangan langsung push ke branch main
-- setiap ingin push jangan lupa komunikasi dulu ke semuanya agar tidak terjadi conflict
 
 ## Informasi Database
 - jangan lupa copy file .env di projek laravel

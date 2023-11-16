@@ -1,7 +1,10 @@
 <?php
 
+
 use App\Http\Controllers\DashboardController;
 use App\Models\logistic\Material;
+use App\Http\Controllers\logistic\AuthController;
+
 use App\Models\logistic\Supplier;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\logistic\RakController;
@@ -13,9 +16,16 @@ use App\Http\Controllers\logistic\MaterialController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\logistic\MaterialRakController;
 
-Route::get('/', function () {
-    return view('index');
-});
+
+
+
+// login
+Route::get('/login', [AuthController::class, 'login']);
+// login end
+
+// register
+Route::get('/', [AuthController::class, 'register']);
+// register end
 
 // Dashboard logistic
 Route::get('dashboard', [DashboardController::class, 'index']);

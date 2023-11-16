@@ -20,5 +20,11 @@ class ScanController extends Controller
         return view('logistic.receiving.scanStock');
     }
 
+    // storage scan rak
+
+    public function storageScan(){
+        return view('logistic.storage.rawmaterial.scanqty');
+    }
+
     
 }

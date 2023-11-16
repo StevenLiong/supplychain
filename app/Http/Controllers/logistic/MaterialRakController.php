@@ -72,17 +72,26 @@ class MaterialRakController extends Controller
     }
 
 
-    public function scan(){
-        return view('logistic.storage.rawmaterial.scan');
+    public function addStock($id)
+    {
+        $materialRak = MaterialRak::find($id);
+        return view('logistic.storage.rawmaterial.addStockRakCheck', compact('materialRak'));
     }
 
-    public function scanFg(){
-        return view('logistic.storage.finishedgood.scan');
+    public function updateStock(Request $request, $id)
+    {
+        $materialRak = MaterialRak::find($id);
+
+        $request->validate([
+            'addstock' => 'required|numeric|min:1',
+        ]);
+
+        $materialRak->qty_rak += $request->input('addstock');
+        $materialRak->save();
+
+        return redirect('storage/rawmaterial/listmaterial/addstock/' . $id)->with('success', 'Stock added successfully');
     }
 
-    public function updateQty(){
-        return view('logistic.storage.rawmaterial.updateQty');
-    }
 
 
 }

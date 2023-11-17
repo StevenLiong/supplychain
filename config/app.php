@@ -163,7 +163,8 @@ return [
         /*
          * Package Service Providers...
          */
-        
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
         /*
          * Application Service Providers...
           Milon\Barcode\BarcodeServiceProvider::class,
@@ -192,6 +193,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'DNS1D' => DNS1DFacade::class,
         'DNS2D' => DNS2DFacade::class,

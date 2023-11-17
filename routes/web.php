@@ -1,10 +1,7 @@
 <?php
 
-
 use App\Http\Controllers\DashboardController;
 use App\Models\logistic\Material;
-use App\Http\Controllers\logistic\AuthController;
-
 use App\Models\logistic\Supplier;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\logistic\RakController;
@@ -20,16 +17,9 @@ use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\planner\WoController;
 
-
-
-
-// login
-Route::get('/login', [AuthController::class, 'login']);
-// login end
-
-// register
-Route::get('/', [AuthController::class, 'register']);
-// register end
+Route::get('/', function () {
+    return view('index');
+});
 
 // Dashboard logistic
 Route::get('dashboard', [DashboardController::class, 'index']);

@@ -22,7 +22,9 @@ return new class extends Migration
             $table->string('uom_material');
             $table->integer('qty_trafo');
             $table->integer('qty_material');
+
             $table->string('tolerance');
+
             $table->integer('usage_material'); 
             $table->boolean('submitted')->default(false);
             $table->timestamps();

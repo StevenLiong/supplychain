@@ -48,7 +48,7 @@ class DetailbomController extends Controller
         $keterangan = $statusAndKeterangan['keterangan'];
 
         $this->CekMaterial($id_bom);
-        $this->updateStatusbom($id_bom);
+
 
         return view('planner.bom.detail-bom', [
             'dataBom' => $dataBom,
@@ -124,7 +124,9 @@ class DetailbomController extends Controller
             ->first();
 
         $id_bom = session('idBom');
+
         return view('planner.bom.edit-material', compact('detailbomItem', 'id_bom'));
+
     }
     
     public function update(Request $request, $id_materialbom, $id_bom): RedirectResponse
@@ -217,6 +219,7 @@ class DetailbomController extends Controller
         return redirect()->back()->with('success', 'Status detail BOM diperbarui.');
     }
 
+
     public function getStatusAndKeterangan($detailbom, $id_bom)
     {
         // Ini untuk setting dan mengecek nilai db_status
@@ -249,6 +252,7 @@ class DetailbomController extends Controller
         $detailboms = Detailbom::where('id_boms', $idBom)->get();
 
         // Default status_bom
+
         $statusBom = 2;
 
         // Cek apakah ada detail BOM dengan db_status = 0
@@ -257,6 +261,7 @@ class DetailbomController extends Controller
         }
         if ($detailboms->contains('submitted', 1)) {
             $statusBom = 3;
+
         }
 
         // Update status_bom pada tabel boms

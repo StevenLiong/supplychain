@@ -49,6 +49,7 @@ class DetailbomController extends Controller
 
         $this->CekMaterial($id_bom);
 
+
         return view('planner.bom.detail-bom', [
             'dataBom' => $dataBom,
             'detailbom' => $detailbom,
@@ -123,7 +124,9 @@ class DetailbomController extends Controller
             ->first();
 
         $id_bom = session('idBom');
-        return view('bom.edit-material', compact('detailbomItem', 'id_bom'));
+
+        return view('planner.bom.edit-material', compact('detailbomItem', 'id_bom'));
+
     }
     
     public function update(Request $request, $id_materialbom, $id_bom): RedirectResponse
@@ -249,11 +252,16 @@ class DetailbomController extends Controller
         $detailboms = Detailbom::where('id_boms', $idBom)->get();
 
         // Default status_bom
-        $statusBom = 1;
+
+        $statusBom = 2;
 
         // Cek apakah ada detail BOM dengan db_status = 0
         if ($detailboms->contains('db_status', 0)) {
-            $statusBom = 0;
+            $statusBom = 1;
+        }
+        if ($detailboms->contains('submitted', 1)) {
+            $statusBom = 3;
+
         }
 
         // Update status_bom pada tabel boms

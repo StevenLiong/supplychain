@@ -12,12 +12,12 @@
     <div class="data-scrollbar" data-scroll="1">
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
-                <li class="active">
+                <li class="@yield('dashboard')">
                     <a href="/Dashboard" class="svg-icon">
                         <i class="fa-solid fa-house"></i> <span class="ml-4">Dashboards</span>
                     </a>
                 </li>
-                <li class=" ">
+                <li class="@yield('bill-of-material')">
                     <a href="{{ route('bom-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
@@ -25,7 +25,7 @@
                         <span class="ml-4">Bill Of Material</span>
                     </a>
                 </li>
-                <li class=" ">
+                <li class="@yield('work-order')">
                     <a href="{{ route('workorder-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
@@ -33,7 +33,7 @@
                         <span class="ml-4">Work Order</span>
                     </a>
                 </li>
-                <li class=" ">
+                <li class="@yield('mps')">
                     <a href="{{ route('mps-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>

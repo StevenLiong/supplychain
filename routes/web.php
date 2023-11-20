@@ -1,9 +1,14 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
 use App\Models\logistic\Material;
 use App\Models\logistic\Supplier;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\loginController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\planner\WoController;
+use App\Http\Controllers\planner\BomController;
+use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\ScanController;
@@ -11,18 +16,22 @@ use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
 use App\Http\Controllers\logistic\SupplierController;
-use App\Http\Controllers\logistic\MaterialRakController;
-use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\DetailbomController;
-use App\Http\Controllers\planner\MpsController;
-use App\Http\Controllers\planner\WoController;
+use App\Http\Controllers\logistic\MaterialRakController;
 
-Route::get('/', function () {
-    return view('index');
+// Route::get('/', function () {
+//     return view('index');
+// });
+
+Auth::routes();
+Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
+Route::post('/login', [loginController::class, 'verifyLogin'])->name('login');
+Route::post('/logout', [loginController::class, 'logout'])->name('logout');
+
+Route::middleware(['auth', 'logistic'])->group(function () {
+    Route::get('dashboard', [DashboardController::class, 'index']);
 });
-
 // Dashboard logistic
-Route::get('dashboard', [DashboardController::class, 'index']);
 
 // master data
 // material
@@ -92,8 +101,8 @@ Route::put('/bom/updatebom/{id_bom}', [DetailbomController::class, 'updateBom'])
 // --EDIT MATERIAL & ADD NEW MATERIAL--
 Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
 Route::post('/bom/storematerial', [DetailbomController::class, 'storematerial'])->name('bom.storematerial');
-Route::get('/bom/editmaterial/{id_materialbom}/{id_bom}', [DetailbomController::class,'edit'])->name('bom.edit');
-Route::put('/bom/updatematerial/{id_materialbom}/{id_bom}', [DetailbomController::class,'update'])->name('bom.update');
+Route::get('/bom/editmaterial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'edit'])->name('bom.edit');
+Route::put('/bom/updatematerial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'update'])->name('bom.update');
 
 // --DELETE BOM--
 Route::delete('/bom/delete/{id_bom}/{id_boms}', [BomController::class, 'destroy'])->name('bom.delete');

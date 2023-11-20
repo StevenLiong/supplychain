@@ -19,10 +19,7 @@ return new class extends Migration
             $table->string('uom_bom');
             $table->string('id_so')->references('kode_so')->on('sos');
             $table->string('id_fg');
-
             $table->string('status_bom', 2)->default(0)->comment('0=Process, 1=Pending, 2=Completed, 3=Approved');
-
-
             //$table->string('keterangan')->nullable();
             $table->timestamps();
         });

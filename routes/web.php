@@ -32,59 +32,59 @@ Route::post('/login', [loginController::class, 'verifyLogin'])->name('login');
 Route::post('/logout', [loginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'logistic'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('logistic', [DashboardController::class, 'index']);
+
+    // master data
+    // material
+    route::resource('datamaster/material', MaterialController::class);
+    Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
+    Route::get('datamaster/material/addstock/{id}', [MaterialController::class, 'addStock']);
+    Route::put('datamaster/material/addstock/{id}', [MaterialController::class, 'updateStock']);
+    // material end
+
+    // supplier
+    Route::resource('datamaster/supplier', SupplierController::class);
+    // supplier end
+
+    // rak
+    Route::resource('datamaster/rak', RakController::class);
+    Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
+    // rak end
+
+
+    // receiving
+    Route::resource('receiving/incoming', IncomingController::class);
+    Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
+
+    // BPNB
+    route::resource('receiving/bpnb', BpnbController::class); // BPNB
+    Route::get('receiving/incoming/bpnb/print', [BpnbController::class, 'print']);
+    // BPNB end
+
+    //storage index material dan finishgood
+    Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
+    Route::get('storage/finishedgood', [StorageController::class, 'indexFinishedGood']);
+
+
+    // Scan All
+    Route::get('scan/information', [ScanController::class, 'scanInformationMaterial']);
+    Route::get('receiving/scan', [ScanController::class, 'receivingScan']);
+    Route::get('receiving/scan/stockin', [ScanController::class, 'stockIn']);
+    Route::get('scan/stockin/add/{$id}', [MaterialController::class, 'addStock']);
+    // rawmat
+    Route::get('storage/rawmaterial/scan', [ScanController::class, 'storageScan']);
+
+
+    // untuk rackchecking
+    Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
+
+    Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
+    Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
+
+    // logistic end
+
 });
 
-// Dashboard logistic
-
-// master data
-// material
-route::resource('datamaster/material', MaterialController::class);
-Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
-Route::get('datamaster/material/addstock/{id}', [MaterialController::class, 'addStock']);
-Route::put('datamaster/material/addstock/{id}', [MaterialController::class, 'updateStock']);
-// material end
-
-// supplier
-Route::resource('datamaster/supplier', SupplierController::class);
-// supplier end
-
-// rak
-Route::resource('datamaster/rak', RakController::class);
-Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
-// rak end
-
-
-// receiving
-Route::resource('receiving/incoming', IncomingController::class);
-Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
-
-// BPNB
-route::resource('receiving/bpnb', BpnbController::class); // BPNB
-Route::get('receiving/incoming/bpnb/print', [BpnbController::class, 'print']);
-// BPNB end
-
-//storage index material dan finishgood
-Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
-Route::get('storage/finishedgood', [StorageController::class, 'indexFinishedGood']);
-
-
-// Scan All
-Route::get('scan/information', [ScanController::class, 'scanInformationMaterial']);
-Route::get('receiving/scan', [ScanController::class, 'receivingScan']);
-Route::get('receiving/scan/stockin', [ScanController::class, 'stockIn']);
-Route::get('scan/stockin/add/{$id}', [MaterialController::class, 'addStock']);
-// rawmat
-Route::get('storage/rawmaterial/scan', [ScanController::class, 'storageScan']);
-
-
-// untuk rackchecking
-Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
-
-Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
-Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
-
-// logistic end
 
 // Planner Start
 
@@ -186,6 +186,4 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::post('/standardized_work/Create-Data/Dry-Non-Resin/Store', [DryNonResinController::class, 'store'])->name('store.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/{id}/edit', [DryNonResinController::class, 'edit'])->name('drynonresin.edit');
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
-
-
 });

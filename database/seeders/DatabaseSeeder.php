@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\logistic\Gudang;
 use App\Models\logistic\Material;
 use App\Models\Role;
 use App\Models\User;
@@ -65,12 +66,21 @@ class DatabaseSeeder extends Seeder
             'id_role' => 2
         ]);
 
+        // seeder logistic
+        $this->call(MaterialSeeder::class);
+        $this->call(GudangSeeder::class);
+        $this->call(RakSeeder::class);
+        $this->call(MaterialRakSeeder::class);
+        $this->call(SupplierSeeder::class);
+        $this->call(IncomingSeeder::class);
 
-        $this->call(KapasitasSeeder::class);
-        $this->call(KategoriProdukSeeder::class);
-        $this->call(ProsesSeeder::class);
-        $this->call(TipeProsesSeeder::class);
-        $this->call(WorkCenterSeeder::class);
-        $this->call(ManHourSeeder::class);
+        // seeder logistic end
+
+        // $this->call(KapasitasSeeder::class);
+        // $this->call(KategoriProdukSeeder::class);
+        // $this->call(ProsesSeeder::class);
+        // $this->call(TipeProsesSeeder::class);
+        // $this->call(WorkCenterSeeder::class);
+        // $this->call(ManHourSeeder::class);
     }
 }

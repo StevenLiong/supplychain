@@ -11,12 +11,12 @@ class MaterialController extends Controller
 
     public function index()
     {
-        $material = Material::latest()->paginate(2);
+        $material = Material::latest()->paginate(5);
 
         // search
         $search = strtolower(request('search'));
         if ($search) {
-            $material = Material::where('nama_material', 'like', '%' . $search . '%')->paginate(2);
+            $material = Material::where('nama_material', 'like', '%' . $search . '%')->paginate(5);
         }
         return view('logistic.dataMaster.material.index', compact('material'));
     }

@@ -15,7 +15,7 @@
         "laravel/ui": "^4.2",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^10.0",
-        "phpoffice/phpspreadsheet": "*",
+        "phpoffice/phpspreadsheet": "^1.29",
         "realrashid/sweet-alert": "^7.1",
         "twbs/bootstrap": "^5.3"
     },

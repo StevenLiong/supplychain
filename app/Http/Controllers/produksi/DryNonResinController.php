@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\produksi\DryCastResin;
+use App\Models\produksi\DryNonResin;
 use App\Models\produksi\ManHour;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class DryCastResinController extends Controller
+class DryNonResinController extends Controller
 {
     public function create(): Response
     {
-        return response(view('produksi.standardized_work.formdrycastresin', ['manhour' => ManHour::all()]));
+        // $standardize_works = StandardizeWork::all();
+        return response(view('standardized_work.formdrynonresin',['manhour' => ManHour::all()]));
     }
+
 
     public function createManhour($id)
     {
@@ -41,19 +42,19 @@ class DryCastResinController extends Controller
             $params[$field] = implode(',', $checkbox);
         }
 
-        DryCastResin::create($params);
+        DryNonResin::create($params);
 
         return redirect(route('home'))->with('success', 'Added!');
     }
 
     public function edit(string $id): Response
     {
-        $product = DryCastResin::findOrFail($id);
+        $product = DryNonResin::findOrFail($id);
         $manhour = ManHour::orderBy('id')->get();
 
 
 
-        return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
+        return response(view('standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
     }
 
     /**
@@ -61,7 +62,7 @@ class DryCastResinController extends Controller
      */
     public function update(UpdateProductRequest $request, string $id): RedirectResponse
     {
-        $product = DryCastResin::findOrFail($id);
+        $product = DryNonResin::findOrFail($id);
         $params = $request->validated();
 
         if ($product->update($params)) {

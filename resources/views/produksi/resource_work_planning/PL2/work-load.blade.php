@@ -1,4 +1,4 @@
-@extends('produksi.resource_work_planning.template.layout')
+@extends('produksi.resource_work_planning.template.bar')
 @section('content')
     <div class="col-sm-12">
         <div class="card">

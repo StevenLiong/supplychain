@@ -1,4 +1,4 @@
-@extends('standardized_work.layout')
+@extends('produksi.standardized_work.layout')
 @section('content')
     <style>
         label {

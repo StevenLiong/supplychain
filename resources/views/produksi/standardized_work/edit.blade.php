@@ -1,4 +1,4 @@
-@extends('standardized_work.layout')
+@extends('produksi.standardized_work.layout')
 @section('content')
     <div id="app">
         <div class="main-wrapper">

@@ -41,8 +41,8 @@ class DatabaseSeeder extends Seeder
             'nama_role' => 'resource_work_planning',
         ]);
         User::create([
-            'name' => 'widia',
-            'email' => 'widia@std.com',
+            'name' => 'adminstd',
+            'email' => 'adminstd@gmail.com',
             'password' => '123456789',
             'id_role' => 3
         ]);
@@ -53,10 +53,16 @@ class DatabaseSeeder extends Seeder
             'id_role' => 1
         ]);
         User::create([
-            'name' => 'andi',
-            'email' => 'andi@std.com',
+            'name' => 'adminrwp',
+            'email' => 'adminrwp@gmail.com',
             'password' => '123456789',
             'id_role' => 4
+        ]);
+        User::create([
+            'name' => 'adminplan',
+            'email' => 'adminplan@gmail.com',
+            'password' => '123456789',
+            'id_role' => 2
         ]);
 
 

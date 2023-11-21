@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'widia',
             'email' => 'widia@std.com',
             'password' => '123456789',
-            'id_role' => 1
+            'id_role' => 3
         ]);
         User::create([
             'name' => 'admin',
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'andi',
             'email' => 'andi@std.com',
             'password' => '123456789',
-            'id_role' => 2
+            'id_role' => 4
         ]);
 
 

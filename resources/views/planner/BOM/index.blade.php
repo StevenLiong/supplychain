@@ -61,22 +61,38 @@
                                 <td style="text-align: center">{{$item->bom_status}}</td>
                                 <td style="text-align: center;">{{$item->qty_bom}}</td>
                                 <td style="text-align: center">{{$item->uom_bom}}</td>
-                                @if ($item->status_bom == 1)
+                                @if ($item->status_bom == 3)
                                         <td>
-                                            <span class="btn btn-success btn-sm text-uppercase">approved</span>
+                                            <span class="btn btn-success btn-sm text-uppercase">Approved</span>
                                         </td>
-                                    @else
+                                    @elseif($item->status_bom == 2)
+                                    <td>
+                                        <span class="btn btn-warning btn-sm text-uppercase">Completed</span>
+                                    </td>
+                                    @elseif($item->status_bom == 1)
                                         <td>
-                                            <span class="btn btn-warning btn-sm text-uppercase">pending</span>
+                                            <span class="btn btn-warning btn-sm text-uppercase">Pending</span>
                                         </td>
+                                    @elseif($item->status_bom == 0)
+                                    <td>
+                                        <span class="btn btn-warning btn-sm text-uppercase">Process</span>
+                                    </td>
                                 @endif
-                                @if ($item->status_bom == 1)
+                                @if ($item->status_bom == 3)
                                         <td>
-                                            BOM ini sudah terpenuhi
+                                            BOM ini sudah terbit
                                         </td>   
-                                    @else
+                                    @elseif ($item->status_bom == 2)
+                                    <td>
+                                        Silahkan Submit Material
+                                    </td>
+                                    @elseif ($item->status_bom == 1)
                                         <td>
-                                            Masih terdapat material kurang
+                                            Terdapat Material Kurang
+                                        </td>
+                                    @elseif ($item->status_bom == 0)
+                                        <td>
+                                            Pengecekan Material
                                         </td>
                                 @endif
                                 <td style="text-align: center">{{ $item->id_so }}</td>

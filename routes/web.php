@@ -18,6 +18,9 @@ use App\Http\Controllers\logistic\MaterialController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\logistic\MaterialRakController;
+use App\Http\Controllers\produksi\DryCastResinController;
+use App\Http\Controllers\produksi\ResourceWorkPlanningController;
+use App\Http\Controllers\produksi\StandardizeWorkController;
 
 // Route::get('/', function () {
 //     return view('index');
@@ -31,6 +34,7 @@ Route::post('/logout', [loginController::class, 'logout'])->name('logout');
 Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index']);
 });
+
 // Dashboard logistic
 
 // master data
@@ -141,3 +145,47 @@ Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store'
 // --EXPORT MPS--
 Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
 Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+
+
+Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
+    Route::get('/', [ResourceWorkPlanningController::class, 'dashboard']);
+    Route::get('resource_work_planning/dashboard', [ResourceWorkPlanningController::class, 'dashboard']);
+    Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
+    Route::get('resource_work_planning/PL2/Rekomendasi', [ResourceWorkPlanningController::class, 'pl2Rekomendasi']);
+    Route::get('resource_work_planning/PL2/Jumlah', [ResourceWorkPlanningController::class, 'pl2Jumlah']);
+    Route::get('resource_work_planning/PL3/Work-Load', [ResourceWorkPlanningController::class, 'pl3Workload']);
+    Route::get('resource_work_planning/PL3/Rekomendasi', [ResourceWorkPlanningController::class, 'pl3Rekomendasi']);
+    Route::get('resource_work_planning/PL3/Jumlah', [ResourceWorkPlanningController::class, 'pl3Jumlah']);
+    Route::get('resource_work_planning/CT-VT/Work-Load', [ResourceWorkPlanningController::class, 'ctvtWorkload']);
+    Route::get('resource_work_planning/CT-VT/Rekomendasi', [ResourceWorkPlanningController::class, 'ctvtRekomendasi']);
+    Route::get('resource_work_planning/CT-VT/Jumlah', [ResourceWorkPlanningController::class, 'ctvtJumlah']);
+    Route::get('resource_work_planning/Dry/Work-Load', [ResourceWorkPlanningController::class, 'dryWorkload']);
+    Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceWorkPlanningController::class, 'dryRekomendasi']);
+    Route::get('resource_work_planning/Dry/Jumlah', [ResourceWorkPlanningController::class, 'dryJumlah']);
+    Route::get('resource_work_planning/Repair/Work-Load', [ResourceWorkPlanningController::class, 'repairWorkload']);
+    Route::get('resource_work_planning/Repair/Rekomendasi', [ResourceWorkPlanningController::class, 'repairRekomendasi']);
+    Route::get('resource_work_planning/Repair/Jumlah', [ResourceWorkPlanningController::class, 'repairJumlah']);
+    Route::get('resource_work_planning/Kalkulasi-SDM', [ResourceWorkPlanningController::class, 'kalkulasiSDM']);
+});
+
+
+Route::middleware(['auth', 'standardizedwork'])->group(function () {
+    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::get('/standardized_work/home', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::delete('/standardized_work/{id}', [StandardizeWorkController::class, 'destroy'])->name('delete');
+
+    Route::get('/standardized_work/Create-Data/Dry-Cast-Resin', [DryCastResinController::class, 'create'])->name('create.dryresin');
+    Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/{id}', [DryCastResinController::class, 'createManhour'])->name('create.dryresin.createManhour');
+    Route::post('/standardized_work/Create-Data/Dry-Cast-Resin/Store', [DryCastResinController::class, 'store'])->name('store.dryresin');
+    Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/{id}/edit', [DryCastResinController::class, 'edit'])->name('dryresin.edit');
+    Route::put('/standardized_work/Create-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'update'])->name('dryresin.update');
+
+    // Route::get('/standardized_work/Create-Data/Dry-Non-Resin', [DryNonResinController::class, 'create'])->name('create.drynonresin');
+    // Route::get('/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/{id}', [DryNonResinController::class, 'createManhour'])->name('create.drynonresin.createManhour');
+    // Route::post('/standardized_work/Create-Data/Dry-Non-Resin/Store', [DryNonResinController::class, 'store'])->name('store.drynonresin');
+    // Route::get('/standardized_work/Create-Data/Dry-Non-Resin/{id}/edit', [DryNonResinController::class, 'edit'])->name('drynonresin.edit');
+    // Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
+
+
+});

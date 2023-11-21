@@ -3,6 +3,9 @@
 namespace App\Http;
 
 use App\Http\Middleware\Logistic;
+use App\Http\Middleware\ResourceWorkPlanning;
+use App\Http\Middleware\StandardizedWork;
+// use App\Models\produksi\StandardizeWork;
 use Barryvdh\DomPDF\Middleware\AddOutput;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -72,5 +75,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'resourceworkplanning' => ResourceWorkPlanning::class,
         'logistic' => Logistic::class,
+        'resourceworkplanning' => ResourceWorkPlanning::class,
+        'standardizedwork' => StandardizedWork::class,
     ];
 }

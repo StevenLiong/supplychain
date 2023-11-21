@@ -1,5 +1,7 @@
 @extends('planner.template.bar')
 @section('content')
+@section('bill-of-material', 'active')
+@section('main', 'show')
 <div class="card">
     <div class="card-header d-flex justify-content-between">
        <div class="header-title">
@@ -34,10 +36,6 @@
             <div class="col-md-6 mb-3">
                 <label for="validationDefault01">Quantity</label>
                 <input type="text" class="form-control" name="qty_material" required>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Tolerance(%)</label>
-                <input type="text" class="form-control" name="tolerance" required>
             </div>
           </div>
           <div class="col text-center">

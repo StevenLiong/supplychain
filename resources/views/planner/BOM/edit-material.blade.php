@@ -36,10 +36,6 @@
                         <label for="validationDefault01">Quantity Material</label>
                         <input type="text" class="form-control" name="qty_material" value="{{ old('qty_material',$detailbomItem->qty_material )}}">
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="validationDefault01">Tolerance</label>
-                        <input type="text" class="form-control" name="tolerance" value="{{ old('tolerance',$detailbomItem->tolerance )}}">
-                    </div>
 
                 </div>
                     <div class="col text-center">

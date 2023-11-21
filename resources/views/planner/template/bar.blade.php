@@ -50,13 +50,13 @@
                     </a>
                     <ul id="b" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                         <li class="">
-                            <a href="/GlobalPicking-Oli">
+                            <a href="{{ route('gpa-indexgpaoil') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Oil</span>
                             </a>
                         </li>
                         <li class="">
-                            <a href="/GlobalPicking-Dry">
+                            <a href="{{ route('gpa-indexgpadry') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Dry Type</span>
                             </a>

@@ -14,6 +14,10 @@ class loginController extends Controller
                 return redirect('/dashboard');
             else if (Auth::user()->id_role == 2)
                 return redirect('BOM/IndexBom');
+            else if (Auth::user()->id_role == 2)
+                return redirect('/standardized_work/home');
+            else if (Auth::user()->id_role == 2)
+                return redirect('resource_work_planning/dashboard');
         }
 
         return redirect('/login');
@@ -36,9 +40,13 @@ class loginController extends Controller
                 return redirect('/dashboard');
             else if (Auth::user()->id_role == 2)
                 return redirect('BOM/IndexBom');
+            else if (Auth::user()->id_role == 3)
+                return redirect('/standardized_work/home');
+            else if (Auth::user()->id_role == 4)
+                return redirect('resource_work_planning/dashboard');
         }
 
-        
+
 
         // Jika kedua percobaan di atas gagal, kembalikan ke halaman login
         return back()->with(['error' => 'Email/username & Password yang anda masukan salah']);

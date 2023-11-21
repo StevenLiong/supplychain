@@ -40,6 +40,18 @@ class DatabaseSeeder extends Seeder
             'id' => 4,
             'nama_role' => 'resource_work_planning',
         ]);
+        Role::create([
+            'id' => 5,
+            'nama_role' => 'ppic',
+        ]);
+        Role::create([
+            'id' => 6,
+            'nama_role' => 'purchaser',
+        ]);
+
+
+
+
         User::create([
             'name' => 'adminstd',
             'email' => 'adminstd@gmail.com',
@@ -66,11 +78,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        $this->call(KapasitasSeeder::class);
-        $this->call(KategoriProdukSeeder::class);
-        $this->call(ProsesSeeder::class);
-        $this->call(TipeProsesSeeder::class);
-        $this->call(WorkCenterSeeder::class);
-        $this->call(ManHourSeeder::class);
+        // $this->call(KapasitasSeeder::class);
+        // $this->call(KategoriProdukSeeder::class);
+        // $this->call(ProsesSeeder::class);
+        // $this->call(TipeProsesSeeder::class);
+        // $this->call(WorkCenterSeeder::class);
+        // $this->call(ManHourSeeder::class);
     }
 }

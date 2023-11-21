@@ -12,6 +12,7 @@ use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\ScanController;
+use App\Http\Controllers\planner\GPADryController;
 use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
@@ -19,8 +20,8 @@ use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryCastResinController;
-use App\Http\Controllers\produksi\ResourceWorkPlanningController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
+use App\Http\Controllers\produksi\ResourceWorkPlanningController;
 
 // Route::get('/', function () {
 //     return view('index');
@@ -146,6 +147,15 @@ Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store'
 Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
 Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
 
+// MENU GPA
+// --GPA DRY---
+Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+
+// --GPA OIL--
+Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
+
+// Planner End
+
 
 Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('/', [ResourceWorkPlanningController::class, 'dashboard']);
@@ -186,4 +196,7 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::post('/standardized_work/Create-Data/Dry-Non-Resin/Store', [DryNonResinController::class, 'store'])->name('store.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/{id}/edit', [DryNonResinController::class, 'edit'])->name('drynonresin.edit');
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
+
+
 });
+

@@ -18,7 +18,7 @@ class Logistic
         if (auth()->check() && auth()->user()->id_role == 1) {
             return $next($request);
         }
-        return redirect('/dashboard');
+        return redirect('/');
     
     }
 }

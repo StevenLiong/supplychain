@@ -15,7 +15,16 @@ Repository ini merupakan Repository untk projek website supply chain mulai dari 
 #akses
 
 
-## Informasi Database
-- jangan lupa copy file .env di projek laravel
-- untuk nama databasenya "supplychain"
-- isi tabel databasenya silahkan di isi masing-masing dulu, nanti bisa di migrate ketika udah melakukan pull 
+## Informasi Login
+Logistic 
+- email = admin@logistic.com
+- pw = 123456789
+
+Produksi 
+-email = adminrwp@gmail.com
+pw = 123456789
+
+planner
+-email = adminplan@gmail.com
+-pw = 123456789
+

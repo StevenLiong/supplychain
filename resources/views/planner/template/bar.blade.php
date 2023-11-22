@@ -49,13 +49,13 @@
                         <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
                     </a>
                     <ul id="b" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <li class="">
+                        <li class="@yield('gpaoil')">
                             <a href="{{ route('gpa-indexgpaoil') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Oil</span>
                             </a>
                         </li>
-                        <li class="">
+                        <li class="@yield('gpadry')">
                             <a href="{{ route('gpa-indexgpadry') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Dry Type</span>

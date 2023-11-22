@@ -1,71 +1,52 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Template</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Email Planner</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
+            background-color:#bdc3c7;
+            margin:0;
+        }
+        .card {
+            background-color:#fff;
+            padding:20px;
+            margin:20%;
+            text-align:center;
+            margin:0px auto;
+            width: 580px; 
+            max-width: 580px;
+            margin-top:10%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
         }
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .garis {
+            width: 75%;
         }
-
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .header img {
-            max-width: 100px;
-            height: auto;
-        }
-
-        .greeting {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .content {
-            text-align: left;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #888888;
-        }
+        
     </style>
 </head>
 <body>
-    <div class="container">
-      <div class="header">
-        <img src="/templatetrafindo/assets/images/logotrafindo.png" style="width: 10rem;height:5rem;" alt="logo_trafoindo">
-      </div>
+    <div class="card">
+        <a class="header-logo">
+            <img src="public/templatetrafindo/assets/images/logotrafindo.png" style="width: 10rem;height:5rem;" alt="logo_trafoindo">
+        </a>
 
-        <div class="greeting">
-            <p>Dear PPIC Departemen Planner PT. Trafoindo Prima Perkasa,</p>
-        </div>
-        <div class="content">
-            <!-- Isi konten email Anda di sini -->
-            <p>Terdapat material yang kurang, berikut informasi detail nya:</p>
-            <p>ID BOM: {{ $idBom }}</p>
-            <p>ID Material: {{$idMaterial}}</p>
-        </div>
-        <div class="footer">
-            <p>Terima kasih,<br>Steven Liong</p>
-        </div>
+        <p>Dear PPIC Departemen Planner PT. Trafoindo Prima Perkasa,</p>
+        <hr class="garis">
+        <p>Terdapat material yang kurang, berikut informasi detail nya:</p>
+        <ul>
+            @foreach($notifMaterial as $notifMaterial)
+                <li>ID Material BOM: {{ $notifMaterial->id_materialbom }}</li>
+                <li>ID BOM: {{ $notifMaterial->id_boms }}</li>
+                <br>
+            @endforeach
+        </ul>
+        <br>
+        <p>Terima kasih,<br>Steven Liong</p>
     </div>
 </body>
 </html>

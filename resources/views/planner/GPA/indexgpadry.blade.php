@@ -1,7 +1,7 @@
 @extends('planner.template.bar')
 @section('content')
-{{-- @section('mps', 'active')
-@section('main', 'show') --}}
+@section('gpadry', 'active')
+@section('main', 'show')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
@@ -40,7 +40,7 @@
                             @foreach ($dataMps as $index => $item)
                                 <tr role="row" class="odd">
                                     <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
-                                    <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-dry') }}"></a>{{ $item->id_wo }}</td>
+                                    <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-dry', $item->id_wo) }}">{{ $item->id_wo }}</a></td>
                                     <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>

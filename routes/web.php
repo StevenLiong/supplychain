@@ -99,11 +99,11 @@ Route::middleware(['auth', 'logistic'])->group(function () {
 });
 
 // Planner Start
-
-// MENU BOM
-Route::get('/BOM/IndexBom', [BomController::class, 'index'])->name('bom-index');
-
-// --CREATE BOM & UPLOAD BOM--
+Route::middleware(['auth', 'planner'])->group(function (){
+    // MENU BOM
+    Route::get('/BOM/IndexBom', [BomController::class, 'index'])->name('bom-index');
+    
+    // --CREATE BOM & UPLOAD BOM--
 Route::get('/bom/create', [BomController::class, 'create'])->name('bom-create');
 Route::post('/bom/store', [BomController::class, 'store'])->name('bom.store');
 Route::get('/bom/upload-excel/{idBom}', [DetailbomController::class, 'formUpload'])->name('bom-upload-excel');
@@ -161,9 +161,14 @@ Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.e
 // MENU GPA
 // --GPA DRY---
 Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
 
 // --GPA OIL--
 Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
+
+});
+
+
 
 // Planner End
 
@@ -238,6 +243,7 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/standardized_work/Create-Data/Repair/{id}/edit', [RepairController::class, 'edit'])->name('repair.edit');
     Route::put('/standardized_work/Create-Data/Repair/{id}', [RepairController::class, 'update'])->name('repair.update');
 });
+
 
 
 

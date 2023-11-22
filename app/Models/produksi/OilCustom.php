@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DryCastResin extends Model
+class OilCustom extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -17,23 +17,16 @@ class DryCastResin extends Model
         'ukuran_kapasitas',
         'total_hour',
         'coil_lv',
+        'coil_lv_plus',
         'coil_hv',
-        'potong_leadwire',
-        'potong_isolasi',
-        'hv_moulding',
-        'hv_casting',
-        'hv_demoulding',
-        'lv_bobbin',
-        'lv_moulding',
-        'touch_up',
-        'type_susun_core',
-        'wiring',
-        'instal_housing',
-        'bongkar_housing',
-        'pembuatan_cu_link',
-        'others',
-        'accesories',
-        'potong_isolasi_fiber',
+        'coil_hv_plus',
+        'core_coil_assembly',
+        'connection',
+        'hv_lv_connection',
+        'final_assy',
+        'final_assy_plus',
+        'special_assembly',
+        'finishing',
         'qc_testing',
     ];
 
@@ -46,22 +39,22 @@ class DryCastResin extends Model
     {
         parent::boot();
 
-        static::created(function ($dryresin) {
+        static::created(function ($oil_custom) {
             StandardizeWork::create([
-                'id_dry_cast_resin' => $dryresin->id,
+                'id_oil_custom' => $oil_custom->id,
             ]);
         });
 
-        self::creating(function ($dryresin) {
-            $nomorSo = $dryresin->nomor_so;
-            $kategori = $dryresin->kategori;
-            $ukuranKapasitas = $dryresin->ukuran_kapasitas;
+        self::creating(function ($oil_custom) {
+            $nomorSo = $oil_custom->nomor_so;
+            $kategori = $oil_custom->kategori;
+            $ukuranKapasitas = $oil_custom->ukuran_kapasitas;
 
             $nomorSo = str_replace(['/', '-'], '', $nomorSo);
 
             $kdManhour = $kategori . '' .  $ukuranKapasitas . '' . $nomorSo;
 
-            $dryresin->kd_manhour = $kdManhour;
+            $oil_custom->kd_manhour = $kdManhour;
         });
     }
 }

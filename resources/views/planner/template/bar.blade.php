@@ -12,12 +12,12 @@
     <div class="data-scrollbar" data-scroll="1">
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
-                <li class="active">
+                <li class="@yield('dashboard')">
                     <a href="/Dashboard" class="svg-icon">
                         <i class="fa-solid fa-house"></i> <span class="ml-4">Dashboards</span>
                     </a>
                 </li>
-                <li class=" ">
+                <li class="@yield('bill-of-material')">
                     <a href="{{ route('bom-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
@@ -25,7 +25,7 @@
                         <span class="ml-4">Bill Of Material</span>
                     </a>
                 </li>
-                <li class=" ">
+                <li class="@yield('work-order')">
                     <a href="{{ route('workorder-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
@@ -33,7 +33,7 @@
                         <span class="ml-4">Work Order</span>
                     </a>
                 </li>
-                <li class=" ">
+                <li class="@yield('mps')">
                     <a href="{{ route('mps-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
@@ -50,13 +50,13 @@
                     </a>
                     <ul id="b" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
                         <li class="">
-                            <a href="/GlobalPicking-Oli">
+                            <a href="{{ route('gpa-indexgpaoil') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Oil</span>
                             </a>
                         </li>
                         <li class="">
-                            <a href="/GlobalPicking-Dry">
+                            <a href="{{ route('gpa-indexgpadry') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Dry Type</span>
                             </a>
@@ -116,24 +116,21 @@
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right border-none" aria-labelledby="dropdownMenuButton">
-                                <li class="dropdown-item d-flex svg-icon">
-                                    <svg class="svg-icon mr-0 text-primary" id="h-01-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                <li class="dropdown-item  d-flex svg-icon">
+                                    <svg class="svg-icon mr-0 text-primary" id="h-05-p" width="20"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                     </svg>
-                                    <a href="../app/user-profile.html">My Profile</a>
+                                    <a href="#"
+                                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+
+                                    <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
                                 </li>
-                                <li class="dropdown-item d-flex svg-icon">
-                                    <svg class="svg-icon mr-0 text-primary" id="h-02-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                    </svg>
-                                    <a href="../app/user-profile-edit.html">Edit Profile</a>
-                                </li>
-                                <li class="dropdown-item  d-flex svg-icon border-top">
-                                    <svg class="svg-icon mr-0 text-primary" id="h-05-p" width="20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                                    </svg>
-                                    <a href="/Logout">Logout</a>
-                                </li>
+                            </ul>
                             </ul>
                         </li>
                     </ul>

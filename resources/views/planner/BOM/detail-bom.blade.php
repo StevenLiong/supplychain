@@ -1,5 +1,7 @@
 @extends('planner.template.bar')
 @section('content')
+@section('bill-of-material', 'active')
+@section('main', 'show')
 <div class="card">
     <div class="card-header d-flex justify-content-between">
        <div class="header-title">
@@ -50,7 +52,7 @@
         </div>
         <br>
 
-        <h3>Unsubmitted Detail BOM</h3>
+        <h3>Material Belum Submit</h3>
             <div class="table-responsive">
                 <table id="unsubmittedDatatable" class="table data-table table-striped dataTable" role="grid"aria-describedby="datatable_info">
                 <thead>
@@ -72,12 +74,12 @@
                         @foreach ($unsubmittedDetailBom as $detailbomItem)
                         <tr role="row" class="odd">
                            <td style="text-align: center;">
-                              <form action="{{ route('bommaterial.delete',['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $dataBom->id_bom]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus material ini?');">
-                                 @csrf
-                                 @method('DELETE')
+                              <form action="{{ route('bommaterial.delete', ['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $dataBom->id_bom]) }}" method="POST">
                                  <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <a href="{{ route('bom.edit', ['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $dataBom->id_bom]) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
-                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-trash"></i></button>
+                                       @csrf
+                                       @method('DELETE')
+                                       <button type="submit" class="btn btn-primary" onclick="return confirm('YAKIN DEK?')"><i class="fa-solid fa-trash"></i></button>
                                  </div>
                               </form>
                            </td>
@@ -95,8 +97,7 @@
                     </tbody>
                 </table>
             </div>
-            <br>
-
+<br>
         <form action="{{ route('bom.submit') }}" method="POST">
             @csrf
             <input type="hidden" name="id_bom" value="{{ $id_bom }}">
@@ -115,10 +116,9 @@
                <p class="text-danger">Tidak dapat submit, beberapa material belum terpenuhi.</p>
             @endif
          </form>
-
 <br>
          <!-- Tabel Data yang Sudah di-Submit -->
-         <h3>Submitted Detail BOM</h3>
+         <h3>Material Sudah Submit</h3>
          <div class="table-responsive">
                <table id="submittedDatatable" class="table data-table table-striped dataTable" role="grid" aria-describedby="datatable_info">
                   <thead>

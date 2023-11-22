@@ -12,6 +12,7 @@ use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\logistic\MaterialRakController;
+use App\Http\Controllers\logistic\ServicesController;
 use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\planner\MpsController;
@@ -70,6 +71,11 @@ Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class
 
 Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
 Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
+
+// Services index transaksi gudang dan transaksi produksi
+Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
+Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
+
 
 // logistic end
 

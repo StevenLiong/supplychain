@@ -18,6 +18,7 @@ use App\Http\Controllers\logistic\MaterialController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\logistic\MaterialRakController;
+use App\Http\Controllers\purchaser\mrController;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
@@ -186,17 +187,30 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::post('/standardized_work/Create-Data/Dry-Non-Resin/Store', [DryNonResinController::class, 'store'])->name('store.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/{id}/edit', [DryNonResinController::class, 'edit'])->name('drynonresin.edit');
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
-
-
 });
 
-
+//Material Request
 Route::middleware(['auth', 'materialrequest'])->group(function () {
-    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::get('/', [mrController::class, 'index'])->name('home');
+    Route::get('/materialrequest/dashboard', [mrController::class, 'index']);
+    Route::get('/materialrequest', [mrController::class, 'materialRequest']);
+    Route::get('/materialrequest/add', [mrController::class, 'createmr']);
+    Route::get('/materialrequest/{id_mr}', [mrController::class, 'editmr']);
+    Route::get('/tabelmaterial', [mrController::class, 'tableMaterial']);
+    Route::post('/materialstore', [mrController::class, 'storemr']);
+    Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);
 });
 
-Route::middleware(['auth', 'purchaseorder'])->group(function () {
-    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
-    Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
-    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
-});
+//Purchase Order
+// Route::middleware(['auth', 'purchaseorder'])->group(function () {
+//     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+//     Route::get('/purchaseorder/dashboard', [StandardizeWorkController::class, 'index'])->name('home');
+//     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+// });
+
+// Route::get('/dashboardpo', function () {
+//     return view('contentpo.dashboardpo');
+// });
+// Route::get('/purchaser/materialrequestpo', function () {
+//     return view('contentpo.materialrequestpo');
+// });

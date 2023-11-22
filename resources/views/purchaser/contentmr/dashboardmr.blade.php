@@ -1,4 +1,4 @@
-@extends('layout.layoutmr.wraplayoutmr')
+@extends('purchaser.layout.layoutmr.wraplayoutmr')
 
 @section('title', 'Dashboard')
 @section('contentmr')

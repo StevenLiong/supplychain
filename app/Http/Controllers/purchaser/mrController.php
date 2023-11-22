@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\purchaser;
 
+use App\Http\Controllers\Controller;
 use App\Models\division;
 use App\Models\mr;
 use App\Models\material;
@@ -17,13 +18,13 @@ class mrController extends Controller
     //
     public function index()
     {
-        return view('contentmr.dashboardmr');
+        return view('purchaser.contentmr.dashboardmr');
     }
     public function materialRequest()
     {
         $dataMr = mr::all();
         return view(
-            'contentmr.materialrequest',
+            'purchaser.contentmr.materialrequest',
 
             [
                 'dataMr' => $dataMr,
@@ -33,12 +34,12 @@ class mrController extends Controller
 
     public function editmaterial()
     {
-        return view('contentmr.editmaterialmr');
+        return view('purchaser.contentmr.editmaterialmr');
     }
 
     public function tableMaterial()
     {
-        return view('contentmr.tabelmaterialmr');
+        return view('purchaser.contentmr.tabelmaterialmr');
     }
 
 
@@ -51,7 +52,7 @@ class mrController extends Controller
         $now = Carbon::now();
         $material = material::all()->groupBy('name_material');
         return view(
-            'contentmr.adddatamaterialmr',
+            'purchaser.contentmr.adddatamaterialmr',
             [
                 'id' => $id,
                 'now' => $now,
@@ -67,7 +68,7 @@ class mrController extends Controller
         $mr = mr::where('id_mr',$id_mr)->firstOrFail();
         $materials = material::all()->groupBy('name_material');
         return view(
-            'contentmr.editdatamaterialmr',
+            'purchaser.contentmr.editdatamaterialmr',
             [
                 'mr' => $mr,
                 'materials' => $materials

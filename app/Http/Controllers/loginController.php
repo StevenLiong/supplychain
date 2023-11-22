@@ -11,7 +11,7 @@ class loginController extends Controller
     {
         if (Auth::check()) {
             if (Auth()->user()->id_role == 1)
-                return redirect('/dashboard');
+                return redirect('/logistic');
             else if (Auth::user()->id_role == 2)
                 return redirect('BOM/IndexBom');
             else if (Auth::user()->id_role == 3)
@@ -41,7 +41,7 @@ class loginController extends Controller
         if (Auth::attempt(['email' => $field, 'password' => $password])) {
             // Jika berhasil login berdasarkan email
             if (Auth::user()->id_role == 1)
-                return redirect('/dashboard');
+                return redirect('/logistic');
             else if (Auth::user()->id_role == 2)
                 return redirect('BOM/IndexBom');
             else if (Auth::user()->id_role == 3)

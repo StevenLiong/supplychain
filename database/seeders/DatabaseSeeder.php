@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\logistic\Gudang;
 use App\Models\logistic\Material;
 use App\Models\Role;
 use App\Models\User;
@@ -88,6 +89,14 @@ class DatabaseSeeder extends Seeder
             'password' => '123456789',
             'id_role' => 6
         ]);
+
+        // seeder logistic
+        $this->call(MaterialSeeder::class);
+        $this->call(GudangSeeder::class);
+        $this->call(RakSeeder::class);
+        $this->call(MaterialRakSeeder::class);
+        $this->call(SupplierSeeder::class);
+        $this->call(IncomingSeeder::class);
 
 
         // $this->call(KapasitasSeeder::class);

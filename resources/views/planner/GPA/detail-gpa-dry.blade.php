@@ -1,5 +1,7 @@
-@extends('template.bar')
+@extends('planner.template.bar')
 @section('content')
+@section('gpadry', 'active')
+@section('main', 'show')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
@@ -10,14 +12,14 @@
         <div class="card-body">
             <div class="row d-flex mb-4">
                 <div class="col  text-left">
-                    <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="#" class="MR-3 btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i class="mr-2 fa fa-table"></i>Download Exel</a>
+                    <a href="#" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
+                    <a href="#" class="MR-3 btn btn-primary"><i class="mr-2 fa fa-table"></i>Download Exel</a>
                 </div>
             </div>
             <table>
                 <tr>
                     <td style="width: 6rem;">Work Order</td>
-                    <td style="width: 7rem;"><input type="text" class="form-control" id="validationDefault01" value="W1230293FA" readonly></td>
+                    <td style="width: 7rem;"><input type="text" class="form-control" id="id_wo" value="{{ $dataMps->id_wo }}" readonly></td>
                     <td style="width: 4rem" class="text-center">Line</td>
                     <td style="width: 5rem"><input type="text" class="form-control text-center" id="validationDefault02" value="3"readonly></td>
                     <td style="width: 4rem" class="text-center">KVA</td>

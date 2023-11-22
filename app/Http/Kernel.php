@@ -6,6 +6,7 @@ use App\Http\Middleware\Logistic;
 use App\Http\Middleware\Materialrequest;
 use App\Http\Middleware\ResourceWorkPlanning;
 use App\Http\Middleware\StandardizedWork;
+use App\Http\Middleware\Planner;
 // use App\Models\produksi\StandardizeWork;
 use Barryvdh\DomPDF\Middleware\AddOutput;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -76,6 +77,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'resourceworkplanning' => ResourceWorkPlanning::class,
         'logistic' => Logistic::class,
+        'planner' => Planner::class,
         'standardizedwork' => StandardizedWork::class,
         'materialrequest' => \App\Http\Middleware\Materialrequest::class,
     ];

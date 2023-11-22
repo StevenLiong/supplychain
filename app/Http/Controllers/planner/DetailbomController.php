@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MaterialPendingNotification;
+use Illuminate\Support\Facades\Cache;
 
 class DetailbomController extends Controller
 {
@@ -33,12 +34,12 @@ class DetailbomController extends Controller
 
         $detailbom = Detailbom::with('bom')
             ->where('id_boms', $id_bom)
-            ->orderBy('id_boms')
+            ->orderBy('id', 'asc')
             ->get();
-
+    
         $unsubmittedDetailBom = Detailbom::where('id_boms', $id_bom)
         ->where('submitted', false)
-        ->get();
+        ->orderBy('id_materialbom', 'asc')->get();
 
         $submittedDetailBom = Detailbom::where('id_boms', $id_bom)
         ->where('submitted', true)
@@ -86,7 +87,7 @@ class DetailbomController extends Controller
 
         // Import data dari file Excel
         Excel::import($import, $file);
-            return redirect('/BOM/IndexBom')->with('success','Data Berhasil Diimport!');
+            return redirect('/BOM/IndexBom');
     }
 
     public function addmaterial(Request $request, $id_bom)
@@ -142,7 +143,7 @@ class DetailbomController extends Controller
     public function update(Request $request, $id_materialbom, $id_bom): RedirectResponse
     {
         $idBom = session('idBom');
-
+    
         $this->validate($request, [
             'nama_workcenter' => 'required|string',
             'id_materialbom' => 'required|string',
@@ -151,16 +152,18 @@ class DetailbomController extends Controller
             'qty_trafo' => 'required|integer',
             'qty_material' => 'required|integer',
         ]);
-
+    
         // Cari Detailbom berdasarkan 'id_materialbom' dan 'id_bom'
         $detailbomItem = Detailbom::where('id_materialbom', $id_materialbom)
             ->where('id_boms', $id_bom)
             ->first();
-
-        $tolerance = ($request->uom_material === 'kg') ? 0.025 : 0;
-
+    
+        // Sebelum pembaruan, simpan nilai asli
+        $detailbomItem->syncOriginal();
+        $tolerance = (strtolower($request->uom_material) === 'kg') ? 0.025 : 0;
+    
         $usagematerial = ($request->qty_trafo * $request->qty_material) * (1 + $tolerance);
-
+    
         $detailbomItem->update([
             'nama_workcenter' => $request->nama_workcenter,
             'id_materialbom' => $request->id_materialbom,
@@ -169,20 +172,25 @@ class DetailbomController extends Controller
             'qty_trafo' => $request->qty_trafo,
             'qty_material' => $request->qty_material,
             'tolerance' => $tolerance,
-            'usage_material' => $usagematerial, // Assign the calculated total to the 'Total' column
+            'usage_material' => $usagematerial,
+            'email_status' => 0, // Set email_status to 0
         ]);
-
-        return redirect()->route('bom.detailbom', ['id_bom' =>$idBom]);
+    
+        // dd([
+        //     'CEKCEK' => $detailbomItem->getAttributes(),
+        // ]);
+    
+        return redirect()->route('bom.detailbom', ['id_bom' => $idBom]);
     }
-
+    
     public function deleteMaterial($id_materialbom, $id_bom)
     {
         // Find the detailBom record
-        $detailBom = Detailbom::where('id_materialbom', $id_materialbom)->where('id_boms', $id_bom)->first();
+        $detailBom = Detailbom::where('id_materialbom', $id_materialbom)
+            ->where('id_boms', $id_bom)->first();
 
         $detailBom->delete();
     
-        // Redirect back with success message
         return redirect()->back();
     }
     
@@ -190,29 +198,18 @@ class DetailbomController extends Controller
     {
         $detailboms = Detailbom::where('id_boms', $id_bom)->get();
 
-        // Initialize an array to store email addresses for notification
-        $notificationEmails = [];
-
         foreach ($detailboms as $detailbom) {
             // Cek apakah sudah submitted, jika sudah, lanjut ke iterasi berikutnya
             if ($detailbom->submitted == 1) {
                 continue;
             }
+
             $material = Material::where('kd_material', $detailbom->id_materialbom)->first();
 
             if (!$material) {
                 // Jika material tidak ditemukan
                 $detailbom->db_status = 0; // Not Submitted
                 $detailbom->keterangan = "Material tidak ditemukan";
-
-                $email = [
-                    'ramaagya3321@gmail.com',
-                    'klosepanjaitan1011@gmail.com',
-					'steven.naga15@gmail.com',
-                ];
-                if (!isset($notificationEmails[$detailbom->id_materialbom])) {
-                    $notificationEmails[$detailbom->id_materialbom] = $email;
-                }
             } else {
                 $usageMaterial = $detailbom->usage_material;
                 $materialQty = $material->jumlah;
@@ -221,15 +218,6 @@ class DetailbomController extends Controller
                     // Jika usage material lebih besar daripada jumlah material
                     $detailbom->db_status = 0; // Pending
                     $detailbom->keterangan = "Terdapat material kurang";
-
-                    $email = [
-                        'steven.naga15@gmail.com',
-                        'ramaagya3321@gmail.com',
-                        'christoaja13@gmail.com'
-                    ];
-                    if (!isset($notificationEmails[$detailbom->id_materialbom])) {
-                        $notificationEmails[$detailbom->id_materialbom] = $email;
-                    }
                 } else {
                     // Jika usage material cukup
                     $detailbom->db_status = 1; // Completed
@@ -238,13 +226,35 @@ class DetailbomController extends Controller
             }
             $detailbom->save();
         }
-        // Send email notification if there are pending materials
-        foreach ($notificationEmails as $idMaterialBom => $email) {
-            Mail::to($email)->send(new MaterialPendingNotification($id_bom, $idMaterialBom));
-        }
+
         $this->updateStatusbom($id_bom);
 
-        return redirect()->back()->with('success', 'Status detail BOM diperbarui.');
+        return redirect()->back();
+    }
+
+    public function emailNotif($idBom)
+    {
+        // Dapatkan catatan DetailBom yang memenuhi kriteria
+        $notifMaterial = Detailbom::where('id_boms', $idBom)
+            ->where('db_status', 0)
+            ->where('email_status', 0)
+            ->get();
+        // dd($notifMaterial);
+
+        // Periksa apakah ada material tertunda
+        if ($notifMaterial->count() > 0) {
+            // Anda dapat menyesuaikan konten email dan subjek sesuai kebutuhan
+            $subjekEmail = "Notifikasi Material Tertunda";
+
+            // Kirim email ke alamat yang ditentukan
+            $alamatEmailPenerima = ['christo13aja@gmail.com'];
+            Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification($notifMaterial, $subjekEmail, $idBom));
+
+            // Perbarui status email_status menjadi 1 untuk material yang telah dikirimkan
+            foreach ($notifMaterial as $material) {
+                $material->update(['email_status' => 1]);
+            }
+        }
     }
 
     public function getStatusAndKeterangan($detailbom, $id_bom)
@@ -289,6 +299,9 @@ class DetailbomController extends Controller
             $statusBom = 3;
         }
 
+        // Panggil emailNotif setelah memperbarui status BOM
+        $this->emailNotif($idBom);
+
         // Update status_bom pada tabel boms
         Bom::where('id_bom', $id_bom)->update(['status_bom' => $statusBom]);
     }
@@ -323,7 +336,7 @@ class DetailbomController extends Controller
                 $material->save();
             }
         }
-        return redirect()->route('bom.detailbom', $idBom)->with('success', 'BOM berhasil disubmit.');
+        return redirect()->route('bom.detailbom', $idBom);
     }
 
     public function restoreMaterial($id_materialbom, $id_bom): RedirectResponse
@@ -346,6 +359,6 @@ class DetailbomController extends Controller
         $detailBom->setAttribute('submitted', 0);
         $detailBom->save();
 
-        return redirect()->back()->with('success', 'Material berhasil direstore.');
+        return redirect()->back();
     }
 }

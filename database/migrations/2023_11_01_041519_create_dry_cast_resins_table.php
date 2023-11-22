@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('others')->nullable();
             $table->string('accesories')->nullable();
             $table->string('potong_isolasi_fiber')->nullable();
-            $table->string('routine_test')->nullable();
+            $table->string('qc_testing')->nullable();
             $table->timestamps();
         });
     }

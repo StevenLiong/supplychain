@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\DashboardController;
+// use App\Http\Controllers\DryNonResinController as ControllersDryNonResinController;
 use App\Http\Controllers\planner\WoController;
 use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\planner\GPADryController;
 use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
+use App\Http\Controllers\logistic\ServicesController;
+use App\Http\Controllers\logistic\ShippingController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\logistic\MaterialRakController;
@@ -23,9 +26,7 @@ use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
 
-// Route::get('/', function () {
-//     return view('index');
-// });
+
 
 Auth::routes();
 Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
@@ -51,6 +52,10 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::resource('datamaster/rak', RakController::class);
     Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
     // rak end
+
+    // finished good
+    route::resource('datamaster/finishedgood', FinishedgoodController::class);
+    // finished good end
 
 
     // receiving
@@ -82,10 +87,16 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
     Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
 
+    // Services index transaksi gudang dan transaksi produksi
+    Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
+    Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
+
+    // Shipping
+    Route::get('shipping', [ShippingController::class, 'index']);
+
     // logistic end
 
 });
-
 
 // Planner Start
 Route::middleware(['auth', 'planner'])->group(function (){
@@ -202,5 +213,46 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/{id}/edit', [DryNonResinController::class, 'edit'])->name('drynonresin.edit');
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
 
+    Route::get('/standardized_work/Create-Data/Ct', [CtController::class, 'create'])->name('create.ct');
+    Route::get('/standardized_work/Create-Data/Ct/kapasitas/{id}', [CtController::class, 'createManhour'])->name('create.ct.createManhour');
+    Route::post('/standardized_work/Create-Data/Ct/Store', [CtController::class, 'store'])->name('store.ct');
+    Route::get('/standardized_work/Create-Data/Ct/{id}/edit', [CtController::class, 'edit'])->name('ct.edit');
+    Route::put('/standardized_work/Create-Data/Ct/{id}', [CtController::class, 'update'])->name('ct.update');
 
+    Route::get('/standardized_work/Create-Data/Vt', [VtController::class, 'create'])->name('create.vt');
+    Route::get('/standardized_work/Create-Data/Vt/kapasitas/{id}', [VtController::class, 'createManhour'])->name('create.vt.createManhour');
+    Route::post('/standardized_work/Create-Data/Vt/Store', [VtController::class, 'store'])->name('store.vt');
+    Route::get('/standardized_work/Create-Data/Vt/{id}/edit', [VtController::class, 'edit'])->name('vt.edit');
+    Route::put('/standardized_work/Create-Data/Vt/{id}', [VtController::class, 'update'])->name('vt.update');
+
+    Route::get('/standardized_work/Create-Data/Oil-Custom', [OilCustomController::class, 'create'])->name('create.oil_custom');
+    Route::get('/standardized_work/Create-Data/Oil-Custom/kapasitas/{id}', [OilCustomController::class, 'createManhour'])->name('create.oil_custom.createManhour');
+    Route::post('/standardized_work/Create-Data/Oil-Custom/Store', [OilCustomController::class, 'store'])->name('store.oil_custom');
+    Route::get('/standardized_work/Create-Data/Oil-Custom/{id}/edit', [OilCustomController::class, 'edit'])->name('oil_custom.edit');
+    Route::put('/standardized_work/Create-Data/Oil-Custom/{id}', [OilCustomController::class, 'update'])->name('oil_custom.update');
+
+    Route::get('/standardized_work/Create-Data/Oil-Standard', [OilStandardController::class, 'create'])->name('create.oil_standard');
+    Route::get('/standardized_work/Create-Data/Oil-Standard/kapasitas/{id}', [OilStandardController::class, 'createManhour'])->name('create.oil_standard.createManhour');
+    Route::post('/standardized_work/Create-Data/Oil-Standard/Store', [OilStandardController::class, 'store'])->name('store.oil_standard');
+    Route::get('/standardized_work/Create-Data/Oil-Standard/{id}/edit', [OilStandardController::class, 'edit'])->name('oil_standard.edit');
+    Route::put('/standardized_work/Create-Data/Oil-Standard/{id}', [OilStandardController::class, 'update'])->name('oil_standard.update');
+
+    Route::get('/standardized_work/Create-Data/Repair', [RepairController::class, 'create'])->name('create.repair');
+    Route::get('/standardized_work/Create-Data/Repair/kapasitas/{id}', [RepairController::class, 'createManhour'])->name('create.repair.createManhour');
+    Route::post('/standardized_work/Create-Data/Repair/Store', [RepairController::class, 'store'])->name('store.repair');
+    Route::get('/standardized_work/Create-Data/Repair/{id}/edit', [RepairController::class, 'edit'])->name('repair.edit');
+    Route::put('/standardized_work/Create-Data/Repair/{id}', [RepairController::class, 'update'])->name('repair.update');
+});
+
+
+
+
+Route::middleware(['auth', 'materialrequest'])->group(function () {
+    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+});
+
+Route::middleware(['auth', 'purchaseorder'])->group(function () {
+    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
 });

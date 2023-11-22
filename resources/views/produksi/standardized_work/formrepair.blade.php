@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('produksi.standardized_work.layout')
 @section('content')
 
 <style>

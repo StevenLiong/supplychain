@@ -87,10 +87,17 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href={{ url('datamaster/rak') }}
-                                 class="nav-link {{ request()->segment(2) === 'rak' ? 'active' : '' }}">
+                             <a href={{ url('datamaster/finishedgood') }}
+                                 class="nav-link {{ request()->segment(2) === 'finishedgood' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Data Rak</p>
+                                 <p>Data Finished good</p>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a href={{ url('datamaster/finishedgood') }}
+                                 class="nav-link {{ request()->segment(2) === 'finishedgood' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Data Finishedgood</p>
                              </a>
                          </li>
                      </ul>
@@ -256,57 +263,27 @@
                          </p>
                      </a>
                      <ul class="nav nav-treeview">
-                         <!-- Raw Material -->
-                         <li class="nav-item">
-                             <a href="#" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Transaksi Gudang</p>
-                                 <i class="right fas fa-angle-left"></i>
-                             </a>
-                             <ul class="nav nav-treeview">
-                                 <li class="nav-item">
-                                     <a href="./raw-material-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Order</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Picking</p>
-                                     </a>
-                                 </li>
-                             </ul>
-                         </li>
-                         <!-- Finished Good -->
-                         <li class="nav-item">
-                             <a href="#" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Transaksi Produksi</p>
-                                 <i class="right fas fa-angle-left"></i>
-                             </a>
-                             <ul class="nav nav-treeview">
-                                 <li class="nav-item">
-                                     <a href="./finished-good-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Transfer (T)</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./finished-good-rack-monitoring.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Consumption Report (A)</p>
-                                     </a>
-                                 </li>
-                             </ul>
-                         </li>
-                     </ul>
+                        <!-- Raw Material -->
+                        <li class="nav-item">
+                            <a href="{{ url('services/transaksigudang') }}" class="nav-link {{ request()->segment(2)  == 'transaksigudang' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Transaksi Gudang</p>
+                            </a>
+                        </li>
+                        <!-- Finished Good -->
+                        <li class="nav-item">
+                            <a href="{{ url('services/transaksiproduksi') }}" class="nav-link {{ request()->segment(2) == 'transaksiproduksi' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Transaksi Produksi</p>
+                            </a>
+                        </li>
+                    </ul>
                  </li>
                  <!-- Services End-->
 
                  <!-- Shipping-->
                  <li class="nav-item ">
-                     <a href="#" class="nav-link">
+                     <a href="{{ url('shipping') }}" class="nav-link {{ request()->segment(1) == 'shipping' ? 'active' : '' }}">
                          <i class="nav-icon">
                              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27"
                                  viewBox="0 0 41 27" fill="none">

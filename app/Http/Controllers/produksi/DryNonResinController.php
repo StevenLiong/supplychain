@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\produksi;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\produksi\DryNonResin;
@@ -15,7 +16,7 @@ class DryNonResinController extends Controller
     public function create(): Response
     {
         // $standardize_works = StandardizeWork::all();
-        return response(view('standardized_work.formdrynonresin',['manhour' => ManHour::all()]));
+        return response(view('produksi.standardized_work.formdrynonresin',['manhour' => ManHour::all()]));
     }
 
 
@@ -35,11 +36,18 @@ class DryNonResinController extends Controller
     {
         $params = $request->validated();
 
-        $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
+        $multipleFields = ['potong_isolasi', 'others', 'accesories', 'potong_isolasi_fiber'];
 
-        foreach ($checkboxFields as $field) {
-            $checkbox = $request->input($field);
-            $params[$field] = implode(',', $checkbox);
+        foreach ($multipleFields as $field) {
+            $multiple = $request->input($field);
+
+            // Periksa apakah $multiple adalah array sebelum menggunakan implode
+            if (is_array($multiple)) {
+                $params[$field] = implode(',', $multiple);
+            } else {
+                // Jika bukan array, mungkin lakukan penanganan sesuai kebutuhan Anda
+                $params[$field] = $multiple;
+            }
         }
 
         DryNonResin::create($params);
@@ -54,7 +62,7 @@ class DryNonResinController extends Controller
 
 
 
-        return response(view('standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
+        return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
     }
 
     /**

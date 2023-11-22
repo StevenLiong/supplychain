@@ -10130,6 +10130,11 @@ a.text-white:focus {
     margin: 0 15px 0 0;
 }
 
+.wrapper{
+    position: relative;
+    min-height: 100vh;
+}
+
 .wrapper-menu {
     font-size: 25px;
     text-align: center;
@@ -14205,24 +14210,23 @@ i.amber-text {
 }
 
 .iq-footer {
+    position: fixed;
+    bottom: 0;
     padding: 10px 15px;
-    margin-left: 260px;
-    width: calc(100vw - 264px);
+    margin-left: 0;
+    width: 100%;
     background: #fff;
     box-shadow: none;
     -webkit-transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
     -ms-transition: all 0.3s ease-in-out;
     -o-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
-}
-.iq-footer ul li a {
-    color: #605c8d;
-}
-.iq-footer ul li a:hover {
-    color: #d02424;
-    text-decoration: none;
-}
+    transition: all 0.3s ease-in-out; }
+    .iq-footer ul li a {
+      color: #605C8D; }
+      .iq-footer ul li a:hover {
+        color: #d02424;
+        text-decoration: none; }
 
 body.tab-horizontal .iq-footer {
     margin-left: 0;

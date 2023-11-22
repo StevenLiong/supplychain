@@ -250,20 +250,16 @@
 @section('footer')
     <footer class="iq-footer">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-6">
-                    <ul class="list-inline mb-0">
-                        <li><b>awan akatsuki</b></li>
-                        <!-- <li class="list-inline-item"><a href="../backend/privacy-policy.html">Privacy Policy</a></li>
-                                                <li class="list-inline-item"><a href="../backend/terms-of-service.html">Terms of Use</a></li> -->
-                    </ul>
+            <div class="row"> 
+                <div class="col-lg-6 text-center     text-primary">
+                    <span class="mr-1"> Supply Chain Team </span>
                 </div>
-                <div class="col-lg-6 text-right">
+                <div class="col-lg-6 text-right text-primary">
                     <span class="mr-1">
                         <script>
                             document.write(new Date().getFullYear())
                         </script>©
-                    </span> <a href="#" class="">MSIB TRAFINDO BATCH 5</a>
+                    </span> <a href="#" class="">MSIB TRAFINDO BATCH 5 1</a>
                 </div>
             </div>
         </div>

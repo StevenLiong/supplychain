@@ -53,7 +53,7 @@ class DryCastResinController extends Controller
 
 
 
-        return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
+        return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour]));
     }
 
     /**

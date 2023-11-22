@@ -21,7 +21,33 @@
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="path/to/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
 
+        .wrapper {
+            min-height: 100vh;
+            margin-bottom: 60px;
+            /* Sesuaikan dengan tinggi footer */
+            box-sizing: border-box;
+        }
+
+        .content {
+            /* Gaya untuk konten utama */
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        footer {
+            /* Gaya untuk footer */
+            background-color: #cb0606;
+            color: #fff;
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body class="  ">

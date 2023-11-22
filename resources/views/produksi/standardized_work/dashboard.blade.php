@@ -151,8 +151,7 @@
                                         <a href="" type="button" class="btn btn-primary m-1"><i
                                                 class="fa-solid fa-circle-info m-1"></i></a>
                                         <a type="button" href="{{ route('dryresin.edit', ['id' => $std->id]) }}"
-                                            class="btn btn-primary m-1"><i
-                                            class="fa-solid fa-pen-to-square m-1"></i></a>
+                                            class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a>
                                         <a href="#" class="btn btn-primary m-1" data-toggle="modal"
                                             data-target=".bd-example-modal-sm"
                                             onclick="
@@ -182,6 +181,6 @@
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
     <!-- - - - - - - - - - - - end content-- - - - - - - - - - - -->
 @endsection

@@ -41,6 +41,18 @@ class DatabaseSeeder extends Seeder
             'id' => 4,
             'nama_role' => 'resource_work_planning',
         ]);
+        Role::create([
+            'id' => 5,
+            'nama_role' => 'ppic',
+        ]);
+        Role::create([
+            'id' => 6,
+            'nama_role' => 'purchaser',
+        ]);
+
+
+
+
         User::create([
             'name' => 'adminstd',
             'email' => 'adminstd@gmail.com',
@@ -74,7 +86,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SupplierSeeder::class);
         $this->call(IncomingSeeder::class);
 
-        // seeder logistic end
 
         // $this->call(KapasitasSeeder::class);
         // $this->call(KategoriProdukSeeder::class);

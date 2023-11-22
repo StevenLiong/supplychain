@@ -265,3 +265,15 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
 
 });
 
+
+
+Route::middleware(['auth', 'materialrequest'])->group(function () {
+    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+});
+
+Route::middleware(['auth', 'purchaseorder'])->group(function () {
+    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
+    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+});
+

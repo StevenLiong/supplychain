@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\Logistic;
+use App\Http\Middleware\materialrequest;
+use App\Http\Middleware\Materialrequest as MiddlewareMaterialrequest;
 use App\Http\Middleware\ResourceWorkPlanning;
 use App\Http\Middleware\StandardizedWork;
 // use App\Models\produksi\StandardizeWork;
@@ -75,7 +77,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'resourceworkplanning' => ResourceWorkPlanning::class,
         'logistic' => Logistic::class,
-        'resourceworkplanning' => ResourceWorkPlanning::class,
         'standardizedwork' => StandardizedWork::class,
+        'materialrequest' => \Illuminate\Auth\Middleware\Materialrequest::class,
+        'purchaseorder' =>  \Illuminate\Auth\Middleware\Purchaseorder::class,
     ];
 }

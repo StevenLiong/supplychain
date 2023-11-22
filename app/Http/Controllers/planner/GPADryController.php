@@ -13,4 +13,10 @@ class GPADryController extends Controller
         $dataMps = Mps::all();
         return view('planner.gpa.indexgpadry', compact('dataMps'));
     }
+
+    public function gpaDryDetail()
+    {
+        $dataMps = Mps::all();
+        return view('planner.gpa.detail-gpa-dry', compact('dataMps'));
+    }
 }

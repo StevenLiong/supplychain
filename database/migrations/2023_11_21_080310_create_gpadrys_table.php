@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('gpadrys', function (Blueprint $table) {
             $table->id();
+            $table->string('id_wo');
+            $table->string('project');
+            $table->string('production_line');
+            $table->string('kva');
+            $table->string('jenis');
+            $table->string('qty_trafo');
+            $table->integer('lead_time');
+            $table->string('deadline');
             $table->timestamps();
         });
     }

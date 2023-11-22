@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class DryCastResin extends Model
+class DryNonResin extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -20,13 +20,10 @@ class DryCastResin extends Model
         'coil_hv',
         'potong_leadwire',
         'potong_isolasi',
-        'hv_moulding',
-        'hv_casting',
-        'hv_demoulding',
-        'lv_bobbin',
-        'lv_moulding',
-        'touch_up',
+        'moulding_casting',
         'type_susun_core',
+        'hv_connection',
+        'lv_connection',
         'wiring',
         'instal_housing',
         'bongkar_housing',
@@ -46,22 +43,24 @@ class DryCastResin extends Model
     {
         parent::boot();
 
-        static::created(function ($dryresin) {
+        static::created(function ($drynonresin) {
             StandardizeWork::create([
-                'id_dry_cast_resin' => $dryresin->id,
+                'id_dry_non_resin' => $drynonresin->id,
             ]);
         });
 
-        self::creating(function ($dryresin) {
-            $nomorSo = $dryresin->nomor_so;
-            $kategori = $dryresin->kategori;
-            $ukuranKapasitas = $dryresin->ukuran_kapasitas;
+        self::creating(function ($drynonresin) {
+            $nomorSo = $drynonresin->nomor_so;
+            $kategori = $drynonresin->kategori;
+            $ukuranKapasitas = $drynonresin->ukuran_kapasitas;
 
             $nomorSo = str_replace(['/', '-'], '', $nomorSo);
 
             $kdManhour = $kategori . '' .  $ukuranKapasitas . '' . $nomorSo;
 
-            $dryresin->kd_manhour = $kdManhour;
+            $drynonresin->kd_manhour = $kdManhour;
         });
     }
+
+
 }

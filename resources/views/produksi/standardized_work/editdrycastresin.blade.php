@@ -45,15 +45,8 @@
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-12 text-right">
-                            <button type="reset" class="btn btn-warning m-2">
-                                <i class="fa-solid fa-rotate-left mr-2"> </i>Reset
-                            </button>
                             <button type="submit" class="btn btn-primary m-2"> <i
                                     class="fa-regular fa-floppy-disk mr-2"></i>Update</button>
-                            <a href="#" class="btn btn-info m-2" data-target=".preview" onclick="previewForm()"
-                                data-toggle="modal">
-                                <i class="fa-solid fa-circle-check"></i>Preview
-                            </a>
                             <a href="/" class="btn btn-primary m-2">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i>Cancel
                             </a>
@@ -82,7 +75,8 @@
                         </div>
                         <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
-                                <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
+                                <select 
+                                    class="floating-input form-control form-select input"name="ukuran_kapasitas"
                                     id="ukuran_kapasitas" readonly>
                                     @php
                                         $selectedValue = old('ukuran_kapasitas', $product->ukuran_kapasitas);

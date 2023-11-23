@@ -1,4 +1,4 @@
-@extends('layout.layoutmr.wraplayoutmr')
+@extends('purchaser.layout.layoutmr.wraplayoutmr')
 
 @section('title', 'materialrequest')
 @section('contentmr')

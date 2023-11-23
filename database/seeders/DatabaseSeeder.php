@@ -77,6 +77,18 @@ class DatabaseSeeder extends Seeder
             'password' => '123456789',
             'id_role' => 2
         ]);
+        User::create([
+            'name' => 'ppic',
+            'email' => 'ppic@gmail.com',
+            'password' => '123456789',
+            'id_role' => 5
+        ]);
+        User::create([
+            'name' => 'purchaser',
+            'email' => 'purchaser@gmail.com',
+            'password' => '123456789',
+            'id_role' => 6
+        ]);
 
         // seeder logistic
         $this->call(MaterialSeeder::class);

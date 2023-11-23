@@ -60,7 +60,7 @@
     <div class="container-fluid">
         <div class="row">
             {{-- SIDEBARS --}}
-            @extends('layout.layoutmr.sidebarmr')
+            @extends('purchaser.layout.layoutmr.sidebarmr')
 
             {{-- CONTENTS --}}
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3 bg-body-tertiary">

@@ -16,7 +16,7 @@ class ServicesController extends Controller
 
     // Transaksi Produksi
     public function indexProduksi(){
-        return view('logistic.storage.finishedgood.index');
+        return view('logistic.services.transaksiproduksi.index');
     }
 }
 

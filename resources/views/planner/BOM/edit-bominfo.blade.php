@@ -1,4 +1,4 @@
-@extends('template.bar')
+@extends('planner.template.bar')
 @section('content')
 @section('bill-of-material', 'active')
 @section('main', 'show')

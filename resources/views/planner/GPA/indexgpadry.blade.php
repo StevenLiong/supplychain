@@ -14,8 +14,8 @@
         <div class="card-body">
             <div class="row d-flex mb-4">
                 <div class="col text-left">
-                    <a href="{{ route('mps.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="{{ route('mps.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
+                    <a href="{{ route('gpa.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
+                    <a href="{{ route('gpa.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
                 </div>          
             </div>
             <div class="table-responsive">
@@ -47,7 +47,7 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->jenis }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->lead_time }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ $item->deadline }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

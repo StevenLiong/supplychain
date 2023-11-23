@@ -92,7 +92,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
 
     // Shipping
-    Route::get('shipping', [ShippingController::class, 'index']);
+    Route::resource('shipping', ShippingController::class);
 
     // logistic end
 

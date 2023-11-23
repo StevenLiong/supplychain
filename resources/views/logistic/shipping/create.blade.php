@@ -28,11 +28,6 @@
                                             is-invalid
                                         @enderror">
                                         <option value="">Pilih kode Material</option>
-                                        @foreach ($material as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('material_id') == $item->id ? 'selected' : '' }}>
-                                                {{ $item->kd_material }}</option>
-                                        @endforeach
                                     </select>
                                     @error('material_id')
                                         <div class="invalid-feedback">
@@ -49,11 +44,6 @@
                                         is-invalid
                                     @enderror">
                                         <option value="">Masukan Kode Rak</option>
-                                        @foreach ($rak as $item)
-                                            <option value="{{ $item->id }}"
-                                                {{ old('rak_id') == $item->id ? 'selected' : '' }}>{{ $item->kd_rak }}
-                                            </option>
-                                        @endforeach
                                     </select>
                                     @error('rak_id')
                                         <div class="invalid-feedback">

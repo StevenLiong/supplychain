@@ -32,7 +32,7 @@
                         {{-- btn create --}}
                         <div class="btn-create ">
                             <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('receiving/incoming/create') }}">Create data</button>
+                                onclick=window.location="{{ url('shipping/create') }}">Create Packing</button>
                         </div>
                         {{-- btn create end--}}
 

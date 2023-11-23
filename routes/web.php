@@ -23,9 +23,6 @@ use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 
-// Route::get('/', function () {
-//     return view('index');
-// });
 
 Auth::routes();
 Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
@@ -34,7 +31,7 @@ Route::post('/logout', [loginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index']);
-});
+
 
 // Dashboard logistic
 
@@ -82,10 +79,12 @@ Route::get('storage/rawmaterial/scan', [ScanController::class, 'storageScan']);
 // untuk rackchecking
 Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
 
+
 Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
 Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
 
 // logistic end
+  });
 
 // Planner Start
 

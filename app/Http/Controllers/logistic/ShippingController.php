@@ -10,4 +10,8 @@ class ShippingController extends Controller
     public function index(){
         return view('logistic.shipping.index');
     }
+
+    public function create(){
+        return view('logistic.shipping.create');
+    }
 }

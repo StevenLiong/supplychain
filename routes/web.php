@@ -15,6 +15,7 @@ use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\purchaser\mrController;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\ScanController;
+use App\Http\Controllers\planner\GPADryController;
 use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
@@ -102,76 +103,78 @@ Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakControl
 
 // Planner Start
 
-// MENU BOM
-Route::get('/BOM/IndexBom', [BomController::class, 'index'])->name('bom-index');
+Route::middleware(['auth', 'planner'])->group(function () {
+    
+    // MENU BOM
+    Route::get('/BOM/IndexBom', [BomController::class, 'index'])->name('bom-index');
 
-// --CREATE BOM & UPLOAD BOM--
-Route::get('/bom/create', [BomController::class, 'create'])->name('bom-create');
-Route::post('/bom/store', [BomController::class, 'store'])->name('bom.store');
-Route::get('/bom/upload-excel/{idBom}', [DetailbomController::class, 'formUpload'])->name('bom-upload-excel');
-Route::post('/bom/upload-excel', [DetailbomController::class, 'upload'])->name('bom-upload-excel-post');
+    // --CREATE BOM & UPLOAD BOM--
+    Route::get('/bom/create', [BomController::class, 'create'])->name('bom-create');
+    Route::post('/bom/store', [BomController::class, 'store'])->name('bom.store');
+    Route::get('/bom/upload-excel/{idBom}', [DetailbomController::class, 'formUpload'])->name('bom-upload-excel');
+    Route::post('/bom/upload-excel', [DetailbomController::class, 'upload'])->name('bom-upload-excel-post');
 
-// --EDIT & DETAIL BOM--
-Route::get('/BOM/DetailBOM/{id_bom}', [DetailbomController::class, 'bomDetail'])->name('bom.detailbom');
-Route::get('/bom/EditBOMInfo/{id_bom}', [DetailbomController::class, 'infoBom'])->name('bom.editbom');
-Route::put('/bom/updatebom/{id_bom}', [DetailbomController::class, 'updateBom'])->name('bom.updatebom');
+    // --EDIT & DETAIL BOM--
+    Route::get('/BOM/DetailBOM/{id_bom}', [DetailbomController::class, 'bomDetail'])->name('bom.detailbom');
+    Route::get('/bom/EditBOMInfo/{id_bom}', [DetailbomController::class, 'infoBom'])->name('bom.editbom');
+    Route::put('/bom/updatebom/{id_bom}', [DetailbomController::class, 'updateBom'])->name('bom.updatebom');
 
-// --EDIT MATERIAL & ADD NEW MATERIAL--
-Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
-Route::post('/bom/storematerial', [DetailbomController::class, 'storematerial'])->name('bom.storematerial');
-Route::get('/bom/editmaterial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'edit'])->name('bom.edit');
-Route::put('/bom/updatematerial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'update'])->name('bom.update');
+    // --EDIT MATERIAL & ADD NEW MATERIAL--
+    Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
+    Route::post('/bom/storematerial', [DetailbomController::class, 'storematerial'])->name('bom.storematerial');
+    Route::get('/bom/editmaterial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'edit'])->name('bom.edit');
+    Route::put('/bom/updatematerial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'update'])->name('bom.update');
 
-// --DELETE BOM--
-Route::delete('/bom/delete/{id_bom}/{id_boms}', [BomController::class, 'destroy'])->name('bom.delete');
+    // --DELETE BOM--
+    Route::delete('/bom/delete/{id_bom}/{id_boms}', [BomController::class, 'destroy'])->name('bom.delete');
 
-// --EXPORT BOM--
-Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
+    // --EXPORT BOM--
+    Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
 
-//DELETE MATERIAL & RESTORE MATERIAL
-Route::delete('/bommaterial/delete/{id_materialbom}/{id_bom}', [DetailbomController::class, 'deleteMaterial'])->name('bommaterial.delete');
-Route::post('/restore-material/{id_materialbom}/{id_bom}', [DetailbomController::class, 'restoreMaterial'])->name('bommaterial.restore');
+    //DELETE MATERIAL & RESTORE MATERIAL
+    Route::delete('/bommaterial/delete/{id_materialbom}/{id_bom}', [DetailbomController::class, 'deleteMaterial'])->name('bommaterial.delete');
+    Route::post('/restore-material/{id_materialbom}/{id_bom}', [DetailbomController::class, 'restoreMaterial'])->name('bommaterial.restore');
 
-//SUBMIT MATERIAL (USAGE MATERIAL - JUMLAH)
-Route::post('/bom/submit', [DetailbomController::class, 'submit'])->name('bom.submit');
+    //SUBMIT MATERIAL (USAGE MATERIAL - JUMLAH)
+    Route::post('/bom/submit', [DetailbomController::class, 'submit'])->name('bom.submit');
 
-// MENU WORK ORDER
-Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
+    // MENU WORK ORDER
+    Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
 
-// --CREATE WORK ORDER--
-Route::get('/wo/create', [WoController::class, 'create'])->name('wo-create');
-Route::post('/wo/store', [WoController::class, 'store'])->name('wo.store');
+    // --CREATE WORK ORDER--
+    Route::get('/wo/create', [WoController::class, 'create'])->name('wo-create');
+    Route::post('/wo/store', [WoController::class, 'store'])->name('wo.store');
 
-// --EDIT WORK ORDER--
-Route::get('/bom/editWO/{id_wo}', [WoController::class, 'edit'])->name('wo.editwo');
-Route::put('/bom/updateWO/{id_wo}', [WoController::class, 'update'])->name('wo.updatewo');
+    // --EDIT WORK ORDER--
+    Route::get('/bom/editWO/{id_wo}', [WoController::class, 'edit'])->name('wo.editwo');
+    Route::put('/bom/updateWO/{id_wo}', [WoController::class, 'update'])->name('wo.updatewo');
 
-// --EXPORT WORK ORDER--
-Route::get('/WO/ExportExcel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
-Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
+    // --EXPORT WORK ORDER--
+    Route::get('/WO/ExportExcel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
+    Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
 
-// MENU MPS
-Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
-// --UPLOAD MPS--
-Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
-Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
+    // MENU MPS
+    Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
+    // --UPLOAD MPS--
+    Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
+    Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
 
-// --EXPORT MPS--
-Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
-Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+    // --EXPORT MPS--
+    Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
+    Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
 
-// MENU GPA
-// --GPA DRY---
-Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
-Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
+    // MENU GPA
+    // --GPA DRY---
+    Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+    Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
 
-// --EXPORT GPA DRY--
-Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
-Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
-Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
+    // --EXPORT GPA DRY--
+    Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
+    Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
+    Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
 
-// --GPA OIL--
-Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
+    // --GPA OIL--
+    Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
 
 });
 

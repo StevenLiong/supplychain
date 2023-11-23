@@ -15,10 +15,19 @@ return new class extends Migration
             $table->id();
             $table->string('kd_manhour', 14)->unique();
             $table->string('nama_product')->default('Oil Standard')->index();
+            $table->string('kategori')->default('5');
+            $table->string('ukuran_kapasitas');
             $table->string('nomor_so');
             $table->integer('total_hour');
-            $table->foreignId('manhour_id')->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
-
+            $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('coil_lv')->nullable();
+            $table->string('coil_hv')->nullable();
+            $table->string('leadwire')->nullable();
+            $table->string('press_coil')->nullable();
+            $table->string('core_coil_assembly')->nullable();
+            $table->string('connect')->nullable();
+            $table->string('final_assembly')->nullable();
+            $table->string('qc_testing')->nullable();
             $table->timestamps();
         });
     }

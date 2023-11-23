@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\Logistic;
+use App\Http\Middleware\Materialrequest;
 use App\Http\Middleware\ResourceWorkPlanning;
 use App\Http\Middleware\StandardizedWork;
 use App\Http\Middleware\Planner;
@@ -78,5 +79,6 @@ class Kernel extends HttpKernel
         'logistic' => Logistic::class,
         'planner' => Planner::class,
         'standardizedwork' => StandardizedWork::class,
+        'materialrequest' => \App\Http\Middleware\Materialrequest::class,
     ];
 }

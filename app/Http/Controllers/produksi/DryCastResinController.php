@@ -34,11 +34,16 @@ class DryCastResinController extends Controller
     {
         $params = $request->validated();
 
-        $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
+        $multipleFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
 
-        foreach ($checkboxFields as $field) {
-            $checkbox = $request->input($field);
-            $params[$field] = implode(',', $checkbox);
+        foreach ($multipleFields as $field) {
+            $multiple = $request->input($field);
+
+            if (is_array($multiple)) {
+                $params[$field] = implode(',', $multiple);
+            } else {
+                $params[$field] = $multiple;
+            }
         }
 
         DryCastResin::create($params);
@@ -50,10 +55,7 @@ class DryCastResinController extends Controller
     {
         $product = DryCastResin::findOrFail($id);
         $manhour = ManHour::orderBy('id')->get();
-
-
-
-        return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
+        return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour]));
     }
 
     /**

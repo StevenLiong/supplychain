@@ -31,7 +31,6 @@ class ManHour extends Model
     {
         return $this->belongsTo(TipeProses::class, 'id_tipe_proses', 'id');
     }
-
     public function dry_cast_resin(): HasOne
     {
         return $this->hasOne(DryCastResin::class, 'id_dry_cast_resin', 'id');

@@ -7,7 +7,7 @@
          </span>
      </a>
 
-     
+
      <!-- Sidebar -->
      <div class="sidebar">
          <!-- Sidebar Menu -->
@@ -87,10 +87,17 @@
                              </a>
                          </li>
                          <li class="nav-item">
-                             <a href={{ url('datamaster/rak') }}
-                                 class="nav-link {{ request()->segment(2) === 'rak' ? 'active' : '' }}">
+                             <a href={{ url('datamaster/finishedgood') }}
+                                 class="nav-link {{ request()->segment(2) === 'finishedgood' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Data Rak</p>
+                                 <p>Data Finished good</p>
+                             </a>
+                         </li>
+                         <li class="nav-item">
+                             <a href={{ url('datamaster/finishedgood') }}
+                                 class="nav-link {{ request()->segment(2) === 'finishedgood' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Data Finishedgood</p>
                              </a>
                          </li>
                      </ul>
@@ -258,47 +265,19 @@
                      <ul class="nav nav-treeview">
                          <!-- Raw Material -->
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{ url('services/transaksigudang') }}"
+                                 class="nav-link {{ request()->segment(2) == 'transaksigudang' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Transaksi Gudang</p>
-                                 <i class="right fas fa-angle-left"></i>
                              </a>
-                             <ul class="nav nav-treeview">
-                                 <li class="nav-item">
-                                     <a href="./raw-material-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Order</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Picking</p>
-                                     </a>
-                                 </li>
-                             </ul>
                          </li>
                          <!-- Finished Good -->
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{ url('services/transaksiproduksi') }}"
+                                 class="nav-link {{ request()->segment(2) == 'transaksiproduksi' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Transaksi Produksi</p>
-                                 <i class="right fas fa-angle-left"></i>
                              </a>
-                             <ul class="nav nav-treeview">
-                                 <li class="nav-item">
-                                     <a href="./finished-good-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Transfer (T)</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./finished-good-rack-monitoring.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Consumption Report (A)</p>
-                                     </a>
-                                 </li>
-                             </ul>
                          </li>
                      </ul>
                  </li>
@@ -335,8 +314,28 @@
                          <p>
                              Shipping
 
+                             <i class="right fas fa-angle-left"></i>
                          </p>
                      </a>
+                     <ul class="nav nav-treeview">
+                         <!-- Raw Material -->
+                         <li class="nav-item">
+                             <a href="{{ url('shipping/createpackinglist') }}"
+                                 class="nav-link {{ request()->segment(2) == 'createpackinglist' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Create Packing List</p>
+                             </a>
+                         </li>
+                         <!-- Finished Good -->
+                         <li class="nav-item">
+                             <a href="{{ url('shipping/deliveryreceipt') }}"
+                                 class="nav-link {{ request()->segment(2) == 'deliveryreceipt' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Delivery Receipt</p>
+                             </a>
+                         </li>
+                     </ul>
+                     
                  </li>
 
                  <!-- Cycle Count -->
@@ -432,7 +431,9 @@
 
                  <!-- Logout-->
                  <li class="nav-item ">
-                     <a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+                     <a href="{{ url('logout') }}"
+                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                         class="nav-link">
                          <i class="nav-icon">
                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24">

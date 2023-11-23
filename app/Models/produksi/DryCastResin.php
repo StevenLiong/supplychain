@@ -34,7 +34,7 @@ class DryCastResin extends Model
         'others',
         'accesories',
         'potong_isolasi_fiber',
-        'routine_test',
+        'qc_testing',
     ];
 
     public function man_hour(): BelongsTo

@@ -3,8 +3,12 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
+
     ],
-    "content-hash": "361ef7ce3c7febbb93e31a4cce23dea4",
+
+    "content-hash": "ad70972ebb97ec8983c211077b058993", 
+    
+
     "packages": [
         {
             "name": "arielmejiadev/larapex-charts",
@@ -9281,5 +9285,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

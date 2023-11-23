@@ -37,21 +37,6 @@
                     </div>
                     <div class="col-lg-3 col-6 ">
                         <!-- box in -->
-                        <a href="{{ url('scan/information') }}">
-                            <div class="small-box bg-red">
-                                <div class="inner text-light">
-                                    <h3>Scan</h3>
-
-                                    <p>Informasi Rak</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-camera"></i>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-6 ">
-                        <!-- box in -->
                         <a href="#">
                             <div class="small-box bg-success">
                                 <div class="inner text-light">

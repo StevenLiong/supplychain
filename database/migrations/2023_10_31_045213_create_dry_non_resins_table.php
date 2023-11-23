@@ -24,13 +24,10 @@ return new class extends Migration
             $table->string('coil_hv')->nullable();
             $table->string('potong_leadwire')->nullable();
             $table->string('potong_isolasi')->nullable();
-            $table->string('hv_moulding')->nullable();
-            $table->string('hv_casting')->nullable();
-            $table->string('hv_demoulding')->nullable();
-            $table->string('lv_bobbin')->nullable();
-            $table->string('lv_moulding')->nullable();
-            $table->string('touch_up')->nullable();
+            $table->string('moulding_casting')->nullable();
             $table->string('type_susun_core')->nullable();
+            $table->string('hv_connection')->nullable();
+            $table->string('lv_connection')->nullable();
             $table->string('wiring')->nullable();
             $table->string('instal_housing')->nullable();
             $table->string('bongkar_housing')->nullable();
@@ -38,7 +35,7 @@ return new class extends Migration
             $table->string('others')->nullable();
             $table->string('accesories')->nullable();
             $table->string('potong_isolasi_fiber')->nullable();
-            $table->string('routine_test')->nullable();
+            $table->string('qc_testing')->nullable();
             $table->timestamps();
         });
     }

@@ -1,13 +1,5 @@
 @extends('planner.template.bar')
 @section('content')
-@section('bill-of-material', 'active')
-@section('main', 'show')
-<!-- Pastikan library jQuery sudah dimasukkan sebelum Bootstrap -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- Tambahkan Bootstrap JS setelah jQuery -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-
 <div class="card">
     <div class="card-header d-flex justify-content-between">
        <div class="header-title">
@@ -58,7 +50,7 @@
         </div>
         <br>
 
-        <h3>Material Belum Submit</h3>
+        <h3>Unsubmitted Detail BOM</h3>
             <div class="table-responsive">
                 <table id="unsubmittedDatatable" class="table data-table table-striped dataTable" role="grid"aria-describedby="datatable_info">
                 <thead>
@@ -80,12 +72,14 @@
                         @foreach ($unsubmittedDetailBom as $detailbomItem)
                         <tr role="row" class="odd">
                            <td style="text-align: center;">
-                              <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                 <a href="{{ route('bom.edit', ['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $dataBom->id_bom]) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
-                                 <button type="button" class="btn btn-primary delete-button" data-id-materialbom="{{ $detailbomItem->id_materialbom }}" data-toggle="modal" data-target="#deleteModal">
-                                    <i class="fa-solid fa-trash"></i>
-                                 </button>
-                              </div>
+                              <form action="{{ route('bommaterial.delete',['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $dataBom->id_bom]) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus material ini?');">
+                                 @csrf
+                                 @method('DELETE')
+                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                    <a href="{{ route('bom.edit', ['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $dataBom->id_bom]) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
+                                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-trash"></i></button>
+                                 </div>
+                              </form>
                            </td>
                            <td>{{ $detailbomItem->nama_workcenter }}</td>
                            <td>{{ $detailbomItem->id_materialbom }}</td>
@@ -101,7 +95,8 @@
                     </tbody>
                 </table>
             </div>
-<br>
+            <br>
+
         <form action="{{ route('bom.submit') }}" method="POST">
             @csrf
             <input type="hidden" name="id_bom" value="{{ $id_bom }}">
@@ -120,9 +115,10 @@
                <p class="text-danger">Tidak dapat submit, beberapa material belum terpenuhi.</p>
             @endif
          </form>
+
 <br>
          <!-- Tabel Data yang Sudah di-Submit -->
-         <h3>Material Sudah Submit</h3>
+         <h3>Submitted Detail BOM</h3>
          <div class="table-responsive">
                <table id="submittedDatatable" class="table data-table table-striped dataTable" role="grid" aria-describedby="datatable_info">
                   <thead>
@@ -166,79 +162,5 @@
        </form>
     </div>
  </div>
-
- <form id="deleteForm" method="POST" action="{{ route('bommaterial.delete', ['id_materialbom' => '_ID_MATERIALBOM_', 'id_bom' => $dataBom->id_bom]) }}">
-  @csrf
-  @method('DELETE')
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Penghapusan</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Apakah Anda yakin ingin menghapus item ini?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <button type="submit" form="deleteForm" class="btn btn-danger">Hapus</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</form>
-
-<button
-  type="button"
-  class="btn btn-primary delete-button"
-  data-toggle="modal"
-  data-target="#deleteModal"
-  data-id-materialbom="{{ $detailbomItem->id_materialbom }}"
->
-  <i class="fa-solid fa-trash"></i> Delete
-</button>
-
-<!-- Sertakan jQuery sebelum menyertakan Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
-<script>
-   // Fungsi untuk mengatur nilai data-id-materialbom sebelum modal ditampilkan
-   $('#deleteModal').on('show.bs.modal', function (event) {
-   const button = $(event.relatedTarget); // Tombol yang memunculkan modal
-   const idMaterialbom = button.data('id-materialbom'); // Ambil nilai data-id-materialbom dari tombol
-   // Setel nilai data-id-materialbom di dalam modal dan dalam formulir
-   $(this).data('id-materialbom', idMaterialbom);
-   $('#deleteForm').attr('action', "{{ route('bommaterial.delete', ['id_materialbom' => '_ID_MATERIALBOM', 'id_bom' => $dataBom->id_bom]) }}".replace('__ID_MATERIALBOM_', idMaterialbom));
-   });
-
-   // Fungsi untuk mengirim form secara asynchronous menggunakan AJAX
-   $('#deleteForm').on('submit', function (event) {
-   event.preventDefault(); // Mencegah formulir dikirim secara default
-   const formAction = $(this).attr('action'); // Ambil action dari formulir
-   $.ajax({
-      type: 'POST',
-      url: formAction,
-      data: $(this).serialize(), // Kirim data formulir
-      success: function(response) {
-         // Tanggapan dari server, atur tindakan yang sesuai di sini
-         console.log(response);
-         // Tutup modal setelah berhasil menghapus jika diperlukan
-         $('#deleteModal').modal('hide');
-         
-         // Arahkan pengguna kembali ke halaman detailBom setelah berhasil menghapus
-         window.location.href = "{{ route('bom.detailbom', ['id_bom' => $dataBom->id_bom]) }}";
-      },
-      error: function(error) {
-         console.error('Error:', error);
-      }
-   });
-   });
-   
-</script>
-
 
 @endsection

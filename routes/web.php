@@ -2,11 +2,13 @@
 
 use App\Models\logistic\Material;
 use App\Models\logistic\Supplier;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\planner\WoController;
+use App\Http\Controllers\DryNonResinController;
 use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
@@ -145,8 +147,8 @@ Route::get('/bom/editWO/{id_wo}', [WoController::class, 'edit'])->name('wo.editw
 Route::put('/bom/updateWO/{id_wo}', [WoController::class, 'update'])->name('wo.updatewo');
 
 // --EXPORT WORK ORDER--
-Route::get('/wo/export/excel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
-Route::get('/wo/export/pdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
+Route::get('/WO/ExportExcel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
+Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
 
 // MENU MPS
 Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
@@ -157,6 +159,25 @@ Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store'
 // --EXPORT MPS--
 Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
 Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+
+// MENU GPA
+// --GPA DRY---
+Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
+
+// --EXPORT GPA DRY--
+Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
+Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
+Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
+
+// --GPA OIL--
+Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
+
+});
+
+
+// Planner End
+
 
 
 Route::middleware(['auth', 'resourceworkplanning'])->group(function () {

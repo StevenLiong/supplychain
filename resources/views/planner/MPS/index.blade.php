@@ -50,7 +50,7 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->jenis }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->lead_time }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ $item->deadline }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

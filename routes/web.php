@@ -65,7 +65,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
 
     // BPNB
     route::resource('receiving/bpnb', BpnbController::class); // BPNB
-    Route::get('receiving/incoming/bpnb/print', [BpnbController::class, 'print']);
+    Route::get('receiving/bpnb/print', [BpnbController::class, 'print']);
     // BPNB end
 
     //storage index material dan finishgood

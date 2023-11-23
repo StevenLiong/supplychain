@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('kd_manhour', 14)->unique();
             $table->string('nama_product')->default('Dry Cast Non Resin')->index();
             $table->string('nomor_so');
+            $table->string('id_fg');
             $table->integer('total_hour');
             $table->string('kategori')->default('5');
             $table->string('ukuran_kapasitas');

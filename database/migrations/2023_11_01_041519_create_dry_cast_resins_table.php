@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama_product')->default('Dry Cast Resin')->index();
             $table->string('kategori')->default('5');
             $table->string('nomor_so');
+            $table->string('id_fg');
             $table->string('ukuran_kapasitas');
             $table->integer('total_hour');
             $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();

@@ -67,20 +67,21 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // seeder logistic
-        $this->call(MaterialSeeder::class);
-        $this->call(GudangSeeder::class);
-        $this->call(RakSeeder::class);
-        $this->call(MaterialRakSeeder::class);
-        $this->call(SupplierSeeder::class);
-        $this->call(IncomingSeeder::class);
+        // $this->call(MaterialSeeder::class);
+        // $this->call(GudangSeeder::class);
+        // $this->call(RakSeeder::class);
+        // $this->call(MaterialRakSeeder::class);
+        // $this->call(SupplierSeeder::class);
+        // $this->call(IncomingSeeder::class);
 
         // seeder logistic end
 
-        // $this->call(KapasitasSeeder::class);
-        // $this->call(KategoriProdukSeeder::class);
-        // $this->call(ProsesSeeder::class);
-        // $this->call(TipeProsesSeeder::class);
-        // $this->call(WorkCenterSeeder::class);
-        // $this->call(ManHourSeeder::class);
+        $this->call(KapasitasSeeder::class);
+        $this->call(KategoriProdukSeeder::class);
+        $this->call(ProsesSeeder::class);
+        $this->call(TipeProsesSeeder::class);
+        $this->call(WorkCenterSeeder::class);
+        $this->call(MpsSeeder::class);
+        $this->call(ManHourSeeder::class);
     }
 }

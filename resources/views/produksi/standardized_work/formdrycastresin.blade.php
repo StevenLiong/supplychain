@@ -93,7 +93,7 @@
                 <div class="card card-body my-1 pt-3 pb-0">
                     <!-- head input  -->
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
                                     value="Dry Cast Resin" id="category" disabled>
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
                                     id="ukuran_kapasitas">
@@ -123,11 +123,18 @@
                                 <label>Capacity</label>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
                                     value="{{ old('nomor_so') }}" id="so">
                                 <label>SO / No. Prospek</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
+                                    value="{{ old('id_fg') }}" id="fg">
+                                <label>Kode Finish Good</label>
                             </div>
                         </div>
                     </div>
@@ -1480,6 +1487,7 @@
             document.getElementById("preview-ukuran_kapasitas").textContent = document.getElementById("ukuran_kapasitas")
                 .value;
             document.getElementById("preview-so").textContent = document.getElementById("so").value;
+            document.getElementById("preview-so").textContent = document.getElementById("fg").value;
             document.getElementById("preview-coil_lv").textContent = document.getElementById("coil_lv").value;
             document.getElementById("preview-coil_hv").textContent = document.getElementById("coil_hv").value;
             document.getElementById("preview-potong_leadwire").textContent = document.getElementById("potong_leadwire")

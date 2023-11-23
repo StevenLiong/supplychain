@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\produksi;
 use App\Http\Controllers\Controller;
-
+use App\Models\planner\Mps;
+use App\Models\produksi\Kapasitas;
 use Illuminate\Http\Request;
 
 class ResourceWorkPlanningController extends Controller
@@ -14,7 +15,9 @@ class ResourceWorkPlanningController extends Controller
 
     function pl2Workload()
     {
-        return view('produksi.resource_work_planning.PL2.work-load');
+        $mps = Mps::all();
+        $kapasitas = Kapasitas::all();
+        return view('produksi.resource_work_planning.PL2.work-load',['mps' => $mps, 'kapasitas'=> $kapasitas]);
     }
 
     function pl2Rekomendasi()

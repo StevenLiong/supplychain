@@ -72,7 +72,8 @@
                             <button type="reset" class="btn btn-warning m-2">
                                 <i class="fa-solid fa-rotate-left mr-2"> </i>Reset
                             </button>
-                            <button type="submit" class="btn btn-primary m-2" > <i class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
+                            <button type="submit" class="btn btn-primary m-2"> <i
+                                    class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
                             <a href="#" class="btn btn-info m-2" data-target=".preview" onclick="previewForm()"
                                 data-toggle="modal">
                                 <i class="fa-solid fa-circle-check"></i>Preview
@@ -92,7 +93,7 @@
                 <div class="card card-body my-1 pt-3 pb-0">
                     <!-- head input  -->
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
                                     value="Dry Cast Non Resin" id="category" disabled>
@@ -103,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
                                     id="ukuran_kapasitas">
@@ -122,11 +123,18 @@
                                 <label>Capacity</label>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
                                     value="{{ old('nomor_so') }}" id="so">
                                 <label>SO / No. Prospek</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
+                                    value="{{ old('id_fg') }}" id="fg">
+                                <label>Kode Finish Good</label>
                             </div>
                         </div>
                     </div>
@@ -267,7 +275,8 @@
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting
+                                                </h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
@@ -544,7 +553,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
 
                     </div>
                 </div>
@@ -1084,7 +1093,8 @@
                 console.log(ukuran_kapasitas);
                 if (ukuran_kapasitas) {
                     $.ajax({
-                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' + ukuran_kapasitas,
+                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' +
+                            ukuran_kapasitas,
                         type: 'GET',
                         data: {
                             '_token': '{{ csrf_token() }}'
@@ -1341,7 +1351,7 @@
             });
         });
     </script>
-     <script>
+    <script>
         function previewForm() {
             //tampilan hour
             document.getElementById("preview-totalJam_value").innerHTML = document.getElementById("totalJam_value")

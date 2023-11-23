@@ -10,18 +10,20 @@ use App\Http\Controllers\planner\WoController;
 use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
+use App\Http\Controllers\purchaser\mrController;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\ScanController;
 use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
+use App\Http\Controllers\logistic\ServicesController;
+use App\Http\Controllers\logistic\ShippingController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\logistic\MaterialRakController;
-use App\Http\Controllers\purchaser\mrController;
 use App\Http\Controllers\produksi\DryCastResinController;
-use App\Http\Controllers\produksi\ResourceWorkPlanningController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
+use App\Http\Controllers\produksi\ResourceWorkPlanningController;
 
 
 Auth::routes();
@@ -30,7 +32,7 @@ Route::post('/login', [loginController::class, 'verifyLogin'])->name('login');
 Route::post('/logout', [loginController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'logistic'])->group(function () {
-    Route::get('dashboard', [DashboardController::class, 'index']);
+    Route::get('logistic', [DashboardController::class, 'index']);
 
 
 // Dashboard logistic
@@ -83,6 +85,16 @@ Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class
 Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
 Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
 
+
+    // Services index transaksi gudang dan transaksi produksi
+    Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
+    Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
+
+    // Shipping
+
+    // Route::get('shipping', [ShippingController::class, 'index']);
+    Route::get('shipping/createpackinglist', [ShippingController::class, 'indexPack']);
+    Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
 // logistic end
   });
 

@@ -7,7 +7,7 @@
          </span>
      </a>
 
-     
+
      <!-- Sidebar -->
      <div class="sidebar">
          <!-- Sidebar Menu -->
@@ -263,27 +263,29 @@
                          </p>
                      </a>
                      <ul class="nav nav-treeview">
-                        <!-- Raw Material -->
-                        <li class="nav-item">
-                            <a href="{{ url('services/transaksigudang') }}" class="nav-link {{ request()->segment(2)  == 'transaksigudang' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaksi Gudang</p>
-                            </a>
-                        </li>
-                        <!-- Finished Good -->
-                        <li class="nav-item">
-                            <a href="{{ url('services/transaksiproduksi') }}" class="nav-link {{ request()->segment(2) == 'transaksiproduksi' ? 'active' : '' }}">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Transaksi Produksi</p>
-                            </a>
-                        </li>
-                    </ul>
+                         <!-- Raw Material -->
+                         <li class="nav-item">
+                             <a href="{{ url('services/transaksigudang') }}"
+                                 class="nav-link {{ request()->segment(2) == 'transaksigudang' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Transaksi Gudang</p>
+                             </a>
+                         </li>
+                         <!-- Finished Good -->
+                         <li class="nav-item">
+                             <a href="{{ url('services/transaksiproduksi') }}"
+                                 class="nav-link {{ request()->segment(2) == 'transaksiproduksi' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Transaksi Produksi</p>
+                             </a>
+                         </li>
+                     </ul>
                  </li>
                  <!-- Services End-->
 
                  <!-- Shipping-->
                  <li class="nav-item ">
-                     <a href="{{ url('shipping') }}" class="nav-link {{ request()->segment(1) == 'shipping' ? 'active' : '' }}">
+                     <a href="#" class="nav-link">
                          <i class="nav-icon">
                              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27"
                                  viewBox="0 0 41 27" fill="none">
@@ -312,8 +314,28 @@
                          <p>
                              Shipping
 
+                             <i class="right fas fa-angle-left"></i>
                          </p>
                      </a>
+                     <ul class="nav nav-treeview">
+                         <!-- Raw Material -->
+                         <li class="nav-item">
+                             <a href="{{ url('shipping/createpackinglist') }}"
+                                 class="nav-link {{ request()->segment(2) == 'createpackinglist' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Create Packing List</p>
+                             </a>
+                         </li>
+                         <!-- Finished Good -->
+                         <li class="nav-item">
+                             <a href="{{ url('shipping/deliveryreceipt') }}"
+                                 class="nav-link {{ request()->segment(2) == 'deliveryreceipt' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Delivery Receipt</p>
+                             </a>
+                         </li>
+                     </ul>
+                     
                  </li>
 
                  <!-- Cycle Count -->
@@ -409,7 +431,9 @@
 
                  <!-- Logout-->
                  <li class="nav-item ">
-                     <a href="{{ url('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
+                     <a href="{{ url('logout') }}"
+                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                         class="nav-link">
                          <i class="nav-icon">
                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                  viewBox="0 0 24 24">

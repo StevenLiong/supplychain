@@ -22,6 +22,7 @@ use App\Http\Controllers\logistic\ShippingController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\logistic\MaterialRakController;
+use App\Http\Controllers\logistic\FinishedgoodController;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
@@ -92,7 +93,10 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
 
     // Shipping
-    Route::get('shipping', [ShippingController::class, 'index']);
+
+    // Route::get('shipping', [ShippingController::class, 'index']);
+    Route::get('shipping/createpackinglist', [ShippingController::class, 'indexPack']);
+    Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
 
     // logistic end
 

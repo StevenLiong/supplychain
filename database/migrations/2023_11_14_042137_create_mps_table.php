@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('mps', function (Blueprint $table) {
             $table->id();
-            $table->string('id_wo');
+            $table->foreignId('id_wo')->constrained('wo2s');;;
             $table->string('project');
             $table->string('production_line');
             $table->string('kva');

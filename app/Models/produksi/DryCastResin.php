@@ -13,6 +13,7 @@ class DryCastResin extends Model
         'kd_manhour',
         'nama_product',
         'kategori',
+        'id_fg',
         'nomor_so',
         'ukuran_kapasitas',
         'total_hour',

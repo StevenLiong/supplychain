@@ -18,6 +18,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'nama_product' => [ ],
+            'id_fg' => [ ],
             'kategori' => [ ],
             'nomor_so' => [ ],
             'ukuran_kapasitas' => [],

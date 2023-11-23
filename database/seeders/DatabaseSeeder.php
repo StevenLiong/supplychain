@@ -81,7 +81,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProsesSeeder::class);
         $this->call(TipeProsesSeeder::class);
         $this->call(WorkCenterSeeder::class);
-        $this->call(MpsSeeder::class);
         $this->call(ManHourSeeder::class);
+        $this->call(MpsSeeder::class);
     }
 }

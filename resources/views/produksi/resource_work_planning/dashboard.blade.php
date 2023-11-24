@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="card bg-primary">
+        {{-- <div class="card bg-primary">
             <div class="row">
                 <div class="col-lg-2">
                     <div class="card-body">
@@ -21,7 +21,7 @@
                                 <h6 >Quantity</h6>
                             </div>
                             <div class="card-body  text-primary m-0 p-0 px-3 py-2">
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                                 <h6 >Quantity</h6>
                             </div>
                             <div class="card-body  text-primary m-0 p-0 px-3 py-2">
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                                 <h6 >Quantity</h6>
                             </div>
                             <div class="card-body  text-primary m-0 p-0 px-3 py-2">
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                                 <h6 >Quantity</h6>
                             </div>
                             <div class="card-body  text-primary m-0 p-0 px-3 py-2">
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -69,13 +69,13 @@
                                 <h6 >Quantity</h6>
                             </div>
                             <div class="card-body  text-primary m-0 p-0 px-3 py-2">
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="card">
             <div class="card-body">
                 <div class="header-title">
@@ -86,7 +86,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                <h3>4</h3>
+                                @php
+                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                    $QtyPL2 = $mps->where('production_line', '=', 'PL2')->sum('qty_trafo');
+                                @endphp
+                                <h3>{{ $QtyPL2 }}</h3>
                             </div>
                         </div>
                     </div>
@@ -94,7 +98,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>4</h3>
+                                @php
+                                    $kapasitasPL2 = 52;
+                                    $loadkapasitasPL2 = ($QtyPL2 / $kapasitasPL2) * 100;
+                                @endphp
+                                <h3>{{ number_format($loadkapasitasPL2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -102,7 +110,15 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>4</h3>
+                                {{-- @foreach ($drycastresin as $item)
+                                    @php
+                                        $manHourPL2 = $item->total_hour;
+                                        $KebutuhanMPPL2 = $QtyPL2 * $manHourPL2;
+                                    @endphp
+                                @endforeach
+                                <h3>{{ $KebutuhanMPPL2 }}</h3> --}}
+
+
                             </div>
                         </div>
                     </div>
@@ -110,7 +126,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -118,7 +134,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -145,7 +161,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                <h3>4</h3>
+                                @php
+                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                    $QtyPL3 = $mps->where('production_line', '=', 'PL3')->sum('qty_trafo');
+                                @endphp
+                                <h3>{{ $QtyPL3 }}</h3>
                             </div>
                         </div>
                     </div>
@@ -153,7 +173,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>4</h3>
+                                @php
+                                    $kapasitasPL3 = 52;
+                                    $loadkapasitasPL3 = ($QtyPL3 / $kapasitasPL3) * 100;
+                                @endphp
+                                <h3>{{ number_format($loadkapasitasPL3) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -161,7 +185,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -169,7 +193,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -177,7 +201,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -204,7 +228,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                <h3>4</h3>
+                                @php
+                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                    $Qtyctvt = $mps->where('production_line', '=', 'CT-VT')->sum('qty_trafo');
+                                @endphp
+                                <h3>{{ $Qtyctvt }}</h3>
                             </div>
                         </div>
                     </div>
@@ -212,7 +240,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>4</h3>
+                                @php
+                                    $kapasitasctvt = 52;
+                                    $loadkapasitasctvt = ($Qtyctvt / $kapasitasctvt) * 100;
+                                @endphp
+                                <h3>{{ number_format($loadkapasitasctvt) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -220,7 +252,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -228,7 +260,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -236,7 +268,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -263,7 +295,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                <h3>4</h3>
+                                @php
+                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                    $QtyDry = $mps->where('production_line', '=', 'Dry')->sum('qty_trafo');
+                                @endphp
+                                <h3>{{ $QtyDry }}</h3>
                             </div>
                         </div>
                     </div>
@@ -271,7 +307,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>4</h3>
+                                @php
+                                    $kapasitasDry = 52;
+                                    $loadkapasitasDry = ($QtyDry / $kapasitasDry) * 100;
+                                @endphp
+                                <h3>{{ number_format($loadkapasitasDry) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -279,7 +319,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -287,7 +327,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -295,7 +335,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -322,7 +362,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                <h3>4</h3>
+                                @php
+                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                    $QtyRepair = $mps->where('production_line', '=', 'Repair')->sum('qty_trafo');
+                                @endphp
+                                <h3>{{ $QtyRepair }}</h3>
                             </div>
                         </div>
                     </div>
@@ -330,7 +374,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>4</h3>
+                                @php
+                                    $kapasitasRepair = 52;
+                                    $loadkapasitasRepair = ($QtyRepair / $kapasitasRepair) * 100;
+                                @endphp
+                                <h3>{{ number_format($loadkapasitasRepair) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -338,7 +386,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -346,7 +394,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>
@@ -354,7 +402,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>4</h3>
+                                <h3>0</h3>
                             </div>
                         </div>
                     </div>

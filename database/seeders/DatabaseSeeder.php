@@ -91,6 +91,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // seeder logistic
+
         $this->call(MaterialSeeder::class);
         $this->call(GudangSeeder::class);
         $this->call(RakSeeder::class);
@@ -100,11 +101,13 @@ class DatabaseSeeder extends Seeder
         $this->call(FinishedgoodSeeder::class);
 
 
-        // $this->call(KapasitasSeeder::class);
-        // $this->call(KategoriProdukSeeder::class);
-        // $this->call(ProsesSeeder::class);
-        // $this->call(TipeProsesSeeder::class);
-        // $this->call(WorkCenterSeeder::class);
-        // $this->call(ManHourSeeder::class);
+
+        $this->call(KapasitasSeeder::class);
+        $this->call(KategoriProdukSeeder::class);
+        $this->call(ProsesSeeder::class);
+        $this->call(TipeProsesSeeder::class);
+        $this->call(WorkCenterSeeder::class);
+        $this->call(MpsSeeder::class);
+        $this->call(ManHourSeeder::class);
     }
 }

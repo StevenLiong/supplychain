@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\planner\WoController;
-use App\Http\Controllers\DryNonResinController;
+use App\Http\Controllers\planner\FinishgoodController;
 use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
@@ -25,8 +25,10 @@ use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryCastResinController;
+use App\Http\Controllers\produksi\DryNonResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
+use App\Http\Controllers\planner\StockController;
 
 
 Auth::routes();
@@ -116,8 +118,8 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // --EDIT & DETAIL BOM--
     Route::get('/BOM/DetailBOM/{id_bom}', [DetailbomController::class, 'bomDetail'])->name('bom.detailbom');
-    Route::get('/bom/EditBOMInfo/{id_bom}', [DetailbomController::class, 'infoBom'])->name('bom.editbom');
-    Route::put('/bom/updatebom/{id_bom}', [DetailbomController::class, 'updateBom'])->name('bom.updatebom');
+    Route::get('/bom/EditBOMInfo/{id_bom}', [BomController::class, 'infoBom'])->name('bom.editbom');
+    Route::put('/bom/updatebom/{id_bom}', [BomController::class, 'updateBom'])->name('bom.updatebom');
 
     // --EDIT MATERIAL & ADD NEW MATERIAL--
     Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
@@ -175,6 +177,20 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // --GPA OIL--
     Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
+
+    // MENU STOCK
+    Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
+    Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
+    Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
+    // --DELETE STOCK--
+    Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
+
+    // MENU FINISH GOOD
+    Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
+    Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
+    Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+    // --DELETE STOCK--
+    Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
 
 });
 

@@ -9,10 +9,7 @@ use App\Models\planner\Bom;
 class Detailbom extends Model
 {
     use HasFactory;
-
-    protected $guarded = [
-        'id',
-    ];
+    
     protected $with = [
         'bom'
     ];
@@ -26,19 +23,24 @@ class Detailbom extends Model
         'qty_trafo',
         'qty_material',
         'tolerance',
-        'status',
+        'db_status',
         'keterangan',
         'usage_material',
         'submitted',
+        'email_status',
     ];
-
     public function bom()
     {
-        return $this->hasMany(Bom::class, 'id_bom');
+        return $this->belongsTo(Bom::class, 'id_bom');
     }
 
     public function material()
     {
-        return $this->belongsTo(Material::class, 'id_materialbom', 'kd_barang');
+        return $this->belongsTo(Material::class, 'id_materialbom', 'kd_material');
+    }
+
+    public function stock()
+    {
+        return $this->belongsTo(Stock::class, 'id_materialbom', 'item_code');
     }
 }

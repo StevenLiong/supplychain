@@ -104,10 +104,4 @@ class BomController extends Controller
         return redirect()->route('bom-index')->with('success', 'Data berhasil dihapus');        
     }
 
-    public function downloadExcel()
-    {
-        // Use the BomDetailExport export class to generate Excel file
-        return Excel::download(new BomDetailExport, 'bom_detail.xlsx');
-    }
-
 }

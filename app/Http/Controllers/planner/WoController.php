@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\planner;
 
 use App\Models\planner\Wo;
+use App\Models\planner\So;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,7 +22,9 @@ class WoController extends Controller
 
     public function create()
     {
-        return view('planner.WO.create-wo');
+        return view('planner.WO.create-wo',[
+            'dataSo' => So::all(),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse

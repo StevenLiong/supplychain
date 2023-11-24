@@ -33,7 +33,7 @@
                      </select>
                   </div>
             </div>
-             <div class="col-md-6 mb-3">
+            <div class="col-md-6 mb-3">
                 <label for="validationDefault01">Sales Order</label>
                 <input type="text" class="form-control" name="id_so" required>
              </div>

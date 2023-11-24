@@ -5,6 +5,7 @@ namespace App\Http\Controllers\planner;
 use App\Imports\BomImport;
 use App\Models\planner\Bom;
 use App\Models\planner\Detailbom;
+use App\Models\planner\Stock;
 use App\Models\planner\Material;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -15,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MaterialPendingNotification;
+use Illuminate\Support\Facades\Cache;
 
 class DetailbomController extends Controller
 {
@@ -33,12 +35,12 @@ class DetailbomController extends Controller
 
         $detailbom = Detailbom::with('bom')
             ->where('id_boms', $id_bom)
-            ->orderBy('id_boms')
+            ->orderBy('id', 'asc')
             ->get();
-
+    
         $unsubmittedDetailBom = Detailbom::where('id_boms', $id_bom)
         ->where('submitted', false)
-        ->get();
+        ->orderBy('id_materialbom', 'asc')->get();
 
         $submittedDetailBom = Detailbom::where('id_boms', $id_bom)
         ->where('submitted', true)
@@ -50,7 +52,7 @@ class DetailbomController extends Controller
         $keterangan = $statusAndKeterangan['keterangan'];
 
         $this->CekMaterial($id_bom);
-        $this->updateStatusbom($id_bom);
+        // $this->updateStatusbom($id_bom);
 
         return view('planner.bom.detail-bom', [
             'dataBom' => $dataBom,
@@ -86,7 +88,7 @@ class DetailbomController extends Controller
 
         // Import data dari file Excel
         Excel::import($import, $file);
-            return redirect('/BOM/IndexBom')->with('success','Data Berhasil Diimport!');
+            return redirect('/BOM/IndexBom');
     }
 
     public function addmaterial(Request $request, $id_bom)
@@ -98,7 +100,6 @@ class DetailbomController extends Controller
     // Storematerial
     public function storematerial(Request $request): RedirectResponse
     {
-
         $material = new Detailbom();
 
         $material->id_boms = $request->get('id_boms');
@@ -127,7 +128,6 @@ class DetailbomController extends Controller
         return redirect()->route('bom.detailbom', ['id_bom' => $id_bom]);
     }
 
-
     public function edit(string $id_materialbom, string $id_bom): View
     {
         // Cari Detailbom berdasarkan 'id_materialbom' dan 'id_bom'
@@ -142,7 +142,7 @@ class DetailbomController extends Controller
     public function update(Request $request, $id_materialbom, $id_bom): RedirectResponse
     {
         $idBom = session('idBom');
-
+    
         $this->validate($request, [
             'nama_workcenter' => 'required|string',
             'id_materialbom' => 'required|string',
@@ -151,16 +151,18 @@ class DetailbomController extends Controller
             'qty_trafo' => 'required|integer',
             'qty_material' => 'required|integer',
         ]);
-
+    
         // Cari Detailbom berdasarkan 'id_materialbom' dan 'id_bom'
         $detailbomItem = Detailbom::where('id_materialbom', $id_materialbom)
             ->where('id_boms', $id_bom)
             ->first();
-
-        $tolerance = ($request->uom_material === 'kg') ? 0.025 : 0;
-
+    
+        // Sebelum pembaruan, simpan nilai asli
+        $detailbomItem->syncOriginal();
+        $tolerance = (strtolower($request->uom_material) === 'kg') ? 0.025 : 0;
+    
         $usagematerial = ($request->qty_trafo * $request->qty_material) * (1 + $tolerance);
-
+    
         $detailbomItem->update([
             'nama_workcenter' => $request->nama_workcenter,
             'id_materialbom' => $request->id_materialbom,
@@ -169,20 +171,25 @@ class DetailbomController extends Controller
             'qty_trafo' => $request->qty_trafo,
             'qty_material' => $request->qty_material,
             'tolerance' => $tolerance,
-            'usage_material' => $usagematerial, // Assign the calculated total to the 'Total' column
+            'usage_material' => $usagematerial,
+            'email_status' => 0, // Set email_status to 0
         ]);
-
-        return redirect()->route('bom.detailbom', ['id_bom' =>$idBom]);
+    
+        // dd([
+        //     'CEKCEK' => $detailbomItem->getAttributes(),
+        // ]);
+    
+        return redirect()->route('bom.detailbom', ['id_bom' => $idBom]);
     }
-
+    
     public function deleteMaterial($id_materialbom, $id_bom)
     {
         // Find the detailBom record
-        $detailBom = Detailbom::where('id_materialbom', $id_materialbom)->where('id_boms', $id_bom)->first();
+        $detailBom = Detailbom::where('id_materialbom', $id_materialbom)
+            ->where('id_boms', $id_bom)->first();
 
         $detailBom->delete();
     
-        // Redirect back with success message
         return redirect()->back();
     }
     
@@ -190,29 +197,18 @@ class DetailbomController extends Controller
     {
         $detailboms = Detailbom::where('id_boms', $id_bom)->get();
 
-        // Initialize an array to store email addresses for notification
-        $notificationEmails = [];
-
         foreach ($detailboms as $detailbom) {
             // Cek apakah sudah submitted, jika sudah, lanjut ke iterasi berikutnya
             if ($detailbom->submitted == 1) {
                 continue;
             }
+
             $material = Material::where('kd_material', $detailbom->id_materialbom)->first();
 
             if (!$material) {
                 // Jika material tidak ditemukan
                 $detailbom->db_status = 0; // Not Submitted
                 $detailbom->keterangan = "Material tidak ditemukan";
-
-                $email = [
-                    'ramaagya3321@gmail.com',
-                    'klosepanjaitan1011@gmail.com',
-					'steven.naga15@gmail.com',
-                ];
-                if (!isset($notificationEmails[$detailbom->id_materialbom])) {
-                    $notificationEmails[$detailbom->id_materialbom] = $email;
-                }
             } else {
                 $usageMaterial = $detailbom->usage_material;
                 $materialQty = $material->jumlah;
@@ -221,15 +217,6 @@ class DetailbomController extends Controller
                     // Jika usage material lebih besar daripada jumlah material
                     $detailbom->db_status = 0; // Pending
                     $detailbom->keterangan = "Terdapat material kurang";
-
-                    $email = [
-                        'steven.naga15@gmail.com',
-                        'ramaagya3321@gmail.com',
-                        'christoaja13@gmail.com'
-                    ];
-                    if (!isset($notificationEmails[$detailbom->id_materialbom])) {
-                        $notificationEmails[$detailbom->id_materialbom] = $email;
-                    }
                 } else {
                     // Jika usage material cukup
                     $detailbom->db_status = 1; // Completed
@@ -238,14 +225,57 @@ class DetailbomController extends Controller
             }
             $detailbom->save();
         }
-        // Send email notification if there are pending materials
-        foreach ($notificationEmails as $idMaterialBom => $email) {
-            Mail::to($email)->send(new MaterialPendingNotification($id_bom, $idMaterialBom));
-        }
+
         $this->updateStatusbom($id_bom);
 
-        return redirect()->back()->with('success', 'Status detail BOM diperbarui.');
+        return redirect()->back();
     }
+
+    public function emailNotif($idBom)
+    {
+        // Dapatkan catatan DetailBom yang memenuhi kriteria
+        $notifMaterial = Detailbom::where('id_boms', $idBom)
+            ->where('db_status', 0)
+            ->where('email_status', 0)
+            ->get();
+    
+        // Periksa apakah ada material tertunda
+        if ($notifMaterial->count() > 0) {
+            // Anda dapat menyesuaikan konten email dan subjek sesuai kebutuhan
+            $subjekEmail = "Notifikasi Material Tertunda";
+    
+            // Kumpulkan semua informasi dari $notifFg
+            $dataMaterial = $notifMaterial->map(function ($material) {
+                return [
+                    'id_boms' => $material->id_boms,
+                    'id_materialbom' => $material->id_materialbom,
+                    'nama_materialbom' => $material->nama_materialbom,
+                    'usage_material' => $material->usage_material,
+                ];
+            });
+
+            // dd($notifMaterial);
+    
+            // Ambil informasi Stock berdasarkan item_code
+            $stockInfo = Stock::where('item_code', $notifMaterial->first()->id_materialbom)->first();
+            // dd($stockInfo);
+            // Kirim email ke alamat yang ditentukan
+            $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
+            Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
+                $dataMaterial,
+                $stockInfo, // Sertakan seluruh $stockInfo
+                $subjekEmail,
+                $idBom
+            ));
+    
+            // Perbarui status email_status menjadi 1 untuk setiap data yang telah dikirimkan
+            $notifMaterial->each(function ($material) {
+                $material->update(['email_status' => 1]);
+            });
+        }
+    }
+    
+
 
     public function getStatusAndKeterangan($detailbom, $id_bom)
     {
@@ -289,49 +319,85 @@ class DetailbomController extends Controller
             $statusBom = 3;
         }
 
+        $this->emailNotif($idBom);
+
         // Update status_bom pada tabel boms
         Bom::where('id_bom', $id_bom)->update(['status_bom' => $statusBom]);
     }
 
+    // public function submit(Request $request)
+    // {
+    //     $idBom = $request->get('id_bom');
+    //     $detailBoms = $request->get('id_boms', []);
+
+    //     // Cek apakah ada detail BOM dengan status "Pending"
+    //     $pendingDetailBom = collect($detailBoms)->first(function ($detailBom) {
+    //         return $detailBom['db_status'] == 0;
+    //     });
+
+    //     // Jika ada detail BOM dengan status "Pending", kembalikan response dengan pesan error
+    //     if ($pendingDetailBom) {
+    //         return redirect()->back()->with('error', 'Tidak bisa submit, masih terdapat material yang belum mencukupi.');
+    //     }
+
+    //     // Inisialisasi array untuk menyimpan id_materialbom yang sudah di-submit
+    //     $submittedIds = [];
+
+    //     foreach ($detailBoms as $idMaterialBom => $detailBom) {
+    //     // Perbarui status 'submitted' menjadi true pada Detailbom
+    //         Detailbom::where('id_materialbom', $idMaterialBom)->where('id_boms', $idBom)->update(['submitted' => 1]);
+    //         $submittedIds[] = $idMaterialBom;
+
+    //         // Lanjutkan dengan proses pengurangan stok
+    //         $material = Material::where('kd_material', $idMaterialBom)->first();
+    //         if ($material) {
+    //             $material->jumlah -= $detailBom['usage_material'];
+    //             $material->save();
+    //         }
+    //     }
+    //     return redirect()->route('bom.detailbom', $idBom);
+    // }
+
     public function submit(Request $request)
     {
-        $idBom = $request->get('id_bom');
-        $detailBoms = $request->get('id_boms', []);
+        // Validasi dan verifikasi data seperti yang diperlukan
+        $idBom = $request->input('id_bom');
+        
+        // Perbarui nilai submitted pada semua id_materialbom terkait
+        Detailbom::where('id_boms', $idBom)->update(['submitted' => 1]);
 
-        // Cek apakah ada detail BOM dengan status "Pending"
-        $pendingDetailBom = collect($detailBoms)->first(function ($detailBom) {
-            return $detailBom['db_status'] == 0;
-        });
-
-        // Jika ada detail BOM dengan status "Pending", kembalikan response dengan pesan error
-        if ($pendingDetailBom) {
-            return redirect()->back()->with('error', 'Tidak bisa submit, masih terdapat material yang belum mencukupi.');
-        }
-
-        // Inisialisasi array untuk menyimpan id_materialbom yang sudah di-submit
-        $submittedIds = [];
-
-        foreach ($detailBoms as $idMaterialBom => $detailBom) {
-        // Perbarui status 'submitted' menjadi true pada Detailbom
-            Detailbom::where('id_materialbom', $idMaterialBom)->where('id_boms', $idBom)->update(['submitted' => 1]);
-            $submittedIds[] = $idMaterialBom;
-
-            // Lanjutkan dengan proses pengurangan stok
-            $material = Material::where('kd_material', $idMaterialBom)->first();
-            if ($material) {
-                $material->jumlah -= $detailBom['usage_material'];
-                $material->save();
-            }
-        }
-        return redirect()->route('bom.detailbom', $idBom)->with('success', 'BOM berhasil disubmit.');
+        return redirect()->route('bom.detailbom', $idBom);
     }
 
-    public function restoreMaterial($id_materialbom, $id_bom): RedirectResponse
-    {
-        $detailBom = Detailbom::where('id_materialbom', $id_materialbom)->where('id_boms', $id_bom)->first();
-        // dd($detailBom);
+    // public function restoreMaterial($id_materialbom, $id_bom): RedirectResponse
+    // {
+    //     $detailBom = Detailbom::where('id_materialbom', $id_materialbom)->where('id_boms', $id_bom)->first();
+    //     // dd($detailBom);
 
-        // Pemeriksaan apakah submitted bernilai 1
+    //     // Pemeriksaan apakah submitted bernilai 1
+    //     if ($detailBom->submitted == 1) {
+    //         // Tambahkan kembali ke stok
+    //         $material = Material::where('kd_material', $detailBom->id_materialbom)->first();
+
+    //         // Pemeriksaan apakah material ditemukan
+    //         if ($material) {
+    //             $material->jumlah += $detailBom->usage_material;
+    //             $material->save();
+    //         }
+    //     }
+    //     // Lakukan restore
+    //     $detailBom->setAttribute('submitted', 0);
+    //     $detailBom->save();
+
+    //     return redirect()->back();
+    // }
+
+    public function restoreMaterial(Request $request, $id_materialbom, $id_bom) {
+        // Validate the request if needed
+        
+        // Fetch the record from the database
+        $detailBom = Detailbom::where('id_materialbom', $id_materialbom)->where('id_boms', $id_bom)->first();
+    
         if ($detailBom->submitted == 1) {
             // Tambahkan kembali ke stok
             $material = Material::where('kd_material', $detailBom->id_materialbom)->first();
@@ -345,7 +411,7 @@ class DetailbomController extends Controller
         // Lakukan restore
         $detailBom->setAttribute('submitted', 0);
         $detailBom->save();
-
-        return redirect()->back()->with('success', 'Material berhasil direstore.');
+    
+        return redirect()->back();
     }
 }

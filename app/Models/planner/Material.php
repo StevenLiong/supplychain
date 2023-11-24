@@ -10,16 +10,16 @@ class Material extends Model
     use HasFactory;
 
     protected $fillable = [
-        "kd_barang","nama_barang","unit","no_rak","jumlah",
+        "kd_material","nama_barang","unit","no_rak","jumlah",
     ];
-
-    // public function detailboms()
-    // {
-    //     return $this->hasMany(Detailbom::class, 'id_materialbom', 'kd_barang');
-    // }
 
     public function detailboms()
     {
-        return $this->hasMany(Detailbom::class, 'id_materialbom', 'kd_barang');
+        return $this->hasMany(Detailbom::class, 'id_materialbom', 'kd_material');
+    }
+
+    public function stock()
+    {
+        return $this->hasMany(Stock::class, 'item_code', 'kd_material');
     }
 }

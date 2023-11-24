@@ -49,13 +49,13 @@
                         <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
                     </a>
                     <ul id="b" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                        <li class="">
+                        <li class="@yield('gpaoil')">
                             <a href="{{ route('gpa-indexgpaoil') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Oil</span>
                             </a>
                         </li>
-                        <li class="">
+                        <li class="@yield('gpadry')">
                             <a href="{{ route('gpa-indexgpadry') }}">
                                 <i class="fa-solid fa-car"></i>
                                 <span class="ml-4">GPA Dry Type</span>
@@ -63,22 +63,22 @@
                         </li>
                     </ul>
                 </li>
-                <li class=" ">
-                    <a href="/Stock">
+                <li class="@yield('stock') ">
+                    <a href="{{ route('st-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
                         </svg>
                         <span class="ml-4">Stock</span>
                     </a>
                 </li>
-                <li class="">
-                    <a href="/Production" class="svg-icon">
+                <li class="@yield('fg')">
+                    <a href="{{ route('fg-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 6 2 18 2 18 9"></polyline>
                             <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                             <rect x="6" y="14" width="12" height="8"></rect>
                         </svg>
-                        <span class="ml-4">Production</span>
+                        <span class="ml-4">Finish Good</span>
                     </a>
                 </li>
             </ul>

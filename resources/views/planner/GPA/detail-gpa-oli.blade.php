@@ -1,5 +1,7 @@
 @extends('template.bar')
 @section('content')
+@section('gpaoil', 'active')
+@section('main', 'show')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header d-flex justify-content-between">

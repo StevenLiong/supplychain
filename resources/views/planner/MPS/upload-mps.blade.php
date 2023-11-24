@@ -48,7 +48,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Deadline</label>
-                    <input type="text" class="form-control" name="deadline" id="deadline" required>
+                    <input type="text" class="form-control datepicker" name="deadline" id="deadline" required>
                 </div>
             </div>
             <div class="col text-center">
@@ -57,4 +57,13 @@
         </form>
     </div>
 </div>
+<!-- Tambahkan script flatpickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    // Inisialisasi datepicker
+    flatpickr('.datepicker', {
+        dateFormat: 'Y-m-d', // Format tanggal yang diinginkan
+        enableTime: false, // Biarkan false jika tidak memerlukan waktu
+    });
+</script>
 @endsection

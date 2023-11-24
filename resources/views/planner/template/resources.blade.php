@@ -1,1 +1,1 @@
-@extends('template.bar')
+@extends('planner.template.bar')

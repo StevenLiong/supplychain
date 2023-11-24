@@ -52,8 +52,8 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->id_boms }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_manhour }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_so }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->start_date)->format('d-m-Y') }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->finish_date)->format('d-m-Y') }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->start_date)->format('d-F-Y') }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->finish_date)->format('d-F-Y') }}</td>
                                     <td style="width: 3rem; text-align: center">{{ $item->qty_trafo }}</td>
                                 </tr>
                             @endforeach

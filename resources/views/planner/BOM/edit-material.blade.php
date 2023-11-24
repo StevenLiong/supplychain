@@ -1,4 +1,4 @@
-@extends('template.bar')
+@extends('planner.template.bar')
 @section('content')
 <div class="card">
     <div class="card-header d-flex justify-content-between">

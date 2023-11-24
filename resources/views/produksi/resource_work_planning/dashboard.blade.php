@@ -112,9 +112,8 @@
                                 <h6>Kebutuhan MP</h6>
                                 @foreach ($drycastresin as $item)
                                     @php
-                                    $totalhourPL2 = 
-                                        $rateworkPL2 = $item->total_hour;
-                                        $KebutuhanMPPL2 = $QtyPL2 * $totalhourPL2 = ;
+                                        $manHourPL2 = $item->total_hour;
+                                        $KebutuhanMPPL2 = $QtyPL2 * $manHourPL2;
                                     @endphp
                                 @endforeach
                                 <h3>{{ $KebutuhanMPPL2 }}</h3>

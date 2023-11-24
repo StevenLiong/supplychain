@@ -21,8 +21,18 @@
                     <input type="text" class="form-control" name="id_boms" required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">Sales Order</label>
-                    <input type="text" class="form-control" name="id_so" required>
+                    <label for="id_so">Sales Order</label>
+                        <select class="form-control @error('id_so') is-invalid @enderror" id="id_so" name="id_so">
+                            <option selected="" disabled="">Select Kode SO:</option>
+                            @foreach ($dataSo as $so)
+                            <option value="{{ $so->kode_so }}">{{ $so->kode_so }}</option>
+                            @endforeach
+                        </select>
+                        @error('id_so')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Man Hour Code</label>

@@ -62,34 +62,28 @@ class BomController extends Controller
          $dataBom = Bom::where('id_bom', $id_bom)
              ->first();
  
-         return view('bom.edit-bominfo', compact('dataBom'));
+         return view('planner.bom.edit-bominfo', compact('dataBom'));
      }
  
      // UPDATE BOM INFO
-    public function updateBom(Request $request, $id_bom){
-         $this->validate($request, [
-             'id_bom' => 'required|string',
-             'qty_bom' => 'required|integer',
-             'bom_status' => 'required|string',
-             'uom_bom' => 'required|string',
-             'id_so' => 'required|string',
-             'id_fg' => 'required|string',
-         ]);
- 
-         $editBom = Bom::where('id_bom', $id_bom)
-             ->first();
-         
-         $editBom->update([
-             'id_bom' => $request->id_bom,
-             'qty_bom' => $request->qty_bom,
-             'bom_status' => $request->bom_status,
-             'uom_bom' => $request->uom_bom,
-             'id_so' => $request->id_so,
-             'id_fg' => $request->id_fg,
-         ]);
- 
-         return redirect()->route('bom-index');
+     public function updateBom(Request $request, $id_bom){
+        $this->validate($request, [
+            'qty_bom' => 'required|integer',
+            'bom_status' => 'required|string',
+            'uom_bom' => 'required|string',
+        ]);
+    
+        $editBom = Bom::where('id_bom', $id_bom)->first();
+    
+        $editBom->update([
+            'qty_bom' => $request->qty_bom,
+            'bom_status' => $request->bom_status,
+            'uom_bom' => $request->uom_bom,
+        ]);
+    
+        return redirect()->route('bom-index');
     }
+    
 
     //HAPUS BOM
     public function destroy($id_bom, $id_boms) : RedirectResponse

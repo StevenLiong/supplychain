@@ -48,11 +48,11 @@
                                 <td style="text-align: center;">
                                     <form method="POST" action="{{ route('bom.delete', ['id_bom' => $item->id_bom, 'id_boms' => $deleteBom->id_boms]) }}">
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <a href="{{ route('bom.detailbom', $item->id_bom) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
-                                            <a href="{{ route('bom.editbom', $item->id_bom) }}" class="btn btn-primary"><i class="fa-solid fa-info"></i></a>
+                                            <a href="{{ route('bom.detailbom', $item->id_bom) }}" class="btn btn-primary"><i class="fa-solid fa-info"></i></a>
+                                            <a href="{{ route('bom.editbom', $item->id_bom) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-primary" onclick="return confirm('YAKIN DEK?')"><i class="fa-solid fa-trash"></i></button>
+                                                <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin ingin menghapus ID BOM tersebut?')"><i class="fa-solid fa-trash"></i></button>
                                             </div>
                                     </form>
                                 </td>

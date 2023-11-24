@@ -110,14 +110,13 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                @foreach ($drycastresin as $item)
+                                {{-- @foreach ($drycastresin as $item)
                                     @php
-                                    $totalhourPL2 = 
-                                        $rateworkPL2 = $item->total_hour;
-                                        $KebutuhanMPPL2 = $QtyPL2 * $totalhourPL2 = ;
+                                        $manHourPL2 = $item->total_hour;
+                                        $KebutuhanMPPL2 = $QtyPL2 * $manHourPL2;
                                     @endphp
                                 @endforeach
-                                <h3>{{ $KebutuhanMPPL2 }}</h3>
+                                <h3>{{ $KebutuhanMPPL2 }}</h3> --}}
 
 
                             </div>

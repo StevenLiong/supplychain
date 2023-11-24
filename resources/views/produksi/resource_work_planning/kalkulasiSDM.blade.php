@@ -81,7 +81,9 @@
             // Melakukan perhitungan
             var manpower = (qty * rate) / (173 * 0.93);
             var manhour = manpower * 173 * 0.93;
-
+            // bulanan 173
+            // mingguan 40
+            // harian 8
             // Menampilkan hasil perhitungan
             document.getElementById('result-mp').innerHTML = manpower.toFixed(2);
             document.getElementById('result-mh').innerHTML = manhour.toFixed(2);

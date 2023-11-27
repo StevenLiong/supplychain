@@ -87,8 +87,7 @@
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
                                 @php
-                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
-                                    $QtyPL2 = $mps->where('production_line', '=', 'PL2')->sum('qty_trafo');
+                                    $QtyPL2 = $data['mps']->where('production_line', '=', 'PL2')->sum('qty_trafo');
                                 @endphp
                                 <h3>{{ $QtyPL2 }}</h3>
                             </div>
@@ -110,7 +109,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6> 
-                               <h3>{{number_format($kebutuhanMP)}}</h3>
+                               <h3>{{number_format($data['kebutuhanMP'])}}</h3>
                             </div>
                         </div>
                     </div>
@@ -153,11 +152,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                @php
+                                {{-- @php
                                     // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
                                     $QtyPL3 = $mps->where('production_line', '=', 'PL3')->sum('qty_trafo');
                                 @endphp
-                                <h3>{{ $QtyPL3 }}</h3>
+                                <h3>{{ $QtyPL3 }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -165,11 +164,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                @php
+                                {{-- @php
                                     $kapasitasPL3 = 52;
                                     $loadkapasitasPL3 = ($QtyPL3 / $kapasitasPL3) * 100;
                                 @endphp
-                                <h3>{{ number_format($loadkapasitasPL3) }}</h3>
+                                <h3>{{ number_format($loadkapasitasPL3) }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -220,11 +219,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                @php
+                                {{-- @php
                                     // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
                                     $Qtyctvt = $mps->where('production_line', '=', 'CT-VT')->sum('qty_trafo');
                                 @endphp
-                                <h3>{{ $Qtyctvt }}</h3>
+                                <h3>{{ $Qtyctvt }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -232,11 +231,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                @php
+                                {{-- @php
                                     $kapasitasctvt = 52;
                                     $loadkapasitasctvt = ($Qtyctvt / $kapasitasctvt) * 100;
                                 @endphp
-                                <h3>{{ number_format($loadkapasitasctvt) }}</h3>
+                                <h3>{{ number_format($loadkapasitasctvt) }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -288,8 +287,7 @@
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
                                 @php
-                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
-                                    $QtyDry = $mps->where('production_line', '=', 'Dry')->sum('qty_trafo');
+                                    $QtyDry = $data['mps']->where('production_line', '=', 'DRY')->sum('qty_trafo');
                                 @endphp
                                 <h3>{{ $QtyDry }}</h3>
                             </div>
@@ -354,11 +352,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                @php
+                                {{-- @php
                                     // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
                                     $QtyRepair = $mps->where('production_line', '=', 'Repair')->sum('qty_trafo');
                                 @endphp
-                                <h3>{{ $QtyRepair }}</h3>
+                                <h3>{{ $QtyRepair }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -366,11 +364,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                @php
+                                {{-- @php
                                     $kapasitasRepair = 52;
                                     $loadkapasitasRepair = ($QtyRepair / $kapasitasRepair) * 100;
                                 @endphp
-                                <h3>{{ number_format($loadkapasitasRepair) }}</h3>
+                                <h3>{{ number_format($loadkapasitasRepair) }}</h3> --}}
                             </div>
                         </div>
                     </div>

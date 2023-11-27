@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\produksi;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mps2;
 use App\Models\planner\Mps;
+use App\Models\planner\Wo;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
+use App\Models\produksi\StandardizeWork;
+use App\Models\Wo2;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ResourceWorkPlanningController extends Controller
 {
@@ -14,12 +19,27 @@ class ResourceWorkPlanningController extends Controller
     {
         // $totalQty = Mps::sum('qty_trafo');
         $title1 = 'Dashboard';
-        $mps = Mps::all();
         $drycastresin = DryCastResin::all();
-        // $totalHour = DryCastResin::where('id_wo', 1)->sum('total_hour');
-        // $mpsData = Mps::with('drycastresin:id,total_hour')->find(1);
-        // $totalHour = $mpsData->drycastresin->total_hour;
-        return view('produksi.resource_work_planning.dashboard', ['mps' => $mps, 'drycastresin' => $drycastresin, 'title1' => $title1]);
+        $mps = Mps2::all();
+
+
+        $filteredMps = $mps->where('production_line', 'PL2');
+        $jumlahtotalHourSumPL2 = $filteredMps->sum(function ($hasiltotalhour) {
+            // Mengambil id mps2s dari $hasiltotalhour
+            $mps2sId = $hasiltotalhour->id;
+            // Mengambil objek mps2s berdasarkan id
+            $mps2s = Mps2::find($mps2sId);
+            // Memastikan $mps2s ada dan memiliki properti 'qty'
+            if ($mps2s && isset($mps2s->qty_trafo)) {
+                // Mengalikan $hasiltotalhour dengan qty
+                return $hasiltotalhour->wo->standardize_work->dry_cast_resin->total_hour * $mps2s->qty_trafo;
+            }
+            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
+            return 0;
+        });
+
+        $kebutuhanMP = $jumlahtotalHourSumPL2 / (173 * 0.93);
+        return view('produksi.resource_work_planning.dashboard', ['mps' => $mps, 'drycastresin' => $drycastresin, 'title1' => $title1, 'kebutuhanMP' => $kebutuhanMP,]);
     }
 
     function pl2Workload()

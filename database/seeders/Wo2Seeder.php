@@ -6,14 +6,14 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class WoSeeder extends Seeder
+class Wo2Seeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('wos')->insert([
+        DB::table('wo2s')->insert([
             'id_boms' => 1,
             'id_wo' => 1,
             'id_standardize_work' => 1,

@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Mps2;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\planner\Mps;
 
-class MpsSeeder extends Seeder
+class Mps2Seeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -53,22 +53,12 @@ class MpsSeeder extends Seeder
                 'qty_trafo' => 1,
                 'lead_time' => 8,
                 'deadline' => '2023-12-10',
-            ],
-            [
-                'id_wo' => '5',
-                'project' => 'PT. Kolang Kaling',
-                'production_line' => 'PL2',
-                'kva' => '500',
-                'jenis' => 'Trafo Oli',
-                'qty_trafo' => 1,
-                'lead_time' => 8,
-                'deadline' => '2023-12-04',
-            ],
+            ], 
             // Tambahkan data lain sesuai kebutuhan
         ];
 
         foreach ($data as $mpsData) {
-            Mps::create($mpsData);
+            Mps2::create($mpsData);
         }
     }
 }

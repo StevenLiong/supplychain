@@ -109,23 +109,8 @@
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Kebutuhan MP</h6>
-
-                                {{-- rumus: total hour dari wo yang filter/(totaljamkerja*93%) --}}
-                                {{-- @php
-                                    $tarikData = $mps->id_wo->id_standardize_work->id_dry_cast_resin->sum('total_hour');
-                                @endphp --}}
-                                {{-- <h1>{{$totalHour}}</h1> --}}
-                                {{-- echo dd($tarikData); --}}
-                                {{-- @foreach ($drycastresin as $item)
-                                    @php
-                                        $manHourPL2 = $item->total_hour;
-                                        $KebutuhanMPPL2 = $QtyPL2 * $manHourPL2;
-                                    @endphp
-                                @endforeach
-                                <h3>{{ $KebutuhanMPPL2 }}</h3> --}}
-
-
+                                <h6>Kebutuhan MP</h6> 
+                               <h3>{{number_format($kebutuhanMP)}}</h3>
                             </div>
                         </div>
                     </div>
@@ -192,7 +177,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>0</h3>
+                                {{-- <h3>{{ $jumlahtotalHourSumPL3}}</h3> --}}
                             </div>
                         </div>
                     </div>

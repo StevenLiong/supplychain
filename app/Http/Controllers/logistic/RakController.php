@@ -12,10 +12,10 @@ class RakController extends Controller
 {
     public function index()
     {
-        $rack = Rak::with('gudang')->latest()->paginate(2);
+        $rack = Rak::with('gudang')->latest()->paginate(5);
         $search = strtolower(request('search'));
         if ($search) {
-            $rack = Rak::where('kd_rak', 'like', '%' .$search. '%')->paginate(2);
+            $rack = Rak::where('kd_rak', 'like', '%' .$search. '%')->paginate(5);
         }
         return view('logistic.dataMaster.rack.index', compact('rack'));
     }

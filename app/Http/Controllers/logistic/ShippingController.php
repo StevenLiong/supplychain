@@ -17,4 +17,14 @@ class ShippingController extends Controller
         return view('logistic.shipping.deliveryreceipt.index');
     }
 
+    public function createPack()
+    {
+        return view('logistic.shipping.createpackinglist.create');
+    }
+
+    public function createDelivery()
+    {
+        return view('logistic.shipping.deliveryreceipt.create');
+}
+
 }

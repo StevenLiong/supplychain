@@ -11,8 +11,8 @@ class ServicesController extends Controller
     
     public function indexGudang(){
         return view('logistic.services.transaksigudang.index');
-
     }
+
 
     // Transaksi Produksi
     public function indexProduksi(){

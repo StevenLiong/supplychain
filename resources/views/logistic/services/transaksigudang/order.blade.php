@@ -7,7 +7,7 @@
                 <div class="col-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Data Finishedgood</h4>
+                        ">Order Material (F)</h4>
                     </div>
                 </div>
             </div>
@@ -32,16 +32,16 @@
                         {{-- button create data --}}
                         <div class="btn-create">
                             <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('datamaster/Finishedgood/create') }}">Create Data</button>
+                                onclick=window.location="{{ url('services/transaksigudang/order/create') }}">Order Baru</button>
                         </div>
                         {{-- button create data end --}}
 
                         {{-- search --}}
                         <div>
-                            <form action="{{ url('datamaster/Finishedgood') }}">
+                            <form action="{{ url('services/transaksigudang/order') }}">
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-sm rounded-0"
-                                        placeholder="cari nama Finishedgood..." name="search" value="{{ request('search') }}">
+                                        placeholder="cari Nomor Bon...." name="search" value="{{ request('search') }}">
                                     <button class="btn btn-red rounded-0 btn-xs" type="submit">Search</button>
                                 </div>
                             </form>
@@ -52,46 +52,41 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        {{-- table Finishedgood --}}
-
-                        <table class="table table-sm table-bordered table-hover">
-                            <thead class="table-secondary">
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>Kode Finishedgood</th>
-                                    <th>Nama Finishedgood</th>
-                                    <th>Qty</th>
-                                    <th>Satuan</th>
-                                    <th>Cetak</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                        {{-- table Finishedgood end --}}
-
+                        {{-- table order --}}
+                            <table class="table table-sm table-bordered table-hover">
+                                <thead class="table-secondary">
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>No Bon</th>
+                                        <th>No W.O</th>
+                                        <th>Tanggal </th>
+                                        <th>Keterangan</th>
+                                        <th>kVA</th>
+                                        <th>Set</th>
+                                        <th>Work Center</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            {{-- table order end --}}
                     </div>
                 </div>
 
                 {{-- pagination --}}
                 {{-- <div class="row mx-3 mb-3">
                     <div class="col text-secondary">
-                        Showing {{ $Finishedgood->firstItem() }}
-                        to {{ $Finishedgood->lastItem() }}
-                        of {{ $Finishedgood->total() }}
+                        Showing {{ $order->firstItem() }}
+                        to {{ $material->lastItem() }}
+                        of {{ $material->total() }}
                         data
-                        
                     </div>
                     <div class="col d-flex justify-content-end">
-                        {{ $Finishedgood->appends(request()->input())->links() }}
+                        {{ $material->appends(request()->input())->links() }}
                     </div>
                 </div> --}}
                 {{-- pagination end --}}
             </div>
-
-
-
         </div>
     </div>
 @endsection

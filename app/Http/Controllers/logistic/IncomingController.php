@@ -15,12 +15,12 @@ class IncomingController extends Controller
 {
     public function index()
     {
-        $incoming = Incoming::with('materialRak', 'supplier')->latest()->paginate(2);
+        $incoming = Incoming::with('materialRak', 'supplier')->latest()->paginate(5);
         $search = strtolower(request('search')) ;
         if ($search) {
             $incoming = Incoming::whereHas('materialRak.material', function($query) use ($search){
                 $query->where('nama_material', 'like', '%' . $search . '%');
-            })->paginate(2);
+            })->paginate(5);
         }
         return view('logistic.receiving.index', compact('incoming'));
     }

@@ -8,14 +8,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\planner\WoController;
-use App\Http\Controllers\planner\FinishgoodController;
 use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\purchaser\mrController;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\ScanController;
+use App\Http\Controllers\planner\StockController;
+use App\Http\Controllers\logistic\OrderController;
 use App\Http\Controllers\planner\GPADryController;
+use App\Http\Controllers\logistic\PickingController;
 use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
@@ -23,12 +25,13 @@ use App\Http\Controllers\logistic\ServicesController;
 use App\Http\Controllers\logistic\ShippingController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\planner\DetailbomController;
+use App\Http\Controllers\planner\FinishgoodController;
 use App\Http\Controllers\logistic\MaterialRakController;
-use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\DryNonResinController;
+use App\Http\Controllers\logistic\FinishedgoodController;
+use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
-use App\Http\Controllers\planner\StockController;
 
 
 Auth::routes();
@@ -40,73 +43,85 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('logistic', [DashboardController::class, 'index']);
 
 
-// Dashboard logistic
+    // Dashboard logistic
 
-// master data
-// material
-route::resource('datamaster/material', MaterialController::class);
-Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
-Route::get('datamaster/material/addstock/{id}', [MaterialController::class, 'addStock']);
-Route::put('datamaster/material/addstock/{id}', [MaterialController::class, 'updateStock']);
-// material end
+    // master data
+    // material
+    route::resource('datamaster/material', MaterialController::class);
+    Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
+    Route::get('datamaster/material/addstock/{id}', [MaterialController::class, 'addStock']);
+    Route::put('datamaster/material/addstock/{id}', [MaterialController::class, 'updateStock']);
+    // material end
 
-// supplier
-Route::resource('datamaster/supplier', SupplierController::class);
-// supplier end
+    // supplier
+    Route::resource('datamaster/supplier', SupplierController::class);
+    // supplier end
 
-// rak
-Route::resource('datamaster/rak', RakController::class);
-Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
-// rak end
+    // rak
+    Route::resource('datamaster/rak', RakController::class);
+    Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
+    // rak end
 
-
-// receiving
-Route::resource('receiving/incoming', IncomingController::class);
-Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
-
-// BPNB
-route::resource('receiving/bpnb', BpnbController::class); // BPNB
-Route::get('receiving/incoming/bpnb/print', [BpnbController::class, 'print']);
-// BPNB end
-
-//storage index material dan finishgood
-Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
-Route::get('storage/finishedgood', [StorageController::class, 'indexFinishedGood']);
+    // finished good
+    Route::resource('datamaster/finishedgood', FinishedgoodController::class);
 
 
-// Scan All
-Route::get('scan/information', [ScanController::class, 'scanInformationMaterial']);
-Route::get('receiving/scan', [ScanController::class, 'receivingScan']);
-Route::get('receiving/scan/stockin', [ScanController::class, 'stockIn']);
-Route::get('scan/stockin/add/{$id}', [MaterialController::class, 'addStock']);
-// rawmat
-Route::get('storage/rawmaterial/scan', [ScanController::class, 'storageScan']);
+    // receiving
+    Route::resource('receiving/incoming', IncomingController::class);
+    Route::get('receiving/incoming/print/{id}', [IncomingController::class, 'print']);
+
+    // BPNB
+    route::resource('receiving/bpnb', BpnbController::class); // BPNB
+    Route::get('receiving/bpnb/print/id', [BpnbController::class, 'print']);
+    // BPNB end
+
+    //storage index material dan finishgood
+    Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
+    Route::get('storage/finishedgood', [StorageController::class, 'indexFinishedGood']);
 
 
-// untuk rackchecking
-Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
+    // Scan All
+    Route::get('scan/information', [ScanController::class, 'scanInformationMaterial']);
+    Route::get('receiving/scan', [ScanController::class, 'receivingScan']);
+    Route::get('receiving/scan/stockin', [ScanController::class, 'stockIn']);
+    Route::get('scan/stockin/add/{$id}', [MaterialController::class, 'addStock']);
+    // rawmat
+    Route::get('storage/rawmaterial/scan', [ScanController::class, 'storageScan']);
 
 
-Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
-Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
+
+    // untuk rackchecking
+    Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
+    Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
+    Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
 
 
     // Services index transaksi gudang dan transaksi produksi
     Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
     Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
 
-    // Shipping
+    // order 
+    Route::resource('services/transaksigudang/order', OrderController::class);
 
-    // Route::get('shipping', [ShippingController::class, 'index']);
+    // picking
+    Route::get('services/transaksigudang/picking/scan', [PickingController::class, 'pickingScan']);
+    Route::get('services/transaksigudang/picking/cutstock/{id}', [PickingController::class, 'cutStock']);
+    Route::put('services/transaksigudang/picking/cutstock/{id}', [PickingController::class, 'updateStock']);
+
+    // Shipping
     Route::get('shipping/createpackinglist', [ShippingController::class, 'indexPack']);
     Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
-// logistic end
-  });
+    Route::get('shipping/createpackinglist/create', [ShippingController::class, 'createPack']);
+    Route::get('shipping/deliveryreceipt/create', [ShippingController::class, 'createDelivery']);
+    // logistic end
+});
+
+
 
 // Planner Start
 
 Route::middleware(['auth', 'planner'])->group(function () {
-    
+
     // MENU BOM
     Route::get('/BOM/IndexBom', [BomController::class, 'index'])->name('bom-index');
 
@@ -177,21 +192,6 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // --GPA OIL--
     Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
-
-    // MENU STOCK
-    Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
-    Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
-    Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
-    // --DELETE STOCK--
-    Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
-
-    // MENU FINISH GOOD
-    Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
-    Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
-    Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
-    // --DELETE STOCK--
-    Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
-
 });
 
 
@@ -251,17 +251,3 @@ Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);
 });
-
-//Purchase Order
-// Route::middleware(['auth', 'purchaseorder'])->group(function () {
-//     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
-//     Route::get('/purchaseorder/dashboard', [StandardizeWorkController::class, 'index'])->name('home');
-//     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
-// });
-
-// Route::get('/dashboardpo', function () {
-//     return view('contentpo.dashboardpo');
-// });
-// Route::get('/purchaser/materialrequestpo', function () {
-//     return view('contentpo.materialrequestpo');
-// });

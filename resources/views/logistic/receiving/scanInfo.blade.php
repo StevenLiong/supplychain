@@ -9,9 +9,6 @@
                             <video id="preview"></video>
                         </div>
                         <!-- Button find material  modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Find Material code
-                        </button>
 
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"

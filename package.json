@@ -11,6 +11,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "bootstrap": "^5.3.2",
         "bootstrap-icons": "^1.11.1",
         "chart.js": "^4.4.0",
         "fullcalendar": "^6.1.9",

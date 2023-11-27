@@ -1,7 +1,7 @@
 @extends('planner.template.bar')
 @section('content')
-{{-- @section('mps', 'active')
-@section('main', 'show') --}}
+@section('gpadry', 'active')
+@section('main', 'show')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
@@ -14,8 +14,8 @@
         <div class="card-body">
             <div class="row d-flex mb-4">
                 <div class="col text-left">
-                    <a href="{{ route('mps.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="{{ route('mps.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
+                    <a href="{{ route('gpa.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
+                    <a href="{{ route('gpa.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
                 </div>          
             </div>
             <div class="table-responsive">
@@ -40,14 +40,14 @@
                             @foreach ($dataMps as $index => $item)
                                 <tr role="row" class="odd">
                                     <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
-                                    <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-dry') }}"></a>{{ $item->id_wo }}</td>
+                                    <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-dry', $item->id_wo) }}">{{ $item->id_wo }}</a></td>
                                     <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->jenis }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->lead_time }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ $item->deadline }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -1,5 +1,7 @@
-@extends('template.bar')
+@extends('planner.template.bar')
 @section('content')
+@section('gpadry', 'active')
+@section('main', 'show')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
@@ -10,24 +12,37 @@
         <div class="card-body">
             <div class="row d-flex mb-4">
                 <div class="col  text-left">
-                    <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="#" class="MR-3 btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i class="mr-2 fa fa-table"></i>Download Exel</a>
+                    <a href="{{ route('gpa.exportPdfDetail', $dataMps->id_wo) }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
                 </div>
             </div>
-            <table>
-                <tr>
-                    <td style="width: 6rem;">Work Order</td>
-                    <td style="width: 7rem;"><input type="text" class="form-control" id="validationDefault01" value="W1230293FA" readonly></td>
-                    <td style="width: 4rem" class="text-center">Line</td>
-                    <td style="width: 5rem"><input type="text" class="form-control text-center" id="validationDefault02" value="3"readonly></td>
-                    <td style="width: 4rem" class="text-center">KVA</td>
-                    <td style="width: 5rem"><input type="text" class="form-control text-center" id="validationDefault03" value="1600"readonly></td>
-                    <td style="width: 5rem" class="text-center">Quantity</td>
-                    <td style="width: 5rem"><input type="text" class="form-control text-center" id="validationDefault04" value="3"readonly></td>
-                    <td style="width: 12rem" class="text-center">Kode Resource Planning</td>
-                    <td style="width: 7rem"><input type="text" class="form-control text-center" id="validationDefault05" value="RP123"readonly></td>
-                </tr>
-            </table>
+            <form>
+                <div class="form-row">
+                    <div class="col-md-4 mb-2">
+                        <label for="id_wo">Work Order</label>
+                        <input type="text" class="form-control" name="id_wo" value="{{ $dataMps->id_wo }}"required disabled>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="production_line">Production Line</label>
+                        <input type="text" class="form-control" name="production_line" value="{{ $dataMps->production_line }}"required disabled>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="kva">KVA</label>
+                        <input type="text" class="form-control" name="kva" value="{{ $dataMps->kva }}"required disabled>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="qty_trafo">Quantity</label>
+                        <input type="text" class="form-control" name="qty_trafo" value="{{ $dataMps->qty_trafo }}"required disabled>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="lead_time">Lead Time</label>
+                        <input type="text" class="form-control" name="lead_time" value="{{ $dataMps->lead_time }}"required disabled>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label for="validationDefault07">Dead Line</label>
+                        <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataMps->deadline)->format('d-F-Y') }}"required disabled>
+                    </div>
+                </div>    
+            </form>
             <div class="table-responsive" style="margin-top: 1rem">
                 <div id="datatable_wrapper" class="dataTables_wrapper">
                     <table id="datatable" class="table table-striped dataTable">
@@ -40,7 +55,7 @@
                         <tbody>
                             <tr role="row" class="odd">
                                 <td style="text-align: center;" class="sorting_1">Bill of Material</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
+                                <td style="text-align: center">{{ \Carbon\Carbon::parse($dataMps->deadline)->subDays(2)->format('d-F-Y') }}</td>
                             </tr>
                             <tr role="row" class="odd">
                                 <td style="text-align: center" class="sorting_1">Insulation Paper</td>

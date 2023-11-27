@@ -11,18 +11,29 @@ class MaterialPendingNotification extends Mailable
     use Queueable, SerializesModels;
 
     public $idBom;
-    public $idMaterial;
+    public $material;
 
-    public function __construct($idBom, $idMaterial)
+    public $stockInfo;
+    public $subjekEmail;
+    public $namaMaterialBom;
+    public $usageMaterial;
+
+    public function __construct($material, $stockInfo, $subjekEmail, $idBom)
     {
+        $this->material = $material;
+        $this->stockInfo = $stockInfo; // Menyimpan $stockInfo
+        $this->subjekEmail = $subjekEmail;
         $this->idBom = $idBom;
-        $this->idMaterial = $idMaterial;
     }
 
     public function build()
     {
         return $this->view('planner.bom.material-pending-notif')
-            ->subject('Material Pending Notification')
-            ->with('idBom', $this->idBom); // Kirim idMaterialBom ke tampilan email
+            ->with([
+                'idBom' => $this->idBom,
+                'subjekEmail' => $this->subjekEmail,
+                'material' => $this->material,
+                'stockInfo' => $this->stockInfo, // Tambahkan ini jika $stockInfo telah diatur sebelumnya
+            ]);
     }
 }

@@ -41,6 +41,18 @@ class DatabaseSeeder extends Seeder
             'id' => 4,
             'nama_role' => 'resource_work_planning',
         ]);
+        Role::create([
+            'id' => 5,
+            'nama_role' => 'ppic',
+        ]);
+        Role::create([
+            'id' => 6,
+            'nama_role' => 'purchaser',
+        ]);
+
+
+
+
         User::create([
             'name' => 'adminstd',
             'email' => 'adminstd@gmail.com',
@@ -65,16 +77,30 @@ class DatabaseSeeder extends Seeder
             'password' => '123456789',
             'id_role' => 2
         ]);
+        User::create([
+            'name' => 'ppic',
+            'email' => 'ppic@gmail.com',
+            'password' => '123456789',
+            'id_role' => 5
+        ]);
+        User::create([
+            'name' => 'purchaser',
+            'email' => 'purchaser@gmail.com',
+            'password' => '123456789',
+            'id_role' => 6
+        ]);
 
         // seeder logistic
-        // $this->call(MaterialSeeder::class);
-        // $this->call(GudangSeeder::class);
-        // $this->call(RakSeeder::class);
-        // $this->call(MaterialRakSeeder::class);
-        // $this->call(SupplierSeeder::class);
-        // $this->call(IncomingSeeder::class);
 
-        // seeder logistic end
+        $this->call(MaterialSeeder::class);
+        $this->call(GudangSeeder::class);
+        $this->call(RakSeeder::class);
+        $this->call(MaterialRakSeeder::class);
+        $this->call(SupplierSeeder::class);
+        $this->call(IncomingSeeder::class);
+        $this->call(FinishedgoodSeeder::class);
+
+
 
         $this->call(KapasitasSeeder::class);
         $this->call(KategoriProdukSeeder::class);

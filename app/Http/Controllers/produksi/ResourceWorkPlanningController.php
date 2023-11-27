@@ -13,90 +13,110 @@ class ResourceWorkPlanningController extends Controller
     public function dashboard()
     {
         // $totalQty = Mps::sum('qty_trafo');
+        $title1 = 'Dashboard';
         $mps = Mps::all();
         $drycastresin = DryCastResin::all();
-        return view('produksi.resource_work_planning.dashboard', ['mps' => $mps, 'drycastresin' => $drycastresin]);
+        // $totalHour = DryCastResin::where('id_wo', 1)->sum('total_hour');
+        // $mpsData = Mps::with('drycastresin:id,total_hour')->find(1);
+        // $totalHour = $mpsData->drycastresin->total_hour;
+        return view('produksi.resource_work_planning.dashboard', ['mps' => $mps, 'drycastresin' => $drycastresin, 'title1' => $title1]);
     }
 
     function pl2Workload()
     {
+        $title1 = 'PL 2 - Work Load';
         $mps = Mps::all();
         $kapasitas = Kapasitas::all();
-        return view('produksi.resource_work_planning.PL2.work-load', ['mps' => $mps, 'kapasitas' => $kapasitas]);
+        return view('produksi.resource_work_planning.PL2.work-load', ['mps' => $mps, 'kapasitas' => $kapasitas, 'title1' => $title1]);
     }
 
     function pl2Rekomendasi()
     {
-        return view('produksi.resource_work_planning.PL2.rekomendasi');
+        $title1 = 'PL 2 - Rekomendasi';
+        return view('produksi.resource_work_planning.PL2.rekomendasi', ['title1' => $title1]);
     }
 
     function pl2Jumlah()
     {
-        return view('produksi.resource_work_planning.PL2.jumlah');
+        $title1 = 'PL 2 - Jumlah';
+        return view('produksi.resource_work_planning.PL2.jumlah', ['title1' => $title1]);
     }
 
     function pl3Workload()
     {
-        return view('produksi.resource_work_planning.PL3.work-load');
+        $title1 = 'PL 3 - Work Load';
+        return view('produksi.resource_work_planning.PL3.work-load', ['title1' => $title1]);
     }
 
     function pl3Rekomendasi()
     {
-        return view('produksi.resource_work_planning.PL3.rekomendasi');
+        $title1 = 'PL 3 - Rekomendasi';
+        return view('produksi.resource_work_planning.PL3.rekomendasi', ['title1' => $title1]);
     }
 
     function pl3Jumlah()
     {
-        return view('produksi.resource_work_planning.PL3.jumlah');
+        $title1 = 'PL 3 - RekomJumlah';
+        return view('produksi.resource_work_planning.PL3.jumlah', ['title1' => $title1]);
     }
 
     function ctvtWorkload()
     {
-        return view('produksi.resource_work_planning.CT-VT.work-load');
+        $title1 = 'CT VT - Work Load';
+        return view('produksi.resource_work_planning.CT-VT.work-load', ['title1' => $title1]);
     }
 
     function ctvtRekomendasi()
     {
-        return view('produksi.resource_work_planning.CT-VT.rekomendasi');
+        $title1 = 'CT VT - Rekomendasi';
+        return view('produksi.resource_work_planning.CT-VT.rekomendasi', ['title1' => $title1]);
     }
 
     function ctvtJumlah()
     {
-        return view('produksi.resource_work_planning.CT-VT.jumlah');
+        $title1 = 'CT VT - RekomJumlah';
+        return view('produksi.resource_work_planning.CT-VT.jumlah', ['title1' => $title1]);
     }
 
     function dryWorkload()
     {
-        return view('produksi.resource_work_planning.DRY.work-load');
+        $title1 = 'Dry - Work Load';
+        return view('produksi.resource_work_planning.DRY.work-load', ['title1' => $title1]);
     }
 
     function dryRekomendasi()
     {
-        return view('produksi.resource_work_planning.DRY.rekomendasi');
+        $title1 = 'Dry - Rekomendasi';
+        return view('produksi.resource_work_planning.DRY.rekomendasi', ['title1' => $title1]);
     }
 
     function dryJumlah()
     {
-        return view('produksi.resource_work_planning.DRY.jumlah');
+        $title1 = 'Dry - Jumlah';
+        return view('produksi.resource_work_planning.DRY.jumlah', ['title1' => $title1]);
     }
 
     function repairWorkload()
     {
-        return view('produksi.resource_work_planning.REPAIR.work-load');
+        $title1 = 'Repair - Work Load';
+        return view('produksi.resource_work_planning.REPAIR.work-load', ['title1' => $title1]);
     }
 
     function repairRekomendasi()
     {
-        return view('produksi.resource_work_planning.REPAIR.rekomendasi');
+        $title1 = 'Repair - Rekomendasi';
+        return view('produksi.resource_work_planning.REPAIR.rekomendasi', ['title1' => $title1]);
     }
 
     function repairJumlah()
     {
-        return view('produksi.resource_work_planning.REPAIR.jumlah');
+        $title1 = 'Repair - Jumlah';
+        return view('produksi.resource_work_planning.REPAIR.jumlah', ['title1' => $title1]);
     }
 
     function kalkulasiSDM()
     {
-        return view('produksi.resource_work_planning.kalkulasiSDM');
+        $title1 = 'Kalkulasi SDM';
+        return view('produksi.resource_work_planning.kalkulasiSDM', ['title1' => $title1]);
     }
 }

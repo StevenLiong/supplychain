@@ -81,6 +81,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProsesSeeder::class);
         $this->call(TipeProsesSeeder::class);
         $this->call(WorkCenterSeeder::class);
+        $this->call(JamKerjaSeeder::class);
+        $this->call(DryCastResinSeeder::class);
+        $this->call(StandardizedWorkSeeder::class);
+        $this->call(WoSeeder::class);
         $this->call(MpsSeeder::class);
         $this->call(ManHourSeeder::class);
     }

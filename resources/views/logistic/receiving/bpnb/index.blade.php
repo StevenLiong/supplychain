@@ -36,7 +36,7 @@
                             <td>B123004683</td>
                             <td>19/09/2023</td>
                             <td class="text-center">
-                                <a href="{{ url('receiving/incoming/bpnb/print') }}">
+                                <a href="{{ url('receiving/bpnb/print/id') }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24"
                                         viewBox="0 0 18 24" fill="none">
                                         <path

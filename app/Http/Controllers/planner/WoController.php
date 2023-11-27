@@ -95,5 +95,5 @@ class WoController extends Controller
         $dataWo = Wo::select('id', 'id_wo', 'id_boms', 'id_manhour', 'qty_trafo', 'id_so', 'start_date', 'finish_date')->get(); // Ambil data Mps dari database
         $pdf = PDF::loadView('planner.wo.view', ['dataWo' => $dataWo]);
         return $pdf->download('WO.pdf');
-    }
+}
 }

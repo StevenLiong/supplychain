@@ -7,7 +7,7 @@
                 <div class="col-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Input Data Packing</h4>
+                        ">Data Delivery Receipt</h4>
                     </div>
                 </div>
             </div>
@@ -32,17 +32,16 @@
                         {{-- btn create --}}
                         <div class="btn-create ">
                             <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('shipping/createpackinglist/create') }}">Create
-                                Packing</button>
+                                onclick=window.location="{{ url('shipping/deliveryreceipt/create') }}">Create data</button>
                         </div>
-                        {{-- btn create end --}}
+                        {{-- btn create end--}}
 
                         {{-- search --}}
                         <div class="">
-                            <form action="{{ url('') }}">
+                            <form action="{{ url('shipping/deliveryreceipt') }}">
                                 <div class="input-group ">
                                     <input type="text" class="form-control form-control-sm rounded-0"
-                                        placeholder="cari..." name="search" value="{{ request('search') }}">
+                                        placeholder="cari nama material..." name="search" value="{{ request('search') }}">
                                     <button class="btn btn-red rounded-0 btn-xs" type="submit">Search</button>
                                 </div>
                             </form>
@@ -51,29 +50,29 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    {{-- table Input data kedatangan --}}
+                    {{-- table Input data delivery receipt --}}
                     <div class="table-responsive">
-
-                        <table class="table table-sm table-bordered table-hover">
-                            <thead class="table-secondary">
-                                <tr class="text-center">
-                                    <th>No</th>
-                                    <th>No DO</th>
-                                    <th>NO WO</th>
-                                    <th>NSP</th>
-                                    <th>NSK</th>
-                                    <th>Ukuran</th>
-                                    <th width="5%">Dimensi</th>
-                                    <th width="3%">Customer</th>
-                                    <th width="3%">Tgl Packing</th>
-                                    <th width="3%">Tgl Pengiriman</th>
-                                    <th>Cetak</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                        
+                            <table class="table table-sm table-bordered table-hover">
+                                <thead class="table-secondary">
+                                    <tr class="text-center">
+                                        <th>No</th>
+                                        <th>No DO</th>
+                                        <th>NO WO</th>
+                                        <th>NSP</th>
+                                        <th>NSK</th>
+                                        <th>Ukuran</th>
+                                        <th width="5%">Dimensi</th>
+                                        <th width="3%">Customer</th>
+                                        <th width="3%">Tgl Packing</th>
+                                        <th width="3%">Tgl Pengiriman</th>
+                                        <th>Cetak</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                     </div>
                     {{-- table Input data kedatangan end --}}
                 </div>

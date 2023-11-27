@@ -26,59 +26,33 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="kd_material" class="form-label">Kode Material</label>
-                                    <select class="form-control form-select form-select-lg" name="kd_material"
-                                        id="kd_material">
-                                        <option selected>Pilih kode material</option>
-                                        <option value="M1000">M1000</option>
-                                        <option value="M1000">M0002</option>
-                                        <option value="M1000">M0003</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3 p-2">
-                                    <label for="spek_tambahan" class="form-label">Spesifikasi
-                                        Tambahan</label>
-                                    <input type="text" class="form-control" id="spek_tambahan" name="spek_tambahan"
-                                        placeholder="Spesifikasi tambahan">
+                                    <label for="kd_bpnb" class="form-label">Kode BPNB</label>
+                                    <input type="text" class="form-control" id="kd_bpnb" name="kd_bpnb"
+                                        placeholder=" Kode BPNB">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="nama_material" class="form-label">Nama Material</label>
-                                    <input type="text" class="form-control" id="nama_material" name="nama_material"
-                                        placeholder=" Nama Material">
-                                </div>
-                                <div class="mb-3 p-2">
-                                    <label for="kd_rak" class="form-label">Kode Rak</label>
-                                    <input type="text" class="form-control" id="kd_rak" name="kd_rak"
-                                        placeholder="kode rak">
+                                    <label for="no_po" class="form-label">Nomor PO</label>
+                                    <input type="text" class="form-control" id="no_po" name="no_po"
+                                        placeholder=" Nomor Purchase Order">
                                 </div>
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="wkt_kedatangan" class="form-label">Waktu
-                                        Kedatangan</label>
-                                    <input type="text" class="form-control" id="wkt_kedatangan" name="wkt_kedatangan"
+                                    <label for="no_surat_jalan" class="form-label">No Surat Jalan</label>
+                                    <input type="text" class="form-control" id="no_surat_jalan" name="no_surat_jalan"
+                                        placeholder=" Nomor Surat Jalan">
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="mb-3 p-2">
+                                    <label for="tgl_surat_jalan" class="form-label">Tanggal Surat Jalan</label>
+                                    <input type="date" class="form-control" id="tgl_surat_jalan" name="tgl_surat_jalan"
                                         placeholder="waktu kedatangan">
                                 </div>
-                                <div class="mb-3 p-2">
-                                    <label for="nama_gudang" class="form-label">Nama Gudang</label>
-                                    <input type="text" class="form-control" id="nama_gudang" name="nama_gudang"
-                                        placeholder="Nama Gudang">
-                                </div>
                             </div>
                             <div class="col-lg-3">
-                                <div class="mb-3 p-2">
-                                    <label for="spesifikasi" class="form-label">Spesifikasi</label>
-                                    <input type="text" class="form-control" id="spesifikasi" name="spesifikasi"
-                                        placeholder="Spesifikasi Material">
-                                </div>
-                                <div class="mb-3 p-2">
-                                    <label for="jenis_material" class="form-label">Jenis
-                                        Material</label>
-                                    <input type="text" class="form-control" id="jenis_material" name="jenis_material"
-                                        placeholder="jenis Material">
-                                </div>
                             </div>
                         </div>
                 </div>

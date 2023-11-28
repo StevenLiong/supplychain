@@ -8,6 +8,7 @@ use App\Models\planner\Wo;
 use App\Models\produksi\Mps2;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
+use App\Models\produksi\ProductionLine;
 use App\Models\produksi\StandardizeWork;
 use App\Models\produksi\Wo2;
 use Illuminate\Http\Request;
@@ -21,9 +22,12 @@ class ResourceWorkPlanningController extends Controller
         $title1 = 'Dashboard';
         $drycastresin = DryCastResin::all();
         $mps = Mps2::all();
+        $PL = ProductionLine::all();
 
-        $filteredMps = $mps->where('production_line', 'PL2');
-        $jumlahtotalHourSumPL2 = $filteredMps->sum(function ($hasiltotalhour) {
+        // $filteredMps = $mps->where('production_line', 'PL2');
+        $allowedProductionLines = $PL->pluck('nama_pl')->toArray();
+        $filteredMps = $mps->whereIn('production_line', $allowedProductionLines);
+        $jumlahtotalHourSum = $filteredMps->sum(function ($hasiltotalhour) {
             // Mengambil id mps2s dari $hasiltotalhour
             $mps2sId = $hasiltotalhour->id;
             // Mengambil objek mps2s berdasarkan id
@@ -36,15 +40,16 @@ class ResourceWorkPlanningController extends Controller
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
-        $kebutuhanMP = $jumlahtotalHourSumPL2 / (173 * 0.93);
+        $kebutuhanMP = $jumlahtotalHourSum / (173 * 0.93);
 
         $data = [
             'title1' => $title1,
             'drycastresin' => $drycastresin,
             'mps' => $mps,
             'filteredMps' => $filteredMps,
-            'jumlahtotalHourSumPL2' => $jumlahtotalHourSumPL2,
+            'jumlahtotalHourSum' => $jumlahtotalHourSum,
             'kebutuhanMP' => $kebutuhanMP,
+            'PL' => $PL,
         ];
 
 

@@ -65,7 +65,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <div id="app" style="margin-bottom:300px">
+                    <div id="app"   >
                         <!-- - - - - - - - - - - - start content-- - - - - - - - - - - -->
                         @yield('content')
                         <!-- - - - - - - - - - - - end content-- - - - - - - - - - - -->

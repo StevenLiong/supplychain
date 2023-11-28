@@ -8,6 +8,7 @@ use App\Models\planner\Wo;
 use App\Models\produksi\Mps2;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
+use App\Models\produksi\MatriksSkill;
 use App\Models\produksi\ProductionLine;
 use App\Models\produksi\StandardizeWork;
 use App\Models\produksi\Wo2;
@@ -23,23 +24,7 @@ class ResourceWorkPlanningController extends Controller
         $drycastresin = DryCastResin::all();
         $mps = Mps2::all();
         $PL = ProductionLine::all();
-
-        // // $allowedProductionLines = $PL->pluck('nama_pl')->toArray();
-        // // $filteredMps = $mps->whereIn('production_line', $allowedProductionLines);
-        // $productionLine = ''; // Ganti dengan nilai yang sesuai atau ambil dari input atau variabel lain
-
-        // if ($productionLine === 'PL2') {
-        //     $filteredMps = $mps->where('production_line', 'PL2');
-        // } elseif ($productionLine === 'PL3') {
-        //     $filteredMps = $mps->where('production_line', 'PL3');
-        // } elseif ($productionLine === 'DRY') {
-        //     $filteredMps = $mps->where('production_line', 'DRY');
-        // } elseif ($productionLine === 'REPAIR') {
-        //     $filteredMps = $mps->where('production_line', 'REPAIR');
-        // } else {
-        //     // Default jika tidak ada kondisi yang cocok
-        //     $filteredMps = $mps->where('production_line', $productionLine);
-        // }
+        $matriks_skill = MatriksSkill::all();
 
         //PL2
         $filteredMpsPL2 = $mps->where('production_line', 'PL2');
@@ -58,7 +43,6 @@ class ResourceWorkPlanningController extends Controller
         });
 
         $periode = $request->input('periode', 1);
-
         switch ($periode) {
             case 1:
                 $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
@@ -76,7 +60,7 @@ class ResourceWorkPlanningController extends Controller
                 $kebutuhanMPPL2 = 0;
                 break;
         }
-
+        
         // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
 
         //DRY
@@ -95,6 +79,8 @@ class ResourceWorkPlanningController extends Controller
             return 0;
         });
         $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
+        $totalRates = $matriks_skill->where('skill', '>', 2)->count();;
+        
 
         $data = [
             'title1' => $title1,
@@ -107,6 +93,7 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSumDRY' => $jumlahtotalHourSumDRY,
             'kebutuhanMPDRY' => $kebutuhanMPDRY,
             'PL' => $PL,
+            'totalRates' => $totalRates,
         ];
 
 

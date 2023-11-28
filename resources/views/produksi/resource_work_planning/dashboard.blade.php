@@ -13,7 +13,8 @@
                 <form action="{{ route('process.periode') }}" method="post" id="periodeForm">
                     @csrf
                     <label>Pilih Periode:</label>
-                    <select class="custom-select " name="periode" id="periodeSelect"><i class="ri-arrow-down-s-line ml-2 mr-0"></i>
+                    <select class="custom-select " name="periode" id="periodeSelect"><i
+                            class="ri-arrow-down-s-line ml-2 mr-0"></i>
                         <option value="1">Satu Bulan</option>
                         <option value="2">3 minggu</option>
                         <option value="3">2 minggu</option>
@@ -110,7 +111,7 @@
                                 <h6>Kapasitas (%)</h6>
                                 @php
                                     $kapasitasPL2 = $data['PL']->where('nama_pl', '=', 'PL2')->first();
-                                    $loadkapasitasPL2 =   ($QtyPL2 / $kapasitasPL2->kapasitas_pl ) * 100;
+                                    $loadkapasitasPL2 = ($QtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
                                 @endphp
                                 <h3>{{ number_format($loadkapasitasPL2) }}</h3>
                             </div>
@@ -329,7 +330,10 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
-                                <h3>0</h3>
+                                @php
+                                    $selisihMPDRY = $data['totalRates'] - number_format($data['kebutuhanMPDRY']);
+                                @endphp
+                                <h3>{{ $selisihMPDRY }}</h3>
                             </div>
                         </div>
                     </div>

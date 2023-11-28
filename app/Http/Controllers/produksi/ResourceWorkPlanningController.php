@@ -8,6 +8,7 @@ use App\Models\planner\Wo;
 use App\Models\produksi\Mps2;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
+use App\Models\produksi\ProductionLine;
 use App\Models\produksi\StandardizeWork;
 use App\Models\produksi\Wo2;
 use Illuminate\Http\Request;
@@ -21,9 +22,28 @@ class ResourceWorkPlanningController extends Controller
         $title1 = 'Dashboard';
         $drycastresin = DryCastResin::all();
         $mps = Mps2::all();
+        $PL = ProductionLine::all();
 
-        $filteredMps = $mps->where('production_line', 'PL2');
-        $jumlahtotalHourSumPL2 = $filteredMps->sum(function ($hasiltotalhour) {
+        // // $allowedProductionLines = $PL->pluck('nama_pl')->toArray();
+        // // $filteredMps = $mps->whereIn('production_line', $allowedProductionLines);
+        // $productionLine = ''; // Ganti dengan nilai yang sesuai atau ambil dari input atau variabel lain
+
+        // if ($productionLine === 'PL2') {
+        //     $filteredMps = $mps->where('production_line', 'PL2');
+        // } elseif ($productionLine === 'PL3') {
+        //     $filteredMps = $mps->where('production_line', 'PL3');
+        // } elseif ($productionLine === 'DRY') {
+        //     $filteredMps = $mps->where('production_line', 'DRY');
+        // } elseif ($productionLine === 'REPAIR') {
+        //     $filteredMps = $mps->where('production_line', 'REPAIR');
+        // } else {
+        //     // Default jika tidak ada kondisi yang cocok
+        //     $filteredMps = $mps->where('production_line', $productionLine);
+        // }
+
+        //PL2
+        $filteredMpsPL2 = $mps->where('production_line', 'PL2');
+        $jumlahtotalHourSumPL2 = $filteredMpsPL2->sum(function ($hasiltotalhour) {
             // Mengambil id mps2s dari $hasiltotalhour
             $mps2sId = $hasiltotalhour->id;
             // Mengambil objek mps2s berdasarkan id
@@ -36,33 +56,57 @@ class ResourceWorkPlanningController extends Controller
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
+
         $periode = $request->input('periode', 1);
 
         switch ($periode) {
             case 1:
-                $kebutuhanMP = $jumlahtotalHourSumPL2 / (173 * 0.93);
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
                 break;
             case 2:
-                $kebutuhanMP = $jumlahtotalHourSumPL2 / (120 * 0.93);
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (120 * 0.93);
                 break;
             case 3:
-                $kebutuhanMP = $jumlahtotalHourSumPL2 / (80 * 0.93);
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (80 * 0.93);
                 break;
             case 4:
-                $kebutuhanMP = $jumlahtotalHourSumPL2 / (40 * 0.93);
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (40 * 0.93);
                 break;
             default:
-                $kebutuhanMP = 0;
+                $kebutuhanMPPL2 = 0;
                 break;
         }
+
+        // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
+
+        //DRY
+        $filteredMpsDRY = $mps->where('production_line', 'DRY');
+        $jumlahtotalHourSumDRY = $filteredMpsDRY->sum(function ($hasiltotalhour) {
+            // Mengambil id mps2s dari $hasiltotalhour
+            $mps2sId = $hasiltotalhour->id;
+            // Mengambil objek mps2s berdasarkan id
+            $mps2s = Mps2::find($mps2sId);
+            // Memastikan $mps2s ada dan memiliki properti 'qty'
+            if ($mps2s && isset($mps2s->qty_trafo)) {
+                // Mengalikan $hasiltotalhour dengan qty
+                return $hasiltotalhour->wo->standardize_work->dry_cast_resin->total_hour * $mps2s->qty_trafo;
+            }
+            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
+            return 0;
+        });
+        $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
 
         $data = [
             'title1' => $title1,
             'drycastresin' => $drycastresin,
             'mps' => $mps,
-            'filteredMps' => $filteredMps,
+            'filteredMpsPL2' => $filteredMpsPL2,
             'jumlahtotalHourSumPL2' => $jumlahtotalHourSumPL2,
-            'kebutuhanMP' => $kebutuhanMP,
+            'kebutuhanMPPL2' => $kebutuhanMPPL2,
+            'filteredMpsDRY' => $filteredMpsDRY,
+            'jumlahtotalHourSumDRY' => $jumlahtotalHourSumDRY,
+            'kebutuhanMPDRY' => $kebutuhanMPDRY,
+            'PL' => $PL,
         ];
 
 

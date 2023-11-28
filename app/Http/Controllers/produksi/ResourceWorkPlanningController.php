@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\produksi;
 
 use App\Http\Controllers\Controller;
-use App\Models\Mps2;
 use App\Models\planner\Mps;
 use App\Models\planner\Wo;
+use App\Models\produksi\Mps2;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\StandardizeWork;
-use App\Models\Wo2;
+use App\Models\produksi\Wo2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -48,13 +48,13 @@ class ResourceWorkPlanningController extends Controller
         ];
 
 
-        return view('produksi.resource_work_planning.dashboard',['data' => $data]);
-        }
+        return view('produksi.resource_work_planning.dashboard', ['data' => $data]);
+    }
 
     function pl2Workload()
     {
         $title1 = 'PL 2 - Work Load';
-        $mps = Mps::all();
+        $mps = Mps2::all();
         $kapasitas = Kapasitas::all();
 
         $data = [

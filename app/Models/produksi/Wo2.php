@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\produksi;
 
 use App\Models\produksi\StandardizeWork;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

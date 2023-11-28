@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Mps2;
+use App\Models\produksi\Mps2;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -27,9 +27,9 @@ class Mps2Seeder extends Seeder
             [
                 'id_wo' => '2',
                 'project' => 'PT. Siemens',
-                'production_line' => 'PL2',
+                'production_line' => 'DRY',
                 'kva' => '1000',
-                'jenis' => 'Trafo Oli',
+                'jenis' => 'Dry',
                 'qty_trafo' => 2,
                 'lead_time' => 11,
                 'deadline' => '2023-11-23',
@@ -49,11 +49,11 @@ class Mps2Seeder extends Seeder
                 'project' => 'PT. Symphos',
                 'production_line' => 'PL2',
                 'kva' => '250',
-                'jenis' => 'Trafo Oli',
+                'jenis' => 'D',
                 'qty_trafo' => 1,
                 'lead_time' => 8,
                 'deadline' => '2023-12-10',
-            ], 
+            ],
             // Tambahkan data lain sesuai kebutuhan
         ];
 

@@ -15,12 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('id_boms')->references('id_bom')->on('boms');
             $table->string('id_wo');
-            $table->string('id_manhour');
+            $table->string('id_standardize_work');
             $table->integer('qty_trafo')->references('qty_trafo')->on('detailboms');
             $table->string('id_so')->references('id_so')->on('sos');
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
             $table->timestamps();
+    
         });
     }
 

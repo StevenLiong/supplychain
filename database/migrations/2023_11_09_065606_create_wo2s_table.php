@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('wo2s', function (Blueprint $table) {
             $table->id(); 
             $table->string('id_boms')->references('id_bom')->on('boms');
-            $table->foreignId('id_wo');
+            $table->string('id_wo');
             $table->foreignId('id_standardize_work')->nullable()->constrained('standardize_works');
             $table->integer('qty_trafo')->references('qty_trafo')->on('detailboms');
             $table->string('id_so')->references('id_so')->on('sos');

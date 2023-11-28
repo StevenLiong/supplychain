@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DryCastResin extends Model
 {
     use HasFactory;
+    protected $table = 'dry_cast_resins';
+
     protected $fillable = [
         'kd_manhour',
         'nama_product',
@@ -63,7 +65,7 @@ class DryCastResin extends Model
 
     public function man_hour(): BelongsTo
     {
-        return $this->belongsTo(ManHour::class,'manhour_id','id');
+        return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
     }
 
     public static function boot()

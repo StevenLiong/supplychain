@@ -51,6 +51,13 @@ class DryCastResinController extends Controller
         return redirect(route('home'))->with('success', 'Added!');
     }
 
+    public function detail(string $id): Response
+    {
+        $product = DryCastResin::findOrFail($id);
+        $manhour = ManHour::orderBy('id')->get();
+        return response(view('produksi.standardized_work.detaildrycastresin', ['product' => $product, 'manhour' => $manhour]));
+    }
+
     public function edit(string $id): Response
     {
         $product = DryCastResin::findOrFail($id);

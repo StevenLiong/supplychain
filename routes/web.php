@@ -236,6 +236,7 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::post('/standardized_work/Create-Data/Dry-Cast-Resin/Store', [DryCastResinController::class, 'store'])->name('store.dryresin');
     Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/{id}/edit', [DryCastResinController::class, 'edit'])->name('dryresin.edit');
     Route::put('/standardized_work/Create-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'update'])->name('dryresin.update');
+    Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/{id}/detail', [DryCastResinController::class, 'detail'])->name('dryresin.detail');
 
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin', [DryNonResinController::class, 'create'])->name('create.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/{id}', [DryNonResinController::class, 'createManhour'])->name('create.drynonresin.createManhour');

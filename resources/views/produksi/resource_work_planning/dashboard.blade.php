@@ -4,12 +4,6 @@
         <div class="row mb-4 align-items-center">
             <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03" data-toggle="dropdown"
                 aria-expanded="false">
-                {{-- <div class="">/div>
-                <div class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton03">
-                    <a class="dropdown-item" href="#"> 1 Minggu</a>
-                    <a class="dropdown-item" href="#"> 2 Minggu</a>
-                    <a class="dropdown-item" href="#"> 3 Minggu</a>
-                </div> --}}
                 <form action="{{ route('process.periode') }}" method="post" id="periodeForm">
                     @csrf
                     <label>Pilih Periode:</label>
@@ -99,9 +93,16 @@
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
                                 @php
-                                    $QtyPL2 = $data['mps']->where('production_line', '=', 'PL2')->sum('qty_trafo');
-                                @endphp
-                                <h3>{{ $QtyPL2 }}</h3>
+                                $QtyPL2 = $data['mps']
+                                    ->where('production_line', '=', 'PL2')
+                                    ->where('deadline', '>=', $data['deadlineDate'])
+                                    ->sum('qty_trafo');
+
+                                $data['QtyPL2'] = $QtyPL2;
+                            @endphp
+
+                            <h3>{{ $data['QtyPL2'] }}</h3>
+
                             </div>
                         </div>
                     </div>

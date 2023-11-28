@@ -43,21 +43,23 @@ class ResourceWorkPlanningController extends Controller
         });
 
         $periode = $request->input('periode', 1);
+
         switch ($periode) {
             case 1:
                 $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
+                $deadlineDate = now()->subMonth()->toDateString();
                 break;
             case 2:
                 $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (120 * 0.93);
+                $deadlineDate = now()->subWeeks(3)->toDateString();
                 break;
             case 3:
                 $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (80 * 0.93);
+                $deadlineDate = now()->subWeeks(2)->toDateString();
                 break;
             case 4:
                 $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (40 * 0.93);
-                break;
-            default:
-                $kebutuhanMPPL2 = 0;
+                $deadlineDate = now()->subWeek()->toDateString();
                 break;
         }
         // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
@@ -106,6 +108,7 @@ class ResourceWorkPlanningController extends Controller
             'mps' => $mps,
             'PL' => $PL,
             //PL2
+            'deadlineDate' => $deadlineDate,
             'filteredMpsPL2' => $filteredMpsPL2,
             'jumlahtotalHourSumPL2' => $jumlahtotalHourSumPL2,
             'kebutuhanMPPL2' => $kebutuhanMPPL2,

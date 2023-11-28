@@ -109,7 +109,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ number_format($data['kebutuhanMP']) }}</h3>
+                                <h3>{{ number_format($data['kebutuhanMPPL2']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -297,11 +297,12 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
+                                 
                                 @php
-                                    $kapasitasDry = $data['PL']->where('nama_PL', '=', 'DRY');
-                                    // $loadkapasitasDry = ($QtyDry / $kapasitasDry) * 100;
+                                    $kapasitasDry = $data['PL']->where('nama_pl', '=', 'DRY')->first();
+                                    $loadkapasitasDry = ($QtyDry / $kapasitasDry->kapasitas_pl) * 100;
                                 @endphp
-                                {{-- <h3>{{ number_format($loadkapasitasDry) }}</h3> --}}
+                                <h3>{{ number_format($loadkapasitasDry) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -309,7 +310,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ number_format($data['kebutuhanMP']) }}</h3>
+                                <h3>{{ number_format($data['kebutuhanMPDRY']) }}</h3>
                             </div>
                         </div>
                     </div>

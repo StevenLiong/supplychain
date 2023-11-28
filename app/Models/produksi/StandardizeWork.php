@@ -19,9 +19,10 @@ class StandardizeWork extends Model
         'id_oil_stndard',
         'id_oil_custom',
         'id_repair',
+        'total_hour',
     ];
 
-     
+
 
     public function dry_cast_resin(): BelongsTo
     {

@@ -21,6 +21,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
+            'total_hour' => 120,
         ]);
         DB::table('standardize_works')->insert([
             'id_dry_cast_resin' => 2,
@@ -30,6 +31,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
+            'total_hour' => 120,
         ]);
         DB::table('standardize_works')->insert([
             'id_dry_cast_resin' => 3,
@@ -39,6 +41,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
+            'total_hour' => 120,
         ]);
         DB::table('standardize_works')->insert([
             'id_dry_cast_resin' => 4,
@@ -48,6 +51,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
+            'total_hour' => 120,
         ]);
     }
 }

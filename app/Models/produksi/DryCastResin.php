@@ -75,6 +75,7 @@ class DryCastResin extends Model
         static::created(function ($dryresin) {
             StandardizeWork::create([
                 'id_dry_cast_resin' => $dryresin->id,
+                'total_hour' => $dryresin->total_hour,
             ]);
         });
 

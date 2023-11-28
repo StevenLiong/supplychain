@@ -4,7 +4,7 @@
         <div class="row mb-4 align-items-center">
             <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03" data-toggle="dropdown"
                 aria-expanded="false">
-                {{-- <div class="btn btn-primary">Periode<i class="ri-arrow-down-s-line ml-2 mr-0"></i></div>
+                {{-- <div class="">/div>
                 <div class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton03">
                     <a class="dropdown-item" href="#"> 1 Minggu</a>
                     <a class="dropdown-item" href="#"> 2 Minggu</a>
@@ -13,7 +13,7 @@
                 <form action="{{ route('process.periode') }}" method="post" id="periodeForm">
                     @csrf
                     <label>Pilih Periode:</label>
-                    <select name="periode" id="periodeSelect">
+                    <select class="custom-select " name="periode" id="periodeSelect"><i class="ri-arrow-down-s-line ml-2 mr-0"></i>
                         <option value="1">Satu Bulan</option>
                         <option value="2">3 minggu</option>
                         <option value="3">2 minggu</option>

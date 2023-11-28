@@ -60,8 +60,26 @@ class ResourceWorkPlanningController extends Controller
                 $kebutuhanMPPL2 = 0;
                 break;
         }
-        
         // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
+        $ketersediaanMPPL2 = $matriks_skill->where('production_line', 'PL2')->where('skill', '>=', 2)->count();;
+
+        //PL3
+        $filteredMpsPL3 = $mps->where('production_line', 'PL3');
+        $jumlahtotalHourSumPL3 = $filteredMpsPL3->sum(function ($hasiltotalhour) {
+            // Mengambil id mps2s dari $hasiltotalhour
+            $mps2sId = $hasiltotalhour->id;
+            // Mengambil objek mps2s berdasarkan id
+            $mps2s = Mps2::find($mps2sId);
+            // Memastikan $mps2s ada dan memiliki properti 'qty'
+            if ($mps2s && isset($mps2s->qty_trafo)) {
+                // Mengalikan $hasiltotalhour dengan qty
+                return $hasiltotalhour->wo->standardize_work->dry_cast_resin->total_hour * $mps2s->qty_trafo;
+            }
+            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
+            return 0;
+        });
+        $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (173 * 0.93);
+        $ketersediaanMPPL3 = $matriks_skill->where('production_line', 'PL3')->where('skill', '>=', 2)->count();
 
         //DRY
         $filteredMpsDRY = $mps->where('production_line', 'DRY');
@@ -79,21 +97,28 @@ class ResourceWorkPlanningController extends Controller
             return 0;
         });
         $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
-        $totalRates = $matriks_skill->where('skill', '>=', 2)->count();;
-        
+        $ketersediaanMPDRY = $matriks_skill->where('production_line', 'DRY')->where('skill', '>=', 2)->count();
 
+        //kirim ke view
         $data = [
             'title1' => $title1,
             'drycastresin' => $drycastresin,
             'mps' => $mps,
+            'PL' => $PL,
+            //PL2
             'filteredMpsPL2' => $filteredMpsPL2,
             'jumlahtotalHourSumPL2' => $jumlahtotalHourSumPL2,
             'kebutuhanMPPL2' => $kebutuhanMPPL2,
+            // PL3
+            'filteredMpsPL3' => $filteredMpsPL3,
+            'jumlahtotalHourSumPL3' => $jumlahtotalHourSumPL3,
+            'kebutuhanMPPL3' => $kebutuhanMPPL3,
+            'ketersediaanMPPL3' => $ketersediaanMPPL3,
+            // DRY
             'filteredMpsDRY' => $filteredMpsDRY,
             'jumlahtotalHourSumDRY' => $jumlahtotalHourSumDRY,
             'kebutuhanMPDRY' => $kebutuhanMPDRY,
-            'PL' => $PL,
-            'totalRates' => $totalRates,
+            'ketersediaanMPDRY' => $ketersediaanMPDRY,
         ];
 
 

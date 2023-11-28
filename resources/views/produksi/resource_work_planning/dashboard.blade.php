@@ -331,7 +331,7 @@
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
                                 @php
-                                    $selisihMPDRY = $data['totalRates'] - number_format($data['kebutuhanMPDRY']);
+                                    $selisihMPDRY = $data['ketersediaanMPDRY'] - number_format($data['kebutuhanMPDRY']);
                                 @endphp
                                 <h3>{{ $selisihMPDRY }}</h3>
                             </div>

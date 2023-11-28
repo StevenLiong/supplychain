@@ -112,9 +112,10 @@ class DatabaseSeeder extends Seeder
         $this->call(StandardizedWorkSeeder::class);
         // $this->call(WoSeeder::class);
         $this->call(Wo2Seeder::class);
-        $this->call(MpsSeeder::class);
+        // $this->call(MpsSeeder::class);
         $this->call(Mps2Seeder::class);
         $this->call(ProductionLineSeeder::class);
+        $this->call(ManPowerSeeder::class);
         $this->call(ManHourSeeder::class);
     }
 }

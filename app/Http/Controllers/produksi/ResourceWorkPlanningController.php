@@ -79,7 +79,7 @@ class ResourceWorkPlanningController extends Controller
             return 0;
         });
         $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
-        $totalRates = $matriks_skill->where('skill', '>', 2)->count();;
+        $totalRates = $matriks_skill->where('skill', '>=', 2)->count();;
         
 
         $data = [

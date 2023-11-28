@@ -100,7 +100,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
     Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
 
-    // order 
+    // order
     Route::resource('services/transaksigudang/order', OrderController::class);
 
     // picking
@@ -201,7 +201,11 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
 Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('/', [ResourceWorkPlanningController::class, 'dashboard']);
-    Route::get('resource_work_planning/dashboard', [ResourceWorkPlanningController::class, 'dashboard']);
+    Route::get('resource_work_planning/dashboard', [ResourceWorkPlanningController::class, 'dashboard'])->name('dashboard');
+
+
+    Route::post('resource_work_planning/dashboard/data/process-periode', [ResourceWorkPlanningController::class, 'dashboard'])->name('process.periode');
+    
     Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
     Route::get('resource_work_planning/PL2/Rekomendasi', [ResourceWorkPlanningController::class, 'pl2Rekomendasi']);
     Route::get('resource_work_planning/PL2/Jumlah', [ResourceWorkPlanningController::class, 'pl2Jumlah']);

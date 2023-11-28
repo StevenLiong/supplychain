@@ -4,14 +4,25 @@
         <div class="row mb-4 align-items-center">
             <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03" data-toggle="dropdown"
                 aria-expanded="false">
-                <div class="btn btn-primary">Periode<i class="ri-arrow-down-s-line ml-2 mr-0"></i></div>
+                {{-- <div class="btn btn-primary">Periode<i class="ri-arrow-down-s-line ml-2 mr-0"></i></div>
                 <div class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton03">
                     <a class="dropdown-item" href="#"> 1 Minggu</a>
                     <a class="dropdown-item" href="#"> 2 Minggu</a>
                     <a class="dropdown-item" href="#"> 3 Minggu</a>
-                </div>
+                </div> --}}
+                <form action="{{ route('process.periode') }}" method="post" id="periodeForm">
+                    @csrf
+                    <label>Pilih Periode:</label>
+                    <select name="periode" id="periodeSelect">
+                        <option value="1">Satu Bulan</option>
+                        <option value="2">3 minggu</option>
+                        <option value="3">2 minggu</option>
+                        <option value="4">1 minggu</option>
+                    </select>
+                </form>
             </div>
         </div>
+
         {{-- <div class="card bg-primary">
             <div class="row">
                 <div class="col-lg-2">
@@ -108,8 +119,8 @@
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Kebutuhan MP</h6> 
-                               <h3>{{number_format($data['kebutuhanMP'])}}</h3>
+                                <h6>Kebutuhan MP</h6>
+                                <h3>{{ number_format($data['kebutuhanMP']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -411,4 +422,27 @@
         </div>
 
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Mendeteksi perubahan pada dropdown
+            $('#periodeSelect').change(function() {
+                // Mengambil nilai yang dipilih
+                var selectedValue = $(this).val();
+
+                // Menyimpan nilai yang dipilih dalam localStorage
+                localStorage.setItem('selectedPeriode', selectedValue);
+
+                // Mengirimkan formulir secara otomatis
+                $('#periodeForm').submit();
+            });
+
+            // Memeriksa apakah ada nilai yang disimpan dalam localStorage
+            var storedValue = localStorage.getItem('selectedPeriode');
+            if (storedValue) {
+                // Menetapkan nilai yang disimpan sebagai nilai awal dropdown
+                $('#periodeSelect').val(storedValue);
+            }
+        });
+    </script>
 @endsection

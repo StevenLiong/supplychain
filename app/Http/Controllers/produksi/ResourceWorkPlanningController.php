@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 
 class ResourceWorkPlanningController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         // $totalQty = Mps::sum('qty_trafo');
         $title1 = 'Dashboard';
@@ -36,7 +36,25 @@ class ResourceWorkPlanningController extends Controller
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
-        $kebutuhanMP = $jumlahtotalHourSumPL2 / (173 * 0.93);
+        $periode = $request->input('periode', 1);
+
+        switch ($periode) {
+            case 1:
+                $kebutuhanMP = $jumlahtotalHourSumPL2 / (173 * 0.93);
+                break;
+            case 2:
+                $kebutuhanMP = $jumlahtotalHourSumPL2 / (120 * 0.93);
+                break;
+            case 3:
+                $kebutuhanMP = $jumlahtotalHourSumPL2 / (80 * 0.93);
+                break;
+            case 4:
+                $kebutuhanMP = $jumlahtotalHourSumPL2 / (40 * 0.93);
+                break;
+            default:
+                $kebutuhanMP = 0;
+                break;
+        }
 
         $data = [
             'title1' => $title1,
@@ -50,6 +68,7 @@ class ResourceWorkPlanningController extends Controller
 
         return view('produksi.resource_work_planning.dashboard', ['data' => $data]);
     }
+
 
     function pl2Workload()
     {

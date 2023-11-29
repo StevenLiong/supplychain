@@ -36,7 +36,7 @@ class ResourceWorkPlanningController extends Controller
             // Memastikan $mps2s ada dan memiliki properti 'qty'
             if ($mps2s && isset($mps2s->qty_trafo)) {
                 // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->dry_cast_resin->total_hour * $mps2s->qty_trafo;
+                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
             }
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
@@ -75,13 +75,31 @@ class ResourceWorkPlanningController extends Controller
             // Memastikan $mps2s ada dan memiliki properti 'qty'
             if ($mps2s && isset($mps2s->qty_trafo)) {
                 // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->dry_cast_resin->total_hour * $mps2s->qty_trafo;
+                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
             }
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
         $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (173 * 0.93);
         $ketersediaanMPPL3 = $matriks_skill->where('production_line', 'PL3')->where('skill', '>=', 2)->count();
+        
+        //CTVT
+        $filteredMpsCTVT = $mps->where('production_line', 'CTVT');
+        $jumlahtotalHourSumCTVT = $filteredMpsCTVT->sum(function ($hasiltotalhour) {
+            // Mengambil id mps2s dari $hasiltotalhour
+            $mps2sId = $hasiltotalhour->id;
+            // Mengambil objek mps2s berdasarkan id
+            $mps2s = Mps2::find($mps2sId);
+            // Memastikan $mps2s ada dan memiliki properti 'qty'
+            if ($mps2s && isset($mps2s->qty_trafo)) {
+                // Mengalikan $hasiltotalhour dengan qty
+                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
+            }
+            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
+            return 0;
+        });
+        $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (173 * 0.93);
+        $ketersediaanMPCTVT = $matriks_skill->where('production_line', 'CTVT')->where('skill', '>=', 2)->count();
 
         //DRY
         $filteredMpsDRY = $mps->where('production_line', 'DRY');
@@ -93,13 +111,31 @@ class ResourceWorkPlanningController extends Controller
             // Memastikan $mps2s ada dan memiliki properti 'qty'
             if ($mps2s && isset($mps2s->qty_trafo)) {
                 // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->dry_cast_resin->total_hour * $mps2s->qty_trafo;
+                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
             }
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
         $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
         $ketersediaanMPDRY = $matriks_skill->where('production_line', 'DRY')->where('skill', '>=', 2)->count();
+
+        //REPAIR
+        $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
+        $jumlahtotalHourSumREPAIR = $filteredMpsREPAIR->sum(function ($hasiltotalhour) {
+            // Mengambil id mps2s dari $hasiltotalhour
+            $mps2sId = $hasiltotalhour->id;
+            // Mengambil objek mps2s berdasarkan id
+            $mps2s = Mps2::find($mps2sId);
+            // Memastikan $mps2s ada dan memiliki properti 'qty'
+            if ($mps2s && isset($mps2s->qty_trafo)) {
+                // Mengalikan $hasiltotalhour dengan qty
+                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
+            }
+            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
+            return 0;
+        });
+        $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (173 * 0.93);
+        $ketersediaanMPREPAIR = $matriks_skill->where('production_line', 'REPAIR')->where('skill', '>=', 2)->count();
 
         //kirim ke view
         $data = [
@@ -117,11 +153,21 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSumPL3' => $jumlahtotalHourSumPL3,
             'kebutuhanMPPL3' => $kebutuhanMPPL3,
             'ketersediaanMPPL3' => $ketersediaanMPPL3,
+            // CTVT
+            'filteredMpsCTVT' => $filteredMpsCTVT,
+            'jumlahtotalHourSumCTVT' => $jumlahtotalHourSumCTVT,
+            'kebutuhanMPCTVT' => $kebutuhanMPCTVT,
+            'ketersediaanMPCTVT' => $ketersediaanMPCTVT,
             // DRY
             'filteredMpsDRY' => $filteredMpsDRY,
             'jumlahtotalHourSumDRY' => $jumlahtotalHourSumDRY,
             'kebutuhanMPDRY' => $kebutuhanMPDRY,
             'ketersediaanMPDRY' => $ketersediaanMPDRY,
+            // REPAIR
+            'filteredMpsREPAIR' => $filteredMpsREPAIR,
+            'jumlahtotalHourSumREPAIR' => $jumlahtotalHourSumREPAIR,
+            'kebutuhanMPREPAIR' => $kebutuhanMPREPAIR,
+            'ketersediaanMPREPAIR' => $ketersediaanMPREPAIR,
         ];
 
 

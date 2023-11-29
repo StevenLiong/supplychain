@@ -23,7 +23,7 @@ class ProductionLineSeeder extends Seeder
             'kapasitas_pl' => 10,
         ]);
         DB::table('production_line')->insert([
-            'nama_pl' => 'CT/VT',
+            'nama_pl' => 'CTVT',
             'kapasitas_pl' => 0,
         ]);
         DB::table('production_line')->insert([

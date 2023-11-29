@@ -205,20 +205,21 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
 
 
     Route::post('resource_work_planning/dashboard/data/process-periode', [ResourceWorkPlanningController::class, 'dashboard'])->name('process.periode');
+    Route::get('resource_work_planning/Work-Load', [ResourceWorkPlanningController::class, 'Workload']);
 
-    Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
+    // Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
     Route::get('resource_work_planning/PL2/Rekomendasi', [ResourceWorkPlanningController::class, 'pl2Rekomendasi']);
     Route::get('resource_work_planning/PL2/Jumlah', [ResourceWorkPlanningController::class, 'pl2Jumlah']);
-    Route::get('resource_work_planning/PL3/Work-Load', [ResourceWorkPlanningController::class, 'pl3Workload']);
+    // Route::get('resource_work_planning/PL3/Work-Load', [ResourceWorkPlanningController::class, 'pl3Workload']);
     Route::get('resource_work_planning/PL3/Rekomendasi', [ResourceWorkPlanningController::class, 'pl3Rekomendasi']);
     Route::get('resource_work_planning/PL3/Jumlah', [ResourceWorkPlanningController::class, 'pl3Jumlah']);
-    Route::get('resource_work_planning/CT-VT/Work-Load', [ResourceWorkPlanningController::class, 'ctvtWorkload']);
+    // Route::get('resource_work_planning/CT-VT/Work-Load', [ResourceWorkPlanningController::class, 'ctvtWorkload']);
     Route::get('resource_work_planning/CT-VT/Rekomendasi', [ResourceWorkPlanningController::class, 'ctvtRekomendasi']);
     Route::get('resource_work_planning/CT-VT/Jumlah', [ResourceWorkPlanningController::class, 'ctvtJumlah']);
-    Route::get('resource_work_planning/Dry/Work-Load', [ResourceWorkPlanningController::class, 'dryWorkload']);
+    // Route::get('resource_work_planning/Dry/Work-Load', [ResourceWorkPlanningController::class, 'dryWorkload']);
     Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceWorkPlanningController::class, 'dryRekomendasi']);
     Route::get('resource_work_planning/Dry/Jumlah', [ResourceWorkPlanningController::class, 'dryJumlah']);
-    Route::get('resource_work_planning/Repair/Work-Load', [ResourceWorkPlanningController::class, 'repairWorkload']);
+    // Route::get('resource_work_planning/Repair/Work-Load', [ResourceWorkPlanningController::class, 'repairWorkload']);
     Route::get('resource_work_planning/Repair/Rekomendasi', [ResourceWorkPlanningController::class, 'repairRekomendasi']);
     Route::get('resource_work_planning/Repair/Jumlah', [ResourceWorkPlanningController::class, 'repairJumlah']);
     Route::get('resource_work_planning/Kalkulasi-SDM', [ResourceWorkPlanningController::class, 'kalkulasiSDM']);

@@ -65,10 +65,12 @@ class ResourceWorkPlanningController extends Controller
                 $deadlineDate = now()->subWeek()->toDateString();
                 break;
         }
+
+        $request->session()->put('periode', $periode);
         $qtyPL2 =  $filteredMpsPL2->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
         // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
         // $ketersediaanMPPL2 = $matriks_skill->count();
-        
+
         $kapasitasPL2 = $PL->where('nama_pl', '=', 'PL2')->first();
         $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
 
@@ -151,13 +153,13 @@ class ResourceWorkPlanningController extends Controller
         //ALL PRODUCTION LINE
         $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
         $kebutuhanMP = round($kebutuhanMPPL2 + $kebutuhanMPPL3 + $kebutuhanMPCTVT + $kebutuhanMPDRY + $kebutuhanMPREPAIR);
-        
+
         $selisihKurangMP = $kebutuhanMP - $totalManPower;
         $presentaseKurangMP = $selisihKurangMP /$kebutuhanMP;
         $ketersediaanMPPL2 = $kebutuhanMPPL2- ($kebutuhanMPPL2*$presentaseKurangMP);
-        
+
         $ketersediaanMP = $ketersediaanMPPL2 + $ketersediaanMPPL3 + $ketersediaanMPCTVT + $ketersediaanMPDRY + $ketersediaanMPREPAIR;
-        
+
 
         //kirim ke view
         $data = [
@@ -205,19 +207,47 @@ class ResourceWorkPlanningController extends Controller
     }
 
 
-    function pl2Workload()
+    function Workload(Request $request)
     {
-        $title1 = 'PL 2 - Work Load';
+        $pl = ProductionLine::all();
+        $title1 = ' Work Load';
         $mps = Mps2::all();
         $kapasitas = Kapasitas::all();
+
+        $periode = $request->session()->get('periode', 1);
+
+        switch ($periode) {
+            case 1:
+                $periodeLabel = '1 Bulan';
+                $deadlineDate = now()->subMonth()->toDateString();
+
+                break;
+            case 2:
+                $periodeLabel = '3 Minggu';
+                $deadlineDate = now()->subWeeks(3)->toDateString();
+
+                break;
+            case 3:
+                $periodeLabel = '2 Minggu';
+                $deadlineDate = now()->subWeeks(2)->toDateString();
+
+                break;
+            case 4:
+                $periodeLabel = '1 Minggu';
+                $deadlineDate = now()->subWeek()->toDateString();
+
+                break;
+        }
 
         $data = [
             'title1' => $title1,
             'mps' => $mps,
             'kapasitas' => $kapasitas,
+            'pl' => $pl,
+            'deadlineDate' => $deadlineDate,
         ];
 
-        return view('produksi.resource_work_planning.PL2.work-load', ['data' => $data]);
+        return view('produksi.resource_work_planning.work-load', compact('periodeLabel'), ['data' => $data]);
     }
 
     function pl2Rekomendasi()

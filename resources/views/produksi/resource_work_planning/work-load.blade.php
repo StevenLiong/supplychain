@@ -17,11 +17,11 @@
                 </div>
                 <div class="table-responsive">
                     <div id="datatable_wrapper" class="dataTables_wrapper">
-                        <table id="datatable" class="table data-table table-striped dataTable" role="grid"
+                        {{-- <table id="datatable" class="table data-table table-striped dataTable" role="grid"
                             aria-describedby="datatable_info">
                             <thead class="text-center ">
                                 <tr>
-                                    <th colspan="12">
+                                    <th colspan="{{ count($data['kapasitas']) + 1 }}">
                                         1 Minggu
                                     </th>
                                 </tr>
@@ -37,20 +37,88 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr>
-
-                                </tr>
-                                <tr>
-                                    <th>Coil LV</th>
-                                    @foreach ($data['kapasitas'] as $kap)
+                                @foreach ($data['pl'] as $pl)
+                                    <tr>
+                                        <th>{{ $pl->nama_pl }}</th>
                                         @php
-                                            $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
-                                            $totalQtyTrafo = $qtyTrafo > 0 ? $qtyTrafo : 0;
+                                            $totalQtyTrafo = 0;
                                         @endphp
+                                        @foreach ($data['kapasitas'] as $kap)
+                                            @php
+                                                $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->where('production_line', $pl->nama_pl)->sum('qty_trafo');
+
+                                            @endphp
+                                            <td>{{ $qtyTrafo }}</td>
+                                        @endforeach
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table> --}}
+                        @foreach ($data['pl'] as $pl)
+                            <table id="datatable_{{ $pl->nama_pl }}" class="table table-striped dataTable m-2"
+                                role="grid" aria-describedby="datatable_info">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th colspan="{{ count($data['kapasitas']) + 1 }}">
+                                            {{ $periodeLabel }} - {{ $pl->nama_pl }}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        @foreach ($data['kapasitas'] as $kap)
+                                            <th>
+                                                @if ($kap->ukuran_kapasitas)
+                                                    {{ $kap->ukuran_kapasitas }}
+                                                @endif
+                                            </th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr>
+                                        <th>{{ $pl->nama_pl }}</th>
+                                        @php
+                                            $totalQtyTrafo = 0;
+                                        @endphp
+                                        @foreach ($data['kapasitas'] as $kap)
+                                            @php
+                                                $qtyTrafo = $data['mps']
+                                                    ->where('kva', $kap->ukuran_kapasitas)
+                                                    ->where('production_line', $pl->nama_pl)
+                                                    ->where('deadline', '>=', $data['deadlineDate'])
+                                                    ->sum('qty_trafo');
+                                                // $totalQtyTrafo += $qtyTrafo;
+                                            @endphp
+                                            <td>{{ $qtyTrafo }}</td>
+                                        @endforeach
+                                        {{-- <td>{{ $totalQtyTrafo }}</td> --}}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        @endforeach
+
+                        {{-- <tbody class="text-center">
+                                @foreach ($data['pl'] as $pl)
+                                    <tr>
+                                        <th>{{ $pl->nama_pl }}</th>
+                                        @php
+                                            $totalQtyTrafo = 0; // Inisialisasi totalQtyTrafo
+                                        @endphp
+                                        @foreach ($data['kapasitas'] as $kap)
+                                            @php
+                                                $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                                $totalQtyTrafo += $qtyTrafo; // Akumulasi totalQtyTrafo
+                                            @endphp
+                                            <td>{{ $qtyTrafo }}</td>
+                                        @endforeach
                                         <td>{{ $totalQtyTrafo }}</td>
-                                    @endforeach
-                                </tr>
-                                <tr>
+                                    </tr>
+                                @endforeach
+                            </tbody> --}}
+
+
+                        {{-- <tr>
                                     <th>Coil HV</th>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
@@ -94,8 +162,8 @@
                                         @endphp
                                         <td>{{ $totalQtyTrafo }}</td>
                                     @endforeach
-                                </tr>
-                                {{-- <tr>
+                                </tr> --}}
+                        {{-- <tr>
                                     <td>QC</td>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
@@ -105,7 +173,7 @@
                                     @endforeach
                                 </tr> --}}
 
-                            </tbody>
+                        {{-- </tbody> --}}
 
                         </table>
                     </div>

@@ -45,35 +45,6 @@ class ResourceWorkPlanningController extends Controller
             return 0;
         });
 
-        $periode = $request->input('periode', 1);
-
-        switch ($periode) {
-            case 1:
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
-                $deadlineDate = now()->subMonth()->toDateString();
-                break;
-            case 2:
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (120 * 0.93);
-                $deadlineDate = now()->subWeeks(3)->toDateString();
-                break;
-            case 3:
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (80 * 0.93);
-                $deadlineDate = now()->subWeeks(2)->toDateString();
-                break;
-            case 4:
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (40 * 0.93);
-                $deadlineDate = now()->subWeek()->toDateString();
-                break;
-        }
-
-        $request->session()->put('periode', $periode);
-        $qtyPL2 =  $filteredMpsPL2->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
-        // $ketersediaanMPPL2 = $matriks_skill->count();
-
-        $kapasitasPL2 = $PL->where('nama_pl', '=', 'PL2')->first();
-        $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
-
         //PL3
         $filteredMpsPL3 = $mps->where('production_line', 'PL3');
         $jumlahtotalHourSumPL3 = $filteredMpsPL3->sum(function ($hasiltotalhour) {
@@ -89,8 +60,6 @@ class ResourceWorkPlanningController extends Controller
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
-        $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (173 * 0.93);
-        $ketersediaanMPPL3 = $matriks_skill->where('production_line', 'PL3')->where('skill', '>=', 2)->count();
 
         //CTVT
         $filteredMpsCTVT = $mps->where('production_line', 'CTVT');
@@ -107,8 +76,6 @@ class ResourceWorkPlanningController extends Controller
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
-        $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (173 * 0.93);
-        $ketersediaanMPCTVT = $matriks_skill->where('production_line', 'CTVT')->where('skill', '>=', 2)->count();
 
         //DRY
         $filteredMpsDRY = $mps->where('production_line', 'DRY');
@@ -125,11 +92,6 @@ class ResourceWorkPlanningController extends Controller
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
-        $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
-        // $ketersediaanMPDRY = $matriks_skill->where('production_line', 'DRY')->where('skill', '>=', 2)->count();
-        $ketersediaanMPDRY = $matriks_skill->where('production_line', 'DRY')->where('skill', '>=', 2)->count();
-        //JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN
-        // DAN SEBALIKNYA
 
         //REPAIR
         $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
@@ -146,19 +108,91 @@ class ResourceWorkPlanningController extends Controller
             // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
             return 0;
         });
-        $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (173 * 0.93);
-        $ketersediaanMPREPAIR = $matriks_skill->where('production_line', 'REPAIR')->where('skill', '>=', 2)->count();
 
-
-        //ALL PRODUCTION LINE
+        //TOTAL HOUR SEMUANYA
         $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
+
+        //pengelompokkan periode
+        $periode = $request->input('periode', 1);
+
+        switch ($periode) {
+            case 1:
+                $deadlineDate = now()->subMonth()->toDateString();
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
+                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (173 * 0.93);
+                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (173 * 0.93);
+                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
+                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (173 * 0.93);
+                break;
+            case 2:
+                $deadlineDate = now()->subWeeks(3)->toDateString();
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (120 * 0.93);
+                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (120 * 0.93);
+                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (120 * 0.93);
+                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (120 * 0.93);
+                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (120 * 0.93);
+                break;
+            case 3:
+                $deadlineDate = now()->subWeeks(2)->toDateString();
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (80 * 0.93);
+                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (80 * 0.93);
+                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (80 * 0.93);
+                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (80 * 0.93);
+                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (80 * 0.93);
+                break;
+            case 4:
+                $deadlineDate = now()->subWeek()->toDateString();
+                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (40 * 0.93);
+                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (40 * 0.93);
+                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (40 * 0.93);
+                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (40 * 0.93);
+                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (40 * 0.93);
+                break;
+        }
+
+        //TOTAL KEBUTUHAN MP
         $kebutuhanMP = round($kebutuhanMPPL2 + $kebutuhanMPPL3 + $kebutuhanMPCTVT + $kebutuhanMPDRY + $kebutuhanMPREPAIR);
-
+        //TOTAL SELISIH KEKURANGAN MP
         $selisihKurangMP = $kebutuhanMP - $totalManPower;
-        $presentaseKurangMP = $selisihKurangMP /$kebutuhanMP;
-        $ketersediaanMPPL2 = $kebutuhanMPPL2- ($kebutuhanMPPL2*$presentaseKurangMP);
+        //PRESENTASE KEKURANGAN MP
+        $presentaseKurangMP = $selisihKurangMP / $kebutuhanMP;
+        
+        $ketersediaanMPPL2 = ceil($kebutuhanMPPL2 - ($kebutuhanMPPL2 * $presentaseKurangMP));
+        $ketersediaanMPPL3 = ceil($kebutuhanMPPL3 - ($kebutuhanMPPL3 * $presentaseKurangMP));
+        $ketersediaanMPCTVT = ceil($kebutuhanMPCTVT - ($kebutuhanMPCTVT * $presentaseKurangMP));
+        $ketersediaanMPDRY = ceil($kebutuhanMPDRY  - ($kebutuhanMPDRY * $presentaseKurangMP));
+        $ketersediaanMPREPAIR = ceil($kebutuhanMPREPAIR - ($kebutuhanMPREPAIR * $presentaseKurangMP));
 
+        //TOTAL KETERSEDIAAN MP
         $ketersediaanMP = $ketersediaanMPPL2 + $ketersediaanMPPL3 + $ketersediaanMPCTVT + $ketersediaanMPDRY + $ketersediaanMPREPAIR;
+        
+        //ambil inputan dari dropdown
+        $request->session()->put('periode', $periode);
+
+        $qtyPL2 =  $filteredMpsPL2->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyPL3 =  $filteredMpsPL3->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyCTVT =  $filteredMpsCTVT->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyDRY =  $filteredMpsDRY->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyREPAIR =  $filteredMpsREPAIR->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+
+        //ambil nilai kapasitas dari tabel production_line
+        $kapasitasPL2 = $PL->where('nama_pl', '=', 'PL2')->first();
+        $kapasitasPL3 = $PL->where('nama_pl', '=', 'PL3')->first();
+        $kapasitasCTVT = $PL->where('nama_pl', '=', 'CTVT')->first();
+        $kapasitasDRY = $PL->where('nama_pl', '=', 'DRY')->first();
+        $kapasitasREPAIR = $PL->where('nama_pl', '=', 'REPAIR')->first();
+
+
+        $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
+        $loadkapasitasPL3 = ($qtyPL3 / $kapasitasPL3->kapasitas_pl) * 100;
+        $loadkapasitasCTVT = ($qtyCTVT / $kapasitasCTVT->kapasitas_pl) * 100;
+        $loadkapasitasDRY = ($qtyDRY / $kapasitasDRY->kapasitas_pl) * 100;
+        $loadkapasitasREPAIR = ($qtyREPAIR / $kapasitasREPAIR->kapasitas_pl) * 100;
+
+
+        //******************JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN
+        //*******************DAN SEBALIKNYA
+        
 
 
         //kirim ke view
@@ -167,9 +201,10 @@ class ResourceWorkPlanningController extends Controller
             'drycastresin' => $drycastresin,
             'mps' => $mps,
             'PL' => $PL,
+            'totalManPower' => $totalManPower,
             'presentaseKurangMP' => $presentaseKurangMP,
-            //PL2
             'deadlineDate' => $deadlineDate,
+            //PL2
             'filteredMpsPL2' => $filteredMpsPL2,
             'qtyPL2' => $qtyPL2,
             'loadkapasitasPL2' => $loadkapasitasPL2,
@@ -178,21 +213,29 @@ class ResourceWorkPlanningController extends Controller
             'ketersediaanMPPL2' => $ketersediaanMPPL2,
             // PL3
             'filteredMpsPL3' => $filteredMpsPL3,
+            'qtyPL3' => $qtyPL3,
+            'loadkapasitasPL3' => $loadkapasitasPL3,
             'jumlahtotalHourSumPL3' => $jumlahtotalHourSumPL3,
             'kebutuhanMPPL3' => $kebutuhanMPPL3,
             'ketersediaanMPPL3' => $ketersediaanMPPL3,
             // CTVT
             'filteredMpsCTVT' => $filteredMpsCTVT,
+            'qtyCTVT' => $qtyCTVT,
+            'loadkapasitasCTVT' => $loadkapasitasCTVT,
             'jumlahtotalHourSumCTVT' => $jumlahtotalHourSumCTVT,
             'kebutuhanMPCTVT' => $kebutuhanMPCTVT,
             'ketersediaanMPCTVT' => $ketersediaanMPCTVT,
             // DRY
             'filteredMpsDRY' => $filteredMpsDRY,
+            'qtyDRY' => $qtyDRY,
+            'loadkapasitasDRY' => $loadkapasitasDRY,
             'jumlahtotalHourSumDRY' => $jumlahtotalHourSumDRY,
             'kebutuhanMPDRY' => $kebutuhanMPDRY,
             'ketersediaanMPDRY' => $ketersediaanMPDRY,
             // REPAIR
             'filteredMpsREPAIR' => $filteredMpsREPAIR,
+            'qtyREPAIR' => $qtyREPAIR,
+            'loadkapasitasREPAIR' => $loadkapasitasREPAIR,
             'jumlahtotalHourSumREPAIR' => $jumlahtotalHourSumREPAIR,
             'kebutuhanMPREPAIR' => $kebutuhanMPREPAIR,
             'ketersediaanMPREPAIR' => $ketersediaanMPREPAIR,
@@ -200,6 +243,7 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSum' => $jumlahtotalHourSum,
             'kebutuhanMP' => $kebutuhanMP,
             'ketersediaanMP' => $ketersediaanMP,
+            'selisihKurangMP' => $selisihKurangMP,
         ];
 
 

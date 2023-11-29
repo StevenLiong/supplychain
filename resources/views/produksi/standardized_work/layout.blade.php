@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>$title | PT Trafoindo Prima Perkasa</title>
+    <title>{{$title}} | PT Trafoindo Prima Perkasa</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="https://www.trafoindonesia.com/favicon.ico" type="image/x-icon">

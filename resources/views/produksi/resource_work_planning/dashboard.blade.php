@@ -93,16 +93,14 @@
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
                                 @php
-                                $QtyPL2 = $data['mps']
-                                    ->where('production_line', '=', 'PL2')
-                                    ->where('deadline', '>=', $data['deadlineDate'])
-                                    ->sum('qty_trafo');
+                                    $QtyPL2 = $data['mps']
+                                        ->where('production_line', '=', 'PL2')
+                                        ->where('deadline', '>=', $data['deadlineDate'])
+                                        ->sum('qty_trafo');
 
-                                $data['QtyPL2'] = $QtyPL2;
-                            @endphp
-
-                            <h3>{{ $data['QtyPL2'] }}</h3>
-
+                                    $data['QtyPL2'] = $QtyPL2;
+                                @endphp
+                                <h3>{{ $data['QtyPL2'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -130,7 +128,10 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
-                                <h3>0</h3>
+                                @php
+                                    $selisihMPDRY = $data['ketersediaanMPDRY'] - number_format($data['kebutuhanMPDRY']);
+                                @endphp
+                                <h3>{{ $selisihMPDRY }}</h3>
                             </div>
                         </div>
                     </div>
@@ -165,11 +166,15 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                {{-- @php
-                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
-                                    $QtyPL3 = $mps->where('production_line', '=', 'PL3')->sum('qty_trafo');
+                                @php
+                                    $QtyPL3 = $data['mps']
+                                        ->where('production_line', '=', 'PL3')
+                                        ->where('deadline', '>=', $data['deadlineDate'])
+                                        ->sum('qty_trafo');
+
+                                    $data['QtyPL3'] = $QtyPL3;
                                 @endphp
-                                <h3>{{ $QtyPL3 }}</h3> --}}
+                                <h3>{{ $data['QtyPL3'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -177,11 +182,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                {{-- @php
-                                    $kapasitasPL3 = 52;
-                                    $loadkapasitasPL3 = ($QtyPL3 / $kapasitasPL3) * 100;
+                                @php
+                                    $kapasitasPL3 = $data['PL']->where('nama_pl', '=', 'PL3')->first();
+                                    $loadkapasitasPL3 = ($QtyPL3 / $kapasitasPL3->kapasitas_pl) * 100;
                                 @endphp
-                                <h3>{{ number_format($loadkapasitasPL3) }}</h3> --}}
+                                <h3>{{ number_format($loadkapasitasPL3) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -232,11 +237,15 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                {{-- @php
-                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
-                                    $Qtyctvt = $mps->where('production_line', '=', 'CT-VT')->sum('qty_trafo');
+                                @php
+                                    $QtyCTVT = $data['mps']
+                                        ->where('production_line', '=', 'CTVT')
+                                        ->where('deadline', '>=', $data['deadlineDate'])
+                                        ->sum('qty_trafo');
+
+                                    $data['QtyCTVT'] = $QtyCTVT;
                                 @endphp
-                                <h3>{{ $Qtyctvt }}</h3> --}}
+                                <h3>{{ $data['QtyCTVT'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -244,11 +253,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                {{-- @php
-                                    $kapasitasctvt = 52;
-                                    $loadkapasitasctvt = ($Qtyctvt / $kapasitasctvt) * 100;
+                                @php
+                                    $kapasitasCTVT = $data['PL']->where('nama_pl', '=', 'CTVT')->first();
+                                    // $loadkapasitasCTVT = ($QtyCTVT / $kapasitasCTVT->kapasitas_pl) * 100; //ini kalo null gmna? masih eror
                                 @endphp
-                                <h3>{{ number_format($loadkapasitasctvt) }}</h3> --}}
+                                {{-- <h3>{{ number_format($loadkapasitasCTVT) }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -300,9 +309,14 @@
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
                                 @php
-                                    $QtyDry = $data['mps']->where('production_line', '=', 'DRY')->sum('qty_trafo');
+                                    $QtyDRY = $data['mps']
+                                        ->where('production_line', '=', 'DRY')
+                                        ->where('deadline', '>=', $data['deadlineDate'])
+                                        ->sum('qty_trafo');
+
+                                    $data['QtyDRY'] = $QtyDRY;
                                 @endphp
-                                <h3>{{ $QtyDry }}</h3>
+                                <h3>{{ $data['QtyDRY'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -310,12 +324,11 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-
                                 @php
-                                    $kapasitasDry = $data['PL']->where('nama_pl', '=', 'DRY')->first();
-                                    $loadkapasitasDry = ($QtyDry / $kapasitasDry->kapasitas_pl) * 100;
+                                    $kapasitasDRY = $data['PL']->where('nama_pl', '=', 'DRY')->first();
+                                    $loadkapasitasDRY = ($QtyDRY / $kapasitasDRY->kapasitas_pl) * 100;
                                 @endphp
-                                <h3>{{ number_format($loadkapasitasDry) }}</h3>
+                                <h3>{{ number_format($loadkapasitasDRY) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -369,11 +382,14 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                {{-- @php
-                                    // $qtyPL2 = $mps->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
-                                    $QtyRepair = $mps->where('production_line', '=', 'Repair')->sum('qty_trafo');
+                                @php
+                                    $QtyREPAIR = $data['mps']
+                                        ->where('production_line', '=', 'REPAIR')
+                                        ->where('deadline', '>=', $data['deadlineDate'])
+                                        ->sum('qty_trafo');
+                                    $data['QtyREPAIR'] = $QtyREPAIR;
                                 @endphp
-                                <h3>{{ $QtyRepair }}</h3> --}}
+                                <h3>{{ $data['QtyREPAIR'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -381,11 +397,12 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                {{-- @php
-                                    $kapasitasRepair = 52;
-                                    $loadkapasitasRepair = ($QtyRepair / $kapasitasRepair) * 100;
+                                @php
+                                    $kapasitasREPAIR = $data['PL']->where('nama_pl', '=', 'REPAIR')->first();
+                                    // $loadkapasitasREPAIR = ($QtyREPAIR / $kapasitasREPAIR->kapasitas_pl) * 100; // ini kalo semisal nya hasil pembagian 0, maka tak mau tampil
                                 @endphp
-                                <h3>{{ number_format($loadkapasitasRepair) }}</h3> --}}
+                                {{-- <h3>{{  $loadkapasitasREPAIR   }}</h3> --}}
+                                <h3>12</h3>
                             </div>
                         </div>
                     </div>

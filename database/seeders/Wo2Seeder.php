@@ -57,5 +57,16 @@ class Wo2Seeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        DB::table('wo2s')->insert([
+            'id_boms' => 1,
+            'id_wo' => 5,
+            'id_standardize_work' => 5,
+            'qty_trafo' => 5,
+            'id_so' => 1,
+            'start_date' => '2023-11-24',
+            'finish_date' => '2023-11-30',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

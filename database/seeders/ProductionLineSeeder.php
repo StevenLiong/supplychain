@@ -24,7 +24,7 @@ class ProductionLineSeeder extends Seeder
         ]);
         DB::table('production_line')->insert([
             'nama_pl' => 'CTVT',
-            'kapasitas_pl' => 0,
+            'kapasitas_pl' => 10,
         ]);
         DB::table('production_line')->insert([
             'nama_pl' => 'DRY',
@@ -32,7 +32,7 @@ class ProductionLineSeeder extends Seeder
         ]);
         DB::table('production_line')->insert([
             'nama_pl' => 'REPAIR',
-            'kapasitas_pl' => 0,
+            'kapasitas_pl' => 10,
         ]);
     }
 }

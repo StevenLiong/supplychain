@@ -61,5 +61,17 @@ class StandardizedWorkSeeder extends Seeder
             'id_fg' => 'zxxvcxcvc',
             'kd_manhour' => '54S12123124124',
         ]);
+        DB::table('standardize_works')->insert([
+            'id_dry_cast_resin' => 5,
+            'id_dry_non_resin' => null,
+            'id_oil_standard' => null,
+            'id_oil_custom' => null,
+            'id_ct' => null,
+            'id_vt' => null,
+            'id_repair' => null,
+            'total_hour' => 120,
+            'id_fg' => 'zxxvcxcvc',
+            'kd_manhour' => '54S12123124124',
+        ]);
     }
 }

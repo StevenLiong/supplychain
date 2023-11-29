@@ -85,6 +85,75 @@
         <div class="card">
             <div class="card-body">
                 <div class="header-title">
+                    <h4 class="card-title mt-2 mb-5"><b>ALL PL</b></h4>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Total Man Hour</h6>
+
+                                <h3>{{ $data['jumlahtotalHourSum'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Total Kebutuhan MP</h6>
+                                {{-- @php
+                                    $kapasitasPL2 = $data['PL']->where('nama_pl', '=', 'PL2')->first();
+                                    $loadkapasitasPL2 = ($QtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
+                                @endphp
+                                <h3>{{ number_format($loadkapasitasPL2) }}</h3> --}}
+                                <h3>{{ $data['kebutuhanMP'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Total Ketersediaan MP</h6>
+                                {{-- <h3>{{ number_format($data['kebutuhanMPPL2']) }}</h3> --}}
+                                <h3>{{ $data['ketersediaanMP'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Ketersediaan MP</h6>
+                                @php
+                                    // $selisihMPPL2 = $data['ketersediaanMPPL2'] - number_format($data['kebutuhanMPPL2']);
+                                @endphp
+                                {{-- <h3>{{ $data['ketersediaanMPPL2'] }}</h3> --}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Overtime</h6>
+                                <h3>0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                        aria-valuemin="0" aria-valuemax="100"><b>100%</b></div>
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
+                </div>
+
+                <div class="mt-2" style=" vertical-align: middle;">
+                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <div class="header-title">
                     <h4 class="card-title mt-2 mb-5"><b>Product Line 2</b></h4>
                 </div>
                 <div class="row">
@@ -127,11 +196,11 @@
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Selisih MP</h6>
+                                <h6>Ketersediaan MP</h6>
                                 @php
-                                    $selisihMPPL2 = $data['ketersediaanMPPL2'] - number_format($data['kebutuhanMPPL2']);
+                                    // $selisihMPPL2 = $data['ketersediaanMPPL2'] - number_format($data['kebutuhanMPPL2']);
                                 @endphp
-                                <h3>{{ $selisihMPPL2 }}</h3>
+                                <h3>{{ $data['ketersediaanMPPL2'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -343,11 +412,11 @@
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Selisih MP</h6>
+                                <h6>Ketersediaan MP</h6>
                                 @php
-                                    $selisihMPDRY = $data['ketersediaanMPDRY'] - number_format($data['kebutuhanMPDRY']);
+                                    // $selisihMPDRY = $data['ketersediaanMPDRY'] - number_format($data['kebutuhanMPDRY']);
                                 @endphp
-                                <h3>{{ $selisihMPDRY }}</h3>
+                                <h3>{{ $data['ketersediaanMPDRY']  }}</h3>
                             </div>
                         </div>
                     </div>

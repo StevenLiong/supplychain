@@ -8,6 +8,7 @@ use App\Models\planner\Wo;
 use App\Models\produksi\Mps2;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
+use App\Models\produksi\ManPower;
 use App\Models\produksi\MatriksSkill;
 use App\Models\produksi\ProductionLine;
 use App\Models\produksi\StandardizeWork;
@@ -24,7 +25,7 @@ class ResourceWorkPlanningController extends Controller
         $drycastresin = DryCastResin::all();
         $mps = Mps2::all();
         $PL = ProductionLine::all();
-        $matriks_skill = MatriksSkill::all();
+        $matriks_skill = ManPower::all();
 
         //PL2
         $filteredMpsPL2 = $mps->where('production_line', 'PL2');
@@ -63,7 +64,7 @@ class ResourceWorkPlanningController extends Controller
                 break;
         }
         // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
-        $ketersediaanMPPL2 = $matriks_skill->where('production_line', 'PL2')->where('skill', '>=', 2)->count();;
+        $ketersediaanMPPL2 = $matriks_skill-> count();;
 
         //PL3
         $filteredMpsPL3 = $mps->where('production_line', 'PL3');
@@ -117,7 +118,10 @@ class ResourceWorkPlanningController extends Controller
             return 0;
         });
         $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
+        // $ketersediaanMPDRY = $matriks_skill->where('production_line', 'DRY')->where('skill', '>=', 2)->count();
         $ketersediaanMPDRY = $matriks_skill->where('production_line', 'DRY')->where('skill', '>=', 2)->count();
+        //JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN
+        // DAN SEBALIKNYA
 
         //REPAIR
         $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
@@ -136,6 +140,12 @@ class ResourceWorkPlanningController extends Controller
         });
         $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (173 * 0.93);
         $ketersediaanMPREPAIR = $matriks_skill->where('production_line', 'REPAIR')->where('skill', '>=', 2)->count();
+
+
+        //ALL PRODUCTION LINE
+        $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
+        $kebutuhanMP = round($kebutuhanMPPL2 + $kebutuhanMPPL3 + $kebutuhanMPCTVT + $kebutuhanMPDRY + $kebutuhanMPREPAIR);
+        $ketersediaanMP = $ketersediaanMPPL2 + $ketersediaanMPPL3 + $ketersediaanMPCTVT + $ketersediaanMPDRY + $ketersediaanMPREPAIR;
 
         //kirim ke view
         $data = [
@@ -169,6 +179,10 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSumREPAIR' => $jumlahtotalHourSumREPAIR,
             'kebutuhanMPREPAIR' => $kebutuhanMPREPAIR,
             'ketersediaanMPREPAIR' => $ketersediaanMPREPAIR,
+            // ALL
+            'jumlahtotalHourSum' => $jumlahtotalHourSum,
+            'kebutuhanMP' => $kebutuhanMP,
+            'ketersediaanMP' => $ketersediaanMP,
         ];
 
 

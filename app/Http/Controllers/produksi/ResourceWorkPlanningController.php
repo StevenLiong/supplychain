@@ -148,6 +148,7 @@ class ResourceWorkPlanningController extends Controller
             'filteredMpsPL2' => $filteredMpsPL2,
             'jumlahtotalHourSumPL2' => $jumlahtotalHourSumPL2,
             'kebutuhanMPPL2' => $kebutuhanMPPL2,
+            'ketersediaanMPPL2' => $ketersediaanMPPL2,
             // PL3
             'filteredMpsPL3' => $filteredMpsPL3,
             'jumlahtotalHourSumPL3' => $jumlahtotalHourSumPL3,
@@ -265,8 +266,10 @@ class ResourceWorkPlanningController extends Controller
     function dryWorkload()
     {
         $title1 = 'Dry - Work Load';
+        $kapasitas = Kapasitas::all();
         $data = [
             'title1' => $title1,
+            'kapasitas' => $kapasitas,
         ];
         return view('produksi.resource_work_planning.DRY.work-load', ['data' => $data]);
     }

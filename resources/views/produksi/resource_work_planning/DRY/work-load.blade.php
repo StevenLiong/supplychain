@@ -26,88 +26,85 @@
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th rowspan="2" style="width: 150px; vertical-align: middle;">Proses</th>
-                                    <th colspan="10">KVA SWASTA</th>
-                                </tr>
-                                <tr>
-                                    <th>10</th>
-                                    <th>15</th>
-                                    <th>20</th>
-                                    <th>25</th>
-                                    <th>30</th>
-                                    <th>31.5</th>
-                                    <th>40</th>
-                                    <th>45</th>
-                                    <th>50</th>
-                                    <th>63</th>
-
+                                    <th></th>
+                                    @foreach ($data['kapasitas'] as $kap)
+                                        <th>
+                                            @if ($kap->ukuran_kapasitas)
+                                                {{ $kap->ukuran_kapasitas }}
+                                            @endif
+                                        </th>
+                                    @endforeach
                                 </tr>
                             </thead>
                             <tbody class="text-center">
                                 <tr>
-                                    <th>Coil LV</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+
+                                </tr>
+                                
+                                <tr>
+                                    <td>Coil LV</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
-                                    <th>Coil HV</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>Coil HV</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
-                                    <th>Mould & Casting</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>CCA</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
-                                    <th>Core & Assembly</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                </tr>
+                                    <td>Mould & Casting</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                </tr>                                 
                                 <tr>
-                                    <th>QC</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>QC</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
 
                             </tbody>

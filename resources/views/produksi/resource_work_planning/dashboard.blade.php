@@ -129,9 +129,9 @@
                             <div class="card-body text-center">
                                 <h6>Selisih MP</h6>
                                 @php
-                                    $selisihMPDRY = $data['ketersediaanMPDRY'] - number_format($data['kebutuhanMPDRY']);
+                                    $selisihMPPL2 = $data['ketersediaanMPPL2'] - number_format($data['kebutuhanMPPL2']);
                                 @endphp
-                                <h3>{{ $selisihMPDRY }}</h3>
+                                <h3>{{ $selisihMPPL2 }}</h3>
                             </div>
                         </div>
                     </div>

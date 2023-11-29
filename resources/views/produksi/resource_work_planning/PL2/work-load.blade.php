@@ -38,7 +38,10 @@
                             </thead>
                             <tbody class="text-center">
                                 <tr>
-                                    <th>Coil LV</th>
+
+                                </tr>
+                                <tr>
+                                    <td>Coil LV</td>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
                                             $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
@@ -46,10 +49,9 @@
                                         @endphp
                                         <td>{{ $totalQtyTrafo }}</td>
                                     @endforeach
-                                </tr>   
-
+                                </tr>
                                 <tr>
-                                    <th>Coil HV</th>
+                                    <td>Coil HV</td>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
                                             $totalQtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
@@ -58,7 +60,7 @@
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <th>CCA</th>
+                                    <td>CCA</td>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
                                             $totalQtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
@@ -67,7 +69,7 @@
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <th>Connect</th>
+                                    <td>Connect</td>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
                                             $totalQtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
@@ -76,7 +78,7 @@
                                     @endforeach
                                 </tr>
                                 <tr>
-                                    <th>Final</th>
+                                    <td>Final Assembly</td>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
                                             $totalQtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
@@ -84,15 +86,15 @@
                                         <td>{{ $totalQtyTrafo }}</td>
                                     @endforeach
                                 </tr>
-                                <tr>
-                                    <th>QC</th>
+                                {{-- <tr>
+                                    <td>QC</td>
                                     @foreach ($data['kapasitas'] as $kap)
                                         @php
                                             $totalQtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
                                         @endphp
                                         <td>{{ $totalQtyTrafo }}</td>
                                     @endforeach
-                                </tr>
+                                </tr> --}}
 
                             </tbody>
 

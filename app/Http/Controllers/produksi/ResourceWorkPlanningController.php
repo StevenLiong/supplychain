@@ -82,7 +82,7 @@ class ResourceWorkPlanningController extends Controller
         });
         $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (173 * 0.93);
         $ketersediaanMPPL3 = $matriks_skill->where('production_line', 'PL3')->where('skill', '>=', 2)->count();
-        
+
         //CTVT
         $filteredMpsCTVT = $mps->where('production_line', 'CTVT');
         $jumlahtotalHourSumCTVT = $filteredMpsCTVT->sum(function ($hasiltotalhour) {
@@ -212,8 +212,10 @@ class ResourceWorkPlanningController extends Controller
     function pl3Workload()
     {
         $title1 = 'PL 3 - Work Load';
+        $kapasitas = Kapasitas::all();
         $data = [
             'title1' => $title1,
+            'kapasitas' => $kapasitas,
         ];
         return view('produksi.resource_work_planning.PL3.work-load', ['data' => $data]);
     }
@@ -239,8 +241,10 @@ class ResourceWorkPlanningController extends Controller
     function ctvtWorkload()
     {
         $title1 = 'CT VT - Work Load';
+        $kapasitas = Kapasitas::all();
         $data = [
             'title1' => $title1,
+            'kapasitas' => $kapasitas,
         ];
         return view('produksi.resource_work_planning.CT-VT.work-load', ['data' => $data]);
     }
@@ -266,9 +270,12 @@ class ResourceWorkPlanningController extends Controller
     function dryWorkload()
     {
         $title1 = 'Dry - Work Load';
+        $mps = Mps2::all();
         $kapasitas = Kapasitas::all();
+
         $data = [
             'title1' => $title1,
+            'mps' => $mps,
             'kapasitas' => $kapasitas,
         ];
         return view('produksi.resource_work_planning.DRY.work-load', ['data' => $data]);
@@ -295,8 +302,13 @@ class ResourceWorkPlanningController extends Controller
     function repairWorkload()
     {
         $title1 = 'Repair - Work Load';
+        $mps = Mps2::all();
+        $kapasitas = Kapasitas::all();
+
         $data = [
             'title1' => $title1,
+            'mps' => $mps,
+            'kapasitas' => $kapasitas,
         ];
         return view('produksi.resource_work_planning.REPAIR.work-load', ['data' => $data]);
     }

@@ -25,142 +25,135 @@
                                         1 Minggu
                                     </th>
                                 </tr>
+                                
                                 <tr>
-                                    <th rowspan="2" style="width: 150px; vertical-align: middle;">Proses</th>
-                                    <th colspan="5">KVA PLN</th>
-                                    <th colspan="5">KVA SWASTA</th>
-                                </tr>
-                                <tr>
-                                    <th>10</th>
-                                    <th>20</th>
-                                    <th>30</th>
-                                    <th>40</th>
-                                    <th>50</th>
-                                    <th>10</th>
-                                    <th>20</th>
-                                    <th>30</th>
-                                    <th>40</th>
-                                    <th>50</th>
-
+                                    <th></th>
+                                    @foreach ($data['kapasitas'] as $kap)
+                                        <th>
+                                            @if ($kap->ukuran_kapasitas)
+                                                {{ $kap->ukuran_kapasitas }}
+                                            @endif
+                                        </th>
+                                    @endforeach
                                 </tr>
                             </thead>
                             <tbody class="text-center">
                                 <tr>
                                     <th>Untanking</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>Bongkar</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>Coil LV</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>Coil HV</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>CCA</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>Connect</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>Final Assembly</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>Finishing</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>QC Testing</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
 
                             </tbody>

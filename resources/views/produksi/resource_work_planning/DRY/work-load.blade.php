@@ -42,7 +42,17 @@
                                 </tr>
                                 
                                 <tr>
-                                    <td>Coil LV</td>
+                                    <th>Coil LV</th>
+                                    @foreach ($data['kapasitas'] as $kap)
+                                        @php
+                                            $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                            $totalQtyTrafo = $qtyTrafo > 0 ? $qtyTrafo : 0;
+                                        @endphp
+                                        <td>{{ $totalQtyTrafo }}</td>
+                                    @endforeach
+                                </tr>
+                                <tr>
+                                    <th>Coil HV</th>
                                     <td>6</td>
                                     <td>6</td>
                                     <td>6</td>
@@ -55,7 +65,7 @@
                                     <td>6</td>
                                 </tr>
                                 <tr>
-                                    <td>Coil HV</td>
+                                    <th>CCA</th>
                                     <td>6</td>
                                     <td>6</td>
                                     <td>6</td>
@@ -68,20 +78,7 @@
                                     <td>6</td>
                                 </tr>
                                 <tr>
-                                    <td>CCA</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                    <td>6</td>
-                                </tr>
-                                <tr>
-                                    <td>Mould & Casting</td>
+                                    <th>Mould & Casting</th>
                                     <td>6</td>
                                     <td>6</td>
                                     <td>6</td>
@@ -94,7 +91,7 @@
                                     <td>6</td>
                                 </tr>                                 
                                 <tr>
-                                    <td>QC</td>
+                                    <th>Final Assembly & Finishing</th>
                                     <td>6</td>
                                     <td>6</td>
                                     <td>6</td>

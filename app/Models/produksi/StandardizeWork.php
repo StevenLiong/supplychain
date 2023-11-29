@@ -20,6 +20,8 @@ class StandardizeWork extends Model
         'id_oil_custom',
         'id_repair',
         'total_hour',
+        'id_fg',
+        'kd_manhour',
     ];
 
 

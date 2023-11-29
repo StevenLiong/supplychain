@@ -82,6 +82,69 @@
                 </div>
             </div>
         </div> --}}
+        
+        <div class="card">
+            <div class="card-body">
+                <div class="header-title">
+                    <h4 class="card-title mt-2 mb-5"><b>Product Line 2</b></h4>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Quantity</h6> 
+                                <h3>{{ $data['qtyPL2'] }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Kapasitas (%)</h6> 
+                                <h3>{{ number_format($data['loadkapasitasPL2']) }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Kebutuhan MP</h6>
+                                <h3>{{ number_format($data['kebutuhanMPPL2']) }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Ketersediaan MP</h6>
+                                @php
+                                    // $selisihMPPL2 = $data['ketersediaanMPPL2'] - number_format($data['kebutuhanMPPL2']);
+                                @endphp
+                                <h3>{{ round($data['ketersediaanMPPL2']) }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="card card-widget task-card">
+                            <div class="card-body text-center">
+                                <h6>Overtime</h6>
+                                <h3>0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress mb-3">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                        aria-valuemin="0" aria-valuemax="100"><b>100%</b></div>
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
+                </div>
+
+                <div class="mt-2" style=" vertical-align: middle;">
+                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <div class="header-title">
@@ -127,80 +190,6 @@
                                     // $selisihMPPL2 = $data['ketersediaanMPPL2'] - number_format($data['kebutuhanMPPL2']);
                                 @endphp
                                 {{-- <h3>{{ $data['ketersediaanMPPL2'] }}</h3> --}}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="card card-widget task-card">
-                            <div class="card-body text-center">
-                                <h6>Overtime</h6>
-                                <h3>0</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="progress mb-3">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
-                        aria-valuemin="0" aria-valuemax="100"><b>100%</b></div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
-                </div>
-
-                <div class="mt-2" style=" vertical-align: middle;">
-                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="header-title">
-                    <h4 class="card-title mt-2 mb-5"><b>Product Line 2</b></h4>
-                </div>
-                <div class="row">
-                    <div class="col-lg-2">
-                        <div class="card card-widget task-card">
-                            <div class="card-body text-center">
-                                <h6>Quantity</h6>
-                                @php
-                                    $QtyPL2 = $data['mps']
-                                        ->where('production_line', '=', 'PL2')
-                                        ->where('deadline', '>=', $data['deadlineDate'])
-                                        ->sum('qty_trafo');
-
-                                    $data['QtyPL2'] = $QtyPL2;
-                                @endphp
-                                <h3>{{ $data['QtyPL2'] }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="card card-widget task-card">
-                            <div class="card-body text-center">
-                                <h6>Kapasitas (%)</h6>
-                                @php
-                                    $kapasitasPL2 = $data['PL']->where('nama_pl', '=', 'PL2')->first();
-                                    $loadkapasitasPL2 = ($QtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
-                                @endphp
-                                <h3>{{ number_format($loadkapasitasPL2) }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="card card-widget task-card">
-                            <div class="card-body text-center">
-                                <h6>Kebutuhan MP</h6>
-                                <h3>{{ number_format($data['kebutuhanMPPL2']) }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2">
-                        <div class="card card-widget task-card">
-                            <div class="card-body text-center">
-                                <h6>Ketersediaan MP</h6>
-                                @php
-                                    // $selisihMPPL2 = $data['ketersediaanMPPL2'] - number_format($data['kebutuhanMPPL2']);
-                                @endphp
-                                <h3>{{ $data['ketersediaanMPPL2'] }}</h3>
                             </div>
                         </div>
                     </div>

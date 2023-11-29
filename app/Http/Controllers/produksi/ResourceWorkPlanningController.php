@@ -25,7 +25,9 @@ class ResourceWorkPlanningController extends Controller
         $drycastresin = DryCastResin::all();
         $mps = Mps2::all();
         $PL = ProductionLine::all();
-        $matriks_skill = ManPower::all();
+        $manPower = ManPower::all();
+        $matriks_skill = MatriksSkill::all();
+        $totalManPower = ManPower::count();
 
         //PL2
         $filteredMpsPL2 = $mps->where('production_line', 'PL2');
@@ -63,8 +65,12 @@ class ResourceWorkPlanningController extends Controller
                 $deadlineDate = now()->subWeek()->toDateString();
                 break;
         }
+        $qtyPL2 =  $filteredMpsPL2->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
         // $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
-        $ketersediaanMPPL2 = $matriks_skill-> count();;
+        // $ketersediaanMPPL2 = $matriks_skill->count();
+        
+        $kapasitasPL2 = $PL->where('nama_pl', '=', 'PL2')->first();
+        $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
 
         //PL3
         $filteredMpsPL3 = $mps->where('production_line', 'PL3');
@@ -145,7 +151,13 @@ class ResourceWorkPlanningController extends Controller
         //ALL PRODUCTION LINE
         $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
         $kebutuhanMP = round($kebutuhanMPPL2 + $kebutuhanMPPL3 + $kebutuhanMPCTVT + $kebutuhanMPDRY + $kebutuhanMPREPAIR);
+        
+        $selisihKurangMP = $kebutuhanMP - $totalManPower;
+        $presentaseKurangMP = $selisihKurangMP /$kebutuhanMP;
+        $ketersediaanMPPL2 = $kebutuhanMPPL2- ($kebutuhanMPPL2*$presentaseKurangMP);
+        
         $ketersediaanMP = $ketersediaanMPPL2 + $ketersediaanMPPL3 + $ketersediaanMPCTVT + $ketersediaanMPDRY + $ketersediaanMPREPAIR;
+        
 
         //kirim ke view
         $data = [
@@ -153,9 +165,12 @@ class ResourceWorkPlanningController extends Controller
             'drycastresin' => $drycastresin,
             'mps' => $mps,
             'PL' => $PL,
+            'presentaseKurangMP' => $presentaseKurangMP,
             //PL2
             'deadlineDate' => $deadlineDate,
             'filteredMpsPL2' => $filteredMpsPL2,
+            'qtyPL2' => $qtyPL2,
+            'loadkapasitasPL2' => $loadkapasitasPL2,
             'jumlahtotalHourSumPL2' => $jumlahtotalHourSumPL2,
             'kebutuhanMPPL2' => $kebutuhanMPPL2,
             'ketersediaanMPPL2' => $ketersediaanMPPL2,

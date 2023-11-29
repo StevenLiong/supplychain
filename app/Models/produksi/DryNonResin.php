@@ -67,6 +67,9 @@ class DryNonResin extends Model
         static::created(function ($drynonresin) {
             StandardizeWork::create([
                 'id_dry_non_resin' => $drynonresin->id,
+                'total_hour' => $drynonresin->total_hour,
+                'id_fg' => $drynonresin->id_fg,
+                'kd_manhour' => $drynonresin->kd_manhour,
             ]);
         });
 

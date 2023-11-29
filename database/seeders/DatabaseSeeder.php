@@ -117,6 +117,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ProductionLineSeeder::class);
         $this->call(ManPowerSeeder::class);
         $this->call(MatriksSkillSeeder::class);
+        $this->call(PeriodeSeeder::class);
         $this->call(ManHourSeeder::class);
     }
 }

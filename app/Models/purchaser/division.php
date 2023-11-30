@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\purchaser;
 
 use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -32,7 +32,8 @@ use App\Http\Controllers\logistic\FinishedgoodController;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
-
+use App\Http\Controllers\purchaser\poController;
+use App\Models\po;
 
 Auth::routes();
 Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
@@ -240,6 +241,8 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
 });
 
+
+//MR & PO
 //Material Request
 Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/', [mrController::class, 'index'])->name('home');
@@ -247,7 +250,17 @@ Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/materialrequest', [mrController::class, 'materialRequest']);
     Route::get('/materialrequest/add', [mrController::class, 'createmr']);
     Route::get('/materialrequest/{id_mr}', [mrController::class, 'editmr']);
+    Route::post('/materialrequest/{id_mr}', [mrController::class, 'storeEditmr']);
     Route::get('/tabelmaterial', [mrController::class, 'tableMaterial']);
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);
+});
+
+//Purchase Order
+Route::middleware(['auth', 'purchaseorder'])->group(function () {
+    Route::get('/', [poController::class, 'index'])->name('home');
+    Route::get('/purchaseorder/dashboard', [poController::class, 'index']);
+    Route::get('/purchaseorder', [poController::class, 'purchaseorder']);
+    Route::get('/purchaseorder/createPo/{id_mr}', [poController::class, 'createpo']);
+    Route::post('/purchaseorder/{id_mr}/add', [poController::class, 'storepo']);
 });

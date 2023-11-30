@@ -45,6 +45,7 @@ class ResourceWorkPlanningController extends Controller
                 break;
         }
 
+        $request->session()->put('periode', $periode);
 
         //FILTER PL
         $filteredMpsPL2 = $mps->where('production_line', 'PL2');
@@ -159,7 +160,6 @@ class ResourceWorkPlanningController extends Controller
         }
 
         //ambil inputan dari dropdown
-        // $request->session()->put('periode', $periode);
 
         //presentasi muatan kapasitas
         $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2) * 100;
@@ -330,7 +330,7 @@ class ResourceWorkPlanningController extends Controller
         ];
 
 
-        return view('produksi.resource_work_planning.dashboard', ['data' => $data]);
+        return view('produksi.resource_work_planning.dashboard',  ['data' => $data]);
     }
 
 
@@ -497,10 +497,10 @@ class ResourceWorkPlanningController extends Controller
                 break;
                 break;
             case 2:
-                $selectedWorkcenterData = $proses->where('nama_proses', )->first();
+                $selectedWorkcenterData = $proses->where('nama_proses',)->first();
                 break;
             case 3:
-                $selectedWorkcenterData = $proses->where('nama_proses', )->first();
+                $selectedWorkcenterData = $proses->where('nama_proses',)->first();
                 break;
         }
 

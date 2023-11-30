@@ -1,7 +1,22 @@
 @extends('produksi.resource_work_planning.template.bar')
 @section('content')
     <div class="col-lg-12">
-
+        <div class="row mb-4 align-items-center">
+            <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03" data-toggle="dropdown"
+                aria-expanded="false">
+                <form action="{{ route('process.periode') }}" method="post" id="periodeForm">
+                    @csrf
+                    <label>Pilih Periode:</label>
+                    <select class="custom-select " name="periode" id="periodeSelect"><i
+                            class="ri-arrow-down-s-line ml-2 mr-0"></i>
+                        <option value="1">Satu Bulan</option>
+                        <option value="2">3 minggu</option>
+                        <option value="3">2 minggu</option>
+                        <option value="4">1 minggu</option>
+                    </select>
+                </form>
+            </div>
+        </div>
 
         <div class="row">
             {{-- <div class="col-md-6 col-lg-3">
@@ -129,7 +144,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimePL2'] }}</h3>
+                                {{-- <h3>{{ $data['overtimePL2'] }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -140,9 +155,10 @@
                     </div>
                 </div>
                 <div class="progress mb-3">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $data['loadkapasitasPL2'] }}%;"
-                        aria-valuenow="{{ $data['loadkapasitasPL2'] }}" aria-valuemin="0" aria-valuemax="100">
-                        <b>{{ $data['loadkapasitasPL2'] }}%</b>
+                    <div class="progress-bar bg-success" role="progressbar"
+                        style="width: {{ $data['loadkapasitasPL2'] }}%;" aria-valuenow="{{ $data['loadkapasitasPL2'] }}"
+                        aria-valuemin="0" aria-valuemax="100">
+                        <b>{{ ceil($data['loadkapasitasPL2']) }}%</b>
                     </div>
                     {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: {{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}%;" aria-valuenow="{{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}"
                         aria-valuemin="0" aria-valuemax="100"><b>{{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}%</b></div> --}}
@@ -205,7 +221,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimePL3'] }}</h3>
+                                {{-- <h3>{{ $data['overtimePL3'] }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -280,7 +296,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimeCTVT'] }}</h3>
+                                {{-- <h3>{{ $data['overtimeCTVT'] }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -355,7 +371,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimeDRY'] }}</h3>
+                                {{-- <h3>{{ $data['overtimeDRY'] }}</h3> --}}
                             </div>
                         </div>
                     </div>
@@ -430,7 +446,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimeREPAIR'] }}</h3>
+                                {{-- <h3>{{ $data['overtimeREPAIR'] }}</h3> --}}
                             </div>
                         </div>
                     </div>

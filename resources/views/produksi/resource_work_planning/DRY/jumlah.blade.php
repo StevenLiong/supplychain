@@ -10,7 +10,7 @@
             <div class="card-body">
 
                 <div class="row mb-4 align-items-center">
-                    <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03" data-toggle="dropdown"
+                    {{-- <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03" data-toggle="dropdown"
                         aria-expanded="false">
                         <div class="btn btn-primary">Hour / Day<i class="ri-arrow-down-s-line ml-2 mr-0"></i></div>
                         <div class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton03">
@@ -27,17 +27,17 @@
                             <a class="dropdown-item" href="#"> 2 </a>
                             <a class="dropdown-item" href="#"> 3 </a>
                         </div>
-                    </div>
-                    <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03"
-                        data-toggle="dropdown" aria-expanded="false">
-                        <div class="btn btn-primary">Work Center<i class="ri-arrow-down-s-line ml-2 mr-0"></i></div>
-                        <div class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton03">
-                            <a class="dropdown-item" href="#"> COIL MAKING</a>
-                            <a class="dropdown-item" href="#"> MOULD & ASSEMBLY</a>
-                            <a class="dropdown-item" href="#"> CORE & ASSEMBLY</a>
-                            <a class="dropdown-item" href="#"> QC</a>
-                        </div>
-                    </div>
+                    </div> --}}
+                    <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
+                        @csrf
+                        <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
+                                class="ri-arrow-down-s-line ml-2 mr-0"></i>
+                            <option value="1">Coil Making</option>
+                            <option value="2">Mould & Casting</option>
+                            <option value="3">Core & Assembly</option>
+                        </select>
+
+                    </form>
                     <div class="ml-auto mr-3" style="align-items: d-flex right;">
                         <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i
                                 class="mr-2 fa-solid fa-print"></i>Print</a>
@@ -47,56 +47,45 @@
                     <div id="datatable_wrapper" class="dataTables_wrapper">
                         <table id="datatable" class="table data-table table-striped dataTable" role="grid"
                             aria-describedby="datatable_info">
-                            <thead class="text-center ">
-
+                            <thead class="text-center">
                                 <tr>
                                     <th rowspan="2" style="width: 150px; vertical-align: middle;">Kapasitas</th>
                                     <th colspan="2">Jumlah Man Power</th>
                                     <th colspan="2">Jumlah Mesin</th>
                                 </tr>
                                 <tr>
-                                    <th>Coil LV</th>
-                                    <th>Coil HV</th>
-                                    <th>Coil LV</th>
-                                    <th>Coil HV</th>
+                                    @if (is_array($data['selectedWorkcenterData']) && count($data['selectedWorkcenterData']) > 0)
+                                        @foreach ($data['selectedWorkcenterData'] as $index => $prosesData)
+                                            <th>{{ $prosesData->nama_proses }}</th>
+                                        @endforeach
+                                    @else
+                                        <th></th>
+                                        <th></th>
+                                    @endif
+                                    @if (is_array($data['selectedWorkcenterData']) && count($data['selectedWorkcenterData']) > 0)
+                                        @foreach ($data['selectedWorkcenterData'] as $index => $prosesData)
+                                            <th>{{ $prosesData->nama_proses }}</th>
+                                        @endforeach
+                                    @else
+                                        <th></th>
+                                        <th></th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr>
-                                    <th>10</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                </tr>
-                                <tr>
-                                    <th>15</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                </tr>
-                                <tr>
-                                    <th>20</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                </tr>
-                                <tr>
-                                    <th>30</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                </tr>
-                                <tr>
-                                    <th>50</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                    <th>2</th>
-                                </tr>
+                                @foreach ($data['kapasitas'] as $kap)
+                                    <tr>
+                                        <th>
+                                            @if ($kap->ukuran_kapasitas)
+                                                {{ $kap->ukuran_kapasitas }}
+                                            @endif
+                                        </th>
+                                        <th>2</th>
+                                        <th>2</th>
+                                        <th>2</th>
+                                        <th>2</th>
+                                    </tr>
+                                @endforeach
                             </tbody>
                             <tfoot class="text-center">
                                 <tr>
@@ -120,4 +109,27 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Mendeteksi perubahan pada dropdown
+            $('#workcenterSelect').change(function() {
+                // Mengambil nilai yang dipilih
+                var selectedValue = $(this).val();
+
+                // Menyimpan nilai yang dipilih dalam localStorage
+                localStorage.setItem('selectedWorkcenter', selectedValue);
+
+                // Mengirimkan formulir secara otomatis
+                $('#workcenterForm').submit();
+            });
+
+            // Memeriksa apakah ada nilai yang disimpan dalam localStorage
+            var storedValue = localStorage.getItem('selectedWorkcenter');
+            if (storedValue) {
+                // Menetapkan nilai yang disimpan sebagai nilai awal dropdown
+                $('#workcenterSelect').val(storedValue);
+            }
+        });
+    </script>
 @endsection

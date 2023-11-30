@@ -11,6 +11,7 @@ use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManPower;
 use App\Models\produksi\MatriksSkill;
 use App\Models\produksi\ProductionLine;
+use App\Models\produksi\Proses;
 use App\Models\produksi\StandardizeWork;
 use App\Models\produksi\Wo2;
 use Illuminate\Http\Request;
@@ -335,7 +336,7 @@ class ResourceWorkPlanningController extends Controller
 
     function Workload(Request $request)
     {
-        $pl = ProductionLine::all();
+        $PL = ProductionLine::all();
         $title1 = ' Work Load';
         $mps = Mps2::all();
         $kapasitas = Kapasitas::all();
@@ -369,7 +370,7 @@ class ResourceWorkPlanningController extends Controller
             'title1' => $title1,
             'mps' => $mps,
             'kapasitas' => $kapasitas,
-            'pl' => $pl,
+            'PL' => $PL,
             'deadlineDate' => $deadlineDate,
         ];
 
@@ -475,11 +476,59 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
     }
 
-    function dryJumlah()
+    function dryJumlah(Request $request)
     {
         $title1 = 'Dry - Jumlah';
+        $PL = ProductionLine::all();
+        $mps = Mps2::all();
+        $kapasitas = Kapasitas::all();
+        $drycastresin = DryCastResin::all();
+        $matriks_skill = MatriksSkill::all();
+        $proses = Proses::all();
+
+        $selectedWorkcenter = $request->input('selectedWorkcenter', 1);
+
+        switch ($selectedWorkcenter) {
+            case 1:
+                $allData = $proses->all();
+                $selectedWorkcenterData = array_filter($allData, function ($item) {
+                    return in_array($item['nama_proses'], ['COIL LV', 'COIL HV']);
+                });
+                break;
+                break;
+            case 2:
+                $selectedWorkcenterData = $proses->where('nama_proses', )->first();
+                break;
+            case 3:
+                $selectedWorkcenterData = $proses->where('nama_proses', )->first();
+                break;
+        }
+
+        $periode = $request->session()->get('periode', 1);
+        switch ($periode) {
+            case 1:
+                $deadlineDate = now()->subMonth()->toDateString();
+                break;
+            case 2:
+                $deadlineDate = now()->subWeeks(3)->toDateString();
+                break;
+            case 3:
+                $deadlineDate = now()->subWeeks(2)->toDateString();
+                break;
+            case 4:
+                $deadlineDate = now()->subWeek()->toDateString();
+                break;
+        }
         $data = [
             'title1' => $title1,
+            'mps' => $mps,
+            'kapasitas' => $kapasitas,
+            'PL' => $PL,
+            // 'workcenter' => $workcenter,
+            'selectedWorkcenterData' => $selectedWorkcenterData,
+            'deadlineDate' => $deadlineDate,
+            'drycastresin' => $drycastresin,
+            'matriks_skill' => $matriks_skill,
         ];
         return view('produksi.resource_work_planning.DRY.jumlah', ['data' => $data]);
     }

@@ -17,13 +17,13 @@
                 </div>
                 <div class="table-responsive">
                     <div id="datatable_wrapper" class="dataTables_wrapper">
-                        @foreach ($data['pl'] as $pl)
-                            <table id="datatable_{{ $pl->nama_pl }}" class="table table-striped dataTable m-2"
+                        @foreach ($data['PL'] as $PL)
+                            <table id="datatable_{{ $PL->nama_pl }}" class="table table-striped dataTable m-2"
                                 role="grid" aria-describedby="datatable_info">
                                 <thead class="text-center">
                                     <tr>
                                         <th colspan="{{ count($data['kapasitas']) + 1 }}">
-                                            {{ $periodeLabel }} - {{ $pl->nama_pl }}
+                                            {{ $periodeLabel }} - {{ $PL->nama_pl }}
                                         </th>
                                     </tr>
                                     <tr>
@@ -39,12 +39,12 @@
                                 </thead>
                                 <tbody class="text-center">
                                     <tr>
-                                        <th>{{ $pl->nama_pl }}</th>
+                                        <th>{{ $PL->nama_pl }}</th>
                                         @foreach ($data['kapasitas'] as $kap)
                                             @php
                                                 $qtyTrafo = $data['mps']
                                                     ->where('kva', $kap->ukuran_kapasitas)
-                                                    ->where('production_line', $pl->nama_pl)
+                                                    ->where('production_line', $PL->nama_pl)
                                                     ->where('deadline', '>=', $data['deadlineDate'])
                                                     ->sum('qty_trafo');
                                             @endphp
@@ -60,7 +60,7 @@
                                 </tbody>
                             </table>
                         @endforeach
-                       
+
                     </div>
                 </div>
             </div>

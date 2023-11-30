@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-
-class status extends Model
+class delivery extends Model
 {
     use HasFactory;
-    protected $status = 'status';
+    protected $table= 'delivery';
+    public $timestamps = false;
 
     protected $fillable = [
-        'id_status',
-        'name_status',
+        'id_delivery',
+        'alamat',
     ];
-
-    public function mr(): HasOne
+    
+    public function po(): HasOne
     {
-        return $this->hasOne(mr::class, 'id_mr', 'id_mr');
+        return $this->hasOne(mr::class,'id_po','id_po');
     }
 }

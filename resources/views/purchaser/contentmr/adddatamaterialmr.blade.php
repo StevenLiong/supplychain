@@ -8,7 +8,7 @@
         <div style="background-color: white;">
             <!-- lOGO TRAFOINDO -->
             <div class="container d-flex justify-content-center align-items-center">
-                <img src="/Asset/LogoTrafoindo.png" alt="Centered Image" style="width: 235px;">
+                <img src="/Assets/LogoTrafoindo.png" alt="Centered Image" style="width: 235px;">
             </div>
             <!--  -->
             <!-- form salesorder -->
@@ -45,7 +45,7 @@
                                 <option value="{{ $division->id_division }}" data-division="{{ $division->id_division }}">
                                     {{ $division->name_division }}
                                 </option>
-                            @endforeach
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
@@ -58,20 +58,20 @@
                         </div>
                         <div class="mb-3">
                             <label for="tanggal" class="form-label">Accepted date</label>
-                            <input type="date" class="form-control" id="tanggal" value="{{$now->toDateString()}}" placeholder="Masukan Tanggal" name="tanggal_mr">
+                            <input type="date" class="form-control" id="tanggal" value="{{$now->toDateString()}}" placeholder="Masukan Tanggal" name="accepted_mr">
                         </div>
                         <div class=" mt-5 items">
                             <h3 class="my-1 text-muted text-center">Add Material</h3>
                             <div class="item mt-4">
                                 <div>
-                                    <label for="exampleFormControlInput1" class="form-label">Nama Material</label>
+                                    <label for="exampleFormControlInput1" class="form-label">Kode Material</label>
                                 </div>
                                 <div class="row d-flex justify-content-between">
                                     <div class="col-8">
-                                        <select class="form-select material-select" placeholder="Enter Customer Name" id="material">
+                                        <select class="form-select material-select" placeholder="Enter Customer Name" id="material" name="kd_material" onchange="updateMat(this)">
                                             <option value="" selected disabled>-- Pilih Material --</option>
-                                            @foreach ($materials as $key => $barangs)
-                                            <option value="{{ $key }}">{{ $key }}</option>
+                                            @foreach ($materials as $material)
+                                            <option value="" data-nama="{{$material->nama_material}}" data-dim="{{$material->satuan}}">{{ $material->kd_material }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -82,16 +82,15 @@
                                         <input class="form-control" name="qty[]" value="0">
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" name="dim" disabled>
+                                        <input class="form-control" id='satuan' name="satuan" disabled>
                                     </div>
                                     <div class="col">
                                         <div class=" btn btn-danger form-control " onclick="deleteItem(this)"><i class="bi bi-trash-fill"></i>
                                         </div>
                                     </div>
                                     <div class="mb-3 mt-4">
-                                        <label for="exampleFormControlInput1" class="form-label">Spesifikasi</label>
-                                        <select  class="form-select specification-select" onchange="updateItem(this)" name="material[]">
-                                        </select>
+                                        <label for="exampleFormControlInput1" class="form-label">Nama Material</label>
+                                        <input type="text" class="form-control nama_material" id='nama_material' name="nama_material" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -122,13 +121,33 @@
 
 <!-- adddivision script -->
 <script>
-        function updateForm(sel) {
-                var selectedOption = $('#select-division').find('option:selected');
-                var divisioncode = $('input[name="id_division"]');
-                
-                divisioncode.val(selectedOption.data('division'));
-        }
-        //variabel kosong, harus sama dengan var pada script
+    function updateForm(sel) {
+        var selectedOption = $('#select-division').find('option:selected');
+        var divisioncode = $('input[name="id_division"]');
+
+        divisioncode.val(selectedOption.data('division'));
+    }
+    function updateMat(select){
+        var selectedOption = $(select).find(":selected");
+        var dimension = $(select).closest(".item").find('input[name="satuan"]');
+        var name = $(select).closest(".item").find('input[name="nama_material"]');
+
+        var dataDim = selectedOption.data("dim");
+        var dataName = selectedOption.data("nama");
+        dimension.val(dataDim);
+        name.val(dataName);
+    }
+    //variabel kosong, harus sama dengan var pada script
+    function updateItem(select) {
+        var selectedOption = $(select).find(":selected");
+        var dimension = $(select).closest(".item").find('input[name="dim"]');
+        var quantity = $(select).closest(".item").find('input[name="qty[]"]');
+
+        var dataDim = selectedOption.data("dim");
+        var dataMax = selectedOption.data("qty");
+        dimension.val(dataDim);
+        quantity.attr('max', dataMax);
+    }
 </script>
 
 
@@ -138,43 +157,43 @@
     let itemCount = 1;
 
     // Event delegation to handle material select change
-    document.addEventListener('change', function(event) {
-        if (event.target.classList.contains('material-select')) {
-            const material = event.target.value;
+    // document.addEventListener('change', function(event) {
+    //     if (event.target.classList.contains('material-select')) {
+    //         const material = event.target.value;
 
-            // Find the corresponding specification select element
-            const specificationSelect = event.target.parentElement.parentElement.parentElement.querySelector(
-                '.specification-select');
+    //         // Find the corresponding specification select element
+    //         const specificationSelect = event.target.parentElement.parentElement.parentElement.querySelector(
+    //             '.specification-select');
 
-            // Clear existing options
-            specificationSelect.innerHTML = '';
-            const temp = document.createElement('option');
-            temp.value = '';
-            temp.text = '-- Pilih Spesifikasi --';
-            specificationSelect.appendChild(temp);
+    //         // Clear existing options
+    //         specificationSelect.innerHTML = '';
+    //         const temp = document.createElement('option');
+    //         temp.value = '';
+    //         temp.text = '-- Pilih Spesifikasi --';
+    //         specificationSelect.appendChild(temp);
 
-            if (material) {
-                // Fetch specifications based on the selected material and store using an AJAX request
-                $.ajax({
-                    url: '/get/material/' + material,
-                    type: 'GET',
-                    success: function(data) {
-                        // Populate the specification select with the retrieved data
-                        data.forEach(function(stock) {
-                            const option = document.createElement('option');
-                            // option.data-dim=stock.satuan;
-                            option.value = stock.id_material;
-                            option.text = stock.spesifikasi;
+    //         if (material) {
+    //             // Fetch specifications based on the selected material and store using an AJAX request
+    //             $.ajax({
+    //                 url: '/get/material/' + material,
+    //                 type: 'GET',
+    //                 success: function(data) {
+    //                     // Populate the specification select with the retrieved data
+    //                     data.forEach(function(stock) {
+    //                         const option = document.createElement('option');
+    //                         // option.data-dim=stock.satuan;
+    //                         option.value = stock.id_material;
+    //                         option.text = stock.spesifikasi;
 
-                            option.setAttribute('data-dim', '');
-                            option.setAttribute('data-qty', '');
-                            specificationSelect.appendChild(option);
-                        });
-                    }
-                });
-            }
-        }
-    });
+    //                         option.setAttribute('data-dim', '');
+    //                         option.setAttribute('data-qty', '');
+    //                         specificationSelect.appendChild(option);
+    //                     });
+    //                 }
+    //             });
+    //         }
+    //     }
+    // });
 
     function addNewItem() {
         itemCount++;
@@ -183,12 +202,12 @@
         const newDiv = originalDiv.cloneNode(true);
 
         // Update IDs and names for the new elements
-        newDiv.querySelectorAll('.material-select').forEach((select) => {
-            select.id = `material${itemCount}`;
-            select.name = `category`;
-        });
+        // newDiv.querySelectorAll('.material-select').forEach((select) => {
+        //     select.id = `material${itemCount}`;
+        //     select.name = `category`;
+        // });
 
-        newDiv.querySelector('.specification-select').innerHTML = '';
+        newDiv.querySelector('.nama_material').innerHTML = '';
 
         formContainer.appendChild(newDiv);
     }

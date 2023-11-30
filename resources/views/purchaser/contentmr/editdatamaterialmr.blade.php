@@ -8,12 +8,12 @@
         <div style="background-color: white;">
             <!-- lOGO TRAFOINDO -->
             <div class="container d-flex justify-content-center align-items-center">
-                <img src="/Asset/LogoTrafoindo.png" alt="Centered Image" style="width: 235px;">
+                <img src="/Assets/LogoTrafoindo.png" alt="Centered Image" style="width: 235px;">
             </div>
             <!--  -->
             <!-- form salesorder -->
             <div>
-                <form action="/materialstore" method="post">
+                <form action= "/materialrequest/{{$mr->id_mr}}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-5"></div> <!-- div kosong -->
@@ -51,7 +51,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="tanggal" class="form-label">Accepted date</label>
-                            <input disabled type="date" class="form-control" id="tanggal" value="{{$mr->tanggal_mr}}" placeholder="Masukan Tanggal" name="tanggal_mr">
+                            <input disabled type="date" class="form-control" id="tanggal" value="{{$mr->accepted_mr}}" placeholder="Masukan Tanggal" name="accepted_mr">
                         </div>
                         
                         <div class=" mt-5 items">
@@ -68,7 +68,7 @@
                                         <strong>qty</strong>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" name="qty[]" value="{{$pesanan->qty_pesanan}}" disabled>
+                                        <input class="form-control" name="qty[]" value="{{$pesanan->qty_pesanan}}">
                                     </div> 
                                     <div class="col">
                                         <input class="form-control" name="dim" disabled>

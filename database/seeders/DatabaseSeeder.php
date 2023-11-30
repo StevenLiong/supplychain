@@ -9,6 +9,7 @@ use App\Models\logistic\Material;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Matrix\Operators\Division;
 
 class DatabaseSeeder extends Seeder
 {
@@ -107,7 +108,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ProsesSeeder::class);
         $this->call(TipeProsesSeeder::class);
         $this->call(WorkCenterSeeder::class);
-        $this->call(MpsSeeder::class);
+        // $this->call(MpsSeeder::class);
         $this->call(ManHourSeeder::class);
+        $this->call(DivisionSeeder::class);
+        
     }
 }

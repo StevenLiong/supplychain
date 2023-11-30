@@ -2,13 +2,13 @@
     <div class="position-sticky pt-3">
         <ul class="nav flex-column">
             <li class="nav-item ">
-                <a class="nav-link {{ Request::is('sales/dashboard/salesIndexCrm') ? 'text-white active rounded' : '' }}" href="">
+                <a class="nav-link {{ Request::is('sales/dashboard/salesIndexCrm') ? 'text-white active rounded' : '' }}" href="/purchaseorder/dashboard">
                     <i class="bi bi-grid-fill"></i>
                     Dashboard
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link {{ Request::is('sales/customer/salesIndexCustomer') ? 'text-white active rounded' : '' }}" href="/sales/customer/salesIndexCustomer">
+                <a class="nav-link {{ Request::is('sales/customer/salesIndexCustomer') ? 'text-white active rounded' : '' }}" href="/purchaseorder">
                     <i class="bi bi-people-fill"></i>
                     Purchase Order
                 </a>

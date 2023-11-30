@@ -25,7 +25,7 @@
         </button>
         {{-- LOGO --}}
         <div>
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"> <img src="/Asset/LogoTrafoindo.png" width="120" height="50" class="d-inline-block" alt="LOGO"></a>
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"> <img src="/Assets/LogoTrafoindo.png" width="120" height="50" class="d-inline-block" alt="LOGO"></a>
         </div>
 
         {{-- USER MENU --}}
@@ -34,8 +34,6 @@
                 {{ Auth::user()->username }}
             </button>
             <ul class="dropdown-menu dropdown-menu-lg-end">
-                <li><button class="dropdown-item" type="button">Profile</button></li>
-                <li><button class="dropdown-item" type="button">Setting</button></li>
                 <li>
                     <a class="dropdown-item dropdown-item-danger d-flex gap-2 align-items-center" href="#"
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

@@ -20,135 +20,86 @@ class ResourceWorkPlanningController extends Controller
 {
     public function dashboard(Request $request)
     {
-        // $totalQty = Mps::sum('qty_trafo');
         $title1 = 'Dashboard';
         $drycastresin = DryCastResin::all();
         $mps = Mps2::all();
         $PL = ProductionLine::all();
-        $manPower = ManPower::all();
-        $matriks_skill = MatriksSkill::all();
         $totalManPower = ManPower::count();
 
-        //PL2
-        $filteredMpsPL2 = $mps->where('production_line', 'PL2');
-        $jumlahtotalHourSumPL2 = $filteredMpsPL2->sum(function ($hasiltotalhour) {
-            // Mengambil id mps2s dari $hasiltotalhour
-            $mps2sId = $hasiltotalhour->id;
-            // Mengambil objek mps2s berdasarkan id
-            $mps2s = Mps2::find($mps2sId);
-            // Memastikan $mps2s ada dan memiliki properti 'qty'
-            if ($mps2s && isset($mps2s->qty_trafo)) {
-                // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
-            }
-            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
-            return 0;
-        });
-
-        //PL3
-        $filteredMpsPL3 = $mps->where('production_line', 'PL3');
-        $jumlahtotalHourSumPL3 = $filteredMpsPL3->sum(function ($hasiltotalhour) {
-            // Mengambil id mps2s dari $hasiltotalhour
-            $mps2sId = $hasiltotalhour->id;
-            // Mengambil objek mps2s berdasarkan id
-            $mps2s = Mps2::find($mps2sId);
-            // Memastikan $mps2s ada dan memiliki properti 'qty'
-            if ($mps2s && isset($mps2s->qty_trafo)) {
-                // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
-            }
-            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
-            return 0;
-        });
-
-        //CTVT
-        $filteredMpsCTVT = $mps->where('production_line', 'CTVT');
-        $jumlahtotalHourSumCTVT = $filteredMpsCTVT->sum(function ($hasiltotalhour) {
-            // Mengambil id mps2s dari $hasiltotalhour
-            $mps2sId = $hasiltotalhour->id;
-            // Mengambil objek mps2s berdasarkan id
-            $mps2s = Mps2::find($mps2sId);
-            // Memastikan $mps2s ada dan memiliki properti 'qty'
-            if ($mps2s && isset($mps2s->qty_trafo)) {
-                // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
-            }
-            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
-            return 0;
-        });
-
-        //DRY
-        $filteredMpsDRY = $mps->where('production_line', 'DRY');
-        $jumlahtotalHourSumDRY = $filteredMpsDRY->sum(function ($hasiltotalhour) {
-            // Mengambil id mps2s dari $hasiltotalhour
-            $mps2sId = $hasiltotalhour->id;
-            // Mengambil objek mps2s berdasarkan id
-            $mps2s = Mps2::find($mps2sId);
-            // Memastikan $mps2s ada dan memiliki properti 'qty'
-            if ($mps2s && isset($mps2s->qty_trafo)) {
-                // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
-            }
-            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
-            return 0;
-        });
-
-        //REPAIR
-        $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
-        $jumlahtotalHourSumREPAIR = $filteredMpsREPAIR->sum(function ($hasiltotalhour) {
-            // Mengambil id mps2s dari $hasiltotalhour
-            $mps2sId = $hasiltotalhour->id;
-            // Mengambil objek mps2s berdasarkan id
-            $mps2s = Mps2::find($mps2sId);
-            // Memastikan $mps2s ada dan memiliki properti 'qty'
-            if ($mps2s && isset($mps2s->qty_trafo)) {
-                // Mengalikan $hasiltotalhour dengan qty
-                return $hasiltotalhour->wo->standardize_work->total_hour * $mps2s->qty_trafo;
-            }
-            // Mengembalikan nilai default jika tidak dapat melakukan perhitungan
-            return 0;
-        });
-
-        //TOTAL HOUR SEMUANYA
-        $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
-
         //pengelompokkan periode
+        //ambil input dulu pake $request
         $periode = $request->input('periode', 1);
-
         switch ($periode) {
             case 1:
                 $deadlineDate = now()->subMonth()->toDateString();
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (173 * 0.93);
-                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (173 * 0.93);
-                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (173 * 0.93);
-                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (173 * 0.93);
-                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (173 * 0.93);
                 break;
             case 2:
                 $deadlineDate = now()->subWeeks(3)->toDateString();
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (120 * 0.93);
-                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (120 * 0.93);
-                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (120 * 0.93);
-                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (120 * 0.93);
-                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (120 * 0.93);
                 break;
             case 3:
                 $deadlineDate = now()->subWeeks(2)->toDateString();
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (80 * 0.93);
-                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (80 * 0.93);
-                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (80 * 0.93);
-                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (80 * 0.93);
-                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (80 * 0.93);
                 break;
             case 4:
                 $deadlineDate = now()->subWeek()->toDateString();
-                $kebutuhanMPPL2 = $jumlahtotalHourSumPL2 / (40 * 0.93);
-                $kebutuhanMPPL3 = $jumlahtotalHourSumPL3 / (40 * 0.93);
-                $kebutuhanMPCTVT = $jumlahtotalHourSumCTVT / (40 * 0.93);
-                $kebutuhanMPDRY = $jumlahtotalHourSumDRY / (40 * 0.93);
-                $kebutuhanMPREPAIR = $jumlahtotalHourSumREPAIR / (40 * 0.93);
                 break;
         }
+
+
+        //FILTER PL
+        $filteredMpsPL2 = $mps->where('production_line', 'PL2');
+        $filteredMpsPL3 = $mps->where('production_line', 'PL3');
+        $filteredMpsCTVT = $mps->where('production_line', 'CTVT');
+        $filteredMpsDRY = $mps->where('production_line', 'DRY');
+        $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
+
+        //QTY PL
+        $qtyPL2 =  $filteredMpsPL2->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyPL3 =  $filteredMpsPL3->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyCTVT =  $filteredMpsCTVT->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyDRY =  $filteredMpsDRY->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        $qtyREPAIR =  $filteredMpsREPAIR->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+
+
+        $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL2;
+        $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL3;
+        $jumlahtotalHourSumCTVT = Mps2::where('production_line', 'CTVT')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyCTVT;
+        $jumlahtotalHourSumDRY = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyDRY;
+        $jumlahtotalHourSumREPAIR = Mps2::where('production_line', 'REPAIR')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyREPAIR;
+
+
+        switch ($periode) {
+            case 1:
+                $kebutuhanMPPL2 = ceil($jumlahtotalHourSumPL2 / (173 * 0.93));
+                $kebutuhanMPPL3 = ceil($jumlahtotalHourSumPL3 / (173 * 0.93));
+                $kebutuhanMPCTVT = ceil($jumlahtotalHourSumCTVT / (173 * 0.93));
+                $kebutuhanMPDRY = ceil($jumlahtotalHourSumDRY / (173 * 0.93));
+                $kebutuhanMPREPAIR = ceil($jumlahtotalHourSumREPAIR / (173 * 0.93));
+                break;
+            case 2:
+                $kebutuhanMPPL2 = ceil($jumlahtotalHourSumPL2 / (120 * 0.93));
+                $kebutuhanMPPL3 = ceil($jumlahtotalHourSumPL3 / (120 * 0.93));
+                $kebutuhanMPCTVT = ceil($jumlahtotalHourSumCTVT / (120 * 0.93));
+                $kebutuhanMPDRY = ceil($jumlahtotalHourSumDRY / (120 * 0.93));
+                $kebutuhanMPREPAIR = ceil($jumlahtotalHourSumREPAIR / (120 * 0.93));
+                break;
+            case 3:
+                $kebutuhanMPPL2 = ceil($jumlahtotalHourSumPL2 / (80 * 0.93));
+                $kebutuhanMPPL3 = ceil($jumlahtotalHourSumPL3 / (80 * 0.93));
+                $kebutuhanMPCTVT = ceil($jumlahtotalHourSumCTVT / (80 * 0.93));
+                $kebutuhanMPDRY = ceil($jumlahtotalHourSumDRY / (80 * 0.93));
+                $kebutuhanMPREPAIR = ceil($jumlahtotalHourSumREPAIR / (80 * 0.93));
+                break;
+            case 4:
+                $kebutuhanMPPL2 = ceil($jumlahtotalHourSumPL2 / (40 * 0.93));
+                $kebutuhanMPPL3 = ceil($jumlahtotalHourSumPL3 / (40 * 0.93));
+                $kebutuhanMPCTVT = ceil($jumlahtotalHourSumCTVT / (40 * 0.93));
+                $kebutuhanMPDRY = ceil($jumlahtotalHourSumDRY / (40 * 0.93));
+                $kebutuhanMPREPAIR = ceil($jumlahtotalHourSumREPAIR / (40 * 0.93));
+                break;
+        }
+
+        //TOTAL HOUR SEMUANYA
+        $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
 
         //TOTAL KEBUTUHAN MP
         $kebutuhanMP = round($kebutuhanMPPL2 + $kebutuhanMPPL3 + $kebutuhanMPCTVT + $kebutuhanMPDRY + $kebutuhanMPREPAIR);
@@ -156,7 +107,7 @@ class ResourceWorkPlanningController extends Controller
         $selisihKurangMP = $kebutuhanMP - $totalManPower;
         //PRESENTASE KEKURANGAN MP
         $presentaseKurangMP = $selisihKurangMP / $kebutuhanMP;
-        
+
         $ketersediaanMPPL2 = ceil($kebutuhanMPPL2 - ($kebutuhanMPPL2 * $presentaseKurangMP));
         $ketersediaanMPPL3 = ceil($kebutuhanMPPL3 - ($kebutuhanMPPL3 * $presentaseKurangMP));
         $ketersediaanMPCTVT = ceil($kebutuhanMPCTVT - ($kebutuhanMPCTVT * $presentaseKurangMP));
@@ -165,38 +116,77 @@ class ResourceWorkPlanningController extends Controller
 
         //TOTAL KETERSEDIAAN MP
         $ketersediaanMP = $ketersediaanMPPL2 + $ketersediaanMPPL3 + $ketersediaanMPCTVT + $ketersediaanMPDRY + $ketersediaanMPREPAIR;
-        
+
+        //ambil total kapasitas dari tabel production_line
+        //berikut dari database merupakan kapasitas harian
+        $kapasitasPL2harian = $PL->firstWhere('nama_pl', 'PL2')->kapasitas_pl ?? null;
+        $kapasitasPL3harian = $PL->firstWhere('nama_pl', 'PL3')->kapasitas_pl ?? null;
+        $kapasitasCTVTharian = $PL->firstWhere('nama_pl', 'CTVT')->kapasitas_pl ?? null;
+        $kapasitasDRYharian = $PL->firstWhere('nama_pl', 'DRY')->kapasitas_pl ?? null;
+        $kapasitasREPAIRharian = $PL->firstWhere('nama_pl', 'REPAIR')->kapasitas_pl ?? null;
+
+
+        switch ($periode) {
+            case 1: //bulanan
+                $kapasitasPL2 = $kapasitasPL2harian * 20;
+                $kapasitasPL3 = $kapasitasPL3harian * 20;
+                $kapasitasCTVT = $kapasitasCTVTharian * 20;
+                $kapasitasDRY = $kapasitasDRYharian * 20;
+                $kapasitasREPAIR = $kapasitasREPAIRharian * 20;
+                break;
+            case 2: //3 minggu
+                $kapasitasPL2 = $kapasitasPL2harian * 15;
+                $kapasitasPL3 = $kapasitasPL3harian * 15;
+                $kapasitasCTVT = $kapasitasCTVTharian * 15;
+                $kapasitasDRY = $kapasitasDRYharian * 15;
+                $kapasitasREPAIR = $kapasitasREPAIRharian * 15;
+                break;
+            case 3: //2 minggu
+                $kapasitasPL2 = $kapasitasPL2harian * 10;
+                $kapasitasPL3 = $kapasitasPL3harian * 10;
+                $kapasitasCTVT = $kapasitasCTVTharian * 10;
+                $kapasitasDRY = $kapasitasDRYharian * 10;
+                $kapasitasREPAIR = $kapasitasREPAIRharian * 10;
+                break;
+            case 4: //1 minggu
+                $kapasitasPL2 = $kapasitasPL2harian * 5;
+                $kapasitasPL3 = $kapasitasPL3harian * 5;
+                $kapasitasCTVT = $kapasitasCTVTharian * 5;
+                $kapasitasDRY = $kapasitasDRYharian * 5;
+                $kapasitasREPAIR = $kapasitasREPAIRharian * 5;
+                break;
+        }
+
         //ambil inputan dari dropdown
-        $request->session()->put('periode', $periode);
+        // $request->session()->put('periode', $periode);
 
-        $qtyPL2 =  $filteredMpsPL2->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyPL3 =  $filteredMpsPL3->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyCTVT =  $filteredMpsCTVT->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyDRY =  $filteredMpsDRY->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyREPAIR =  $filteredMpsREPAIR->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
+        //presentasi muatan kapasitas
+        $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2) * 100;
+        $loadkapasitasPL3 = ($qtyPL3 / $kapasitasPL3) * 100;
+        $loadkapasitasCTVT = ($qtyCTVT / $kapasitasCTVT) * 100;
+        $loadkapasitasDRY = ($qtyDRY / $kapasitasDRY) * 100;
+        $loadkapasitasREPAIR = ($qtyREPAIR / $kapasitasREPAIR) * 100;
 
-        //ambil nilai kapasitas dari tabel production_line
-        $kapasitasPL2 = $PL->where('nama_pl', '=', 'PL2')->first();
-        $kapasitasPL3 = $PL->where('nama_pl', '=', 'PL3')->first();
-        $kapasitasCTVT = $PL->where('nama_pl', '=', 'CTVT')->first();
-        $kapasitasDRY = $PL->where('nama_pl', '=', 'DRY')->first();
-        $kapasitasREPAIR = $PL->where('nama_pl', '=', 'REPAIR')->first();
+        $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93);
+        $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93);
+        $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93);
+        $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93);
+        $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93);
 
-
-        $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2->kapasitas_pl) * 100;
-        $loadkapasitasPL3 = ($qtyPL3 / $kapasitasPL3->kapasitas_pl) * 100;
-        $loadkapasitasCTVT = ($qtyCTVT / $kapasitasCTVT->kapasitas_pl) * 100;
-        $loadkapasitasDRY = ($qtyDRY / $kapasitasDRY->kapasitas_pl) * 100;
-        $loadkapasitasREPAIR = ($qtyREPAIR / $kapasitasREPAIR->kapasitas_pl) * 100;
-
+        //TOTAL OVERTIME
+        $overtime = $overtimePL2 + $overtimePL3 + $overtimeCTVT + $overtimeDRY + $overtimeREPAIR;
 
         //******************JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN
         //*******************DAN SEBALIKNYA
-        
+
 
 
         //kirim ke view
         $data = [
+            //test
+
+            //  test
+
             'title1' => $title1,
             'drycastresin' => $drycastresin,
             'mps' => $mps,
@@ -211,6 +201,7 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSumPL2' => $jumlahtotalHourSumPL2,
             'kebutuhanMPPL2' => $kebutuhanMPPL2,
             'ketersediaanMPPL2' => $ketersediaanMPPL2,
+            'overtimePL2' => $overtimePL2,
             // PL3
             'filteredMpsPL3' => $filteredMpsPL3,
             'qtyPL3' => $qtyPL3,
@@ -218,6 +209,7 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSumPL3' => $jumlahtotalHourSumPL3,
             'kebutuhanMPPL3' => $kebutuhanMPPL3,
             'ketersediaanMPPL3' => $ketersediaanMPPL3,
+            'overtimePL3' => $overtimePL3,
             // CTVT
             'filteredMpsCTVT' => $filteredMpsCTVT,
             'qtyCTVT' => $qtyCTVT,
@@ -225,6 +217,7 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSumCTVT' => $jumlahtotalHourSumCTVT,
             'kebutuhanMPCTVT' => $kebutuhanMPCTVT,
             'ketersediaanMPCTVT' => $ketersediaanMPCTVT,
+            'overtimeCTVT' => $overtimeCTVT,
             // DRY
             'filteredMpsDRY' => $filteredMpsDRY,
             'qtyDRY' => $qtyDRY,
@@ -232,18 +225,22 @@ class ResourceWorkPlanningController extends Controller
             'jumlahtotalHourSumDRY' => $jumlahtotalHourSumDRY,
             'kebutuhanMPDRY' => $kebutuhanMPDRY,
             'ketersediaanMPDRY' => $ketersediaanMPDRY,
+            'overtimeDRY' => $overtimeDRY,
             // REPAIR
             'filteredMpsREPAIR' => $filteredMpsREPAIR,
             'qtyREPAIR' => $qtyREPAIR,
             'loadkapasitasREPAIR' => $loadkapasitasREPAIR,
             'jumlahtotalHourSumREPAIR' => $jumlahtotalHourSumREPAIR,
             'kebutuhanMPREPAIR' => $kebutuhanMPREPAIR,
-            'ketersediaanMPREPAIR' => $ketersediaanMPREPAIR,
+            'ketersediaanMPREPAIR' => $ketersediaanMPREPAIR,            
+            'overtimeREPAIR' => $overtimeREPAIR,
+
             // ALL
             'jumlahtotalHourSum' => $jumlahtotalHourSum,
             'kebutuhanMP' => $kebutuhanMP,
             'ketersediaanMP' => $ketersediaanMP,
             'selisihKurangMP' => $selisihKurangMP,
+            'overtime' => $overtime,
         ];
 
 

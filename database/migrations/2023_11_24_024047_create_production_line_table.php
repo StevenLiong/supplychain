@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('production_line', function (Blueprint $table) {
             $table->id();
             $table->string('nama_pl');
-            $table->integer('kapasitas_pl');
-            $table->timestamps();
+            $table->double('kapasitas_pl');
+            $table->timestamps();                                                               
         });
     }
 

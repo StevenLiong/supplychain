@@ -23,6 +23,17 @@
                 <div class="card card-block card-stretch card-height">
                     <div class="card-body">
                         <div class="top-block d-flex align-items-center justify-content-between">
+                            <h6>Total MP</h6>
+                        </div>
+                        <h2><b><span class="counter" style="visibility: visible;">{{ $data['totalManPower'] }}</span>
+                            </b> </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body">
+                        <div class="top-block d-flex align-items-center justify-content-between">
                             <h6>Total Hour</h6>
                         </div>
                         <h2><b><span class="counter" style="visibility: visible;">{{ $data['jumlahtotalHourSum'] }}</span>
@@ -86,6 +97,7 @@
             <div class="card-body">
                 <div class="header-title">
                     <h4 class="card-title mt-2 mb-5"><b>Product Line 2</b></h4>
+
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -132,18 +144,17 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>0</h3>
+                                <h3>{{ $data['overtimePL2'] }}</h3>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="progress mb-3">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
-                        aria-valuemin="0" aria-valuemax="100"><b>100%</b></div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="10"
+                        aria-valuemin="50" aria-valuemax="5"><b>{{$data['loadkapasitasPL2']}}%</b></div>
+                      
                 </div>
-
+                <div id="circle-progress-01" class="circle-progress-01 circle-progress circle-progress-primary" data-min-value="0" data-max-value="100" data-value="25" data-type="percent" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25"><svg version="1.1" width="100" height="100" viewBox="0 0 100 100" class="circle-progress"><circle class="circle-progress-circle" cx="50" cy="50" r="47" fill="none" stroke="#ddd" stroke-width="8"></circle><path d="M 50 3 A 47 47 0 0 1 97 50" class="circle-progress-value" fill="none" stroke="#00E699" stroke-width="8"></path><text class="circle-progress-text" x="50" y="50" font="16px Arial, sans-serif" text-anchor="middle" fill="#999" dy="0.4em">25%</text></svg></div>
                 <div class="mt-2" style=" vertical-align: middle;">
                     <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
                 </div>
@@ -201,7 +212,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>0</h3>
+                                <h3>{{ $data['overtimePL3'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -268,7 +279,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>0</h3>
+                                <h3>{{ $data['overtimeCTVT'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -335,7 +346,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>0</h3>
+                                <h3>{{ $data['overtimeDRY'] }}</h3> 
                             </div>
                         </div>
                     </div>
@@ -402,7 +413,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>0</h3>
+                                <h3>{{ $data['overtimeREPAIR'] }}</h3>
                             </div>
                         </div>
                     </div>

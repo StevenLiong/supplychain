@@ -9,4 +9,6 @@ class ProductionLine extends Model
 {
     use HasFactory;
     protected $table = 'production_line';
+
+    
 }

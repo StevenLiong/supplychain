@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/templatetrafindo/assets/vendor/tui-calendar/tui-date-picker/dist/tui-date-picker.css">
     <link rel="stylesheet" href="/templatetrafindo/assets/vendor/tui-calendar/tui-time-picker/dist/tui-time-picker.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- icon  -->
     <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="path/to/fontawesome/css/all.min.css">

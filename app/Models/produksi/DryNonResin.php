@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DryNonResin extends Model
 {
     use HasFactory;
+    protected $table = 'dry_non_resins';
+
     protected $fillable = [
         'kd_manhour',
         'nama_product',

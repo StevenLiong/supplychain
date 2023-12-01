@@ -32,7 +32,7 @@ class StandardizeWork extends Model
     }
     public function dry_non_resin(): BelongsTo
     {
-        return $this->belongsTo(DryCastResin::class, 'id_dry_non_resin', 'id');
+        return $this->belongsTo(DryNonResin::class, 'id_dry_non_resin', 'id');
     }
     public function vt(): BelongsTo
     {

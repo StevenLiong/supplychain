@@ -116,14 +116,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumPL2']) }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -192,14 +192,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumPL3']) }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
@@ -237,8 +237,8 @@
                         aria-valuemin="0" aria-valuemax="100">
                         <b>{{ $data['loadkapasitasPL3'] }}%</b>
                     </div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
+                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
                 </div>
 
                 <div class="mt-2" style=" vertical-align: middle;">
@@ -268,14 +268,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumCTVT']) }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -312,8 +312,8 @@
                         aria-valuenow="{{ $data['loadkapasitasCTVT'] }}" aria-valuemin="0" aria-valuemax="100">
                         <b>{{ $data['loadkapasitasCTVT'] }}%</b>
                     </div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
+                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
                 </div>
 
                 <div class="mt-2" style=" vertical-align: middle;">
@@ -343,14 +343,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumDRY']) }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -387,8 +387,8 @@
                         aria-valuemin="0" aria-valuemax="100">
                         <b>{{ $data['loadkapasitasDRY'] }}%</b>
                     </div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
+                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
                 </div>
 
                 <div class="mt-2" style=" vertical-align: middle;">
@@ -418,14 +418,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumREPAIR']) }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -462,8 +462,8 @@
                         aria-valuenow="{{ $data['loadkapasitasREPAIR'] }}" aria-valuemin="0" aria-valuemax="100">
                         <b>{{ $data['loadkapasitasREPAIR'] }}%</b>
                     </div>
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div>
+                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
+                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
                 </div>
 
                 <div class="mt-2" style=" vertical-align: middle;">

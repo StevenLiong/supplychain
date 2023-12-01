@@ -163,11 +163,11 @@ class ResourceWorkPlanningController extends Controller
         //ambil inputan dari dropdown
 
         //presentasi muatan kapasitas
-        $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2) * 100;
-        $loadkapasitasPL3 = ($qtyPL3 / $kapasitasPL3) * 100;
-        $loadkapasitasCTVT = ($qtyCTVT / $kapasitasCTVT) * 100;
-        $loadkapasitasDRY = ($qtyDRY / $kapasitasDRY) * 100;
-        $loadkapasitasREPAIR = ($qtyREPAIR / $kapasitasREPAIR) * 100;
+        $loadkapasitasPL2 = ceil($qtyPL2 / $kapasitasPL2);
+        $loadkapasitasPL3 = ceil($qtyPL3 / $kapasitasPL3);
+        $loadkapasitasCTVT = ceil($qtyCTVT / $kapasitasCTVT);
+        $loadkapasitasDRY = ceil($qtyDRY / $kapasitasDRY);
+        $loadkapasitasREPAIR = ceil($qtyREPAIR / $kapasitasREPAIR);
 
 
         //*****JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN

@@ -68,10 +68,10 @@
                                 </div>
                                 <div class="row d-flex justify-content-between">
                                     <div class="col-8">
-                                        <select class="form-select material-select" placeholder="Enter Customer Name" id="material" name="kd_material" onchange="updateMat(this)">
+                                        <select class="form-select material-select" placeholder="Enter Customer Name" id="material" name="material[]" onchange="updateMat(this)">
                                             <option value="" selected disabled>-- Pilih Material --</option>
                                             @foreach ($materials as $material)
-                                            <option value="" data-nama="{{$material->nama_material}}" data-dim="{{$material->satuan}}">{{ $material->kd_material }}</option>
+                                            <option value="{{ $material->kd_material }}" data-nama="{{$material->nama_material}}" data-dim="{{$material->satuan}}">{{ $material->kd_material }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -127,7 +127,8 @@
 
         divisioncode.val(selectedOption.data('division'));
     }
-    function updateMat(select){
+
+    function updateMat(select) {
         var selectedOption = $(select).find(":selected");
         var dimension = $(select).closest(".item").find('input[name="satuan"]');
         var name = $(select).closest(".item").find('input[name="nama_material"]');

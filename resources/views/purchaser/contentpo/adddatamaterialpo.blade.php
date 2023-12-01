@@ -39,10 +39,10 @@
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Kode Supplier</label>
-                                <select class="form-select select-search" id="select-supplier" name="kd_supplier" onchange="updateForm(this)">
+                                <select class="form-select select-search" id="select-supplier" name="supplier" onchange="updateForm(this)">
                                     <option value="" selected disabled>-- Pilih Supplier --</option>
                                     @foreach ($suppliers as $supplier)
-                                    <option value="{{ $supplier->kd_supplier }}" data-supplier="{{ $supplier->name_supplier }}" data-valuta="{{ $supplier->valuta }}">
+                                    <option value="{{ $supplier->kd_supplier }}" data-supplier="{{ $supplier->nama_supplier }}" data-valuta="{{ $supplier->valuta }}">
                                         {{ $supplier->kd_supplier }}
                                     </option>
                                     @endforeach
@@ -52,7 +52,7 @@
                         <div class="col-md-4">
                             <div class=" mt-2">
                                 <label for="exampleInputName" class="form-label"> </label>
-                                <input type="text" class="form-control" id="name_supplier" disabled name="name_supplier">
+                                <input type="text" class="form-control" id="supplier" disabled name="supplier">
                             </div>
                         </div>
                     </div>
@@ -156,11 +156,22 @@
 <script>
     function updateForm(sel) {
         var selectedOption = $('#select-supplier').find('option:selected');
-        var suppliercode = $('input[name="name_supplier"]');
+        var suppliername = $('input[name="supplier"]');
         var valuta = $('input[name="valuta"]');
-        suppliercode.val(selectedOption.data('supplier'));
+        suppliername.val(selectedOption.data('supplier'));
         valuta.val(selectedOption.data('valuta'));
     }
+
+    // function updateForm(select) {
+    //     var selectedOption = $(select).find(":selected");
+    //     var valuta = $(select).closest(".item").find('input[name="valuta"]');
+    //     var datasupplier = $(select).closest(".item").find('input[name="nama_supplier"]');
+
+    //     var dataValuta = selectedOption.data("valuta");
+    //     var dataName = selectedOption.data("nama");
+    //     valuta.val(dataValuta);
+    //     datasupplier.val(dataName);
+    // }
 
     function updateDel(select) {
         var selectedOption = $('#select-delivery').find('option:selected');

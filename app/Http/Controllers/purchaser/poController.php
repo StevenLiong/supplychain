@@ -4,10 +4,12 @@ namespace App\Http\Controllers\purchaser;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\delivery;
-use App\Models\po;
+use App\Models\purchaser\delivery;
+use App\Models\purchaser\po;
 use App\Models\purchaser\mr;
-use App\Models\supplier;
+// use App\Models\supplier;
+use App\Models\logistic\Supplier as supplier;
+
 use Carbon\Carbon;
 
 class poController extends Controller

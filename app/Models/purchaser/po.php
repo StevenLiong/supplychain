@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\purchaser;
 
+use App\Models\logistic\Supplier;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class po extends Model
 {
     use HasFactory;
-    protected $po = 'po';
+    protected $table = 'po';
     protected $guarded =[];
 
     protected $fillable = [
@@ -35,6 +36,6 @@ class po extends Model
     }
     public function supplier(): BelongsTo
     {
-        return $this->belongsTo(supplier::class,'id_supplier','id_supplier');
+        return $this->belongsTo(Supplier::class,'id_supplier','id_supplier');
     }
 }

@@ -69,7 +69,7 @@
                             </button>
                         </div>
                         <h2><b><span class="counter"
-                                    style="visibility: visible;">{{ ceil($data['selisihKurangMP']) }}</span> </b> </h2>
+                                    style="visibility: visible;">{{ ($data['selisihKurangMP']) }}</span> </b> </h2>
                     </div>
                 </div>
             </div>
@@ -104,7 +104,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                <h3>{{ ceil($data['qtyPL2']) }}</h3>
+                                <h3>{{ ($data['qtyPL2']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ceil($data['loadkapasitasPL2']) }}</h3>
+                                <h3>{{ ($data['loadkapasitasPL2']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ceil($data['jumlahtotalHourSumPL2']) }}</h3>
+                                <h3>{{ ($data['jumlahtotalHourSumPL2']) }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -128,7 +128,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ceil($data['kebutuhanMPPL2']) }}</h3>
+                                <h3>{{ ($data['kebutuhanMPPL2']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                {{-- <h3>{{ $data['overtimePL2'] }}</h3> --}}
+                                <h3>{{ $data['overtimePL2'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -158,7 +158,7 @@
                     <div class="progress-bar bg-success" role="progressbar"
                         style="width: {{ $data['loadkapasitasPL2'] }}%;" aria-valuenow="{{ $data['loadkapasitasPL2'] }}"
                         aria-valuemin="0" aria-valuemax="100">
-                        <b>{{ ceil($data['loadkapasitasPL2']) }}%</b>
+                        <b>{{ ($data['loadkapasitasPL2']) }}%</b>
                     </div>
                     {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: {{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}%;" aria-valuenow="{{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}"
                         aria-valuemin="0" aria-valuemax="100"><b>{{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}%</b></div> --}}
@@ -188,7 +188,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ceil($data['loadkapasitasPL3']) }}</h3>
+                                <h3>{{ ($data['loadkapasitasPL3']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ceil($data['jumlahtotalHourSumPL3']) }}</h3>
+                                <h3>{{ ($data['jumlahtotalHourSumPL3']) }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -205,7 +205,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ceil($data['kebutuhanMPPL3']) }}</h3>
+                                <h3>{{ ($data['kebutuhanMPPL3']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -221,7 +221,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                {{-- <h3>{{ $data['overtimePL3'] }}</h3> --}}
+                                <h3>{{ $data['overtimePL3'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ceil($data['loadkapasitasCTVT']) }}</h3>
+                                <h3>{{ ($data['loadkapasitasCTVT']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -272,7 +272,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ceil($data['jumlahtotalHourSumCTVT']) }}</h3>
+                                <h3>{{ ($data['jumlahtotalHourSumCTVT']) }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -280,7 +280,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ceil($data['kebutuhanMPCTVT']) }}</h3>
+                                <h3>{{ ($data['kebutuhanMPCTVT']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -296,7 +296,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                {{-- <h3>{{ $data['overtimeCTVT'] }}</h3> --}}
+                                <h3>{{ $data['overtimeCTVT'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -339,7 +339,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ceil($data['loadkapasitasDRY']) }}</h3>
+                                <h3>{{ ($data['loadkapasitasDRY']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -347,7 +347,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ceil($data['jumlahtotalHourSumDRY']) }}</h3>
+                                <h3>{{ ($data['jumlahtotalHourSumDRY']) }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -355,7 +355,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ceil($data['kebutuhanMPDRY']) }}</h3>
+                                <h3>{{ ($data['kebutuhanMPDRY']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -371,7 +371,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                {{-- <h3>{{ $data['overtimeDRY'] }}</h3> --}}
+                                <h3>{{ $data['overtimeDRY'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -414,7 +414,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ceil($data['loadkapasitasREPAIR']) }}</h3>
+                                <h3>{{ ($data['loadkapasitasREPAIR']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -422,7 +422,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ceil($data['jumlahtotalHourSumREPAIR']) }}</h3>
+                                <h3>{{ ($data['jumlahtotalHourSumREPAIR']) }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -430,7 +430,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ceil($data['kebutuhanMPREPAIR']) }}</h3>
+                                <h3>{{ ($data['kebutuhanMPREPAIR']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -446,7 +446,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                {{-- <h3>{{ $data['overtimeREPAIR'] }}</h3> --}}
+                                <h3>{{ $data['overtimeREPAIR'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -499,7 +499,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ceil($data['loadkapasitasPL2']) }}, 0]
+                data: [{{ ($data['loadkapasitasPL2']) }}, 0]
             }]
         };
 
@@ -536,7 +536,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ceil($data['loadkapasitasPL3']) }}, 0]
+                data: [{{ ($data['loadkapasitasPL3']) }}, 0]
             }]
         };
 
@@ -573,7 +573,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ceil($data['loadkapasitasCTVT']) }}, 1]
+                data: [{{ ($data['loadkapasitasCTVT']) }}, 1]
             }]
         };
 
@@ -610,7 +610,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ceil($data['loadkapasitasDRY']) }}, 2]
+                data: [{{ ($data['loadkapasitasDRY']) }}, 2]
             }]
         };
 
@@ -647,7 +647,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ceil($data['loadkapasitasREPAIR']) }}, 11]
+                data: [{{ ($data['loadkapasitasREPAIR']) }}, 11]
             }]
         };
 

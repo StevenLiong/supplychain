@@ -50,57 +50,44 @@
                             <thead class="text-center">
                                 <tr>
                                     <th rowspan="2" style="width: 150px; vertical-align: middle;">Kapasitas</th>
-                                    <th colspan="2">Jumlah Man Power</th>
-                                    <th colspan="2">Jumlah Mesin</th>
+                                    <th>Jumlah Man Power</th>
+                                    <th>Jumlah Mesin</th>
                                 </tr>
                                 <tr>
-                                    @if (is_array($data['selectedWorkcenterData']) && count($data['selectedWorkcenterData']) > 0)
-                                        @foreach ($data['selectedWorkcenterData'] as $index => $prosesData)
-                                            <th>{{ $prosesData->nama_proses }}</th>
-                                        @endforeach
-                                    @else
-                                        <th></th>
-                                        <th></th>
-                                    @endif
-                                    @if (is_array($data['selectedWorkcenterData']) && count($data['selectedWorkcenterData']) > 0)
-                                        @foreach ($data['selectedWorkcenterData'] as $index => $prosesData)
-                                            <th>{{ $prosesData->nama_proses }}</th>
-                                        @endforeach
-                                    @else
-                                        <th></th>
-                                        <th></th>
-                                    @endif
+                                    <th>{{ $data['selectedWorkcenterData']->nama_proses }}</th>
+                                    <th>{{ $data['selectedWorkcenterData']->nama_proses }}</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
+
                                 @foreach ($data['kapasitas'] as $kap)
-                                    <tr>
-                                        <th>
-                                            @if ($kap->ukuran_kapasitas)
-                                                {{ $kap->ukuran_kapasitas }}
-                                            @endif
-                                        </th>
-                                        <th>2</th>
-                                        <th>2</th>
-                                        <th>2</th>
-                                        <th>2</th>
+                                <tr>
+
+                                    <th>
+                                        @if ($kap->ukuran_kapasitas)
+                                        {{ $kap->ukuran_kapasitas }}
+                                        @endif
+                                    </th>
+
+                                    <th>{{ $data['jumlahkebutuhanMPDRY'] }}</th>
+                                        <th>/ini buat MP</th>
                                     </tr>
                                 @endforeach
+
+
                             </tbody>
                             <tfoot class="text-center">
                                 <tr>
                                     <th>Total</th>
                                     <th>20</th>
                                     <th>15</th>
-                                    <th>20</th>
-                                    <th>15</th>
+
                                 </tr>
                                 <tr>
                                     <th>Catatan</th>
                                     <th>-3</th>
                                     <th>1</th>
-                                    <th>-1</th>
-                                    <th>-2</th>
+
                                 </tr>
                             </tfoot>
                         </table>

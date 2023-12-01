@@ -173,8 +173,8 @@ class ResourceWorkPlanningController extends Controller
         //*****JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN
         //*****DAN SEBALIKNYA
 
-        //jika ketersediaan MP kurang dari kebutuhan MP 
-         
+        //jika ketersediaan MP kurang dari kebutuhan MP
+
         if ($ketersediaanMPPL2 != 0 && $ketersediaanMPPL2 < $kebutuhanMPPL2) {
             switch ($periode) {
                 case 1: //bulanan
@@ -364,7 +364,7 @@ class ResourceWorkPlanningController extends Controller
         } else {
             $overtimeREPAIR = 0; // Default value if $ketersediaanMPPL is zero
         }
- 
+
 
 
         //TOTAL OVERTIME
@@ -594,55 +594,74 @@ class ResourceWorkPlanningController extends Controller
     {
         $title1 = 'Dry - Jumlah';
         $PL = ProductionLine::all();
-        $mps = Mps2::all();
-        $kapasitas = Kapasitas::all();
-        $drycastresin = DryCastResin::all();
-        $matriks_skill = MatriksSkill::all();
+        $mps = Mps2::where('production_line', 'DRY')
+            ->with(['wo.standardize_work.dry_cast_resin'])
+            ->get();
+
         $proses = Proses::all();
+        $kapasitas = Kapasitas::all();
+        // $ukuran_kapasitas = $kapasitas->where('ukuran_kapasitas');
+        $drycastresin = DryCastResin::all();
+        $filteredData = $mps->filter(function ($item) use ($kapasitas) {
+            return $item->kapasitas_id == $kapasitas->first()->id;
+        });
+        
+        $jumlahkebutuhanMPDRY = $filteredData->pluck('wo.standardize_work.dry_cast_resin.totalHour_coil_making')->sum();
+
+
+        $PL = $mps->where('production_line', '=', 'DRY');
+        $qtyDry = $PL->where('jenis', '=', 'D')->sum('qty_trafo');
 
         $selectedWorkcenter = $request->input('selectedWorkcenter', 1);
-
         switch ($selectedWorkcenter) {
             case 1:
-                $allData = $proses->all();
-                $selectedWorkcenterData = array_filter($allData, function ($item) {
-                    return in_array($item['nama_proses'], ['COIL LV', 'COIL HV']);
-                });
-                break;
+                $selectedWorkcenterData = $proses->where('nama_proses', 'COIL MAKING')->first();
+                $hourworkcenter = Mps2::where('production_line', '=', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()->pluck('wo.standardize_work.dry_cast_resin.totalHour_coil_making')->sum();
+
                 break;
             case 2:
-                $selectedWorkcenterData = $proses->where('nama_proses',)->first();
+                $selectedWorkcenterData = $proses->where('nama_proses', 'MOULD & CASTING')->first();
+                $hourworkcenter = Mps2::where('production_line', '=', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')->sum();
                 break;
             case 3:
-                $selectedWorkcenterData = $proses->where('nama_proses',)->first();
+                $selectedWorkcenterData = $proses->where('nama_proses', 'CORE COIL ASSEMBLY')->first();
+                $hourworkcenter = Mps2::where('production_line', '=', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')->sum();
                 break;
         }
+
 
         $periode = $request->session()->get('periode', 1);
         switch ($periode) {
             case 1:
                 $deadlineDate = now()->subMonth()->toDateString();
+                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 173 * 0.93;
                 break;
             case 2:
                 $deadlineDate = now()->subWeeks(3)->toDateString();
+                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 120 * 0.93;
                 break;
             case 3:
                 $deadlineDate = now()->subWeeks(2)->toDateString();
+                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 80 * 0.93;
                 break;
             case 4:
                 $deadlineDate = now()->subWeek()->toDateString();
+                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 40 * 0.93;
                 break;
         }
+
+
         $data = [
+            'jumlahkebutuhanMPDRY' => $jumlahkebutuhanMPDRY,
             'title1' => $title1,
             'mps' => $mps,
             'kapasitas' => $kapasitas,
+            // 'ukuran_kapasitas' => $ukuran_kapasitas,
             'PL' => $PL,
-            // 'workcenter' => $workcenter,
             'selectedWorkcenterData' => $selectedWorkcenterData,
             'deadlineDate' => $deadlineDate,
             'drycastresin' => $drycastresin,
-            'matriks_skill' => $matriks_skill,
+
         ];
         return view('produksi.resource_work_planning.DRY.jumlah', ['data' => $data]);
     }

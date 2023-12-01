@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->date('tanggal_mr')->nullable();
             $table->date('accepted_mr')->nullable();
-            $table->date('status_mr')->nullable();
+            $table->string('status_mr')->nullable();
             $table->string('id_division')->nullable();
             $table->string('id_po')->nullable();
         });

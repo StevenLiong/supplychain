@@ -116,14 +116,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumPL2']) }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -192,14 +192,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumPL3']) }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
@@ -268,14 +268,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumCTVT']) }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -343,14 +343,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumDRY']) }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -418,14 +418,14 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ ($data['jumlahtotalHourSumREPAIR']) }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">

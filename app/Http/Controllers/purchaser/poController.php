@@ -51,31 +51,32 @@ class poController extends Controller
     }
 
     //create data form to DB
-    // @dd($request->all());
     public function storepo(Request $request)
     {
+        // dd($request->all());
         $validated = $request->validate([
-            'id_mr' => 'required',
             'id_po' => 'required',
-            'tanggal_po' => 'required',
+            'supplier' => 'required',
             'status_po' => 'required',
+            'tanggal_po' => 'required',
             'jenispembelian' => 'required',
-            'tanggal_kirim' => 'required',
-            'keterangan' => 'required',
-            'kd_supplier' => 'required',
-            'id_delivery' => 'required',
-            'jenispembayaran' => 'required',
             'term' => 'required',
+            'tanggal_kirim' => 'required',
+            'jenispembayaran' => 'required',
+            'id_mr' => 'required',
+            'keterangan' => 'required',
+            'id_delivery' => 'required',
         ]);
+        // dd($validated);
 
         $po = new po();
         $po->id_po = $validated['id_po'];
         $po->tanggal_po = $validated['tanggal_po'];
         $po->status_po = $validated['status_po'];
+        $po->kd_supplier = $validated['supplier'];
         $po->jenispembelian = $validated['jenispembelian'];
         $po->tanggal_kirim = $validated['tanggal_kirim'];
         $po->keterangan = $validated['keterangan'];
-        $po->kd_supplier = $validated['kd_supplier'];
         $po->id_delivery = $validated['id_delivery'];
         $po->jenispembayaran = $validated['jenispembayaran'];
         $po->term = $validated['term'];
@@ -83,7 +84,7 @@ class poController extends Controller
 
         $po->save();
 
-        $mr = mr::where('id_mr', $validated['id_mr'])->first();
+        $mr = mr::where('id_mr', $validated['id_mr'])->firstOrFail();
         $mr->id_po = $validated['id_po'];
         $mr->save();
 

@@ -13,13 +13,17 @@ class po extends Model
 {
     use HasFactory;
     protected $table = 'po';
-    protected $guarded =[];
+    public $timestamps  = false;
+    protected $guarded = [];
 
     protected $fillable = [
         'id_po',
         'tanggal_po',
         'status_po',
         'jenispembelian',
+        'tanggal_kirim',
+        'keterangan',
+        'jenispembayaran',
         'term',
         'kd_supplier',
         'id_delivery',
@@ -28,7 +32,7 @@ class po extends Model
 
     public function mr(): BelongsTo
     {
-        return $this->belongsTo(mr::class,'id_mr','id_mr');
+        return $this->belongsTo(mr::class, 'id_mr', 'id_mr');
     }
     public function delivery(): BelongsTo
     {
@@ -36,6 +40,6 @@ class po extends Model
     }
     public function supplier(): BelongsTo
     {
-        return $this->belongsTo(Supplier::class,'id_supplier','id_supplier');
+        return $this->belongsTo(Supplier::class, 'id_supplier', 'id_supplier');
     }
 }

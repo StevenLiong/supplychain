@@ -46,7 +46,7 @@
                     <div class="card-body">
                         <div class="top-block d-flex align-items-center justify-content-between">
                             <h6>Total Kebutuhan MP</h6>
-                            <button type="button" class="btn pr-0 mr-0" data-toggle="tooltip" data-placement="top"
+                            <button type="button" class="btn pr-0 mr-0" data-toggle="tooltip" data-placem,2ent="top"
                                 title=""
                                 data-original-title="Jumlah Selisih & Kebutuhan sesuai dengan data real jumlah Man Power">
                                 <i class="fa-solid fa-circle-info"></i>
@@ -68,8 +68,8 @@
                                 <i class="fa-solid fa-circle-info"></i>
                             </button>
                         </div>
-                        <h2><b><span class="counter"
-                                    style="visibility: visible;">{{ ($data['selisihKurangMP']) }}</span> </b> </h2>
+                        <h2><b><span class="counter" style="visibility: visible;">{{ $data['selisihKurangMP'] }}</span>
+                            </b> </h2>
                     </div>
                 </div>
             </div>
@@ -84,7 +84,7 @@
                                 <i class="fa-solid fa-circle-info"></i>
                             </button>
                         </div>
-                        <h2><b><span class="counter" style="visibility: visible;">{{ $data['ketersediaanMP'] }}</span>
+                        <h2><b><span class="counter" style="visibility: visible;">{{ $data['totalManPower'] }}</span>
                             </b> </h2>
 
                         <p style="font-size:10px;text-align: justify; line-height: 1.5;"></p>
@@ -95,16 +95,28 @@
 
         <div class="card">
             <div class="card-body">
-                <div class="header-title">
-                    <h4 class="card-title mt-2 mb-5"><b>Product Line 2</b></h4>
-
+                <div class="header-title mb-5">
+                    <div class="row mt-2 mb-0">
+                        <div class="col">
+                            <h4 class="card-title"><b>Production Line 2</b></h4>
+                        </div>
+                        <div class="col">
+                            <div class="text-right mr-1">
+                                @if ($data['ifoverCapacityPL2'])
+                                    <span class="mt-2 badge badge-primary">Over Capacity</span>
+                                @else
+                                    <span class="mt-2 badge badge-success">Under Capacity</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>  
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Quantity</h6>
-                                <h3>{{ ($data['qtyPL2']) }}</h3>
+                                <h3>{{ $data['qtyPL2'] }}</h3>
                             </div>
                         </div>
                     </div>
@@ -112,7 +124,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ($data['loadkapasitasPL2']) }}</h3>
+                                <h3>{{ round($data['loadkapasitasPL2'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -120,7 +132,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ($data['jumlahtotalHourSumPL2']) }}</h3>
+                                <h3>{{ $data['jumlahtotalHourSumPL2'] }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -128,7 +140,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ($data['kebutuhanMPPL2']) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPPL2'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -136,7 +148,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ $data['ketersediaanMPPL2'] }}</h3>
+                                <h3>{{ round($data['ketersediaanMPPL2'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -144,7 +156,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimePL2'] }}</h3>
+                                <h3>{{ round($data['overtimePL2'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -155,25 +167,43 @@
                     </div>
                 </div>
                 <div class="progress mb-3">
+                    {{-- bar ijo untuk data kapasitas --}}
                     <div class="progress-bar bg-success" role="progressbar"
-                        style="width: {{ $data['loadkapasitasPL2'] }}%;" aria-valuenow="{{ $data['loadkapasitasPL2'] }}"
-                        aria-valuemin="0" aria-valuemax="100">
-                        <b>{{ ($data['loadkapasitasPL2']) }}%</b>
+                        style="width: {{ $data['loadkapasitasPL2new'] }}%;"
+                        aria-valuenow="{{ $data['loadkapasitasPL2new'] }}" aria-valuemin="0" aria-valuemax="100">
+                        <b>{{ round($data['loadkapasitasPL2new'], 2) }}%</b>
                     </div>
-                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: {{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}%;" aria-valuenow="{{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}"
-                        aria-valuemin="0" aria-valuemax="100"><b>{{ ($data['kapasitasPL2'])-($data['loadkapasitasPL2']) }}%</b></div> --}}
+                    {{-- bar merah data over --}}
+                    <div class="progress-bar bg-primary" role="progressbar"
+                        style="width: {{ $data['overCapacityPL2'] }}%;" aria-valuenow="{{ $data['overCapacityPL2'] }}"
+                        aria-valuemin="0" aria-valuemax="{{ $data['overCapacityPL2'] }}">
+                        <b>{{ round($data['overCapacityPL2'], 2) }}%</b>
+                    </div>
                 </div>
-
                 <div class="mt-2" style=" vertical-align: middle;">
-                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
+                    <span class="badge badge-success mr-1" style="height: 15px"> </span> Under Capacity
+                    <span class="badge badge-primary mr-1 ml-5" style="height: 15px"> </span> Over Capacity
                 </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-body">
-                <div class="header-title">
-                    <h4 class="card-title mt-2 mb-5"><b>Product Line 3</b></h4>
+                <div class="header-title mb-5">
+                    <div class="row mt-2 mb-0">
+                        <div class="col">
+                            <h4 class="card-title"><b>Production Line 3</b></h4>
+                        </div>
+                        <div class="col">
+                            <div class="text-right mr-1">
+                                @if ($data['ifoverCapacityPL3'])
+                                    <span class="mt-2 badge badge-primary">Over Capacity</span>
+                                @else
+                                    <span class="mt-2 badge badge-success">Under Capacity</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>  
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -188,7 +218,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ($data['loadkapasitasPL3']) }}</h3>
+                                <h3>{{ round($data['loadkapasitasPL3'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -196,7 +226,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ($data['jumlahtotalHourSumPL3']) }}</h3>
+                                <h3>{{ $data['jumlahtotalHourSumPL3'] }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -205,7 +235,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ($data['kebutuhanMPPL3']) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPPL3'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -213,7 +243,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ $data['ketersediaanMPPL3'] }}</h3>
+                                <h3>{{ round($data['ketersediaanMPPL3'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -221,7 +251,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimePL3'] }}</h3>
+                                <h3>{{ round($data['overtimePL3'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -232,24 +262,42 @@
                     </div>
                 </div>
                 <div class="progress mb-3">
+                    {{-- bar ijo untuk data kapasitas --}}
                     <div class="progress-bar bg-success" role="progressbar"
-                        style="width: {{ $data['loadkapasitasPL3'] }}%;" aria-valuenow="{{ $data['loadkapasitasPL3'] }}"
-                        aria-valuemin="0" aria-valuemax="100">
-                        <b>{{ $data['loadkapasitasPL3'] }}%</b>
+                        style="width: {{ $data['loadkapasitasPL3new'] }}%;"
+                        aria-valuenow="{{ $data['loadkapasitasPL3new'] }}" aria-valuemin="0" aria-valuemax="100">
+                        <b>{{ round($data['loadkapasitasPL3new'], 2) }}%</b>
                     </div>
-                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
+                    {{-- bar merah data over --}}
+                    <div class="progress-bar bg-warning" role="progressbar"
+                        style="width: {{ $data['overCapacityPL3'] }}%;" aria-valuenow="{{ $data['overCapacityPL3'] }}"
+                        aria-valuemin="0" aria-valuemax="{{ $data['overCapacityPL3'] }}">
+                        <b>{{ round($data['overCapacityPL3'], 2) }}%</b>
+                    </div>
                 </div>
-
                 <div class="mt-2" style=" vertical-align: middle;">
-                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
+                    <span class="badge badge-success mr-1" style="height: 15px"> </span> Under Capacity
+                    <span class="badge badge-primary mr-1 ml-5" style="height: 15px"> </span> Over Capacity
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-body">
-                <div class="header-title">
-                    <h4 class="card-title mt-2 mb-5"><b>CT / VT</b></h4>
+                <div class="header-title mb-5">
+                    <div class="row mt-2 mb-0">
+                        <div class="col">
+                            <h4 class="card-title"><b>CT / VT</b></h4>
+                        </div>
+                        <div class="col">
+                            <div class="text-right mr-1">
+                                @if ($data['ifoverCapacityCTVT'])
+                                    <span class="mt-2 badge badge-primary">Over Capacity</span>
+                                @else
+                                    <span class="mt-2 badge badge-success">Under Capacity</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>  
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -264,7 +312,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ($data['loadkapasitasCTVT']) }}</h3>
+                                <h3>{{ round($data['loadkapasitasCTVT'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -272,7 +320,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ($data['jumlahtotalHourSumCTVT']) }}</h3>
+                                <h3>{{ $data['jumlahtotalHourSumCTVT'] }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -280,7 +328,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ($data['kebutuhanMPCTVT']) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPCTVT'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -288,7 +336,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ $data['ketersediaanMPCTVT'] }}</h3>
+                                <h3>{{ round($data['ketersediaanMPCTVT'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -296,7 +344,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimeCTVT'] }}</h3>
+                                <h3>{{ round($data['overtimeCTVT'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -307,24 +355,43 @@
                     </div>
                 </div>
                 <div class="progress mb-3">
+                    {{-- bar ijo untuk data kapasitas --}}
                     <div class="progress-bar bg-success" role="progressbar"
-                        style="width: {{ $data['loadkapasitasCTVT'] }}%;"
-                        aria-valuenow="{{ $data['loadkapasitasCTVT'] }}" aria-valuemin="0" aria-valuemax="100">
-                        <b>{{ $data['loadkapasitasCTVT'] }}%</b>
+                        style="width: {{ $data['loadkapasitasCTVTnew'] }}%;"
+                        aria-valuenow="{{ $data['loadkapasitasCTVTnew'] }}" aria-valuemin="0" aria-valuemax="100">
+                        <b>{{ round($data['loadkapasitasCTVTnew'], 2) }}%</b>
                     </div>
-                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
+                    {{-- bar merah data over --}}
+                    <div class="progress-bar bg-primary" role="progressbar"
+                        style="width: {{ $data['overCapacityCTVT'] }}%;" aria-valuenow="{{ $data['overCapacityCTVT'] }}"
+                        aria-valuemin="0" aria-valuemax="{{ $data['overCapacityCTVT'] }}">
+                        <b>{{ round($data['overCapacityCTVT'], 2) }}%</b>
+                    </div>
                 </div>
 
                 <div class="mt-2" style=" vertical-align: middle;">
-                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
+                    <span class="badge badge-success mr-1" style="height: 15px"> </span> Under Capacity
+                    <span class="badge badge-primary mr-1 ml-5" style="height: 15px"> </span> Over Capacity
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-body">
-                <div class="header-title">
-                    <h4 class="card-title mt-2 mb-5"><b>DRY</b></h4>
+                <div class="header-title mb-5">
+                    <div class="row mt-2 mb-0">
+                        <div class="col">
+                            <h4 class="card-title"><b>Dry</b></h4>
+                        </div>
+                        <div class="col">
+                            <div class="text-right mr-1">
+                                @if ($data['ifoverCapacityDRY'])
+                                    <span class="mt-2 badge badge-primary">Over Capacity</span>
+                                @else
+                                    <span class="mt-2 badge badge-success">Under Capacity</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>  
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -339,7 +406,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ($data['loadkapasitasDRY']) }}</h3>
+                                <h3>{{ round($data['loadkapasitasDRY'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -347,7 +414,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ($data['jumlahtotalHourSumDRY']) }}</h3>
+                                <h3>{{ $data['jumlahtotalHourSumDRY'] }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -355,7 +422,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ($data['kebutuhanMPDRY']) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPDRY'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -363,7 +430,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ $data['ketersediaanMPDRY'] }}</h3>
+                                <h3>{{ round($data['ketersediaanMPDRY'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -371,7 +438,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimeDRY'] }}</h3>
+                                <h3>{{ round($data['overtimeDRY'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -382,24 +449,43 @@
                     </div>
                 </div>
                 <div class="progress mb-3">
+                    {{-- bar ijo untuk data kapasitas --}}
                     <div class="progress-bar bg-success" role="progressbar"
-                        style="width: {{ $data['loadkapasitasDRY'] }}%;" aria-valuenow="{{ $data['loadkapasitasDRY'] }}"
-                        aria-valuemin="0" aria-valuemax="100">
-                        <b>{{ $data['loadkapasitasDRY'] }}%</b>
+                        style="width: {{ $data['loadkapasitasDRYnew'] }}%;"
+                        aria-valuenow="{{ $data['loadkapasitasDRYnew'] }}" aria-valuemin="0" aria-valuemax="100">
+                        <b>{{ round($data['loadkapasitasDRYnew'], 2) }}%</b>
                     </div>
-                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
+                    {{-- bar merah data over --}}
+                    <div class="progress-bar bg-primary" role="progressbar"
+                        style="width: {{ $data['overCapacityDRY'] }}%;" aria-valuenow="{{ $data['overCapacityDRY'] }}"
+                        aria-valuemin="0" aria-valuemax="{{ $data['overCapacityDRY'] }}">
+                        <b>{{ round($data['overCapacityDRY'], 2) }}%</b>
+                    </div>
                 </div>
 
                 <div class="mt-2" style=" vertical-align: middle;">
-                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
+                    <span class="badge badge-success mr-1" style="height: 15px"> </span> Under Capacity
+                    <span class="badge badge-primary mr-1 ml-5" style="height: 15px"> </span> Over Capacity
                 </div>
             </div>
         </div>
         <div class="card">
             <div class="card-body">
-                <div class="header-title">
-                    <h4 class="card-title mt-2 mb-5"><b>REPAIR</b></h4>
+                <div class="header-title mb-5">
+                    <div class="row mt-2 mb-0">
+                        <div class="col">
+                            <h4 class="card-title"><b>Repair</b></h4>
+                        </div>
+                        <div class="col">
+                            <div class="text-right mr-1">
+                                @if ($data['ifoverCapacityREPAIR'])
+                                    <span class="mt-2 badge badge-primary">Over Capacity</span>
+                                @else
+                                    <span class="mt-2 badge badge-success">Under Capacity</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>  
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -414,7 +500,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kapasitas (%)</h6>
-                                <h3>{{ ($data['loadkapasitasREPAIR']) }}</h3>
+                                <h3>{{ round($data['loadkapasitasREPAIR'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -422,7 +508,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
-                                <h3>{{ ($data['jumlahtotalHourSumREPAIR']) }}</h3>
+                                <h3>{{ $data['jumlahtotalHourSumREPAIR'] }}</h3>
                             </div>
                         </div>
                     </div> --}}
@@ -430,7 +516,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ ($data['kebutuhanMPREPAIR']) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPREPAIR'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -438,7 +524,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ $data['ketersediaanMPREPAIR'] }}</h3>
+                                <h3>{{ round($data['ketersediaanMPREPAIR'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -446,7 +532,7 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Overtime</h6>
-                                <h3>{{ $data['overtimeREPAIR'] }}</h3>
+                                <h3>{{ round($data['overtimeREPAIR'], 2) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -457,17 +543,23 @@
                     </div>
                 </div>
                 <div class="progress mb-3">
+                    {{-- bar ijo untuk data kapasitas --}}
                     <div class="progress-bar bg-success" role="progressbar"
-                        style="width: {{ $data['loadkapasitasREPAIR'] }}%;"
-                        aria-valuenow="{{ $data['loadkapasitasREPAIR'] }}" aria-valuemin="0" aria-valuemax="100">
-                        <b>{{ $data['loadkapasitasREPAIR'] }}%</b>
+                        style="width: {{ $data['loadkapasitasREPAIRnew'] }}%;"
+                        aria-valuenow="{{ $data['loadkapasitasREPAIRnew'] }}" aria-valuemin="0" aria-valuemax="100">
+                        <b>{{ round($data['loadkapasitasREPAIRnew'], 2) }}%</b>
                     </div>
-                    {{-- <div class="progress-bar bg-warning" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                        aria-valuemin="0" aria-valuemax="100"><b>25%</b></div> --}}
+                    {{-- bar merah data over --}}
+                    <div class="progress-bar bg-primary" role="progressbar"
+                        style="width: {{ $data['overCapacityREPAIR'] }}%;" aria-valuenow="{{ $data['overCapacityREPAIR'] }}"
+                        aria-valuemin="0" aria-valuemax="{{ $data['overCapacityREPAIR'] }}">
+                        <b>{{ round($data['overCapacityREPAIR'], 2) }}%</b>
+                    </div>
                 </div>
 
                 <div class="mt-2" style=" vertical-align: middle;">
-                    <span class="badge badge-warning mr-1" style="height: 15px"> </span> Over Capacity
+                    <span class="badge badge-success mr-1" style="height: 15px"> </span> Under Capacity
+                    <span class="badge badge-primary mr-1 ml-5" style="height: 15px"> </span> Over Capacity
                 </div>
             </div>
         </div>
@@ -478,7 +570,7 @@
     {{-- KAPASITAS PL2 --}}
     <script>
         // chart colors
-        var colors = ['#7cc8b8', '#fccc54'];
+        var colors = ['#7cc8b8', '#d02424'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -499,7 +591,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ($data['loadkapasitasPL2']) }}, 0]
+                data: [{{ $data['loadkapasitasPL2new'] }}, {{ round($data['overCapacityPL2'], 2) }}]
             }]
         };
 
@@ -515,7 +607,7 @@
     {{-- KAPASITAS PL3 --}}
     <script>
         // chart colors
-        var colors = ['#7cc8b8', '#fccc54'];
+        var colors = ['#7cc8b8', '#d02424'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -536,7 +628,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ($data['loadkapasitasPL3']) }}, 0]
+                data: [{{ $data['loadkapasitasPL3new'] }}, {{ round($data['overCapacityPL3'], 2) }}]
             }]
         };
 
@@ -552,7 +644,7 @@
     {{-- KAPASITAS CTVT --}}
     <script>
         // chart colors
-        var colors = ['#7cc8b8', '#fccc54'];
+        var colors = ['#7cc8b8', '#d02424'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -573,7 +665,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ($data['loadkapasitasCTVT']) }}, 1]
+                data: [{{ $data['loadkapasitasCTVTnew'] }}, {{ round($data['overCapacityCTVT'], 2) }}]
             }]
         };
 
@@ -589,7 +681,7 @@
     {{-- KAPASITAS DRY --}}
     <script>
         // chart colors
-        var colors = ['#7cc8b8', '#fccc54'];
+        var colors = ['#7cc8b8', '#d02424'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -610,7 +702,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ($data['loadkapasitasDRY']) }}, 2]
+                data: [{{ $data['loadkapasitasDRYnew'] }}, {{ round($data['overCapacityDRY'], 2) }}]
             }]
         };
 
@@ -626,7 +718,7 @@
     {{-- KAPASITAS REPAIR --}}
     <script>
         // chart colors
-        var colors = ['#7cc8b8', '#fccc54'];
+        var colors = ['#7cc8b8', '#d02424'];
 
         /* 3 donut charts */
         var donutOptions = {
@@ -647,7 +739,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ ($data['loadkapasitasREPAIR']) }}, 11]
+                data: [{{ $data['loadkapasitasREPAIRnew'] }}, {{ round($data['overCapacityREPAIR'], 2) }}]
             }]
         };
 

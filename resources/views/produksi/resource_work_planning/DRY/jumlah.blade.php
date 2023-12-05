@@ -59,18 +59,26 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-
                                 @foreach ($data['kapasitas'] as $kap)
-                                <tr>
-
-                                    <th>
-                                        @if ($kap->ukuran_kapasitas)
-                                        {{ $kap->ukuran_kapasitas }}
-                                        @endif
-                                    </th>
-
-                                    <th>{{ $data['jumlahkebutuhanMPDRY'] }}</th>
-                                        <th>/ini buat MP</th>
+                                    <tr>
+                                        <th>
+                                            @if ($kap->ukuran_kapasitas)
+                                                {{ $kap->ukuran_kapasitas }}
+                                            @endif
+                                        </th>
+                                        <th>
+                                            @foreach ($data['kapasitas'] as $kap)
+                                                @php
+                                                    $kebutuhanMPDRY = $data['mps']
+                                                        ->where($data['selectedWorkcenterData']->nama_proses , $data['selectedWorkcenterData']->nama_proses )
+                                                        ->where('kva', $kap->ukuran_kapasitas)
+                                                        ->where('deadline', '>=', $data['deadlineDate'])
+                                                        ->sum('qty_trafo');
+                                                @endphp
+                                            @endforeach
+                                            {{ $kebutuhanMPDRY }}
+                                        </th>
+                                        <th>/ini buat Mesin</th>
                                     </tr>
                                 @endforeach
 

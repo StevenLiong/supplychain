@@ -40,9 +40,9 @@
                                 {{-- <a href="{{ url('scan/information') }}"> --}}
                                     <div class="small-box bg-red">
                                         <div class="inner text-light">
-                                            <h3>Consumption Report</h3>
+                                            <h3>Consumption</h3>
         
-                                            <p>Consumption Material</p>
+                                            <p>Laporan Pemakaian</p>
                                             
                                         </div>
                                         <div class="icon">

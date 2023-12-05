@@ -96,7 +96,11 @@ Route::middleware(['auth', 'logistic'])->group(function () {
 
     // Route::get('shipping', [ShippingController::class, 'index']);
     Route::get('shipping/createpackinglist', [ShippingController::class, 'indexPack']);
-    Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
+    Route::get('shipping/createpackinglist/create', [ShippingController::class, 'createPack']);
+    Route::post('shipping/createpackinglist', [ShippingController::class, 'storePack']);
+    Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);  
+    Route::get('shipping/deliveryreceipt/create', [ShippingController::class, 'createDelivery']);
+    Route::post('shipping/deliveryreceipt', [ShippingController::class, 'storeDelivery']);
 
     // logistic end
 
@@ -245,12 +249,12 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
 
 
 
-Route::middleware(['auth', 'materialrequest'])->group(function () {
-    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
-});
+// Route::middleware(['auth', 'materialrequest'])->group(function () {
+//     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+// });
 
-Route::middleware(['auth', 'purchaseorder'])->group(function () {
-    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
-    Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
-    Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
-});
+// Route::middleware(['auth', 'purchaseorder'])->group(function () {
+//     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+//     Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
+//     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
+// });

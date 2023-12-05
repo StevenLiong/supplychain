@@ -32,13 +32,13 @@
                         {{-- btn create --}}
                         <div class="btn-create ">
                             <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('shipping/createpackinglist/create') }}">Create data</button>
+                                onclick=window.location="{{ url('shipping/deliveryreceipt/create') }}">Create data</button>
                         </div>
                         {{-- btn create end--}}
 
                         {{-- search --}}
                         <div class="">
-                            <form action="{{ url('shipping/createpackinglist') }}">
+                            <form action="{{ url('shipping/deliveryreceipt') }}">
                                 <div class="input-group ">
                                     <input type="text" class="form-control form-control-sm rounded-0"
                                         placeholder="cari nama material..." name="search" value="{{ request('search') }}">
@@ -56,30 +56,22 @@
                                 <thead class="table-secondary">
                                     <tr class="text-center">
                                         <th>No</th>
-                                        <th>Tanggal Packing</th>
+                                        <th>Tanggal Delivery</th>
+                                        <th>No. SO</th>
                                         <th>No. DO</th>
                                         <th>No. WO</th>
-                                        <th>NSP</th>
-                                        <th>NSK</th>
-                                        <th>Ukuran</th>
-                                        <th>Packaging</th>
-                                        <th>Supplier</th>
                                         <th>Cetak</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($packing as $item)
+                                    @foreach ($delivery as $item)
                                         <tr>
                                             <td>{{ $loop->iteration}}</td>
-                                            <td class="text-center">{{ $item->Tanggal_Packing}}</td>
+                                            <td class="text-center">{{ $item->Tanggal_Delivery}}</td>
+                                            <td class="text-center">{{ $item->NO_SO}}</td>
                                             <td class="text-center">{{ $item->NO_DO}}</td>
                                             <td class="text-center">{{ $item->NO_WO}}</td>
-                                            <td class="text-center">{{ $item->NSP}}</td>
-                                            <td class="text-center">{{ $item->NSK}}</td>
-                                            <td class="text-center">{{ $item->ukuran_dimensi}}</td>
-                                            <td class="text-center">{{ $item->packaging}}</td>
-                                            <td class="text-center">{{ $item->supplier}}</td>
                                             <td class="text-center">
                                                 <a href="{{ url('receiving/incoming/print/' . $item->id) }}"
                                                     target="_blank">

@@ -3,13 +3,15 @@
 namespace App\Http;
 
 use App\Http\Middleware\Logistic;
-use App\Http\Middleware\materialrequest;
-use App\Http\Middleware\Materialrequest as MiddlewareMaterialrequest;
-use App\Http\Middleware\ResourceWorkPlanning;
+
 use App\Http\Middleware\StandardizedWork;
-// use App\Models\produksi\StandardizeWork;
 use Barryvdh\DomPDF\Middleware\AddOutput;
+use App\Http\Middleware\ResourceWorkPlanning;
+// use App\Models\produksi\StandardizeWork;
+use Illuminate\Auth\Middleware\Purchaseorder;
+use Illuminate\Auth\Middleware\Materialrequest;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Http\Middleware\Materialrequest as MiddlewareMaterialrequest;
 
 class Kernel extends HttpKernel
 {
@@ -78,7 +80,7 @@ class Kernel extends HttpKernel
         'resourceworkplanning' => ResourceWorkPlanning::class,
         'logistic' => Logistic::class,
         'standardizedwork' => StandardizedWork::class,
-        'materialrequest' => \Illuminate\Auth\Middleware\Materialrequest::class,
-        'purchaseorder' =>  \Illuminate\Auth\Middleware\Purchaseorder::class,
+        'materialrequest' => Materialrequest::class,
+        'purchaseorder' =>  Purchaseorder::class,
     ];
 }

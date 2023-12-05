@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\planner;
 
-use App\Models\planner\Wo;
-use App\Models\planner\So;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use App\Exports\WoExport;
-use Excel;
 use PDF;
+use Excel;
+use App\Exports\WoExport;
 use App\Exports\PdfExport;
+use App\Models\planner\Bom;
+use App\Models\planner\So;
+use App\Models\planner\Wo;
+use Illuminate\Http\Request;
+use App\Models\planner\Detailbom;
+use Illuminate\Contracts\View\View;
+use App\Models\produksi\DryCastResin;
+use Illuminate\Http\RedirectResponse;
 
 class WoController extends Controller
 {
@@ -22,9 +25,11 @@ class WoController extends Controller
 
     public function create()
     {
-        return view('planner.WO.create-wo',[
-            'dataSo' => So::all(),
-        ]);
+        $dataSo = So::all();
+        $dryCastResin = DryCastResin::pluck('kd_manhour', 'kd_manhour');
+        $detailBom = Bom::pluck('id_bom', 'id_bom');
+        // dd($detailBom);
+        return view('planner.wo.create-wo', compact('dataSo', 'dryCastResin', 'detailBom'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -33,7 +38,7 @@ class WoController extends Controller
         $wo-> id_wo = $request->get('id_wo');
         $wo->id_so = $request->get('id_so');
         $wo->id_boms = $request->get('id_boms');
-        $wo->id_manhour = $request->get('id_manhour');
+        $wo->kd_manhour = $request->get('kd_manhour');
         $wo->start_date = $request->get('start_date');
         $wo->finish_date = $request->get('finish_date');
         $wo->qty_trafo = $request->get('qty_trafo');

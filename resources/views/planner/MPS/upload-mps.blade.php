@@ -14,7 +14,12 @@
             <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Work Order</label>
-                    <input type="text" class="form-control" name="id_wo" required>
+                    <select id="id_wo" name="id_wo" class="form-control" required>
+                        <option value="">Choose...</option>
+                        @foreach($dataWo as $woId)
+                            <option value="{{ $woId->id_wo }}">{{ $woId->id_wo }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Project Name</label>
@@ -22,7 +27,13 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Production Line</label>
-                    <input type="text" class="form-control" name="production_line" required>
+                    <select name="production_line" id="production_line" class="form-control">
+                        <option>Choose...</option>
+                        <option value="PL2">PL2</option>
+                        <option value="PL3">PL3</option>
+                        <option value="DRY TYPE">DRY TYPE</option>
+                        <option value="CTVT">CTVT</option>
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">KVA</label>
@@ -57,13 +68,21 @@
         </form>
     </div>
 </div>
+
 <!-- Tambahkan script flatpickr -->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
     // Inisialisasi datepicker
     flatpickr('.datepicker', {
         dateFormat: 'Y-m-d', // Format tanggal yang diinginkan
         enableTime: false, // Biarkan false jika tidak memerlukan waktu
+    });
+    $(document).ready(function(){
+        $('id_wo').on('change', function(){
+            var id_wo = $(this).val();
+            console.log(id_wo);
+        });
     });
 </script>
 @endsection

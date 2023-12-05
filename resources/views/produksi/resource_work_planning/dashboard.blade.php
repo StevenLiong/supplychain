@@ -128,19 +128,19 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumPL2'] }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ round($data['kebutuhanMPPL2'], 2) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPPL2']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -148,14 +148,14 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ round($data['ketersediaanMPPL2'], 2) }}</h3>
+                                <h3>{{ round($data['ketersediaanMPPL2']) }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Overtime</h6>
+                                <h6>Overtime (%)</h6>
                                 <h3>{{ round($data['overtimePL2'], 2) }}</h3>
                             </div>
                         </div>
@@ -222,20 +222,20 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumPL3'] }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
 
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ round($data['kebutuhanMPPL3'], 2) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPPL3']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -243,14 +243,14 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ round($data['ketersediaanMPPL3'], 2) }}</h3>
+                                <h3>{{ round($data['ketersediaanMPPL3']) }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Overtime</h6>
+                                <h6>Overtime (%)</h6>
                                 <h3>{{ round($data['overtimePL3'], 2) }}</h3>
                             </div>
                         </div>
@@ -316,19 +316,19 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumCTVT'] }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ round($data['kebutuhanMPCTVT'], 2) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPCTVT']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -336,14 +336,14 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ round($data['ketersediaanMPCTVT'], 2) }}</h3>
+                                <h3>{{ round($data['ketersediaanMPCTVT']) }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Overtime</h6>
+                                <h6>Overtime (%)</h6>
                                 <h3>{{ round($data['overtimeCTVT'], 2) }}</h3>
                             </div>
                         </div>
@@ -410,19 +410,19 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumDRY'] }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ round($data['kebutuhanMPDRY'], 2) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPDRY']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -430,14 +430,14 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ round($data['ketersediaanMPDRY'], 2) }}</h3>
+                                <h3>{{ round($data['ketersediaanMPDRY']) }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Overtime</h6>
+                                <h6>Overtime (%)</h6>
                                 <h3>{{ round($data['overtimeDRY'], 2) }}</h3>
                             </div>
                         </div>
@@ -504,19 +504,19 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-lg-2">
+                    <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumREPAIR'] }}</h3>
                             </div>
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Kebutuhan MP</h6>
-                                <h3>{{ round($data['kebutuhanMPREPAIR'], 2) }}</h3>
+                                <h3>{{ round($data['kebutuhanMPREPAIR']) }}</h3>
                             </div>
                         </div>
                     </div>
@@ -524,14 +524,14 @@
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Ketersediaan MP</h6>
-                                <h3>{{ round($data['ketersediaanMPREPAIR'], 2) }}</h3>
+                                <h3>{{ round($data['ketersediaanMPREPAIR']) }}</h3>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
-                                <h6>Overtime</h6>
+                                <h6>Overtime (%)</h6>
                                 <h3>{{ round($data['overtimeREPAIR'], 2) }}</h3>
                             </div>
                         </div>

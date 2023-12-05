@@ -122,11 +122,11 @@ class ResourceWorkPlanningController extends Controller
 
         switch ($periode) {
             case 1: //bulanan
-                $kapasitasPL2 = $kapasitasPL2harian * 20; //dikalikan dengan hari kerja
-                $kapasitasPL3 = $kapasitasPL3harian * 20;
-                $kapasitasCTVT = $kapasitasCTVTharian * 20;
-                $kapasitasDRY = $kapasitasDRYharian * 20;
-                $kapasitasREPAIR = $kapasitasREPAIRharian * 20;
+                $kapasitasPL2 = $kapasitasPL2harian * 22; //dikalikan dengan hari kerja
+                $kapasitasPL3 = $kapasitasPL3harian * 22;
+                $kapasitasCTVT = $kapasitasCTVTharian * 22;
+                $kapasitasDRY = $kapasitasDRYharian * 22;
+                $kapasitasREPAIR = $kapasitasREPAIRharian * 22;
                 break;
             case 2: //3 minggu
                 $kapasitasPL2 = $kapasitasPL2harian * 15;
@@ -232,273 +232,261 @@ class ResourceWorkPlanningController extends Controller
         //*****JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN
         //*****DAN SEBALIKNYA
 
-        //jika ketersediaan MP kurang dari kebutuhan MP
-
-        // if ($totalManPower != 0 && $totalManPower < $kebutuhanMP) { //kalo kurang
-        //     switch ($periode) {
-        //         case 1: //bulanan
-        //             $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93);
-        //             $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93);
-        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93);
-        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93);
-        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93);
-        //             break;
-        //         case 2: //3 minggu
-        //             $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 120 * 0.93);
-        //             $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93);
-        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93);
-        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93);
-        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93);
-        //             break;
-        //         case 3: //2 minggu
-        //             $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 80 * 0.93);
-        //             $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93);
-        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
-        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
-        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
-        //             break;
-        //         case 4: //1 minggu
-        //             $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 40 * 0.93);
-        //             $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 40 * 0.93);
-        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 40 * 0.93);
-        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 40 * 0.93);
-        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 40 * 0.93);
-        //             break;
-        //     }
-        // } elseif ($totalManPower != 0) {
-        //     switch ($periode) {
-        //         case 1: //bulanan
-        //             $overtimePL2old = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93);
-        //             $overtimePL2 = $overtimePL2old / ($ketersediaanMPPL2 * 173 * 0.93) * 100;
-        //             $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93);
-        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 173 * 0.93) * 100;
-        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93);
-        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 173 * 0.93) * 100;
-        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93);
-        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 173 * 0.93) * 100;
-        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93);
-        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 173 * 0.93) * 100;
-        //             break;
-        //         case 2: //3 minggu
-        //             $overtimePL2old = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 120 * 0.93);
-        //             $overtimePL2 = $overtimePL2old / ($ketersediaanMPPL2 * 120 * 0.93) * 100;
-        //             $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93);
-        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 120 * 0.93) * 100;
-        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93);
-        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 120 * 0.93) * 100;
-        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93);
-        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 120 * 0.93) * 100;
-        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93);
-        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 120 * 0.93) * 100;
-        //             break;
-        //         case 3: //2 minggu
-        //             $overtimePL2old = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 80 * 0.93);
-        //             $overtimePL2 = $overtimePL2old / ($ketersediaanMPPL2 * 80 * 0.93) * 100;
-        //             $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93);
-        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 80 * 0.93) * 100;
-        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
-        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 80 * 0.93) * 100;
-        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
-        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 80 * 0.93) * 100;
-        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
-        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 80 * 0.93) * 100;
-        //             break;
-        //         case 4: //1 minggu
-        //             $overtimePL2old = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 40 * 0.93);
-        //             $overtimePL2 = $overtimePL2old / ($ketersediaanMPPL2 * 40 * 0.93) * 100;
-        //             $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 40 * 0.93);
-        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 40 * 0.93) * 100;
-        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 40 * 0.93);
-        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 40 * 0.93) * 100;
-        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 40 * 0.93);
-        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 40 * 0.93) * 100;
-        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 40 * 0.93);
-        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 40 * 0.93) * 100;
-        //             break;
-        //     }
-        // } else {
-        //     $overtimePL2 = 0; // Default value if $ketersediaanMPPL is zero
-        //     $overtimePL3 = 0; // Default value if $ketersediaanMPPL is zero
-        //     $overtimeCTVT = 0; // Default value if $ketersediaanMPPL is zero
-        //     $overtimeDRY = 0; // Default value if $ketersediaanMPPL is zero
-        //     $overtimeREPAIR = 0; // Default value if $ketersediaanMPPL is zero            
-        // }
-
-
 
 
         //0000000000000000000000000000000000000000000000000000000
+        
         if ($ketersediaanMPPL2 != 0 && $totalManPower < $kebutuhanMP) { 
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93);
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93))/($ketersediaanMPPL2 * 173 * 0.93))*100;
                     break;
                 case 2: //3 minggu
-                    $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 120 * 0.93);
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 120 * 0.93))/($ketersediaanMPPL2 * 120 * 0.93))*100;
                     break;
                 case 3: //2 minggu
-                    $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 80 * 0.93);
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 80 * 0.93))/($ketersediaanMPPL2 * 80 * 0.93))*100;
                     break;
                 case 4: //1 minggu
-                    $overtimePL2 = $jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 40 * 0.93);
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 40 * 0.93))/($ketersediaanMPPL2 * 40 * 0.93))*100;
                     break;
             }
         } else {
             $overtimePL2 = 0; // Default value if $ketersediaanMPPL is zero
             $ketersediaanMPPL2 = $kebutuhanMPPL2;
         }
-
-        if ($ketersediaanMPPL3 != 0 && $totalManPower < $kebutuhanMP) {
+        
+        if ($ketersediaanMPPL3 != 0 && $totalManPower < $kebutuhanMP) { 
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93);
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93))/($ketersediaanMPPL3 * 173 * 0.93))*100;
                     break;
                 case 2: //3 minggu
-                    $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93);
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93))/($ketersediaanMPPL3 * 120 * 0.93))*100;
                     break;
                 case 3: //2 minggu
-                    $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93);
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93))/($ketersediaanMPPL3 * 80 * 0.93))*100;
                     break;
                 case 4: //1 minggu
-                    $overtimePL3 = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 40 * 0.93);
-                    break;
-            }
-        } elseif ($ketersediaanMPPL3 != 0 && $totalManPower > $kebutuhanMP) { //kalo mencukupi
-            switch ($periode) {
-                case 1: //bulanan
-                    $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93);
-                    $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 173 * 0.93) * 100;
-                    break;
-                case 2: //3 minggu
-                    $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93);
-                    $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 120 * 0.93) * 100;
-                    break;
-                case 3: //2 minggu
-                    $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93);
-                    $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 80 * 0.93) * 100;
-                    break;
-                case 4: //1 minggu
-                    $overtimePL3old = $jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93);
-                    $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 80 * 0.93) * 100;
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 40 * 0.93))/($ketersediaanMPPL3 * 40 * 0.93))*100;
                     break;
             }
         } else {
             $overtimePL3 = 0; // Default value if $ketersediaanMPPL is zero
+            $ketersediaanMPPL3 = $kebutuhanMPPL3;
         }
-
-        if ($ketersediaanMPCTVT != 0 && $totalManPower < $kebutuhanMP) { //kalo kurang
+        
+        if ($ketersediaanMPCTVT != 0 && $totalManPower < $kebutuhanMP) { 
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93);
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93))/($ketersediaanMPCTVT * 173 * 0.93))*100;
                     break;
                 case 2: //3 minggu
-                    $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93);
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93))/($ketersediaanMPCTVT * 120 * 0.93))*100;
                     break;
                 case 3: //2 minggu
-                    $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93))/($ketersediaanMPCTVT * 80 * 0.93))*100;
                     break;
                 case 4: //1 minggu
-                    $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 40 * 0.93);
-                    break;
-            }
-        } elseif ($ketersediaanMPCTVT != 0 && $totalManPower > $kebutuhanMP) { //kalo mencukupi
-            switch ($periode) {
-                case 1: //bulanan
-                    $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93);
-                    $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 173 * 0.93) * 100;
-                    break;
-                case 2: //3 minggu
-                    $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93);
-                    $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 120 * 0.93) * 100;
-                    break;
-                case 3: //2 minggu
-                    $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
-                    $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 80 * 0.93) * 100;
-                    break;
-                case 4: //1 minggu
-                    $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
-                    $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 80 * 0.93) * 100;
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 40 * 0.93))/($ketersediaanMPCTVT * 40 * 0.93))*100;
                     break;
             }
         } else {
             $overtimeCTVT = 0; // Default value if $ketersediaanMPPL is zero
+            $ketersediaanMPCTVT = $kebutuhanMPCTVT;
         }
-
-        if ($ketersediaanMPDRY != 0 && $totalManPower < $kebutuhanMP) { //kalo kurang
+        
+        if ($ketersediaanMPDRY != 0 && $totalManPower < $kebutuhanMP) { 
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93);
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93))/($ketersediaanMPDRY * 173 * 0.93))*100;
                     break;
                 case 2: //3 minggu
-                    $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93);
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93))/($ketersediaanMPDRY * 120 * 0.93))*100;
                     break;
                 case 3: //2 minggu
-                    $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93))/($ketersediaanMPDRY * 80 * 0.93))*100;
                     break;
                 case 4: //1 minggu
-                    $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 40 * 0.93);
-                    break;
-            }
-        } elseif ($ketersediaanMPDRY != 0 && $totalManPower > $kebutuhanMP) {
-            switch ($periode) {
-                case 1: //bulanan
-                    $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93);
-                    $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 173 * 0.93) * 100;
-                    break;
-                case 2: //3 minggu
-                    $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93);
-                    $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 120 * 0.93) * 100;
-                    break;
-                case 3: //2 minggu
-                    $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
-                    $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 80 * 0.93) * 100;
-                    break;
-                case 4: //1 minggu
-                    $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
-                    $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 80 * 0.93) * 100;
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 40 * 0.93))/($ketersediaanMPDRY * 40 * 0.93))*100;
                     break;
             }
         } else {
             $overtimeDRY = 0; // Default value if $ketersediaanMPPL is zero
+            $ketersediaanMPDRY = $kebutuhanMPDRY;
         }
-
-        if ($ketersediaanMPREPAIR != 0 && $totalManPower < $kebutuhanMP) { //kalo kurang
+        
+        if ($ketersediaanMPREPAIR != 0 && $totalManPower < $kebutuhanMP) { 
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93);
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93))/($ketersediaanMPREPAIR * 173 * 0.93))*100;
                     break;
                 case 2: //3 minggu
-                    $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93);
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93))/($ketersediaanMPREPAIR * 120 * 0.93))*100;
                     break;
                 case 3: //2 minggu
-                    $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93))/($ketersediaanMPREPAIR * 80 * 0.93))*100;
                     break;
                 case 4: //1 minggu
-                    $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 40 * 0.93);
-                    break;
-            }
-        } elseif ($ketersediaanMPREPAIR != 0 && $totalManPower > $kebutuhanMP) { //kalo mencukupi
-            switch ($periode) {
-                case 1: //bulanan
-                    $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93);
-                    $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 173 * 0.93) * 100;
-                    break;
-                case 2: //3 minggu
-                    $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93);
-                    $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 120 * 0.93) * 100;
-                    break;
-                case 3: //2 minggu
-                    $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
-                    $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 80 * 0.93) * 100;
-                    break;
-                case 4: //1 minggu
-                    $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
-                    $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 80 * 0.93) * 100;
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 40 * 0.93))/($ketersediaanMPREPAIR * 40 * 0.93))*100;
                     break;
             }
         } else {
             $overtimeREPAIR = 0; // Default value if $ketersediaanMPPL is zero
+            $ketersediaanMPREPAIR = $kebutuhanMPREPAIR;
         }
+
+        // if ($ketersediaanMPPL3 != 0 && $totalManPower < $kebutuhanMP) {
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimePL3 = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93))*100;
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimePL3 = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93))*100;
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimePL3 = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93))*100;
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimePL3 = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 40 * 0.93))*100;
+        //             break;
+        //     }
+        // } elseif ($ketersediaanMPPL3 != 0 && $totalManPower > $kebutuhanMP) { //kalo mencukupi
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimePL3old = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93))*100;
+        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 173 * 0.93) * 100;
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimePL3old = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93))*100;
+        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 120 * 0.93) * 100;
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimePL3old = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93))*100;
+        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 80 * 0.93) * 100;
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimePL3old = ($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93))*100;
+        //             $overtimePL3 = $overtimePL3old / ($ketersediaanMPPL3 * 80 * 0.93) * 100;
+        //             break;
+        //     }
+        // } else {
+        //     $overtimePL3 = 0; // Default value if $ketersediaanMPPL is zero
+        // }
+
+        // if ($ketersediaanMPCTVT != 0 && $totalManPower < $kebutuhanMP) { //kalo kurang
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93);
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93);
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimeCTVT = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 40 * 0.93);
+        //             break;
+        //     }
+        // } elseif ($ketersediaanMPCTVT != 0 && $totalManPower > $kebutuhanMP) { //kalo mencukupi
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93);
+        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 173 * 0.93) * 100;
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93);
+        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 120 * 0.93) * 100;
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
+        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 80 * 0.93) * 100;
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimeCTVTold = $jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93);
+        //             $overtimeCTVT = $overtimeCTVTold / ($ketersediaanMPCTVT * 80 * 0.93) * 100;
+        //             break;
+        //     }
+        // } else {
+        //     $overtimeCTVT = 0; // Default value if $ketersediaanMPPL is zero
+        // }
+
+        // if ($ketersediaanMPDRY != 0 && $totalManPower < $kebutuhanMP) { //kalo kurang
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93);
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93);
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimeDRY = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 40 * 0.93);
+        //             break;
+        //     }
+        // } elseif ($ketersediaanMPDRY != 0 && $totalManPower > $kebutuhanMP) {
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93);
+        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 173 * 0.93) * 100;
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93);
+        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 120 * 0.93) * 100;
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
+        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 80 * 0.93) * 100;
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimeDRYold = $jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93);
+        //             $overtimeDRY = $overtimeDRYold / ($ketersediaanMPDRY * 80 * 0.93) * 100;
+        //             break;
+        //     }
+        // } else {
+        //     $overtimeDRY = 0; // Default value if $ketersediaanMPPL is zero
+        // }
+
+        // if ($ketersediaanMPREPAIR != 0 && $totalManPower < $kebutuhanMP) { //kalo kurang
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93);
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93);
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimeREPAIR = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 40 * 0.93);
+        //             break;
+        //     }
+        // } elseif ($ketersediaanMPREPAIR != 0 && $totalManPower > $kebutuhanMP) { //kalo mencukupi
+        //     switch ($periode) {
+        //         case 1: //bulanan
+        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93);
+        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 173 * 0.93) * 100;
+        //             break;
+        //         case 2: //3 minggu
+        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93);
+        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 120 * 0.93) * 100;
+        //             break;
+        //         case 3: //2 minggu
+        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
+        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 80 * 0.93) * 100;
+        //             break;
+        //         case 4: //1 minggu
+        //             $overtimeREPAIRold = $jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93);
+        //             $overtimeREPAIR = $overtimeREPAIRold / ($ketersediaanMPREPAIR * 80 * 0.93) * 100;
+        //             break;
+        //     }
+        // } else {
+        //     $overtimeREPAIR = 0; // Default value if $ketersediaanMPPL is zero
+        // }
 
 
 

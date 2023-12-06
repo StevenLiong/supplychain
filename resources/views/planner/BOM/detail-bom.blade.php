@@ -236,6 +236,8 @@
  <script>
     $(document).ready(function() {
 
+      cekMaterial();
+
       //JAVASCRIPT UNTUK SUBMIT MATERIAL
       // Menggunakan variabel global untuk menyimpan data yang akan dikirim
       let submitData = {};
@@ -361,8 +363,56 @@
         // Optionally, display an error message to the user
       },
     });
+    handleMaterialChange();
+  });
+
 });
 
-    });
-  </script>
-  @endsection
+  // Fungsi untuk melakukan pemanggilan AJAX ke server
+  function cekMaterial() {
+      var idBom = "{{ $id_bom }}"; // Dapatkan id_bom dari PHP dan sisipkan ke dalam script JavaScript
+
+      $.ajax({
+          type: "GET",
+          url: "/DetailBom/cek-material/" + idBom,
+          success: function (data) {
+              // Handle response dari server (jika diperlukan)
+              console.log("CekMaterial berhasil dijalankan");
+          },
+          error: function (error) {
+              // Handle error (jika diperlukan)
+              console.error("Terjadi kesalahan saat menjalankan CekMaterial");
+          }
+      });
+    }
+
+    // Fungsi untuk melakukan pemanggilan AJAX ke server dan memperbarui keterangan
+    function updateKeteranganAndStatus() {
+        var idBom = "{{ $dataBom->id_bom }}"; // Dapatkan id_bom dari PHP dan sisipkan ke dalam script JavaScript
+
+        $.ajax({
+            type: "GET",
+            url: "/DetailBom/get-status-and-keterangan/" + idBom,
+            success: function (data) {
+                // Handle response dari server
+                console.log("Status dan keterangan berhasil diambil:", data);
+
+                // Perbarui elemen HTML dengan status dan keterangan baru
+                $('#status').text(data.status);
+                $('#keterangan').text(data.keterangan);
+            },
+            error: function (error) {
+                // Handle error (jika diperlukan)
+                console.error("Terjadi kesalahan saat mengambil status dan keterangan");
+            }
+        });
+    }
+
+    // Panggil fungsi ini setelah berhasil menghapus atau merestore material
+    function handleMaterialChange() {
+        updateKeteranganAndStatus();
+    }
+
+    
+</script>
+@endsection

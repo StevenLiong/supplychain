@@ -31,9 +31,10 @@ use App\Http\Controllers\produksi\DryNonResinController;
 use App\Http\Controllers\logistic\FinishedgoodController;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
+use App\Http\Controllers\planner\WorkcenterDryTypeController;
+use App\Http\Controllers\planner\WorkcenterOilTrafoController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
-use App\Http\Controllers\purchaser\poController;
-use App\Models\po;
+
 
 Auth::routes();
 Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
@@ -117,6 +118,8 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     // logistic end
 });
 
+
+
 // Planner Start
 
 Route::middleware(['auth', 'planner'])->group(function () {
@@ -134,6 +137,12 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/BOM/DetailBOM/{id_bom}', [DetailbomController::class, 'bomDetail'])->name('bom.detailbom');
     Route::get('/bom/EditBOMInfo/{id_bom}', [BomController::class, 'infoBom'])->name('bom.editbom');
     Route::put('/bom/updatebom/{id_bom}', [BomController::class, 'updateBom'])->name('bom.updatebom');
+    Route::get('/DetailBom/cek-material/{idBom}', [DetailbomController::class, 'CekMaterial']);
+    // web.php
+    Route::get('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@ajaxGetStatusAndKeterangan');
+
+    //Route::post('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@getStatusAndKeterangan');
+
 
     // --EDIT MATERIAL & ADD NEW MATERIAL--
     Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
@@ -156,6 +165,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // MENU WORK ORDER
     Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
+    Route::delete('/WorkOrder/delete/{id_wo}}', [WoController::class, 'destroy'])->name('wo.delete');
 
     // --CREATE WORK ORDER--
     Route::get('/wo/create', [WoController::class, 'create'])->name('wo-create');
@@ -215,6 +225,10 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
     // --DELETE STOCK--
     Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
+
+    //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
+
+    Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
 });
 
 // Planner End

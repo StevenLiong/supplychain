@@ -120,7 +120,7 @@
                 </a>
             </div>
             <div class="navbar-breadcrumb">
-                <h5>$title1</h5>
+                <h5>Supply Chain DX - Planning Full-Cycle</h5>
             </div>
             <div class="d-flex align-items-center">
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">

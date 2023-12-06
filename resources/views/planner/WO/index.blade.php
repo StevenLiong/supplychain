@@ -31,7 +31,7 @@
                                     <th style="width: 1rem;text-align: center;">No</th>
                                     <th style="width: 6rem; text-align: center">Work Order Code</th>
                                     <th style="width: 6rem; text-align: center">BOM Code</th>
-                                    <th style="width: 6rem; text-align:center">Man Hour Code</th>
+                                    <th style="width: 6rem; text-align:center">Standardize Work Code</th>
                                     <th style="width: 6rem; text-align:center">Sales Order</th>
                                     <th style="width: 6rem; text-align:center">Start Date</th>
                                     <th style="width: 6rem; text-align:center">Finish Date</th>
@@ -43,14 +43,19 @@
                             @foreach ($dataWo as $index => $item)
                                 <tr role="row" class="odd">
                                     <td style="text-align: center; width: 1rem">
-                                        <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                            <a href="{{ route('wo.editwo', $item->id_wo) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
-                                        </div>
+                                        <form method="POST" action="{{ route('wo.delete', ['id_wo' => $item->id_wo])}}">
+                                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                                                <a href="{{ route('wo.editwo', $item->id_wo) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin ingin menghapus ID WO tersebut?')"><i class="fa-solid fa-trash"></i></button>
+                                            </div>
+                                        </form>
                                     </td>
                                     <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_wo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_boms }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ $item->kd_manhour }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $item->id_standardize_work }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_so }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->start_date)->format('d-F-Y') }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->finish_date)->format('d-F-Y') }}</td>

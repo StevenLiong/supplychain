@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class StandardizeWork extends Model
 {
     use HasFactory;
+    protected $table = 'standardize_works';
 
     protected $fillable = [
         'id_dry_cast_resin',
@@ -18,7 +19,12 @@ class StandardizeWork extends Model
         'id_oil_stndard',
         'id_oil_custom',
         'id_repair',
+        'total_hour',
+        'id_fg',
+        'kd_manhour',
     ];
+
+
 
     public function dry_cast_resin(): BelongsTo
     {

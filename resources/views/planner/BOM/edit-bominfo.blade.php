@@ -35,18 +35,6 @@
                         <option value="Small" {{ $dataBom->uom_bom === 'Small' ? 'selected' : '' }}>Small</option>
                     </select>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault05">Status</label>
-                    @if ($dataBom->status == 1)
-                        <input type="text" class="form-control" value="Completed" required disabled>
-                    @else
-                        <input type="text" class="form-control" value="Pending" required disabled>
-                    @endif
-                </div>  
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault05">Keterangan</label>
-                    <input type="text" class="form-control" name="keterangan" value="{{ $dataBom->keterangan }}" required disabled>
-                </div>
             </div>
             <div class="col text-center">
                 <button type="submit" class="btn btn-warning">Simpan Perubahan</button>

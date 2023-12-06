@@ -100,6 +100,8 @@ class DatabaseSeeder extends Seeder
         $this->call(SupplierSeeder::class);
         $this->call(IncomingSeeder::class);
         $this->call(FinishedgoodSeeder::class);
+        $this->call(DryCastResinSeeder::class);
+        $this->call(StandardizedWorkSeeder::class);
 
 
         $this->call(DivisionSeeder::class);

@@ -79,7 +79,6 @@
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">{{ $item['nama_materialbom'] }}</td>
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">{{ $item['usage_material'] }}</td>
                         
-                        <!-- Informasi stock dari $stockInfo -->
                         <td class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00ff00;">{{ $stockInfo->rop_safety }}</td>
                         <td class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00ff00;">{{ $stockInfo->max_safety }}</td>
                     </tr>

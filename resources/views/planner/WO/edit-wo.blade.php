@@ -22,8 +22,8 @@
                     <input type="text" class="form-control" name="id_boms" value="{{ $detailWo->id_boms }}"required>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">Man Hour Code</label>
-                    <input type="text" class="form-control" name="id_manhour" value="{{ $detailWo->id_manhour }}"required>
+                    <label for="validationDefault01">Standardize Work Code</label>
+                    <input type="text" class="form-control" name="id_manhour" value="{{ $detailWo->id_standardize_work }}"required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Sales Order</label>
@@ -40,6 +40,14 @@
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Quantity</label>
                     <input type="text" class="form-control" name="qty_trafo" value="{{ $detailWo->qty_trafo }}"required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationDefault01">Kode Finish Good</label>
+                    <input type="text" class="form-control" name="id_fg" value="{{ $detailWo->id_fg }}"required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationDefault01">KVA</label>
+                    <input type="text" class="form-control" name="kva" value="{{ $detailWo->kva }}"required>
                 </div>
             </div>
             <div class="col text-center">

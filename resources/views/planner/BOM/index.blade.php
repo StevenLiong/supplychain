@@ -11,10 +11,10 @@
         </div>
         <div class="card-body">
             <div class="row d-flex mb-4">
-                <div class="col  text-left">
+                <!-- <div class="col  text-left">
                     <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
                     <a href="#" class="MR-3 btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i class="mr-2 fa fa-table"></i>Download Exel</a>
-                </div>
+                </div> -->
 
                 <div class="col  text-right">
                     <a href="{{ route('bom-create') }}" class="btn btn-primary"><i class="mr-2 fa fa-plus" aria-hidden="true"></i>Create BOM</a>

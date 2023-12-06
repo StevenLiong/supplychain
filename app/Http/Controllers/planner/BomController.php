@@ -16,7 +16,7 @@ class BomController extends Controller
 {
     public function index()
     {
-        $dataBom = Bom::all(); // Mengambil semua data dari model 'Bom'
+        $dataBom = Bom::all();
         $detailBom = Detailbom::all();
 
         return view('planner.bom.index', compact('dataBom', 'detailBom'));
@@ -32,28 +32,34 @@ class BomController extends Controller
     //STORE DATA CREATE BOM
     public function store(Request $request): RedirectResponse
     {
-        // Simpan BOM yang terkait
+        $id_so = $request->get('id_so');
+
         $bom = new Bom();
         $bom->id_bom = $request->get('id_bom');
         $bom->qty_bom = $request->get('qty_bom');
         $bom->bom_status = "Aktif";
         // $bom->bom_status = $request->get('bom_status');
         $bom->uom_bom = $request->get('uom_bom');
-        $bom->id_so = $request->get('id_so');
+        // $bom->id_so = $request->get('id_so');
+        $bom->id_so = $id_so;
         $bom->id_fg = $request->get('id_fg');
 
         $bom->save();
     
         $idBom = $bom->id_bom;
 
-        $so = new So();
-        $so->kode_so = $request->get('id_so');
-        $so->save();
+        $cekSO = So::where('kode_so', $id_so)->first();
 
-        // Simpan idBom dalam sesi
+        if (!$cekSO) {
+            $so = new So();
+            $so->kode_so = $id_so;
+            $so->save();
+        }
+
         session(['idBom' => $idBom]);
     
         return redirect()->route('bom-upload-excel', ['idBom' => $idBom]);
+        
     }
     
      // EDIT BOM INFO
@@ -90,10 +96,6 @@ class BomController extends Controller
     {
         $dataBom = Bom::where('id_bom', $id_bom)
             ->first();
-
-        if(!$dataBom){
-            return redirect()->route('bom-index')->with('error', 'Data tidak ditemukan');
-        }
         
         $id_bom = $dataBom->id_bom;
 

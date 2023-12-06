@@ -71,6 +71,45 @@
     </div>
 </div>
 
+<!-- Modal -->
+@foreach($dataPo as $no => $po)
+<div class="modal fade" id="exampleModal{{$no}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">List Material</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">NO</th>
+                            <th scope="col">Kode Material</th>
+                            <th scope="col">Nama Material</th>
+                            <th scope="col">Qty</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($po->pesanan as $nomer => $pesanan)
+                        <tr>
+                            <td class="table-plus">{{ $nomer + 1 }}</td>
+                            <td class="table-plus">{{ $pesanan->kd_material }}</td>
+                            <td class="table-plus">{{ $pesanan->material->nama_material }}</td>
+                            <td class="table-plus">{{ $pesanan->qty_pesanan }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+
 <!-- Tombol "Add Data" di sini -->
 <script>
     $(document).ready(function() {

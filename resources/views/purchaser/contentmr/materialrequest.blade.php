@@ -85,7 +85,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">List Material</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -102,8 +102,8 @@
                         @foreach ($mr->pesanan as $nomer => $pesanan)
                         <tr>
                             <td class="table-plus">{{ $nomer + 1 }}</td>
-                            <td class="table-plus">{{ $pesanan->id_material }}</td>
-                            <td class="table-plus">{{ $pesanan->material->name_material }}</td>
+                            <td class="table-plus">{{ $pesanan->kd_material }}</td>
+                            <td class="table-plus">{{ $pesanan->material->nama_material }}</td>
                             <td class="table-plus">{{ $pesanan->qty_pesanan }}</td>
                         </tr>
 
@@ -113,7 +113,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

@@ -12,6 +12,7 @@ class pesanan extends Model
 {
     use HasFactory;
     protected $table = 'pesanan';
+    protected $primaryKey = 'id_pesanan';
 
     public $timestamps = false;
 

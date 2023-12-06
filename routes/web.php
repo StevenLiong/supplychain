@@ -251,6 +251,7 @@ Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/materialrequest/add', [mrController::class, 'createmr']);
     Route::get('/materialrequest/{id_mr}', [mrController::class, 'editmr']);
     Route::post('/materialrequest/{id_mr}', [mrController::class, 'storeEditmr']);
+    Route::get('/materialrequest/delete/{id_pesanan}', [mrController::class, 'removemat']);
     Route::get('/tabelmaterial', [mrController::class, 'tableMaterial']);
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);

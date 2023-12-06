@@ -73,9 +73,7 @@
                                         <input class="form-control" name="dim" value="{{$pesanan->material->satuan}}" disabled>
                                     </div>
                                     <div class="col">
-                                        <a class=" btn btn-danger form-control" href="/materialrequest/delete/{{$pesanan->id_pesanan}}"></a>
-                                        <i class="bi bi-trash-fill"></i>
-
+                                        <a class=" btn btn-danger form-control" href="/materialrequest/delete/{{$pesanan->id_pesanan}}"><i class="bi bi-trash-fill"></i></a>
                                     </div>
                                     <div class="mb-3 mt-4">
                                         <label for="exampleFormControlInput1" class="form-label">Nama Material</label>
@@ -153,7 +151,7 @@
         divisioncode.val(selectedOption.data('division'));
     }
 
-    function updateMataterial(select) {
+    function updateMaterial(select) {
         var selectedOption = $(select).find(":selected");
         var dimension = $(select).closest(".item").find('input[name="satuan"]');
         var name = $(select).closest(".item").find('input[name="nama_material"]');
@@ -224,6 +222,7 @@
     
 </script> -->
 <script>
+    let itemCount = 1;
     function addNewItem() {
         itemCount++;
         const formContainer = document.querySelector(".items");

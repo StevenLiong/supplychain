@@ -106,7 +106,6 @@
                             <td class="table-plus">{{ $pesanan->material->nama_material }}</td>
                             <td class="table-plus">{{ $pesanan->qty_pesanan }}</td>
                         </tr>
-
                         @endforeach
                     </tbody>
                 </table>

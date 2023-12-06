@@ -131,6 +131,46 @@
                             </div>
                         </div>
                     </div>
+                    <thead>
+                        <tr>
+                            <h3 class="text-dark my-2 text-center mt-5" >List Material Request</h3>
+                        </tr>
+                        <br>
+                    </thead>
+                    <table class="table-bordered table">
+                        <thead class="table-light text-center">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Code Material</th>
+                                <th scope="col">Items Name</th>
+                                <th scope="col">Qty</th>
+                                <th scope="col">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-center">
+                            <tr>
+                                <td class="table-plus">1</td>
+                                <td class="table-plus">RTB001</td>
+                                <td class="table-plus">Material 1</td>
+                                <td class="table-plus">100</td>
+                                <td class="table-plus">4.000</td>
+                            </tr>
+                            <tr>
+                                <td class="table-plus">1</td>
+                                <td class="table-plus">RTB001</td>
+                                <td class="table-plus">Material 1</td>
+                                <td class="table-plus">100</td>
+                                <td class="table-plus">4.000</td>
+                            </tr>
+                            <tr>
+                                <td class="table-plus">1</td>
+                                <td class="table-plus">RTB001</td>
+                                <td class="table-plus">Material 1</td>
+                                <td class="table-plus">100</td>
+                                <td class="table-plus">4.000</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                     <!-- button back -->
                     <div class="row mb-5">

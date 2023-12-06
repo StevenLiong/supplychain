@@ -157,8 +157,6 @@
 <!-- addmaterial script -->
 <script>
     let itemCount = 1;
-
-    // Event delegation to handle material select change
     // document.addEventListener('change', function(event) {
     //     if (event.target.classList.contains('material-select')) {
     //         const material = event.target.value;

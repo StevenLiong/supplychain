@@ -88,6 +88,7 @@
                             <th scope="col">Kode Material</th>
                             <th scope="col">Nama Material</th>
                             <th scope="col">Qty</th>
+                            <th scope="col">Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,6 +98,7 @@
                             <td class="table-plus">{{ $pesanan->kd_material }}</td>
                             <td class="table-plus">{{ $pesanan->material->nama_material }}</td>
                             <td class="table-plus">{{ $pesanan->qty_pesanan }}</td>
+                            <td class="table-plus"> - </td>
                         </tr>
                         @endforeach
                     </tbody>

@@ -1,5 +1,7 @@
 @extends('planner.template.bar')
   @section('content')
+  @section('bill-of-material', 'active')
+@section('main', 'show')
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Pastikan library jQuery sudah dimasukkan sebelum Bootstrap -->

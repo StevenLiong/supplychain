@@ -9,6 +9,7 @@ use App\Models\logistic\Material;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Matrix\Operators\Division;
 
 class DatabaseSeeder extends Seeder
 {
@@ -91,6 +92,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // seeder logistic
+
         $this->call(MaterialSeeder::class);
         $this->call(GudangSeeder::class);
         $this->call(RakSeeder::class);
@@ -102,14 +104,18 @@ class DatabaseSeeder extends Seeder
         $this->call(StandardizedWorkSeeder::class);
 
 
-        // $this->call(KapasitasSeeder::class);
-        // $this->call(KategoriProdukSeeder::class);
-        // $this->call(ProsesSeeder::class);
-        // $this->call(TipeProsesSeeder::class);
-        // $this->call(WorkCenterSeeder::class);
-        // $this->call(ManHourSeeder::class);
+        $this->call(DivisionSeeder::class);
+        $this->call(DeliverySeeder::class);
 
+        $this->call(KapasitasSeeder::class);
+        $this->call(KategoriProdukSeeder::class);
+        $this->call(ProsesSeeder::class);
+        $this->call(TipeProsesSeeder::class);
+        $this->call(WorkCenterSeeder::class);
         $this->call(WorkcenterOilTrafoSeeder::class);
         $this->call(WorkcenterDryTypeSeeder::class);
+        // $this->call(MpsSeeder::class);
+        $this->call(ManHourSeeder::class);
+        
     }
 }

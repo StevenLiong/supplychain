@@ -184,6 +184,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // --UPLOAD MPS--
     Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
     Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
+    Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
 
     // --EXPORT MPS--
     Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
@@ -210,13 +211,6 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // --DELETE STOCK--
     Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
 
-    // MENU FINISH GOOD
-    Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
-    Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
-    Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
-    // --DELETE STOCK--
-    Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
-
     // MENU WORK CENTER OIL
     Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
     Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil'); 
@@ -224,16 +218,20 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // MENU WORK CENTER DRY TYPE
     Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
     Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
+    
+    // MENU FINISH GOOD
+    Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
+    Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
+    Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+    // --DELETE STOCK--
+    Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
 
     //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
 
     Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
 });
 
-
 // Planner End
-
-
 
 Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('/', [ResourceWorkPlanningController::class, 'dashboard']);
@@ -256,7 +254,6 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('resource_work_planning/Kalkulasi-SDM', [ResourceWorkPlanningController::class, 'kalkulasiSDM']);
 });
 
-
 Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
     Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
@@ -276,6 +273,7 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
 });
 
+//MR & PO
 //Material Request
 Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/', [mrController::class, 'index'])->name('home');
@@ -283,7 +281,17 @@ Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/materialrequest', [mrController::class, 'materialRequest']);
     Route::get('/materialrequest/add', [mrController::class, 'createmr']);
     Route::get('/materialrequest/{id_mr}', [mrController::class, 'editmr']);
+    Route::post('/materialrequest/{id_mr}', [mrController::class, 'storeEditmr']);
     Route::get('/tabelmaterial', [mrController::class, 'tableMaterial']);
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);
+});
+
+//Purchase Order
+Route::middleware(['auth', 'purchaseorder'])->group(function () {
+    Route::get('/', [poController::class, 'index'])->name('home');
+    Route::get('/purchaseorder/dashboard', [poController::class, 'index']);
+    Route::get('/purchaseorder', [poController::class, 'purchaseorder']);
+    Route::get('/purchaseorder/createPo/{id_mr}', [poController::class, 'createpo']);
+    Route::post('/purchaseorder/{id_mr}/add', [poController::class, 'storepo']);
 });

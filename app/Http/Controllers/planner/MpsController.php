@@ -4,9 +4,11 @@ namespace App\Http\Controllers\planner;
 use PDF;
 use App\Exports\MpsExport;
 use App\Exports\PdfExport;
+use App\Models\planner\Wo;
 use App\Models\planner\Mps;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\produksi\DryCastResin;
 use Illuminate\Http\RedirectResponse;
 
 class MpsController extends Controller
@@ -19,11 +21,21 @@ class MpsController extends Controller
 
     public function upload()
     {
-        return view('planner.MPS.upload-mps');
+        $dataWo = Wo::all(); // Mengambil nilai 'id_wo' dari tabel Wo
+        return view('planner.MPS.upload-mps', ['dataWo' => $dataWo]);
     }
 
     public function store(Request $request): RedirectResponse
     {
+        // $dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
+        // session(['idWo' => $id_wo]);
+        // $dryCastResin = DryCastResin::where('id_wo', $request->get('id_wo'))->first();
+    
+        // if($dryCastResin) {
+        //     $manHourCode = $dryCastResin->man_hour_code; // Ambil Man Hour Code dari Dry Cast Resin
+        //     // Kemudian isi field Man Hour Code di form
+        //     return view('planner.mps.index', compact('dataMps'))->with('manHourCode', $manHourCode);
+        // }
         $mps = new Mps();
         $mps->id_wo = $request->get('id_wo');
         $mps->project = $request->get('project');
@@ -36,7 +48,21 @@ class MpsController extends Controller
 
         $mps->save();
 
-        return redirect()->route('mps-index');
+        if($request->get('jenis') === 'Dry Type') {
+            return redirect()->route('gpa-indexgpadry'); // Redirect ke indexgpadry jika jenis adalah 'Dry Type'
+        }
+        else($request->get('jenis') === 'Oil Trafo'); {
+            return redirect()->route('gpa-indexgpaoil'); // Redirect ke indexgpaoil jika jenis adalah 'Oil Type'
+        }
+    
+        // return redirect()->route('mps-index'); // Jika jenis bukan 'Dry Type', redirect ke halaman mps-index biasa
+    }
+
+    public function getTotalHour($id)
+    {
+        $totalHour = DryCastResin::where('total_hour', $id)->get();
+
+        return response()->json($totalHour);
     }
 
     public function exportToExcel()

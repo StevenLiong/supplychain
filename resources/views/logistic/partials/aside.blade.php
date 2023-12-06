@@ -80,6 +80,13 @@
                              </a>
                          </li>
                          <li class="nav-item ">
+                             <a href={{ url('datamaster/rak') }}
+                                 class="nav-link {{ request()->segment(2) === 'rak' ? 'active' : '' }} ">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>Data Rak</p>
+                             </a>
+                         </li>
+                         <li class="nav-item ">
                              <a href={{ url('datamaster/supplier') }}
                                  class="nav-link {{ request()->segment(2) === 'supplier' ? 'active' : '' }} ">
                                  <i class="far fa-circle nav-icon"></i>
@@ -91,13 +98,6 @@
                                  class="nav-link {{ request()->segment(2) === 'finishedgood' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Data Finished good</p>
-                             </a>
-                         </li>
-                         <li class="nav-item">
-                             <a href={{ url('datamaster/finishedgood') }}
-                                 class="nav-link {{ request()->segment(2) === 'finishedgood' ? 'active' : '' }}">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Data Finishedgood</p>
                              </a>
                          </li>
                      </ul>
@@ -146,7 +146,7 @@
                              <a href="{{ url('receiving/bpnb') }}"
                                  class="nav-link {{ request()->segment(2) == 'bpnb' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>BPNP</p>
+                                 <p>BPNB</p>
                              </a>
                          </li>
                          <li class="nav-item">
@@ -216,7 +216,7 @@
                  <!-- Storage End -->
 
                  <!-- Services -->
-                 <li class="nav-item ">
+                 <li class="nav-item {{ request()->segment(1) == 'services' ? 'menu-open' : '' }}">
                      <a href="#" class="nav-link">
                          <i class="nav-icon ">
                              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27"
@@ -284,7 +284,7 @@
                  <!-- Services End-->
 
                  <!-- Shipping-->
-                 <li class="nav-item ">
+                 <li class="nav-item {{ request()->segment(1) == 'shipping' ? 'menu-open' : '' }}">
                      <a href="#" class="nav-link">
                          <i class="nav-icon">
                              <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27"
@@ -313,7 +313,6 @@
                          </i>
                          <p>
                              Shipping
-
                              <i class="right fas fa-angle-left"></i>
                          </p>
                      </a>

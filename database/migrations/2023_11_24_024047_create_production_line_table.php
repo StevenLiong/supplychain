@@ -11,18 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supplier', function (Blueprint $table) {
-            $table->string('id_supplier');
-            $table->string('name_supplier');
-            $table->string('alamat');
+        Schema::create('production_line', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_pl');
+            $table->integer('kapasitas_pl');
+            $table->timestamps();
         });
     }
 
     /**
-     * Reverse the migrati ons.
+     * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('supplier');
+        Schema::dropIfExists('production_line');
     }
 };

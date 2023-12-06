@@ -11,17 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alamat', function (Blueprint $table) {
-            $table->id('id_alamat');
-            $table->string('alamat');
+        Schema::create('workcenter_dry_types', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_workcenter');
+            $table->timestamps();
         });
     }
 
     /**
-     * Reverse the migrati ons.
+     * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('alamat');
+        Schema::dropIfExists('workcenter_dry_types');
     }
 };

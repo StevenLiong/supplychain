@@ -58,9 +58,9 @@
                     </div>
                 </div>
                 <div class="ml-auto mr-3 float-right">
-                    <a href="#" class="ya-deh btn btn-primary ">
+                    {{-- <a href="#" class="ya-deh btn btn-primary ">
                         <i class="mr-2 fa-solid fa-print"></i>Print
-                    </a>
+                    </a> --}}
 
                 </div>
                 <div class=" mr-3 float-right">
@@ -80,10 +80,11 @@
                             <tr class="ligth" style="text-align: center;">
                                 <th>Category</th>
                                 <th>Date</th>
-                                <th>SO Code</th>
+                                <th>Kode SO</th>
                                 <th>Hours</th>
                                 <th>Capacity</th>
-                                <th>Man Hour Code</th>
+                                <th>kode Man Hour</th>
+                                <th>kode Finish Good</th>
                                 <th style="width:14rem;">Action</th>
                             </tr>
                         </thead>
@@ -112,19 +113,19 @@
                                     </td>
                                     <td class="text-center">
                                         @if ($std->dry_cast_resin)
-                                            {{ $std->dry_cast_resin->created_at->format('d-m-Y H:i') }}
+                                            {{ $std->dry_cast_resin->created_at->format('d-m-Y') }}
                                         @elseif ($std->dry_non_resin)
-                                            {{ $std->dry_non_resin->created_at->format('d-m-Y H:i') }}
+                                            {{ $std->dry_non_resin->created_at->format('d-m-Y') }}
                                         @elseif ($std->repair)
-                                            {{ $std->repair->created_at->format('d-m-Y H:i') }}
+                                            {{ $std->repair->created_at->format('d-m-Y') }}
                                         @elseif ($std->oil_custom)
-                                            {{ $std->oil_custom->created_at->format('d-m-Y H:i') }}
+                                            {{ $std->oil_custom->created_at->format('d-m-Y') }}
                                         @elseif ($std->oil_standard)
-                                            {{ $std->oil_standard->created_at->format('d-m-Y H:i') }}
+                                            {{ $std->oil_standard->created_at->format('d-m-Y') }}
                                         @elseif ($std->vt)
-                                            {{ $std->vt->created_at->format('d-m-Y H:i') }}
+                                            {{ $std->vt->created_at->format('d-m-Y') }}
                                         @elseif ($std->ct)
-                                            {{ $std->ct->created_at->format('d-m-Y H:i') }}
+                                            {{ $std->ct->created_at->format('d-m-Y') }}
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -193,6 +194,23 @@
                                             {{ $std->vt->kd_manhour }}
                                         @elseif ($std->ct)
                                             {{ $std->ct->kd_manhour }}
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($std->dry_cast_resin)
+                                            {{ $std->dry_cast_resin->id_fg }}
+                                        @elseif ($std->dry_non_resin)
+                                            {{ $std->dry_non_resin->id_fg }}
+                                        @elseif ($std->repair)
+                                            {{ $std->repair->id_fg }}
+                                        @elseif ($std->oil_custom)
+                                            {{ $std->oil_custom->id_fg }}
+                                        @elseif ($std->oil_standard)
+                                            {{ $std->oil_standard->id_fg }}
+                                        @elseif ($std->vt)
+                                            {{ $std->vt->id_fg }}
+                                        @elseif ($std->ct)
+                                            {{ $std->ct->id_fg }}
                                         @endif
                                     </td>
                                     <td class="text-center">

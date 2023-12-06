@@ -27,10 +27,6 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
             $table->timestamps();
-
-            // $table->foreign('id_standardize_work')->references('id')->on('standardize_works')->onDelete('cascade');
-            // $table->foreign('id_so')->references('id')->on('sos')->onDelete('cascade');
-            // $table->foreign('id_boms')->references('id')->on('boms')->onDelete('cascade');
         });
     }
 

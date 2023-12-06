@@ -1,23 +1,24 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\purchaser;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class pembayaran extends Model
+class delivery extends Model
 {
     use HasFactory;
-    protected $pembayaran = 'pembayaran';
+    protected $table= 'delivery';
+    public $timestamps = false;
 
     protected $fillable = [
-        'id_pembayaran',
-        'jenis_pembayaran',
+        'id_delivery',
+        'alamat',
     ];
+    
     public function po(): HasOne
     {
-        return $this->hasOne(po::class,'id_po','id_po');
+        return $this->hasOne(mr::class,'id_po','id_po');
     }
-
 }

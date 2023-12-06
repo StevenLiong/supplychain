@@ -50,6 +50,8 @@ class loginController extends Controller
                 return redirect('resource_work_planning/dashboard');
             else if (Auth::user()->id_role == 5)
                 return redirect('/materialrequest/dashboard');
+            else if (Auth::user()->id_role == 6)
+                return redirect('/purchaseorder/dashboard');
         }
 
 

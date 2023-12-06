@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\planner;
 
-use App\Models\planner\Wo;
-use App\Models\planner\So;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use App\Exports\WoExport;
-use Excel;
 use PDF;
+use Excel;
+use App\Exports\WoExport;
 use App\Exports\PdfExport;
 use App\Models\planner\Bom;
+use App\Models\planner\So;
+use App\Models\planner\Wo;
+use Illuminate\Http\Request;
+use App\Models\planner\Detailbom;
+use Illuminate\Contracts\View\View;
+use App\Models\produksi\DryCastResin;
+use Illuminate\Http\RedirectResponse;
 use App\Models\produksi\StandardizeWork;
 
 class WoController extends Controller
@@ -132,5 +134,5 @@ class WoController extends Controller
         $dataWo = Wo::select('id', 'id_wo', 'id_boms', 'id_standardize_work', 'qty_trafo', 'id_so', 'start_date', 'finish_date')->get(); // Ambil data Mps dari database
         $pdf = PDF::loadView('planner.wo.view', ['dataWo' => $dataWo]);
         return $pdf->download('WO.pdf');
-    }
+}
 }

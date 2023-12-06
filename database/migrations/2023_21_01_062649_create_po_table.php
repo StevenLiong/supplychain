@@ -12,15 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('po', function (Blueprint $table) {
-            $table->id('id_po');
-            $table->date('tanggal');
-            $table->string('status');
-            $table->string('id_jenispembelian');
-            $table->string('id_pembayaran');
+            $table->id();
+            $table->string('id_po');
+            $table->date('tanggal_po');
+            $table->string('status_po');
+            $table->string('jenispembelian');
+            $table->string('tanggal_kirim');
+            $table->string('keterangan');
+            $table->string('jenispembayaran');
+            $table->string('term');
+            $table->string('id_delivery');
+            $table->string('kd_supplier');
             $table->string('id_mr');
-            $table->string('id_alamat');
-            $table->string('id_purchaser');
-            $table->string('id_suplier');
         });
     }
 

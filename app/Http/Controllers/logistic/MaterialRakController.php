@@ -12,13 +12,13 @@ class MaterialRakController extends Controller
 {
     public function index()
     {
-        $materialRak = MaterialRak::with('material', 'rak')->latest()->paginate(2);
+        $materialRak = MaterialRak::with('material', 'rak')->latest()->paginate(5);
         $search = strtolower(request('search'));
 
         if ($search) {
             $materialRak = MaterialRak::whereHas('material', function($query) use ($search){
                 $query->where('nama_material', 'like', '%' .$search .'%');
-            })->paginate(2);
+            })->paginate(5);
         }
         return view('logistic.storage.rawmaterial.rackchecking', compact('materialRak'));
     }

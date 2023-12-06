@@ -72,7 +72,8 @@
                             <button type="reset" class="btn btn-warning m-2">
                                 <i class="fa-solid fa-rotate-left mr-2"> </i>Reset
                             </button>
-                            <button type="submit" class="btn btn-primary m-2" > <i class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
+                            <button type="submit" class="btn btn-primary m-2"> <i
+                                    class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
                             <a href="#" class="btn btn-info m-2" data-target=".preview" onclick="previewForm()"
                                 data-toggle="modal">
                                 <i class="fa-solid fa-circle-check"></i>Preview
@@ -92,7 +93,7 @@
                 <div class="card card-body my-1 pt-3 pb-0">
                     <!-- head input  -->
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
                                     value="Dry Cast Non Resin" id="category" disabled>
@@ -103,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
                                     id="ukuran_kapasitas">
@@ -122,11 +123,18 @@
                                 <label>Capacity</label>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
                                     value="{{ old('nomor_so') }}" id="so">
                                 <label>SO / No. Prospek</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
+                                    value="{{ old('id_fg') }}" id="fg">
+                                <label>Kode Finish Good</label>
                             </div>
                         </div>
                     </div>
@@ -149,8 +157,7 @@
                                             <span class="input-group-text">COIL MAKING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalJam_value"></span>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_coil_making" name="totalHour_coil_making" value="{{ old('totalHour_coil_making') }}"  readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -163,8 +170,8 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_coil_lv">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_coil_lv" name="hour_coil_lv" value="{{ old('hour_coil_lv') }}"  readonly>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
@@ -181,8 +188,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_coil_hv">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_coil_hv" name="hour_coil_hv" value="{{ old('hour_coil_hv') }}"  readonly>
+
                                             </td>
                                             <!-- nama proses-->
                                             <td>
@@ -199,8 +207,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_potong_leadwire">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_potong_leadwire" name="hour_potong_leadwire" value="{{ old('hour_potong_leadwire') }}"  readonly>
+
                                             </td>
                                             <!-- nama proses-->
                                             <td>
@@ -218,8 +227,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_potong_isolasi">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_potong_isolasi" name="hour_potong_isolasi" value="{{ old('hour_potong_isolasi') }}"  readonly>
+
                                             </td>
                                             <!-- nama proses-->
                                             <td>
@@ -248,8 +258,7 @@
                                             <span class="input-group-text">MOULD & CASTING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalMouldCasting_value"></span>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_MouldCasting" name="totalHour_MouldCasting" value="{{ old('totalHour_MouldCasting') }}"  readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -262,12 +271,13 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_moulding_casting"> 0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_moulding_casting" name="hour_moulding_casting" value="{{ old('hour_moulding_casting') }}"  readonly>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting
+                                                </h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
@@ -291,8 +301,7 @@
                                             <span class="input-group-text">QC TESTING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalQCTest_value"></span>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_QCTest" name="totalHour_QCTest" value="{{ old('totalHour_QCTest') }}"  readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -305,8 +314,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_qc_testing">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_qc_testing" name="hour_qc_testing" value="{{ old('hour_qc_testing') }}"  readonly>
+
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
@@ -340,8 +350,7 @@
                                             <span class="input-group-text">CORE & ASSEMBLY</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalCoreCoilAssembly_value"></span>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_CoreCoilAssembly" name="totalHour_CoreCoilAssembly" value="{{ old('totalHour_CoreCoilAssembly') }}"  readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -354,8 +363,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_type_susun_core">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_type_susun_core" name="hour_type_susun_core" value="{{ old('hour_type_susun_core') }}"  readonly>
+
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
@@ -365,15 +375,15 @@
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
                                                     style="height: 33px;" name="type_susun_core" id="type_susun_core">
-
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_hv_connection">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_hv_connection" name="hour_hv_connection" value="{{ old('hour_hv_connection') }}"  readonly>
+
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
@@ -389,9 +399,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_lv_connection">0</p>
-                                            </td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_lv_connection" name="hour_lv_connection" value="{{ old('hour_lv_connection') }}"  readonly>
+                                                </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
                                                 <h6 class="border border-dark rounded p-1 text-center">LV Connection</h6>
@@ -407,8 +417,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_wiring">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_wiring" name="hour_wiring" value="{{ old('hour_wiring') }}"  readonly>
+
 
                                             </td>
                                             <!-- nama proses-->
@@ -427,8 +438,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_instal_housing">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_instal_housing" name="hour_instal_housing" value="{{ old('hour_instal_housing') }}"  readonly>
+
 
                                             </td>
                                             <!-- nama proses-->
@@ -446,8 +458,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_bongkar_housing">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_bongkar_housing" name="hour_bongkar_housing" value="{{ old('hour_bongkar_housing') }}"  readonly>
+
 
                                             </td>
                                             <!-- nama proses-->
@@ -465,8 +478,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_pembuatan_cu_link">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_pembuatan_cu_link" name="hour_pembuatan_cu_link" value="{{ old('hour_pembuatan_cu_link') }}"  readonly>
+
 
                                             </td>
                                             <!-- nama proses-->
@@ -476,6 +490,7 @@
                                             </td>
                                             <!-- inputan spek -->
                                             <td>
+
                                                 <select class=" form-control border border-dark rounded text-center"
                                                     style="height: 33px;" name="pembuatan_cu_link"
                                                     id="pembuatan_cu_link">
@@ -486,8 +501,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_others">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_others" name="hour_others" value="{{ old('hour_others') }}"  readonly>
+
 
                                             </td>
                                             <!-- nama proses-->
@@ -505,9 +521,8 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_accesories"p>0</p>
-
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_accesories" name="hour_accesories" value="{{ old('hour_accesories') }}"  readonly>
                                             </td>
                                             <!-- nama proses-->
                                             <td>
@@ -524,8 +539,9 @@
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_potong_isolasi_fiber">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_potong_isolasi_fiber" name="hour_potong_isolasi_fiber" value="{{ old('hour_potong_isolasi_fiber') }}"  readonly>
+
                                             </td>
                                             <!-- nama proses-->
                                             <td>
@@ -544,8 +560,6 @@
                                 </div>
                             </div>
                         </div>
-                    
-
                     </div>
                 </div>
             </div>
@@ -607,7 +621,7 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span type="text" class="input-group-text bg-warning"
-                                                            style="width: 3rem" id="preview-totalJam_value"></span>
+                                                            style="width: 3rem" id="preview-totalHour_coil_making"></span>
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">HOUR</span>
@@ -621,7 +635,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_coil_lv">
+                                                                id="preview-hour_coil_lv">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -639,7 +653,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_coil_hv">
+                                                                id="preview-hour_coil_hv">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -658,7 +672,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_potong_leadwire"></h6>
+                                                                id="preview-hour_potong_leadwire"></h6>
                                                         </td>
                                                         <!-- nama proses-->
                                                         <td>
@@ -675,7 +689,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_potong_isolasi"></h6>
+                                                                id="preview-hour_potong_isolasi"></h6>
                                                         </td>
                                                         <!-- nama proses-->
                                                         <td>
@@ -704,7 +718,7 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text bg-warning"
-                                                            id="preview-totalMouldCasting_value">
+                                                            id="preview-totalHour_MouldCasting">
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">HOUR</span>
@@ -718,7 +732,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_hv_moulding"></h6>
+                                                                id="preview-hour_hv_moulding"></h6>
                                                         </td>
                                                         <!-- nama proses-->
                                                         <td class="w-30">
@@ -736,7 +750,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_hv_casting">
+                                                                id="preview-hour_hv_casting">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -754,7 +768,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_hv_demoulding"></h6>
+                                                                id="preview-hour_hv_demoulding"></h6>
                                                         </td>
                                                         <!-- nama proses-->
                                                         <td>
@@ -771,7 +785,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_lv_bobbin">
+                                                                id="preview-hour_lv_bobbin">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -789,7 +803,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_lv_moulding">
+                                                                id="preview-hour_lv_moulding">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -807,7 +821,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_touch_up">
+                                                                id="preview-hour_touch_up">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -839,7 +853,7 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text bg-warning"
-                                                            id="preview-totalCoreCoilAssembly_value"></span>
+                                                            id="preview-totalHour_QCTest"></span>
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">HOUR</span>
@@ -853,7 +867,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_type_susun_core">
+                                                                id="preview-hour_type_susun_core">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -871,7 +885,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_wiring">
+                                                                id="preview-hour_wiring">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -889,7 +903,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_instal_housing">
+                                                                id="preview-hour_instal_housing">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -909,7 +923,7 @@
 
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_bongkar_housing">
+                                                                id="preview-hour_bongkar_housing">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -928,7 +942,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_pembuatan_cu_link">
+                                                                id="preview-hour_pembuatan_cu_link">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -947,7 +961,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_others"></h6>
+                                                                id="preview-hour_others"></h6>
                                                         </td>
                                                         <!-- nama proses-->
                                                         <td>
@@ -964,7 +978,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_accesories"></h6>
+                                                                id="preview-hour_accesories"></h6>
                                                         </td>
                                                         <!-- nama proses-->
                                                         <td>
@@ -981,7 +995,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_potong_isolasi_fiber">
+                                                                id="preview-hour_potong_isolasi_fiber">
                                                             </h6>
 
                                                         </td>
@@ -1011,7 +1025,7 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text bg-warning"
-                                                            id="preview-selectedInfo_qctesting"></span>
+                                                            id="preview-hour_qctesting"></span>
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">HOUR</span>
@@ -1025,7 +1039,7 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_qc_testing">
+                                                                id="preview-hour_qc_testing">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
@@ -1084,7 +1098,8 @@
                 console.log(ukuran_kapasitas);
                 if (ukuran_kapasitas) {
                     $.ajax({
-                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' + ukuran_kapasitas,
+                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' +
+                            ukuran_kapasitas,
                         type: 'GET',
                         data: {
                             '_token': '{{ csrf_token() }}'
@@ -1136,15 +1151,7 @@
                                 $('#moulding_casting').on('change', function() {
                                     showSelected('moulding_casting');
                                 });
-                                // $('#lv_bobbin').on('change', function() {
-                                //     showSelected('lv_bobbin');
-                                // });
-                                // $('#lv_moulding').on('change', function() {
-                                //     showSelected('lv_moulding');
-                                // });
-                                // $('#touch_up').on('change', function() {
-                                //     showSelected('touch_up');
-                                // });
+
                                 $('#type_susun_core').on('change', function() {
                                     showSelected('type_susun_core');
                                 });
@@ -1215,10 +1222,10 @@
                 let selectedDurasi = selectedOption.getAttribute('data-durasi');
                 totalDurasi += parseFloat(selectedDurasi || 0);
             });
-            let selectedInfo = document.getElementById("selectedInfo_" + target);
-            console.log('Selected Info Element:', selectedInfo);
-            selectedInfo.textContent = " " + totalDurasi;
-            console.log(selectedInfo);
+            let hour = document.getElementById("hour_" + target);
+            console.log('Selected Info Element:', hour);
+            hour.value =  totalDurasi;
+            console.log(hour);
             console.log(totalDurasi);
         }
 
@@ -1242,9 +1249,9 @@
                 });
             });
             console.log("Work Center (COIL MAKING):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalJam_value");
+            let totalJamElement = document.getElementById("totalHour_coil_making");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
 
@@ -1268,9 +1275,9 @@
                 });
             });
             console.log("Work Center (MOULD & CASTING):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalMouldCasting_value");
+            let totalJamElement = document.getElementById("totalHour_MouldCasting");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
 
@@ -1294,9 +1301,9 @@
                 });
             });
             console.log("Work Center (CORE COIL ASSEMBLY):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalCoreCoilAssembly_value");
+            let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
 
@@ -1320,9 +1327,9 @@
                 });
             });
             console.log("Work Center (QC TEST):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalQCTest_value");
+            let totalJamElement = document.getElementById("totalHour_QCTest");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
         document.querySelectorAll('select').forEach(function(select) {
@@ -1341,51 +1348,51 @@
             });
         });
     </script>
-     <script>
+    <script>
         function previewForm() {
             //tampilan hour
-            document.getElementById("preview-totalJam_value").innerHTML = document.getElementById("totalJam_value")
+            document.getElementById("preview-totalHour_coil_making").innerHTML = document.getElementById("totalHour_coil_making")
                 .innerHTML;
-            document.getElementById("preview-selectedInfo_coil_lv").innerHTML = document.getElementById(
-                "selectedInfo_coil_lv").innerHTML;
-            document.getElementById("preview-selectedInfo_coil_hv").innerHTML = document.getElementById(
-                "selectedInfo_coil_hv").innerHTML;
-            document.getElementById("preview-selectedInfo_potong_leadwire").innerHTML = document.getElementById(
-                "selectedInfo_potong_leadwire").innerHTML;
-            document.getElementById("preview-selectedInfo_potong_isolasi").innerHTML = document.getElementById(
-                "selectedInfo_potong_isolasi").innerHTML;
-            document.getElementById("preview-selectedInfo_hv_moulding").innerHTML = document.getElementById(
-                "selectedInfo_hv_moulding").innerHTML;
-            document.getElementById("preview-selectedInfo_hv_casting").innerHTML = document.getElementById(
-                "selectedInfo_hv_casting").innerHTML;
-            document.getElementById("preview-selectedInfo_hv_demoulding").innerHTML = document.getElementById(
-                "selectedInfo_hv_demoulding").innerHTML;
-            document.getElementById("preview-selectedInfo_lv_bobbin").innerHTML = document.getElementById(
-                "selectedInfo_lv_bobbin").innerHTML;
-            document.getElementById("preview-selectedInfo_lv_moulding").innerHTML = document.getElementById(
-                "selectedInfo_lv_moulding").innerHTML;
-            document.getElementById("preview-selectedInfo_touch_up").innerHTML = document.getElementById(
-                "selectedInfo_touch_up").innerHTML;
-            document.getElementById("preview-selectedInfo_type_susun_core").innerHTML = document.getElementById(
-                "selectedInfo_type_susun_core").innerHTML;
-            document.getElementById("preview-selectedInfo_wiring").innerHTML = document.getElementById(
-                "selectedInfo_wiring").innerHTML;
-            document.getElementById("preview-selectedInfo_instal_housing").innerHTML = document.getElementById(
-                "selectedInfo_instal_housing").innerHTML;
-            document.getElementById("preview-selectedInfo_bongkar_housing").innerHTML = document.getElementById(
-                "selectedInfo_bongkar_housing").innerHTML;
-            document.getElementById("preview-selectedInfo_pembuatan_cu_link").innerHTML = document.getElementById(
-                "selectedInfo_pembuatan_cu_link").innerHTML;
-            document.getElementById("preview-selectedInfo_others").innerHTML = document.getElementById(
-                "selectedInfo_others").innerHTML;
-            document.getElementById("preview-selectedInfo_accesories").innerHTML = document.getElementById(
-                "selectedInfo_accesories").innerHTML;
-            document.getElementById("preview-selectedInfo_potong_isolasi_fiber").innerHTML = document.getElementById(
-                "selectedInfo_potong_isolasi_fiber").innerHTML;
-            document.getElementById("preview-totalMouldCasting_value").innerHTML = document.getElementById(
-                "totalMouldCasting_value").innerHTML;
-            document.getElementById("preview-totalCoreCoilAssembly_value").innerHTML = document.getElementById(
-                "totalCoreCoilAssembly_value").innerHTML;
+            document.getElementById("preview-hour_coil_lv").innerHTML = document.getElementById(
+                "hour_coil_lv").innerHTML;
+            document.getElementById("preview-hour_coil_hv").innerHTML = document.getElementById(
+                "hour_coil_hv").innerHTML;
+            document.getElementById("preview-hour_potong_leadwire").innerHTML = document.getElementById(
+                "hour_potong_leadwire").innerHTML;
+            document.getElementById("preview-hour_potong_isolasi").innerHTML = document.getElementById(
+                "hour_potong_isolasi").innerHTML;
+            document.getElementById("preview-hour_hv_moulding").innerHTML = document.getElementById(
+                "hour_hv_moulding").innerHTML;
+            document.getElementById("preview-hour_hv_casting").innerHTML = document.getElementById(
+                "hour_hv_casting").innerHTML;
+            document.getElementById("preview-hour_hv_demoulding").innerHTML = document.getElementById(
+                "hour_hv_demoulding").innerHTML;
+            document.getElementById("preview-hour_lv_bobbin").innerHTML = document.getElementById(
+                "hour_lv_bobbin").innerHTML;
+            document.getElementById("preview-hour_lv_moulding").innerHTML = document.getElementById(
+                "hour_lv_moulding").innerHTML;
+            document.getElementById("preview-hour_touch_up").innerHTML = document.getElementById(
+                "hour_touch_up").innerHTML;
+            document.getElementById("preview-hour_type_susun_core").innerHTML = document.getElementById(
+                "hour_type_susun_core").innerHTML;
+            document.getElementById("preview-hour_wiring").innerHTML = document.getElementById(
+                "hour_wiring").innerHTML;
+            document.getElementById("preview-hour_instal_housing").innerHTML = document.getElementById(
+                "hour_instal_housing").innerHTML;
+            document.getElementById("preview-hour_bongkar_housing").innerHTML = document.getElementById(
+                "hour_bongkar_housing").innerHTML;
+            document.getElementById("preview-hour_pembuatan_cu_link").innerHTML = document.getElementById(
+                "hour_pembuatan_cu_link").innerHTML;
+            document.getElementById("preview-hour_others").innerHTML = document.getElementById(
+                "hour_others").innerHTML;
+            document.getElementById("preview-hour_accesories").innerHTML = document.getElementById(
+                "hour_accesories").innerHTML;
+            document.getElementById("preview-hour_potong_isolasi_fiber").innerHTML = document.getElementById(
+                "hour_potong_isolasi_fiber").innerHTML;
+            document.getElementById("preview-totalHour_MouldCasting").innerHTML = document.getElementById(
+                "totalHour_MouldCasting").innerHTML;
+            document.getElementById("preview-totalHour_QCTest").innerHTML = document.getElementById(
+                "totalHour_QCTest").innerHTML;
 
             //tampilan khusus yang checkbox
             document.getElementById('preview-potong_isolasi').innerHTML = '' + [...document.getElementById('potong_isolasi')

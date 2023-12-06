@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\purchaser;
 
 use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class mr extends Model
 {
@@ -18,25 +19,20 @@ class mr extends Model
 
     protected $fillable = [
         'id_mr',
-        'qty_mr',
         'keterangan',
         'status_mr',
-        'id_pesanan',
         'tanggal_mr',
+        'accepted_date',
         'id_division',
-        'id_ppic',
+        'id_po',
     ];
 
     public $timestamps = false;
 
     //belongsto kalau di punya FK, hasMany dan hasone tidak punya FK ditabel sebelumnya.
-    public function po(): HasMany
+    public function po(): HasOne
     {
-        return $this->hasMany(po::class,'id_po','id_po');
-    }
-    public function status(): BelongsTo
-    {
-        return $this->belongsTo(status::class,'id_status','id_status');
+        return $this->HasOne(po::class,'id_po','id_po');
     }
     public function division(): BelongsTo
     {
@@ -45,10 +41,6 @@ class mr extends Model
     public function pesanan(): HasMany 
     {
         return $this->HasMany(pesanan::class,'id_mr','id_mr');
-    }
-    public function ppic(): BelongsTo
-    {
-        return $this->belongsTo(ppic::class,'id_ppic','id_ppic');
     }
 
 }

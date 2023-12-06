@@ -7,7 +7,7 @@
                 <div class="col-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Data Material</h4>
+                        ">Data Finishedgood</h4>
                     </div>
                 </div>
             </div>
@@ -32,16 +32,16 @@
                         {{-- button create data --}}
                         <div class="btn-create">
                             <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('datamaster/material/create') }}">Create Data</button>
+                                onclick=window.location="{{ url('datamaster/Finishedgood/create') }}">Create Data</button>
                         </div>
                         {{-- button create data end --}}
 
                         {{-- search --}}
                         <div>
-                            <form action="{{ url('datamaster/material') }}">
+                            <form action="{{ url('datamaster/Finishedgood') }}">
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-sm rounded-0"
-                                        placeholder="cari nama material..." name="search" value="{{ request('search') }}">
+                                        placeholder="cari nama Finishedgood..." name="search" value="{{ request('search') }}">
                                     <button class="btn btn-red rounded-0 btn-xs" type="submit">Search</button>
                                 </div>
                             </form>
@@ -52,14 +52,14 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        {{-- table material --}}
+                        {{-- table Finishedgood --}}
 
                         <table class="table table-sm table-bordered table-hover">
                             <thead class="table-secondary">
                                 <tr class="text-center">
                                     <th>No</th>
-                                    <th>Kode Material</th>
-                                    <th>Nama Material</th>
+                                    <th>Kode Finishedgood</th>
+                                    <th>Nama Finishedgood</th>
                                     <th>Qty</th>
                                     <th>Satuan</th>
                                     <th>Cetak</th>
@@ -69,7 +69,7 @@
                             <tbody>
                             </tbody>
                         </table>
-                        {{-- table material end --}}
+                        {{-- table Finishedgood end --}}
 
                     </div>
                 </div>
@@ -77,14 +77,14 @@
                 {{-- pagination --}}
                 {{-- <div class="row mx-3 mb-3">
                     <div class="col text-secondary">
-                        Showing {{ $material->firstItem() }}
-                        to {{ $material->lastItem() }}
-                        of {{ $material->total() }}
+                        Showing {{ $Finishedgood->firstItem() }}
+                        to {{ $Finishedgood->lastItem() }}
+                        of {{ $Finishedgood->total() }}
                         data
                         
                     </div>
                     <div class="col d-flex justify-content-end">
-                        {{ $material->appends(request()->input())->links() }}
+                        {{ $Finishedgood->appends(request()->input())->links() }}
                     </div>
                 </div> --}}
                 {{-- pagination end --}}

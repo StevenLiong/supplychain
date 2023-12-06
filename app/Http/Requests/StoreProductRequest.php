@@ -17,9 +17,10 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nama_product' => [ ],
-            'kategori' => [ ],
-            'nomor_so' => [ ],
+            'nama_product' => [],
+            'id_fg' => [],
+            'kategori' => [],
+            'nomor_so' => [],
             'ukuran_kapasitas' => [],
             'coil_lv' => [],
             'coil_hv' => [],
@@ -39,9 +40,31 @@ class StoreProductRequest extends FormRequest
             'others' => [],
             'accesories' => [],
             'potong_isolasi_fiber' => [],
-            // 'routine_test' => [],
+            // 'qc_testing' => [],
+            'totalHour_coil_making' => [],
+            'totalHour_MouldCasting' => [],
+            'totalHour_CoreCoilAssembly' => [],
+            'totalHour_QCTest' => [],
+            'hour_coil_lv' => [],
+            'hour_coil_hv' => [],
+            'hour_potong_leadwire' => [],
+            'hour_potong_isolasi' => [],
+            'hour_hv_moulding' => [],
+            'hour_hv_casting' => [],
+            'hour_hv_demoulding' => [],
+            'hour_lv_bobbin' => [],
+            'hour_lv_moulding' => [],
+            'hour_touch_up' => [],
+            'hour_type_susun_core' => [],
+            'hour_wiring' => [],
+            'hour_instal_housing' => [],
+            'hour_bongkar_housing' => [],
+            'hour_pembuatan_cu_link' => [],
+            'hour_others' => [],
+            'hour_accesories' => [],
+            'hour_potong_isolasi_fiber' => [],
+            'hour_qc_testing' => [],
             'total_hour' => [],
         ];
     }
-
 }

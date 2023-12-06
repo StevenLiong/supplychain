@@ -25,7 +25,7 @@
         </button>
         {{-- LOGO --}}
         <div>
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"> <img src="/Asset/LogoTrafoindo.png" width="120" height="50" class="d-inline-block" alt="LOGO"></a>
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="#"> <img src="/Assets/LogoTrafoindo.png" width="120" height="50" class="d-inline-block" alt="LOGO"></a>
         </div>
 
         {{-- USER MENU --}}
@@ -34,8 +34,6 @@
             {{ Auth::user()->username }}
             </button>
             <ul class="dropdown-menu dropdown-menu-lg-end">
-                <li><button class="dropdown-item" type="button">Profile</button></li>
-                <li><button class="dropdown-item" type="button">Setting</button></li>
                 <li><a class="dropdown-item" href=""
                         onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
                             class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>Logout</a></li>
@@ -50,7 +48,7 @@
     <div class="container-fluid">
         <div class="row">
             {{-- SIDEBARS --}}
-            @extends('layout.layoutpo.sidebarpo')
+            @extends('purchaser.layout.layoutpo.sidebarpo')
 
             {{-- CONTENTS --}}
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-3 bg-body-tertiary">
@@ -63,6 +61,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 

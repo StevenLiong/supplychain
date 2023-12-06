@@ -50,7 +50,7 @@
                                     <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_wo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_boms }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ $item->id_manhour }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $item->kd_manhour }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_so }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->start_date)->format('d-F-Y') }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->finish_date)->format('d-F-Y') }}</td>

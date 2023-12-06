@@ -117,8 +117,6 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     // logistic end
 });
 
-
-
 // Planner Start
 
 Route::middleware(['auth', 'planner'])->group(function () {
@@ -176,6 +174,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // --UPLOAD MPS--
     Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
     Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
+    Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
 
     // --EXPORT MPS--
     Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
@@ -190,15 +189,35 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
     Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
     Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
-
+    
     // --GPA OIL--
-    Route::get('/GPA/IndexGPA-Oil', [GPADryController::class, 'indexOil'])->name('gpa-indexgpaoil');
+    Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
+    Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
+
+    // MENU STOCK
+    Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
+    Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
+    Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
+    // --DELETE STOCK--
+    Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
+
+    // MENU WORK CENTER OIL
+    Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
+    Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil'); 
+    
+    // MENU WORK CENTER DRY TYPE
+    Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
+    Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
+    
+    // MENU FINISH GOOD
+    Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
+    Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
+    Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+    // --DELETE STOCK--
+    Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
 });
 
-
 // Planner End
-
-
 
 Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('/', [ResourceWorkPlanningController::class, 'dashboard']);
@@ -221,7 +240,6 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('resource_work_planning/Kalkulasi-SDM', [ResourceWorkPlanningController::class, 'kalkulasiSDM']);
 });
 
-
 Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/', [StandardizeWorkController::class, 'index'])->name('home');
     Route::get('/home', [StandardizeWorkController::class, 'index'])->name('home');
@@ -240,7 +258,6 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/{id}/edit', [DryNonResinController::class, 'edit'])->name('drynonresin.edit');
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
 });
-
 
 //MR & PO
 //Material Request

@@ -1,5 +1,3 @@
-
-
 @extends('planner.template.bar')
 @section('content')
 @section('work-order', 'active')
@@ -20,7 +18,12 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">BOM Code</label>
-                    <input type="text" class="form-control" name="id_boms" required>
+                    <select id="id_boms" name="id_boms" class="form-control" required>
+                        <option value="">Choose...</option>
+                        @foreach($detailBom as $bomId)
+                            <option value="{{ $bomId }}">{{ $bomId }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="id_so">Sales Order</label>
@@ -38,7 +41,12 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Man Hour Code</label>
-                    <input type="text" class="form-control" name="id_manhour" required>
+                    <select id="kd_manhour" name="kd_manhour" class="form-control" required>
+                        <option value="">Choose...</option>
+                        @foreach($dryCastResin as $kdmanhour)
+                            <option value="{{ $kdmanhour }}">{{ $kdmanhour }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Start Date</label>

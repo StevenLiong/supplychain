@@ -18,11 +18,17 @@ class Mps extends Model
         'qty_trafo',
         'lead_time',
         'deadline',
+        'nama_workcenter',
     ];
     use HasFactory;
 
     public function wo(): BelongsTo
     {
         return $this->belongsTo(Wo2::class, 'id_wo', 'id');
+    }
+
+    public function workcenterDryType()
+    {
+        return $this->hasOne(WorkcenterDryType::class, 'nama_workcenter', 'nama_workcenter');
     }
 }

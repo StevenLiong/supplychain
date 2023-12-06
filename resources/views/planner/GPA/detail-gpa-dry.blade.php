@@ -39,6 +39,12 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="validationDefault07">Dead Line</label>
+                        {{-- @php
+                            $mpsDryType = $dataMps->firstWhere('jenis', 'Dry Type');
+                        @endphp
+                        @if($mpsDryType)
+                            <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($mpsDryType->deadline)->format('d-F-Y') }}" required disabled>
+                        @endif --}}
                         <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataMps->deadline)->format('d-F-Y') }}"required disabled>
                     </div>
                 </div>    
@@ -54,52 +60,8 @@
                         </thead>
                         <tbody>
                             <tr role="row" class="odd">
-                                <td style="text-align: center;" class="sorting_1">Bill of Material</td>
-                                <td style="text-align: center">{{ \Carbon\Carbon::parse($dataMps->deadline)->subDays(2)->format('d-F-Y') }}</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Insulation Paper</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Supply Material Insulation & Coil</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">LV Windling</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">HV Windling</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Core</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Supply Fixing Parts & Core</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Moulding</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Supply Material Connection & FA</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Connection & FA</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">QC</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">QC Transfer Gudang</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
+                                <td style="text-align: center;" class="sorting_1">{{ $dataWorkcenter->where('id', 1)->first()->nama_workcenter }}</td>
+                                <td style="text-align: center">{{ \Carbon\Carbon::parse($dataMps->deadline)->subDays(8)->format('d-F-Y') }}</td>
                             </tr>
                         </tbody>
 

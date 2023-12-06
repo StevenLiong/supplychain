@@ -63,6 +63,28 @@
                         </li>
                     </ul>
                 </li>
+                <li class=" ">
+                    <a href="#c" class="collapsed" data-toggle="collapse" aria-expanded="false">
+                        <i class="fa-solid fa-industry"></i>
+                        <span class="ml-4">Work Center</span>
+                        <i class="las la-angle-right iq-arrow-right arrow-active"></i>
+                        <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
+                    </a>
+                    <ul id="c" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
+                        <li class="@yield('workcenteroil')">
+                            <a href="{{ route('wc-indexworkcenteroil') }}">
+                                <i class="fa-solid fa-industry"></i>
+                                <span class="ml-4">Work Center Oil</span>
+                            </a>
+                        </li>
+                        <li class="@yield('workcenterdrytype')">
+                            <a href="{{ route('wc-indexworkcenterdrytype') }}">
+                                <i class="fa-solid fa-industry"></i>
+                                <span class="ml-4">Work Center Dry Type</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="@yield('stock') ">
                     <a href="{{ route('st-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

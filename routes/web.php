@@ -12,6 +12,7 @@ use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\purchaser\mrController;
+use App\Http\Controllers\purchaser\poController;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\ScanController;
 use App\Http\Controllers\planner\StockController;

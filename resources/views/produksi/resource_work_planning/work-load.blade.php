@@ -48,13 +48,14 @@
                                                     ->where('deadline', '>=', $data['deadlineDate'])
                                                     ->sum('qty_trafo');
                                             @endphp
-                                        <td>
-                                            @if ($qtyTrafo == 0)
-                                                {{ $qtyTrafo }}
-                                            @else
-                                                <span style="font-weight: bold; color: red; background-color: #d3d3d3; padding: 5px; border-radius: 10px;">{{ $qtyTrafo }}</span>
-                                            @endif
-                                        </td>
+                                            <td>
+                                                @if ($qtyTrafo == 0)
+                                                    {{ $qtyTrafo }}
+                                                @else
+                                                    <span
+                                                        style="font-weight: bold; color: red; background-color: #d3d3d3; padding: 5px; border-radius: 10px;">{{ $qtyTrafo }}</span>
+                                                @endif
+                                            </td>
                                         @endforeach
                                     </tr>
                                 </tbody>

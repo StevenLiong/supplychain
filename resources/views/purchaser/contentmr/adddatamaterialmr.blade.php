@@ -66,6 +66,7 @@
                                 <div>
                                     <label for="exampleFormControlInput1" class="form-label">Kode Material</label>
                                 </div>
+                                
                                 <div class="row d-flex justify-content-between">
                                     <div class="col-8">
                                         <select class="form-select material-select" placeholder="Enter Customer Name" id="material" name="material[]" onchange="updateMat(this)">
@@ -156,8 +157,6 @@
 <!-- addmaterial script -->
 <script>
     let itemCount = 1;
-
-    // Event delegation to handle material select change
     // document.addEventListener('change', function(event) {
     //     if (event.target.classList.contains('material-select')) {
     //         const material = event.target.value;

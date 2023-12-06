@@ -13,7 +13,7 @@
             <!--  -->
             <!-- form salesorder -->
             <div>
-                <form action= "/materialrequest/{{$mr->id_mr}}" method="post">
+                <form action="/materialrequest/{{$mr->id_mr}}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-5"></div> <!-- div kosong -->
@@ -53,44 +53,47 @@
                             <label for="tanggal" class="form-label">Accepted date</label>
                             <input disabled type="date" class="form-control" id="tanggal" value="{{$mr->accepted_mr}}" placeholder="Masukan Tanggal" name="accepted_mr">
                         </div>
-                        
+
                         <div class=" mt-5 items">
                             <h3 class="my-1 text-muted text-center">List Barang</h3>
-                        @foreach($mr->pesanan as $pesanan)
-                        <div class="mb-3">
-                            <label for="tanggal" class="form-label">Accepted date</label>
-                            <div class="row d-flex justify-content-between">
+                            @foreach($mr->pesanan as $pesanan)
+                            <div class="mb-3">
+                                <label for="tanggal" class="form-label">Kode Material</label>
+                                <div class="row d-flex justify-content-between">
                                     <div class="col-8">
-                                        <input disabled type="text" class="form-control " id="tanggal" value="{{$pesanan->material->name_material}}" placeholder="Masukan Tanggal" name="material">
-
+                                        <input readonly type="text" class="form-control " id="tanggal" value="{{$pesanan->material->kd_material}}" name="material[]">
                                     </div>
                                     <div class="col">
                                         <strong>qty</strong>
                                     </div>
                                     <div class="col">
                                         <input class="form-control" name="qty[]" value="{{$pesanan->qty_pesanan}}">
-                                    </div> 
-                                    <div class="col">
-                                        <input class="form-control" name="dim" disabled>
                                     </div>
                                     <div class="col">
-                                        <div class=" btn btn-danger form-control " onclick="deleteItem(this)"><i class="bi bi-trash-fill"></i>
-                                        </div>
+                                        <input class="form-control" name="dim" value="{{$pesanan->material->satuan}}" disabled>
                                     </div>
+                                    <div class="col">
+                                        <a class=" btn btn-danger form-control" href="/materialrequest/delete/{{$pesanan->id_pesanan}}"><i class="bi bi-trash-fill"></i></a>
                                     </div>
-                        </div>
-                        @endforeach
+                                    <div class="mb-3 mt-4">
+                                        <label for="exampleFormControlInput1" class="form-label">Nama Material</label>
+                                        <input type="text" class="form-control nama_material" id='nama_material' value="{{$pesanan->material->nama_material}}" name="nama_material" disabled>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
                             <h3 class="my-1 text-muted text-center">Add Material</h3>
                             <div class="item mt-4">
                                 <div>
-                                    <label for="exampleFormControlInput1" class="form-label">Nama Material</label>
+                                    <label for="exampleFormControlInput1" class="form-label">Kode Material</label>
                                 </div>
                                 <div class="row d-flex justify-content-between">
                                     <div class="col-8">
-                                        <select class="form-select material-select" placeholder="Enter Customer Name" id="material">
+                                        <select class="form-select material-select" placeholder="Enter Customer Name" id="material" name="material[]" onchange="updateMaterial(this)">
                                             <option value="" selected disabled>-- Pilih Material --</option>
-                                            @foreach ($materials as $key => $barangs)
-                                            <option value="{{ $key }}">{{ $key }}</option>
+                                            @foreach ($materials as $material)
+                                            <option value="{{ $material->kd_material }}" data-nama="{{$material->nama_material}}" data-dim="{{$material->satuan}}">{{ $material->kd_material }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -101,15 +104,15 @@
                                         <input class="form-control" name="qty[]" value="0">
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" name="dim" disabled>
+                                        <input class="form-control" id="satuan" name="satuan" disabled>
                                     </div>
                                     <div class="col">
                                         <div class=" btn btn-danger form-control " onclick="deleteItem(this)"><i class="bi bi-trash-fill"></i>
                                         </div>
                                     </div>
                                     <div class="mb-3 mt-4">
-                                        <label for="exampleFormControlInput1" class="form-label">Spesifikasi</label>
-                                        <select  class="form-select specification-select" onchange="updateItem(this)" name="material[]">
+                                        <label for="exampleFormControlInput1" class="form-label">Nama Material</label>
+                                        <input type="text" class="form-control nama_material" id='nama_material' name="nama_material" disabled>
                                         </select>
                                     </div>
                                 </div>
@@ -141,31 +144,52 @@
 
 <!-- adddivision script -->
 <script>
-        function updateForm(sel) {
-                var selectedOption = $('#select-division').find('option:selected');
-                var divisioncode = $('input[name="id_division"]');
-                
-                divisioncode.val(selectedOption.data('division'));
-        }
-        //variabel kosong, harus sama dengan var pada script
+    function updateForm(sel) {
+        var selectedOption = $('#select-division').find('option:selected');
+        var divisioncode = $('input[name="id_division"]');
+
+        divisioncode.val(selectedOption.data('division'));
+    }
+
+    function updateMaterial(select) {
+        var selectedOption = $(select).find(":selected");
+        var dimension = $(select).closest(".item").find('input[name="satuan"]');
+        var name = $(select).closest(".item").find('input[name="nama_material"]');
+
+        var dataDim = selectedOption.data("dim");
+        var dataName = selectedOption.data("nama");
+        dimension.val(dataDim);
+        name.val(dataName);
+    }
+    //variabel kosong, harus sama dengan var pada script
+    function updateItem(select) {
+        var selectedOption = $(select).find(":selected");
+        var dimension = $(select).closest(".item").find('input[name="dim"]');
+        var quantity = $(select).closest(".item").find('input[name="qty[]"]');
+
+        var dataDim = selectedOption.data("dim");
+        var dataMax = selectedOption.data("qty");
+        dimension.val(dataDim);
+        quantity.attr('max', dataMax);
+    }
 </script>
 
 
 
 <!-- addmaterial script -->
-<script>
+<!-- <script>
     let itemCount = 1;
 
-    // Event delegation to handle material select change
+    
     document.addEventListener('change', function(event) {
         if (event.target.classList.contains('material-select')) {
             const material = event.target.value;
 
-            // Find the corresponding specification select element
+           
             const specificationSelect = event.target.parentElement.parentElement.parentElement.querySelector(
                 '.specification-select');
 
-            // Clear existing options
+
             specificationSelect.innerHTML = '';
             const temp = document.createElement('option');
             temp.value = '';
@@ -173,15 +197,15 @@
             specificationSelect.appendChild(temp);
 
             if (material) {
-                // Fetch specifications based on the selected material and store using an AJAX request
+               
                 $.ajax({
                     url: '/get/material/' + material,
                     type: 'GET',
                     success: function(data) {
-                        // Populate the specification select with the retrieved data
+                        
                         data.forEach(function(stock) {
                             const option = document.createElement('option');
-                            // option.data-dim=stock.satuan;
+                            
                             option.value = stock.id_material;
                             option.text = stock.spesifikasi;
 
@@ -195,6 +219,10 @@
         }
     });
 
+    
+</script> -->
+<script>
+    let itemCount = 1;
     function addNewItem() {
         itemCount++;
         const formContainer = document.querySelector(".items");
@@ -202,12 +230,12 @@
         const newDiv = originalDiv.cloneNode(true);
 
         // Update IDs and names for the new elements
-        newDiv.querySelectorAll('.material-select').forEach((select) => {
-            select.id = `material${itemCount}`;
-            select.name = `category`;
-        });
+        // newDiv.querySelectorAll('.material-select').forEach((select) => {
+        // select.id = `material${itemCount}`;
+        // select.name = `category`;
+        // });
 
-        newDiv.querySelector('.specification-select').innerHTML = '';
+        newDiv.querySelector('.nama_material').innerHTML = '';
 
         formContainer.appendChild(newDiv);
     }
@@ -222,15 +250,15 @@
 </script>
 
 {{-- <script>
-            $(document).ready(function() {
-                var url = window.location.href;
-                var parts = url.split('/');
-                var storeId = parts[parts.length - 1];
-                $('#material').on('change', function() {
-                    var materialId = $(this).val();
-                    var stockDropdown = $('#stock');
-
-                    // Clear existing options
+    $(document).ready(function() {
+        var url = window.location.href;
+        var parts = url.split('/');
+        var storeId = parts[parts.length - 1];
+        $('#material').on('change', function() {
+            var materialId = $(this).val();
+            var stockDropdown = $('#stock');
+            
+            // Clear existing options
                     stockDropdown.empty();
 
                     if (materialId) {

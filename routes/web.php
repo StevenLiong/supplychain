@@ -12,6 +12,7 @@ use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\purchaser\mrController;
+use App\Http\Controllers\purchaser\poController;
 use App\Http\Controllers\logistic\BpnbController;
 use App\Http\Controllers\logistic\ScanController;
 use App\Http\Controllers\planner\StockController;
@@ -282,6 +283,7 @@ Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/materialrequest/add', [mrController::class, 'createmr']);
     Route::get('/materialrequest/{id_mr}', [mrController::class, 'editmr']);
     Route::post('/materialrequest/{id_mr}', [mrController::class, 'storeEditmr']);
+    Route::get('/materialrequest/delete/{id_pesanan}', [mrController::class, 'removemat']);
     Route::get('/tabelmaterial', [mrController::class, 'tableMaterial']);
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);

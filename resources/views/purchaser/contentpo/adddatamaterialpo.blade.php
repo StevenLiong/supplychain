@@ -156,14 +156,14 @@
                                 <td class="table-plus">4.000</td>
                             </tr>
                             <tr>
-                                <td class="table-plus">1</td>
+                                <td class="table-plus">2</td>
                                 <td class="table-plus">RTB001</td>
                                 <td class="table-plus">Material 1</td>
                                 <td class="table-plus">100</td>
                                 <td class="table-plus">4.000</td>
                             </tr>
                             <tr>
-                                <td class="table-plus">1</td>
+                                <td class="table-plus">3</td>
                                 <td class="table-plus">RTB001</td>
                                 <td class="table-plus">Material 1</td>
                                 <td class="table-plus">100</td>

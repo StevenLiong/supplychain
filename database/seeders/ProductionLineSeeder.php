@@ -16,7 +16,7 @@ class ProductionLineSeeder extends Seeder
     {
         DB::table('production_line')->insert([
             'nama_pl' => 'PL2',
-            'kapasitas_pl' => 52, //kapasitas harian
+            'kapasitas_pl' => 48, //kapasitas harian
         ]);
         DB::table('production_line')->insert([
             'nama_pl' => 'PL3',
@@ -28,7 +28,7 @@ class ProductionLineSeeder extends Seeder
         ]);
         DB::table('production_line')->insert([
             'nama_pl' => 'DRY',
-            'kapasitas_pl' => 8, //kapasitas harian
+            'kapasitas_pl' => 3, //kapasitas harian
         ]);
         DB::table('production_line')->insert([
             'nama_pl' => 'REPAIR',

@@ -2,6 +2,7 @@
 
 namespace App\Models\planner;
 
+use App\Models\logistic\Order;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\planner\Bom;
@@ -33,6 +34,11 @@ class Detailbom extends Model
     {
         return $this->belongsTo(Bom::class, 'id_bom');
     }
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'id_bom');
+    }
+    
 
     public function material()
     {

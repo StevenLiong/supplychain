@@ -8,10 +8,6 @@
                         <div class="card p-3 rounded-0">
                             <video id="preview"></video>
                         </div>
-                        <!-- Button find material  modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            Find Rack Code
-                        </button>
 
                         <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"

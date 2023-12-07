@@ -2,9 +2,10 @@
 
 namespace App\Models\planner;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\planner\So;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Bom extends Model
 {
@@ -36,4 +37,14 @@ class Bom extends Model
     // {
     //     return $this->belongsTo(So::class, 'id_so', 'id');
     // }
+
+    /**
+     * Get the order that owns the Bom
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

@@ -45,6 +45,39 @@ class ResourceWorkPlanningController extends Controller
                 break;
         }
 
+        // update pengambilan data dan apabila menggunakan pengambilan data ini timbul eror
+        // $periode = $request->input('periode', 1);
+        // switch ($periode) {
+        //     case 1:
+        //         $deadlineDate = [
+        //             now()->startOfMonth(),
+        //             now()->endOfMonth()
+        //         ];
+        //         dd($deadlineDate);
+        //         break;
+
+        //     case 2:
+        //         $deadlineDate = [
+        //             now()->startOfWeek(),
+        //             now()->endOfWeek()
+        //         ];
+        //         break;
+
+        //     case 3:
+        //         $deadlineDate = [
+        //             now()->startOfWeek()->addWeek(),
+        //             now()->endOfWeek()->addWeek()
+        //         ];
+        //         break;
+
+        //     case 4:
+        //         $deadlineDate = [
+        //             now()->startOfWeek()->addWeeks(2),
+        //             now()->endOfWeek()->addWeeks(2)
+        //         ];
+        //         break;
+        // }
+
         $request->session()->put('periode', $periode);
 
         //FILTER PL
@@ -177,7 +210,7 @@ class ResourceWorkPlanningController extends Controller
         $ifoverCapacityREPAIR = $loadkapasitasREPAIR > 100; //100 adalah hasil dari $loadkapasitas REPAIR
 
         //akan overcapacity jika:
-        
+
         $overCapacityPL3 = $loadkapasitasPL3 - 100 ; //total over nya
         $loadkapasitasPL3new = $loadkapasitasPL3 - $overCapacityPL3; //total
         $overCapacityCTVT = $loadkapasitasCTVT - 100 ; //total over nya
@@ -226,7 +259,7 @@ class ResourceWorkPlanningController extends Controller
             $overCapacityREPAIR = 0;
             $loadkapasitasREPAIRnew = $loadkapasitasREPAIR;
         }
- 
+
 
 
         //*****JIKA KEBUTUHAN LEBIH BANYAK DARI PADA KETERSEDIAAN, MAKA HARUS DI HITUNG PRESENTASE SELISIH ANTARA KEBUTUHAN DAN KETERSEDIAAN
@@ -235,8 +268,8 @@ class ResourceWorkPlanningController extends Controller
 
 
         //0000000000000000000000000000000000000000000000000000000
-        
-        if ($ketersediaanMPPL2 != 0 && $totalManPower < $kebutuhanMP) { 
+
+        if ($ketersediaanMPPL2 != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
                     $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93))/($ketersediaanMPPL2 * 173 * 0.93))*100;
@@ -255,8 +288,8 @@ class ResourceWorkPlanningController extends Controller
             $overtimePL2 = 0; // Default value if $ketersediaanMPPL is zero
             $ketersediaanMPPL2 = $kebutuhanMPPL2;
         }
-        
-        if ($ketersediaanMPPL3 != 0 && $totalManPower < $kebutuhanMP) { 
+
+        if ($ketersediaanMPPL3 != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
                     $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93))/($ketersediaanMPPL3 * 173 * 0.93))*100;
@@ -275,8 +308,8 @@ class ResourceWorkPlanningController extends Controller
             $overtimePL3 = 0; // Default value if $ketersediaanMPPL is zero
             $ketersediaanMPPL3 = $kebutuhanMPPL3;
         }
-        
-        if ($ketersediaanMPCTVT != 0 && $totalManPower < $kebutuhanMP) { 
+
+        if ($ketersediaanMPCTVT != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
                     $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93))/($ketersediaanMPCTVT * 173 * 0.93))*100;
@@ -295,8 +328,8 @@ class ResourceWorkPlanningController extends Controller
             $overtimeCTVT = 0; // Default value if $ketersediaanMPPL is zero
             $ketersediaanMPCTVT = $kebutuhanMPCTVT;
         }
-        
-        if ($ketersediaanMPDRY != 0 && $totalManPower < $kebutuhanMP) { 
+
+        if ($ketersediaanMPDRY != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
                     $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93))/($ketersediaanMPDRY * 173 * 0.93))*100;
@@ -315,8 +348,8 @@ class ResourceWorkPlanningController extends Controller
             $overtimeDRY = 0; // Default value if $ketersediaanMPPL is zero
             $ketersediaanMPDRY = $kebutuhanMPDRY;
         }
-        
-        if ($ketersediaanMPREPAIR != 0 && $totalManPower < $kebutuhanMP) { 
+
+        if ($ketersediaanMPREPAIR != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
                     $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93))/($ketersediaanMPREPAIR * 173 * 0.93))*100;
@@ -596,26 +629,39 @@ class ResourceWorkPlanningController extends Controller
 
         switch ($periode) {
             case 1:
-                $periodeLabel = '1 Bulan';
-                $deadlineDate = now()->subMonth()->toDateString();
-
+                $periodeLabel = 'Bulan Sekarang';
+                $deadlineDate = [
+                    now()->startOfMonth(),
+                    now()->endOfMonth()
+                ];
+                // dd($deadlineDate);
                 break;
+
             case 2:
-                $periodeLabel = '3 Minggu';
-                $deadlineDate = now()->subWeeks(3)->toDateString();
-
+                $periodeLabel = 'Minggu Sekarang';
+                $deadlineDate = [
+                    now()->startOfWeek(),
+                    now()->endOfWeek()
+                ];
                 break;
+
             case 3:
-                $periodeLabel = '2 Minggu';
-                $deadlineDate = now()->subWeeks(2)->toDateString();
-
+                $periodeLabel = 'Minggu Depan';
+                $deadlineDate = [
+                    now()->startOfWeek()->addWeek(),
+                    now()->endOfWeek()->addWeek()
+                ];
                 break;
-            case 4:
-                $periodeLabel = '1 Minggu';
-                $deadlineDate = now()->subWeek()->toDateString();
 
+            case 4:
+                $periodeLabel = '2 Minggu Kedepan';
+                $deadlineDate = [
+                    now()->startOfWeek()->addWeeks(2),
+                    now()->endOfWeek()->addWeeks(2)
+                ];
                 break;
         }
+
 
         $data = [
             'title1' => $title1,

@@ -9,10 +9,10 @@
                     <label>Pilih Periode:</label>
                     <select class="custom-select " name="periode" id="periodeSelect"><i
                             class="ri-arrow-down-s-line ml-2 mr-0"></i>
-                        <option value="1">Satu Bulan</option>
-                        <option value="2">3 minggu</option>
-                        <option value="3">2 minggu</option>
-                        <option value="4">1 minggu</option>
+                        <option value="1">Bulan Sekarang</option>
+                        <option value="2">Minggu sekarang</option>
+                        <option value="3">Minggu Depan</option>
+                        <option value="4">2 Minggu kedepan</option>
                     </select>
                 </form>
             </div>
@@ -109,7 +109,7 @@
                                 @endif
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -203,7 +203,7 @@
                                 @endif
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -297,7 +297,7 @@
                                 @endif
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -391,7 +391,7 @@
                                 @endif
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -485,7 +485,7 @@
                                 @endif
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-2">
@@ -551,8 +551,9 @@
                     </div>
                     {{-- bar merah data over --}}
                     <div class="progress-bar bg-primary" role="progressbar"
-                        style="width: {{ $data['overCapacityREPAIR'] }}%;" aria-valuenow="{{ $data['overCapacityREPAIR'] }}"
-                        aria-valuemin="0" aria-valuemax="{{ $data['overCapacityREPAIR'] }}">
+                        style="width: {{ $data['overCapacityREPAIR'] }}%;"
+                        aria-valuenow="{{ $data['overCapacityREPAIR'] }}" aria-valuemin="0"
+                        aria-valuemax="{{ $data['overCapacityREPAIR'] }}">
                         <b>{{ round($data['overCapacityREPAIR'], 2) }}%</b>
                     </div>
                 </div>

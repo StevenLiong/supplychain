@@ -128,14 +128,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumPL2'] }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -162,7 +162,14 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
-                            <canvas id="chDonutKapasitasPL2"></canvas>
+                            @if ($data['qtyPL2'] == 0)
+                                <div class="card-body text-center">
+                                    <h6>Chart Data</h6>
+                                    <p style=" text-align: center; vrtical-align: middle;">No Data</p>
+                                </div>
+                            @else
+                                <canvas id="chDonutKapasitasPL2"></canvas>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -222,14 +229,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumPL3'] }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
@@ -316,14 +323,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumCTVT'] }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -410,14 +417,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumDRY'] }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -504,14 +511,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
+                    {{-- <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
                                 <h6>Total Man Hour</h6>
                                 <h3>{{ $data['jumlahtotalHourSumREPAIR'] }}</h3>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
                             <div class="card-body text-center">
@@ -592,7 +599,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ $data['loadkapasitasPL2new'] }}, {{ round($data['overCapacityPL2'], 2) }}]
+                data: [{{ round($data['loadkapasitasPL2new'],2) }} , {{ round($data['overCapacityPL2'], 2) }}]
             }]
         };
 
@@ -629,7 +636,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ $data['loadkapasitasPL3new'] }}, {{ round($data['overCapacityPL3'], 2) }}]
+                data: [{{ round($data['loadkapasitasPL3new'],2) }}, {{ round($data['overCapacityPL3'], 2) }}]
             }]
         };
 
@@ -666,7 +673,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ $data['loadkapasitasCTVTnew'] }}, {{ round($data['overCapacityCTVT'], 2) }}]
+                data: [{{ round($data['loadkapasitasCTVTnew'],2) }}, {{ round($data['overCapacityCTVT'], 2) }}]
             }]
         };
 
@@ -703,7 +710,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ $data['loadkapasitasDRYnew'] }}, {{ round($data['overCapacityDRY'], 2) }}]
+                data: [{{ round($data['loadkapasitasDRYnew'],2) }}, {{ round($data['overCapacityDRY'], 2) }}]
             }]
         };
 
@@ -740,7 +747,7 @@
             datasets: [{
                 backgroundColor: colors.slice(0, 3),
                 borderWidth: 2,
-                data: [{{ $data['loadkapasitasREPAIRnew'] }}, {{ round($data['overCapacityREPAIR'], 2) }}]
+                data: [{{ round($data['loadkapasitasREPAIRnew'],2) }}, {{ round($data['overCapacityREPAIR'], 2) }}]
             }]
         };
 

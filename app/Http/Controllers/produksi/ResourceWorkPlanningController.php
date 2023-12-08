@@ -29,54 +29,54 @@ class ResourceWorkPlanningController extends Controller
 
         //pengelompokkan periode
         //ambil input dulu pake $request
-        $periode = $request->input('periode', 1);
-        switch ($periode) {
-            case 1:
-                $deadlineDate = now()->subMonth()->toDateString();
-                break;
-            case 2:
-                $deadlineDate = now()->subWeeks(3)->toDateString();
-                break;
-            case 3:
-                $deadlineDate = now()->subWeeks(2)->toDateString();
-                break;
-            case 4:
-                $deadlineDate = now()->subWeek()->toDateString();
-                break;
-        }
-
-        // update pengambilan data dan apabila menggunakan pengambilan data ini timbul eror
         // $periode = $request->input('periode', 1);
         // switch ($periode) {
         //     case 1:
-        //         $deadlineDate = [
-        //             now()->startOfMonth(),
-        //             now()->endOfMonth()
-        //         ];
-        //         dd($deadlineDate);
+        //         $deadlineDate = now()->subMonth()->toDateString();
         //         break;
-
         //     case 2:
-        //         $deadlineDate = [
-        //             now()->startOfWeek(),
-        //             now()->endOfWeek()
-        //         ];
+        //         $deadlineDate = now()->subWeeks(3)->toDateString();
         //         break;
-
         //     case 3:
-        //         $deadlineDate = [
-        //             now()->startOfWeek()->addWeek(),
-        //             now()->endOfWeek()->addWeek()
-        //         ];
+        //         $deadlineDate = now()->subWeeks(2)->toDateString();
         //         break;
-
         //     case 4:
-        //         $deadlineDate = [
-        //             now()->startOfWeek()->addWeeks(2),
-        //             now()->endOfWeek()->addWeeks(2)
-        //         ];
+        //         $deadlineDate = now()->subWeek()->toDateString();
         //         break;
         // }
+
+        // update pengambilan data dan apabila menggunakan pengambilan data ini timbul eror
+        $periode = $request->input('periode', 1);
+        switch ($periode) {
+            case 1:
+                $deadlineDate = [
+                    now()->startOfMonth(),
+                    now()->endOfMonth()
+                ];
+                // dd($deadlineDate);
+                break;
+
+            case 2:
+                $deadlineDate = [
+                    now()->startOfWeek(),
+                    now()->endOfWeek()
+                ];
+                break;
+
+            case 3:
+                $deadlineDate = [
+                    now()->startOfWeek()->addWeek(),
+                    now()->endOfWeek()->addWeek()
+                ];
+                break;
+
+            case 4:
+                $deadlineDate = [
+                    now()->startOfWeek()->addWeeks(2),
+                    now()->endOfWeek()->addWeeks(2)
+                ];
+                break;
+        }
 
         $request->session()->put('periode', $periode);
 
@@ -88,12 +88,12 @@ class ResourceWorkPlanningController extends Controller
         $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
 
         //QTY PL
-        $qtyPL2 =  $filteredMpsPL2->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyPL3 =  $filteredMpsPL3->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyCTVT =  $filteredMpsCTVT->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyDRY =  $filteredMpsDRY->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-        $qtyREPAIR =  $filteredMpsREPAIR->where('deadline', '>=', $deadlineDate)->sum('qty_trafo');
-
+        $qtyPL2 =  $filteredMpsPL2->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        $qtyPL3 =  $filteredMpsPL3->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        $qtyCTVT =  $filteredMpsCTVT->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        $qtyREPAIR =  $filteredMpsREPAIR->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+// dd($qtyPL2);
 
         $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL2;
         $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL3;
@@ -135,13 +135,18 @@ class ResourceWorkPlanningController extends Controller
 
         //TOTAL HOUR SEMUANYA
         $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
-
+         
         //TOTAL KEBUTUHAN MP
         $kebutuhanMP = round($kebutuhanMPPL2 + $kebutuhanMPPL3 + $kebutuhanMPCTVT + $kebutuhanMPDRY + $kebutuhanMPREPAIR, 2);
         //TOTAL SELISIH KEKURANGAN MP
         $selisihKurangMP = $kebutuhanMP - $totalManPower;
         //PRESENTASE KEKURANGAN MP
-        $presentaseKurangMP = ($selisihKurangMP / $kebutuhanMP) * 100;
+
+        if ($kebutuhanMP != 0) {
+            $presentaseKurangMP = ($selisihKurangMP / $kebutuhanMP) * 100;
+        } else {
+            $presentaseKurangMP = 0;
+        }
 
 
         //ambil total kapasitas dari tabel production_line
@@ -211,51 +216,51 @@ class ResourceWorkPlanningController extends Controller
 
         //akan overcapacity jika:
 
-        $overCapacityPL3 = $loadkapasitasPL3 - 100 ; //total over nya
+        $overCapacityPL3 = $loadkapasitasPL3 - 100; //total over nya
         $loadkapasitasPL3new = $loadkapasitasPL3 - $overCapacityPL3; //total
-        $overCapacityCTVT = $loadkapasitasCTVT - 100 ; //total over nya
+        $overCapacityCTVT = $loadkapasitasCTVT - 100; //total over nya
         $loadkapasitasCTVTnew = $loadkapasitasCTVT - $overCapacityCTVT; //total
-        $overCapacityDRY = $loadkapasitasDRY - 100 ; //total over nya
+        $overCapacityDRY = $loadkapasitasDRY - 100; //total over nya
         $loadkapasitasDRYnew = $loadkapasitasDRY - $overCapacityDRY; //total
-        $overCapacityREPAIR = $loadkapasitasREPAIR - 100 ; //total over nya
+        $overCapacityREPAIR = $loadkapasitasREPAIR - 100; //total over nya
         $loadkapasitasREPAIRnew = $loadkapasitasREPAIR - $overCapacityREPAIR; //total
 
-        if($ifoverCapacityPL2){
-            $overCapacityPL2 = $loadkapasitasPL2 - 100 ; //total over nya
+        if ($ifoverCapacityPL2) {
+            $overCapacityPL2 = $loadkapasitasPL2 - 100; //total over nya
             $loadkapasitasPL2new = $loadkapasitasPL2 - $overCapacityPL2; //total
-        }else{
+        } else {
             $overCapacityPL2 = 0;
             $loadkapasitasPL2new = $loadkapasitasPL2;
         }
 
-        if($ifoverCapacityPL3){
-            $overCapacityPL3 = $loadkapasitasPL3 - 100 ; //total over nya
+        if ($ifoverCapacityPL3) {
+            $overCapacityPL3 = $loadkapasitasPL3 - 100; //total over nya
             $loadkapasitasPL3new = $loadkapasitasPL3 - $overCapacityPL3; //total
-        }else{
+        } else {
             $overCapacityPL3 = 0;
             $loadkapasitasPL3new = $loadkapasitasPL3;
         }
 
-        if($ifoverCapacityCTVT){
-            $overCapacityCTVT = $loadkapasitasCTVT - 100 ; //total over nya
+        if ($ifoverCapacityCTVT) {
+            $overCapacityCTVT = $loadkapasitasCTVT - 100; //total over nya
             $loadkapasitasCTVTnew = $loadkapasitasCTVT - $overCapacityCTVT; //total
-        }else{
+        } else {
             $overCapacityCTVT = 0;
             $loadkapasitasCTVTnew = $loadkapasitasCTVT;
         }
 
-        if($ifoverCapacityDRY){
-            $overCapacityDRY = $loadkapasitasDRY - 100 ; //total over nya
+        if ($ifoverCapacityDRY) {
+            $overCapacityDRY = $loadkapasitasDRY - 100; //total over nya
             $loadkapasitasDRYnew = $loadkapasitasDRY - $overCapacityDRY; //total
-        }else{
+        } else {
             $overCapacityDRY = 0;
             $loadkapasitasDRYnew = $loadkapasitasDRY;
         }
 
-        if($ifoverCapacityREPAIR){
-            $overCapacityREPAIR = $loadkapasitasREPAIR - 100 ; //total over nya
+        if ($ifoverCapacityREPAIR) {
+            $overCapacityREPAIR = $loadkapasitasREPAIR - 100; //total over nya
             $loadkapasitasREPAIRnew = $loadkapasitasREPAIR - $overCapacityREPAIR; //total
-        }else{
+        } else {
             $overCapacityREPAIR = 0;
             $loadkapasitasREPAIRnew = $loadkapasitasREPAIR;
         }
@@ -272,16 +277,16 @@ class ResourceWorkPlanningController extends Controller
         if ($ketersediaanMPPL2 != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93))/($ketersediaanMPPL2 * 173 * 0.93))*100;
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 173 * 0.93)) / ($ketersediaanMPPL2 * 173 * 0.93)) * 100;
                     break;
                 case 2: //3 minggu
-                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 120 * 0.93))/($ketersediaanMPPL2 * 120 * 0.93))*100;
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 120 * 0.93)) / ($ketersediaanMPPL2 * 120 * 0.93)) * 100;
                     break;
                 case 3: //2 minggu
-                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 80 * 0.93))/($ketersediaanMPPL2 * 80 * 0.93))*100;
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 80 * 0.93)) / ($ketersediaanMPPL2 * 80 * 0.93)) * 100;
                     break;
                 case 4: //1 minggu
-                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 40 * 0.93))/($ketersediaanMPPL2 * 40 * 0.93))*100;
+                    $overtimePL2 = (($jumlahtotalHourSumPL2 - ($ketersediaanMPPL2 * 40 * 0.93)) / ($ketersediaanMPPL2 * 40 * 0.93)) * 100;
                     break;
             }
         } else {
@@ -292,16 +297,16 @@ class ResourceWorkPlanningController extends Controller
         if ($ketersediaanMPPL3 != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93))/($ketersediaanMPPL3 * 173 * 0.93))*100;
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 173 * 0.93)) / ($ketersediaanMPPL3 * 173 * 0.93)) * 100;
                     break;
                 case 2: //3 minggu
-                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93))/($ketersediaanMPPL3 * 120 * 0.93))*100;
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 120 * 0.93)) / ($ketersediaanMPPL3 * 120 * 0.93)) * 100;
                     break;
                 case 3: //2 minggu
-                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93))/($ketersediaanMPPL3 * 80 * 0.93))*100;
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 80 * 0.93)) / ($ketersediaanMPPL3 * 80 * 0.93)) * 100;
                     break;
                 case 4: //1 minggu
-                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 40 * 0.93))/($ketersediaanMPPL3 * 40 * 0.93))*100;
+                    $overtimePL3 = (($jumlahtotalHourSumPL3 - ($ketersediaanMPPL3 * 40 * 0.93)) / ($ketersediaanMPPL3 * 40 * 0.93)) * 100;
                     break;
             }
         } else {
@@ -312,16 +317,16 @@ class ResourceWorkPlanningController extends Controller
         if ($ketersediaanMPCTVT != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93))/($ketersediaanMPCTVT * 173 * 0.93))*100;
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 173 * 0.93)) / ($ketersediaanMPCTVT * 173 * 0.93)) * 100;
                     break;
                 case 2: //3 minggu
-                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93))/($ketersediaanMPCTVT * 120 * 0.93))*100;
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 120 * 0.93)) / ($ketersediaanMPCTVT * 120 * 0.93)) * 100;
                     break;
                 case 3: //2 minggu
-                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93))/($ketersediaanMPCTVT * 80 * 0.93))*100;
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 80 * 0.93)) / ($ketersediaanMPCTVT * 80 * 0.93)) * 100;
                     break;
                 case 4: //1 minggu
-                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 40 * 0.93))/($ketersediaanMPCTVT * 40 * 0.93))*100;
+                    $overtimeCTVT = (($jumlahtotalHourSumCTVT - ($ketersediaanMPCTVT * 40 * 0.93)) / ($ketersediaanMPCTVT * 40 * 0.93)) * 100;
                     break;
             }
         } else {
@@ -332,16 +337,16 @@ class ResourceWorkPlanningController extends Controller
         if ($ketersediaanMPDRY != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93))/($ketersediaanMPDRY * 173 * 0.93))*100;
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 173 * 0.93)) / ($ketersediaanMPDRY * 173 * 0.93)) * 100;
                     break;
                 case 2: //3 minggu
-                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93))/($ketersediaanMPDRY * 120 * 0.93))*100;
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 120 * 0.93)) / ($ketersediaanMPDRY * 120 * 0.93)) * 100;
                     break;
                 case 3: //2 minggu
-                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93))/($ketersediaanMPDRY * 80 * 0.93))*100;
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 80 * 0.93)) / ($ketersediaanMPDRY * 80 * 0.93)) * 100;
                     break;
                 case 4: //1 minggu
-                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 40 * 0.93))/($ketersediaanMPDRY * 40 * 0.93))*100;
+                    $overtimeDRY = (($jumlahtotalHourSumDRY - ($ketersediaanMPDRY * 40 * 0.93)) / ($ketersediaanMPDRY * 40 * 0.93)) * 100;
                     break;
             }
         } else {
@@ -352,16 +357,16 @@ class ResourceWorkPlanningController extends Controller
         if ($ketersediaanMPREPAIR != 0 && $totalManPower < $kebutuhanMP) {
             switch ($periode) {
                 case 1: //bulanan
-                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93))/($ketersediaanMPREPAIR * 173 * 0.93))*100;
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 173 * 0.93)) / ($ketersediaanMPREPAIR * 173 * 0.93)) * 100;
                     break;
                 case 2: //3 minggu
-                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93))/($ketersediaanMPREPAIR * 120 * 0.93))*100;
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 120 * 0.93)) / ($ketersediaanMPREPAIR * 120 * 0.93)) * 100;
                     break;
                 case 3: //2 minggu
-                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93))/($ketersediaanMPREPAIR * 80 * 0.93))*100;
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 80 * 0.93)) / ($ketersediaanMPREPAIR * 80 * 0.93)) * 100;
                     break;
                 case 4: //1 minggu
-                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 40 * 0.93))/($ketersediaanMPREPAIR * 40 * 0.93))*100;
+                    $overtimeREPAIR = (($jumlahtotalHourSumREPAIR - ($ketersediaanMPREPAIR * 40 * 0.93)) / ($ketersediaanMPREPAIR * 40 * 0.93)) * 100;
                     break;
             }
         } else {

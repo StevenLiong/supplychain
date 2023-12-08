@@ -1,4 +1,4 @@
-@extends('produksi.resource_work_planning.template.bar')
+{{-- @extends('produksi.resource_work_planning.template.bar')
 @section('content')
     <div class="col-sm-12">
         <div class="card">
@@ -68,8 +68,8 @@
             </div>
         </div>
     </div>
-@endsection
-{{-- @extends('produksi.resource_work_planning.template.bar')
+@endsection --}}
+@extends('produksi.resource_work_planning.template.bar')
 @section('content')
     <div class="col-sm-12">
         <div class="card">
@@ -89,56 +89,58 @@
                 <div class="table-responsive">
                     <div id="datatable_wrapper" class="dataTables_wrapper">
                         @foreach ($data['PL'] as $PL)
-                        <table id="datatable_{{ $PL->nama_pl }}" class="table table-striped dataTable m-2" role="grid"
-                            aria-describedby="datatable_info">
-                            <thead class="text-center">
-                                <tr>
-                                    <th colspan="{{ count($data['kapasitas']) + 1 }}">
-                                        {{ $periodeLabel }} - {{ $PL->nama_pl }}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    @foreach ($data['kapasitas'] as $kap)
-                                        @php
-                                            $qtyTrafo = $data['mps']
-                                                ->where('kva', $kap->ukuran_kapasitas)
-                                                ->where('production_line', $PL->nama_pl)
-                                                ->where('deadline', '>=', $data['deadlineDate'])
-                                                ->sum('qty_trafo');
-                                        @endphp
-                                        @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                        <td class="text-start">
-                                            {{ $kap->ukuran_kapasitas }}
+                            <table id="datatable_{{ $PL->nama_pl }}" class="table table-striped dataTable m-2"
+                                role="grid" aria-describedby="datatable_info">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th colspan="2" class="bg-light">
+                                            {{ $periodeLabel }} - {{ $PL->nama_pl }}
                                         </th>
-                                        @endif
-                                    @endforeach
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <tr>
-                                    <th class="text-left">{{ $PL->nama_pl }}</th>
-                                    @foreach ($data['kapasitas'] as $kap)
-                                        @php
-                                            $qtyTrafo = $data['mps']
-                                                ->where('kva', $kap->ukuran_kapasitas)
-                                                ->where('production_line', $PL->nama_pl)
-                                                ->where('deadline', '>=', $data['deadlineDate'])
-                                                ->sum('qty_trafo');
-                                        @endphp
-                                        @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                        <th class="text-start">
-                                            <span style="font-weight: bold; color: red; background-color: #d3d3d3; padding: 5px; border-radius: 10px;">{{ $qtyTrafo }}</span>
-                                        </td>
-                                        @endif
-                                    @endforeach
-                                </tr>
-                            </tbody>
-                        </table>
-                    @endforeach
+                                    </tr>
+                                    <tr>
+                                        <th class="text-left bg-light">
+                                            Kapasitas</th>
+                                        @foreach ($data['kapasitas'] as $kap)
+                                            @php
+                                                $qtyTrafo = $data['mps']
+                                                    ->where('kva', $kap->ukuran_kapasitas)
+                                                    ->where('production_line', $PL->nama_pl)
+                                                    ->whereBetween('deadline', $data['deadlineDate'])
+                                                    ->sum('qty_trafo');
+                                            @endphp
+                                            @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
+                                                <th class="text-left">
+                                                    {{ $kap->ukuran_kapasitas }}
+                                                </th>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr>
+                                        <th class="text-left bg-light">Total pada {{ $PL->nama_pl }}</th>
+                                        @foreach ($data['kapasitas'] as $kap)
+                                            @php
+                                                $qtyTrafo = $data['mps']
+                                                    ->where('kva', $kap->ukuran_kapasitas)
+                                                    ->where('production_line', $PL->nama_pl)
+                                                    ->whereBetween('deadline', $data['deadlineDate'])
+                                                    ->sum('qty_trafo');
+                                            @endphp
+                                            @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
+                                                <td class="text-left">
+                                                    <span
+                                                        style="font-weight: bold; color: red; background-color: #d3d3d3; padding: 5px; border-radius: 10px;">{{ $qtyTrafo }}</span>
+                                                </td>
+                                            @endif
+                                        @endforeach
+                                    </tr>
+                                </tbody>
+                            </table>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
-@endsection --}}
+@endsection

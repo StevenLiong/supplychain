@@ -98,8 +98,8 @@
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th class="text-left bg-light">
-                                            Kapasitas</th>
+                                        <th class="text-left bg-light" style="width:1%">
+                                            Kva</th>
                                         @foreach ($data['kapasitas'] as $kap)
                                             @php
                                                 $qtyTrafo = $data['mps']
@@ -109,7 +109,7 @@
                                                     ->sum('qty_trafo');
                                             @endphp
                                             @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                                <th class="text-left">
+                                                <th style="width:7%" class="text-left">
                                                     {{ $kap->ukuran_kapasitas }}
                                                 </th>
                                             @endif
@@ -128,9 +128,9 @@
                                                     ->sum('qty_trafo');
                                             @endphp
                                             @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                                <td class="text-left">
-                                                    <span
-                                                        style="font-weight: bold; color: red; background-color: #d3d3d3; padding: 5px; border-radius: 10px;">{{ $qtyTrafo }}</span>
+                                                <td style="width:7%" class="text-left">
+                                                    <span class="text-primary"
+                                                        style="font-weight: bold;  background-color: #c7cbd3; padding: 5px; border-radius: 10px;">{{ $qtyTrafo }}</span>
                                                 </td>
                                             @endif
                                         @endforeach

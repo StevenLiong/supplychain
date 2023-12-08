@@ -23,36 +23,29 @@
     <div class="row ">
         <div class="col-md-12">
             <div class="card border border-danger border-2 p-4 rounded-4">
-                <form action="/purchaseorder/{{$po->id_mr}}/add" method="post">
+                <form action="/purchaseorder/editPo/{{ $po->id_po}}" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Nomer PO</label>
-                                <input type="text" class="form-control" id="exampleField1" value="{{$id}}" name="id_po" readonly>
+                                <input type="text" class="form-control" id="exampleField1" value="{{$po->id_po}}" name="id_po" readonly>
                             </div>
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="tanggal" class="form-label">Tanggal</label>
-                            <input type="date" class="form-control" id="tanggal" value="{{$now->toDateString()}}" placeholder="Masukan Tanggal" name="tanggal_po" readonly>
+                            <input type="date" class="form-control" id="tanggal" value="{{$po->tanggal_po}}" placeholder="Masukan Tanggal" name="tanggal_po" readonly>
                         </div>
                         <div class="col-md-2">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Kode Supplier</label>
-                                <select class="form-select select-search" id="select-supplier" name="supplier" onchange="updateForm(this)">
-                                    <option value="" selected disabled>-- Pilih Supplier --</option>
-                                    @foreach ($suppliers as $supplier)
-                                    <option value="{{ $supplier->kd_supplier }}" data-supplier="{{ $supplier->nama_supplier }}" data-valuta="{{ $supplier->valuta }}">
-                                        {{ $supplier->kd_supplier }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                <input value="{{ $po->kd_supplier}}" class="form-control" name="kd_supplier" disabled>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class=" mt-2">
                                 <label for="exampleInputName" class="form-label"> </label>
-                                <input type="text" class="form-control" id="supplier" disabled name="supplier">
+                                <input value="{{ $po->supplier->nama_supplier}}" class="form-control" name="nama_supplier" disabled>
                             </div>
                         </div>
                     </div>
@@ -68,15 +61,12 @@
                         </div>
                         <div class="col-md-3 mb-3">
                             <label for="tanggal" class="form-label">Jenis Pembelian</label>
-                            <select class="form-select" id="exampleField3" name="jenispembelian">
-                                <option value="Lokal">Lokal</option>
-                                <option value="Import">Import</option>
-                            </select>
+                            <input value="{{ $po->jenispembelian}}" class="form-control" name="jenispembelian" disabled>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Valuta</label>
-                                <input type="text" class="form-control" id="valuta" name="valuta" disabled>
+                                <input type="text" class="form-control" id="valuta" name="valuta" value="{{ $po->Supplier->valuta }}" disabled>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -89,17 +79,12 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="tanggal" class="form-label">Tanggal Kirim</label>
-                            <input type="date" class="form-control" id="tanggal" value="" placeholder="Masukan Tanggal" name="tanggal_kirim">
+                            <input type="date" class="form-control" id="tanggal" value="{{ $po->tanggal_kirim}}" placeholder="Masukan Tanggal" name="tanggal_kirim" disabled>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="exampleInputName" class="form-label">Jenis Pembayaran</label>
-                                <select class="form-select" id="exampleField3" name="jenispembayaran">
-                                    <option value="0-1 Bulan">0-1 Bulan</option>
-                                    <option value="1-6 Bulan">1-6 Bulan</option>
-                                    <option value="6-12 Bulan">6-12 Bulan</option>
-                                    <option value="Tunai">Tunai</option>
-                                </select>
+                                <input type="text" class="form-control" id="exampleField3" name="jenispembayaran" value="{{ $po->jenispembayaran }}" disabled>
                             </div>
                         </div>
                     </div>
@@ -114,26 +99,19 @@
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="exampleFormControlInput1" class="form-label">Kode Delivery</label>
-                                <select class="form-select select-search" id="select-delivery" name="id_delivery" onchange="updateDel(this)">
-                                    <option value="" selected disabled>-- Pilih Delivery --</option>
-                                    @foreach ($deliverys as $delivery)
-                                    <option value="{{ $delivery->id_delivery }}" data-alamat="{{ $delivery->alamat }}">
-                                        {{ $delivery->id_delivery }}
-                                    </option>
-                                    @endforeach
-                                </select>
+                                <input type="text" class="form-control" name="id_delivery" value="{{ $po->id_delivery }}" disabled>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mt-2">
                                 <label for="exampleInputName" class="form-label"></label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" disabled>
+                                <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $po->delivery->alamat }}" disabled>
                             </div>
                         </div>
                     </div>
                     <thead>
                         <tr>
-                            <h3 class="text-dark my-2 text-center mt-5" >List Material Request</h3>
+                            <h3 class="text-dark my-2 text-center mt-5">List Material Request</h3>
                         </tr>
                         <br>
                     </thead>
@@ -148,15 +126,15 @@
                             </tr>
                         </thead>
                         <tbody class="text-center">
-                            @foreach($po->pesanan as $nomer => $pesanan)
+                            @foreach($po->mr->pesanan as $nomer => $pesanan)
                             <tr>
                                 <td class="table-plus">{{ $nomer + 1 }}</td>
                                 <td class="table-plus">{{ $pesanan->kd_material }}</td>
-                                <input type="hidden" value="{{ $pesanan->id_pesanan }}" name="pesanan[]">
+                                <input type="hidden" value="{{ $pesanan->id_pesanan}}" name="pesanan[]">
                                 <td class="table-plus">{{ $pesanan->material->nama_material }}</td>
                                 <td class="table-plus">{{ $pesanan->qty_pesanan }}</td>
-                                <td><input class="table-plus" contenteditable="true" value="{{ $pesanan->total }}" name="total[]"></td>
-                                <!-- <td class="table-plus" contenteditable="true" data-pesanan-id=" {{ $pesanan->id }}"><input type="text" value=""></td> -->
+                                <td> <input class="table-plus" contenteditable="true" value="{{ $pesanan->total }}" name="total[]"></td>
+
                             </tr>
                             @endforeach
                         </tbody>
@@ -182,45 +160,49 @@
 </div>
 
 
-
-
-
+<!-- script editcell -->
 <script>
+    function saveCellValue(cell) {
+        // Fungsi ini akan dipanggil saat user selesai mengedit dan pindah dari cell
+        // Di sini Anda bisa menambahkan logika untuk menyimpan nilai ke dalam database atau melakukan tindakan lainnya.
+
+        let newValue = cell.innerText;
+        // Anda bisa menambahkan logika untuk menyimpan nilai ke dalam database atau melakukan tindakan lainnya.
+        // Contoh:
+        // Simpan nilai ke database dengan AJAX atau metode lainnya
+        // fetch('url_simpan_data', {
+        //     method: 'POST',
+        //     body: JSON.stringify({ newValue }),
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // })
+        // .then(response => {
+        //     // Tindakan setelah nilai disimpan
+        // })
+        // .catch(error => {
+        //     // Tangani kesalahan jika ada
+        // });
+    }
+</script>
+
+<!-- <script>
     function updateForm(sel) {
         var selectedOption = $('#select-supplier').find('option:selected');
         var suppliername = $('input[name="supplier"]');
         var valuta = $('input[name="valuta"]');
         suppliername.val(selectedOption.data('supplier'));
-        // valuta.val(selectedOption.data('valuta'));
+        valuta.val(selectedOption.data('valuta'));
     }
 
     function updateDel(select) {
         var selectedOption = $('#select-delivery').find('option:selected');
         var alamat = $('input[name="alamat"]');
-        
+
         console.log(selectedOption.data('alamat'));
         alamat.val(selectedOption.data('alamat'));
     }
-    function saveData(button) {
-    // Mendapatkan baris yang berisi data yang akan disimpan
-    var row = button.parentNode.parentNode;
-
-    // Mengambil nilai-nilai dari kolom-kolom dalam baris
-    var id_po = row.cells[0].innerText;
-    var supplier = row.cells[1].innerText;
-    // ... (mengambil nilai dari kolom lainnya terkait PO)
-
-    var id_mr = row.cells[2].innerText;
-    // ... (mengambil nilai dari kolom lainnya terkait MR)
-
-    var material = row.cells[3].innerText;
-
-    // Lakukan pengiriman data ke server dengan menggunakan AJAX atau cara lainnya
-    // Misalnya, Anda dapat menggunakan fetch atau jQuery Ajax untuk mengirim data
-
-    // Setelah data disimpan, lakukan aksi yang sesuai, misalnya memberikan umpan balik kepada pengguna
-}
-</script>
+</script> -->
 
 
 @endsection

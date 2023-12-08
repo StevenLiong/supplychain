@@ -23,6 +23,11 @@
 </div>
 
 <div class="row mt-5">
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="col-md-12">
         <div class="card p-4 rounded-4">
             <div class="d-flex justify-content-between align-items-center">
@@ -55,10 +60,13 @@
                             <td class="table-plus">{{$addpurchase->po ? $addpurchase->po->status_po : '-'}}</td>
 
                             <td>
+                                <a href="/purchaseorder/{{$addpurchase->id_po}}" class="pdf-link btn " type="button">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
                                 <a href="/purchaseorder/createPo/{{$addpurchase->id_mr}}" class="pdf-link btn " type="button">
                                     <i class="bi bi-plus-circle"></i>
                                 </a>
-                                <a href="" class="pdf-link btn " type="button">
+                                <a href="" class="pdf-link btn " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$no}}">
                                     <i class="bi bi-file-earmark"></i>
                                 </a>
                             </td>
@@ -92,13 +100,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($po->pesanan as $nomer => $pesanan)
+                        @foreach ($po->pesanan as $nomer => $addpesanan)                      
                         <tr>
                             <td class="table-plus">{{ $nomer + 1 }}</td>
-                            <td class="table-plus">{{ $pesanan->kd_material }}</td>
-                            <td class="table-plus">{{ $pesanan->material->nama_material }}</td>
-                            <td class="table-plus">{{ $pesanan->qty_pesanan }}</td>
-                            <td class="table-plus"> - </td>
+                            <td class="table-plus">{{ $addpesanan->kd_material }}</td>
+                            <td class="table-plus">{{ $addpesanan->material->nama_material }}</td>
+                            <td class="table-plus">{{ $addpesanan->qty_pesanan }}</td>
+                            <td class="table-plus">{{ $addpesanan->total ? : '-'}} </td>
                         </tr>
                         @endforeach
                     </tbody>

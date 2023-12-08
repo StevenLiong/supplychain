@@ -72,7 +72,7 @@
                                                     $kebutuhanMPDRY = $data['mps']
                                                         ->where($data['selectedWorkcenterData']->nama_proses , $data['selectedWorkcenterData']->nama_proses )
                                                         ->where('kva', $kap->ukuran_kapasitas)
-                                                        ->where('deadline', '>=', $data['deadlineDate'])
+                                                        ->whereBetween('deadline', $data['deadlineDate'])
                                                         ->sum('qty_trafo');
                                                 @endphp
                                             @endforeach

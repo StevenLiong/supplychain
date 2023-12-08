@@ -135,7 +135,7 @@ class ResourceWorkPlanningController extends Controller
 
         //TOTAL HOUR SEMUANYA
         $jumlahtotalHourSum = $jumlahtotalHourSumPL2 + $jumlahtotalHourSumPL3 + $jumlahtotalHourSumCTVT + $jumlahtotalHourSumDRY + $jumlahtotalHourSumREPAIR;
-         
+
         //TOTAL KEBUTUHAN MP
         $kebutuhanMP = round($kebutuhanMPPL2 + $kebutuhanMPPL3 + $kebutuhanMPCTVT + $kebutuhanMPDRY + $kebutuhanMPREPAIR, 2);
         //TOTAL SELISIH KEKURANGAN MP
@@ -639,7 +639,6 @@ class ResourceWorkPlanningController extends Controller
                     now()->startOfMonth(),
                     now()->endOfMonth()
                 ];
-                // dd($deadlineDate);
                 break;
 
             case 2:
@@ -659,10 +658,10 @@ class ResourceWorkPlanningController extends Controller
                 break;
 
             case 4:
-                $periodeLabel = '2 Minggu Kedepan';
+                $periodeLabel = 'Bulan Depan';
                 $deadlineDate = [
-                    now()->startOfWeek()->addWeeks(2),
-                    now()->endOfWeek()->addWeeks(2)
+                    now()->addMonth()->startOfMonth(),
+                    now()->addMonth()->endOfMonth()
                 ];
                 break;
         }
@@ -821,19 +820,31 @@ class ResourceWorkPlanningController extends Controller
         $periode = $request->session()->get('periode', 1);
         switch ($periode) {
             case 1:
-                $deadlineDate = now()->subMonth()->toDateString();
+                $deadlineDate = [
+                    now()->startOfMonth(),
+                    now()->endOfMonth()
+                ];
                 $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 173 * 0.93;
                 break;
             case 2:
-                $deadlineDate = now()->subWeeks(3)->toDateString();
+                $deadlineDate =[
+                    now()->startOfWeek(),
+                    now()->endOfWeek()
+                ];
                 $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 120 * 0.93;
                 break;
             case 3:
-                $deadlineDate = now()->subWeeks(2)->toDateString();
+                $deadlineDate =[
+                    now()->startOfWeek()->addWeek(),
+                    now()->endOfWeek()->addWeek()
+                ];
                 $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 80 * 0.93;
                 break;
             case 4:
-                $deadlineDate = now()->subWeek()->toDateString();
+                $deadlineDate =[
+                    now()->addMonth()->startOfMonth(),
+                    now()->addMonth()->endOfMonth()
+                ];
                 $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 40 * 0.93;
                 break;
         }
@@ -844,7 +855,6 @@ class ResourceWorkPlanningController extends Controller
             'title1' => $title1,
             'mps' => $mps,
             'kapasitas' => $kapasitas,
-            // 'ukuran_kapasitas' => $ukuran_kapasitas,
             'PL' => $PL,
             'selectedWorkcenterData' => $selectedWorkcenterData,
             'deadlineDate' => $deadlineDate,

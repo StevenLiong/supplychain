@@ -68,7 +68,7 @@
             </div>
         </div>
     </div>
-@endsection --}}
+@endsection --}} 
 @extends('produksi.resource_work_planning.template.bar')
 @section('content')
     <div class="col-sm-12">
@@ -79,7 +79,6 @@
                 </div>
             </div>
             <div class="card-body">
-
                 <div class="row mb-4 align-items-center">
                     <div class="ml-auto mr-3" style="align-items: d-flex right;">
                         <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i

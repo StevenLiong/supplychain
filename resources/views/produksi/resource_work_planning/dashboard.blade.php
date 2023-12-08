@@ -12,7 +12,7 @@
                         <option value="1">Bulan Sekarang</option>
                         <option value="2">Minggu sekarang</option>
                         <option value="3">Minggu Depan</option>
-                        <option value="4">2 Minggu kedepan</option>
+                        <option value="4">Bulan Depan</option>
                     </select>
                 </form>
             </div>

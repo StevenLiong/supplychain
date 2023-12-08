@@ -100,13 +100,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($po->pesanan as $nomer => $pesanan)
+                        @foreach ($po->pesanan as $nomer => $addpesanan)                      
                         <tr>
                             <td class="table-plus">{{ $nomer + 1 }}</td>
-                            <td class="table-plus">{{ $pesanan->kd_material }}</td>
-                            <td class="table-plus">{{ $pesanan->material->nama_material }}</td>
-                            <td class="table-plus">{{ $pesanan->qty_pesanan }}</td>
-                            <td class="table-plus"> - </td>
+                            <td class="table-plus">{{ $addpesanan->kd_material }}</td>
+                            <td class="table-plus">{{ $addpesanan->material->nama_material }}</td>
+                            <td class="table-plus">{{ $addpesanan->qty_pesanan }}</td>
+                            <td class="table-plus">{{ $addpesanan->total ? : '-'}} </td>
                         </tr>
                         @endforeach
                     </tbody>

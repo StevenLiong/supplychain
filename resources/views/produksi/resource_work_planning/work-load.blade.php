@@ -86,20 +86,29 @@
                                 class="mr-2 fa-solid fa-print"></i>Print</a>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <div id="datatable_wrapper" class="dataTables_wrapper">
+                <div>
+                    <div>
                         @foreach ($data['PL'] as $PL)
-                            <table id="datatable_{{ $PL->nama_pl }}" class="table table-striped dataTable m-2"
-                                role="grid" aria-describedby="datatable_info">
+                            <table id="datatable_{{ $PL->nama_pl }}" class="table dataTable m-2" role="grid" style="width:auto">
                                 <thead class="text-center">
                                     <tr>
-                                        <th colspan="2" class="bg-light">
+                                        @foreach ($data['kapasitas'] as $kap)
+                                            @php
+                                                $qtyTrafo = $data['mps']
+                                                    ->where('kva', $kap->ukuran_kapasitas)
+                                                    ->where('production_line', $PL->nama_pl)
+                                                    ->whereBetween('deadline', $data['deadlineDate'])
+                                                    ->sum('qty_trafo');
+                                            @endphp
+                                        @endforeach
+                                        <th colspan="{{ $kap->ukuran_kapasitas }}" class="bg-light">
                                             {{ $periodeLabel }} - {{ $PL->nama_pl }}
                                         </th>
                                     </tr>
                                     <tr>
-                                        <th class="text-left bg-light" style="width:1%">
-                                            Kva</th>
+                                        <th class="text-left bg-light" style="width:8rem">
+                                            Kva
+                                        </th>
                                         @foreach ($data['kapasitas'] as $kap)
                                             @php
                                                 $qtyTrafo = $data['mps']
@@ -109,7 +118,7 @@
                                                     ->sum('qty_trafo');
                                             @endphp
                                             @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                                <th style="width:7%" class="text-left">
+                                                <th class="text-center" >
                                                     {{ $kap->ukuran_kapasitas }}
                                                 </th>
                                             @endif
@@ -128,7 +137,7 @@
                                                     ->sum('qty_trafo');
                                             @endphp
                                             @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                                <td style="width:7%" class="text-left">
+                                                <td class="text-center">
                                                     <span class="text-primary"
                                                         style="font-weight: bold;  background-color: #c7cbd3; padding: 5px; border-radius: 10px;">{{ $qtyTrafo }}</span>
                                                 </td>

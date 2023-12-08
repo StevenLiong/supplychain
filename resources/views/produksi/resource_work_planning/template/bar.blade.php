@@ -39,10 +39,10 @@
                                     <span class="ml-4">Work Load</span>
                                 </a>
                             </li> --}}
-                            <li class="{{ Request::is('resource_work_planning/PL2/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/PL2/Jumlah" class="svg-icon">
+                            <li class="{{ Request::is('resource_work_planning/PL2/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/PL2/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/PL2/Rekomendasi') ? 'active' : '' }}">
@@ -67,10 +67,10 @@
                                     <span class="ml-4">Work Load</span>
                                 </a>
                             </li> --}}
-                            <li class="{{ Request::is('resource_work_planning/PL3/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/PL3/Jumlah" class="svg-icon">
+                            <li class="{{ Request::is('resource_work_planning/PL3/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/PL3/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/PL3/Rekomendasi') ? 'active' : '' }}">
@@ -95,10 +95,10 @@
                                     <span class="ml-4">Work Load</span>
                                 </a>
                             </li> --}}
-                            <li class="{{ Request::is('resource_work_planning/CT-VT/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/CT-VT/Jumlah" class="svg-icon">
+                            <li class="{{ Request::is('resource_work_planning/CT-VT/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/CT-VT/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/CT-VT/Rekomendasi') ? 'active' : '' }}">
@@ -123,10 +123,10 @@
                                     <span class="ml-4">Work Load</span>
                                 </a>
                             </li> --}}
-                            <li class="{{ Request::is('resource_work_planning/Dry/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/Dry/Jumlah" class="svg-icon">
+                            <li class="{{ Request::is('resource_work_planning/Dry/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/Dry/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/Dry/Rekomendasi') ? 'active' : '' }}">
@@ -151,10 +151,10 @@
                                     <span class="ml-4">Work Load</span>
                                 </a>
                             </li> --}}
-                            <li class="{{ Request::is('resource_work_planning/Repair/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/Repair/Jumlah" class="svg-icon">
+                            <li class="{{ Request::is('resource_work_planning/Repair/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/Repair/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/Repair/Rekomendasi') ? 'active' : '' }}">

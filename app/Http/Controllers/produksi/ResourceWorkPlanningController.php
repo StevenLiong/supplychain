@@ -371,7 +371,7 @@ class ResourceWorkPlanningController extends Controller
 
         //kirim ke view
         $data = [
-            'title1' => $title1,
+             'title1' => $title1,
             'drycastresin' => $drycastresin,
             'mps' => $mps,
             'PL' => $PL,
@@ -606,9 +606,9 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
     }
 
-    function dryJumlah(Request $request)
+    function dryKebutuhan(Request $request)
     {
-        $title1 = 'Dry - Jumlah';
+        $title1 = 'Dry - Kebutuhan';
         $PL = ProductionLine::all();
         $mps = Mps2::where('production_line', 'DRY')
             // ->with(['wo.standardize_work.dry_cast_resin'])

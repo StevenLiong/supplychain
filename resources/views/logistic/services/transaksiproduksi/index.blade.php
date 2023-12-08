@@ -1,80 +1,85 @@
 @extends('logistic.layouts.main')
 @section('content')
-        <!-- Main content -->
-        <section class="content">
-            <div class="content-wrapper bg-white">
-                <div class="container-fluid">
-                    {{-- headline --}}
-                    <div class="row">
-                        <div class="col-12 px-3">
-                            <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
-                                <h4 class="text-bold m-0
+    <!-- Main content -->
+    <section class="content">
+        <div class="content-wrapper bg-white">
+            <div class="container-fluid">
+                {{-- headline --}}
+                <div class="row">
+                    <div class="col-12 px-3">
+                        <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
+                            <h4 class="text-bold m-0
                                 ">Transaksi Produksi Menu</h4>
-                            </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="container-fluid">
-                        <!-- Small boxes (Stat box) -->
-                        <div class="row mt-3">
-                            <div class="col-lg-3 col-6 ">
-                                <!-- box in -->
-                                {{-- <a href="{{ url('scan/information') }}"> --}}
-                                    <div class="small-box bg-blue">
-                                        <div class="inner text-light">
-                                            <h3>Transfer</h3>
-        
-                                            <p>Transfer Material</p>
-                                        </div>
-                                        <div class="icon">
-                                            <svg width="75" height="61" viewBox="0 0 75 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M40.0769 43.75L52.9615 30.5L40.0769 17.25M4 30.5H50.3846" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M24.6154 17.25V10.625C24.6154 8.86794 25.2941 7.18285 26.5023 5.94042C27.7104 4.69799 29.3491 4 31.0577 4H64.5577C66.2663 4 67.9049 4.69799 69.1131 5.94042C70.3212 7.18285 71 8.86794 71 10.625V50.375C71 52.1321 70.3212 53.8172 69.1131 55.0596C67.9049 56.302 66.2663 57 64.5577 57H31.0577C29.3491 57 27.7104 56.302 26.5023 55.0596C25.2941 53.8172 24.6154 52.1321 24.6154 50.375V43.75" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>                                                                                                                                                 
-                                        </div>
+                <div class="container-fluid">
+                    @if ($countCutting > 0)
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>Pemberitahuan!</strong> Anda memiliki
+                            <a href="{{ url('services/transaksiproduksi/listpending') }}" class="alert-link">
+                                {{ $countCutting }} pengiriman menunggu tanggapan
+                            </a>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row mt-3">
+                        <div class="col-lg-3 col-6 ">
+                            <!-- box in -->
+                            <a href="">
+                                <div class="small-box ">
+                                    <div class="inner text-dark">
+                                        <h3>Transfer</h3>
+
+                                        <p>Transfer Material</p>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-3 col-6 ">
-                                <!-- box in -->
-                                {{-- <a href="{{ url('scan/information') }}"> --}}
-                                    <div class="small-box bg-red">
-                                        <div class="inner text-light">
-                                            <h3>Consumption Report</h3>
-        
-                                            <p>Laporan Pemakaian</p>
-                                            
-                                        </div>
-                                        <div class="icon">
-                                            <svg width="63" height="67" viewBox="0 0 63 67" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M17.25 21.7692V17.0769C17.25 13.3435 18.7513 9.76297 21.4237 7.12304C24.0961 4.4831 27.7207 3 31.5 3C35.2793 3 38.9039 4.4831 41.5763 7.12304C44.2487 9.76297 45.75 13.3435 45.75 17.0769V21.7692M5.375 21.7692C4.74511 21.7692 4.14102 22.0164 3.69562 22.4564C3.25022 22.8964 3 23.4931 3 24.1154V55.7885C3 60.2227 6.82375 64 11.3125 64H51.6875C56.1763 64 60 60.406 60 55.9718V24.1154C60 23.4931 59.7498 22.8964 59.3044 22.4564C58.859 22.0164 58.2549 21.7692 57.625 21.7692H5.375Z" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                                                <path d="M16.5001 30.1113V32.2899C16.5001 35.7567 18.0015 39.0814 20.6739 41.5328C23.3462 43.9842 26.9708 45.3613 30.7501 45.3613C34.5295 45.3613 38.154 43.9842 40.8264 41.5328C43.4988 39.0814 45.0001 35.7567 45.0001 32.2899V30.1113" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                                            </svg>                                       
-                                        </div>
+                                    <div class="icon">
+                                        <svg width="50" height="50" viewBox="0 0 75 61" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M40.0769 43.75L52.9615 30.5L40.0769 17.25M4 30.5H50.3846"
+                                                stroke="white" stroke-width="8" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M24.6154 17.25V10.625C24.6154 8.86794 25.2941 7.18285 26.5023 5.94042C27.7104 4.69799 29.3491 4 31.0577 4H64.5577C66.2663 4 67.9049 4.69799 69.1131 5.94042C70.3212 7.18285 71 8.86794 71 10.625V50.375C71 52.1321 70.3212 53.8172 69.1131 55.0596C67.9049 56.302 66.2663 57 64.5577 57H31.0577C29.3491 57 27.7104 56.302 26.5023 55.0596C25.2941 53.8172 24.6154 52.1321 24.6154 50.375V43.75"
+                                                stroke="white" stroke-width="8" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
                                     </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-3 col-6 ">
-                                <!-- box in -->
-                                <a href="#">
-                                    <div class="small-box bg-success">
-                                        <div class="inner text-light">
-                                            {{-- <h3>{{ $material->count() }}</h3> --}}
-                                            <h3>Cut Stock</h3>
-        
-                                            <p>Cut Stock Material</p>
-                                        </div>
-                                        <div class="icon">
-                                            <svg width="73" height="62" viewBox="0 0 73 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M50.8451 31.7373L37.2245 40.2234L65.1927 50.7826H72.9984L73.0001 45.1464L50.8451 31.7373Z" fill="white"/>
-                                                <path d="M73 8.51067H65.1926L32.8344 20.921L23.2167 15.357C23.7924 12.4299 23.3956 9.37665 22.0965 6.73518C20.7973 4.0937 18.679 2.03339 16.1148 0.917149C13.5505 -0.19909 10.7047 -0.299651 8.07869 0.63318C5.45266 1.56601 3.21485 3.47239 1.75942 6.01653C0.303989 8.56067 -0.275696 11.5794 0.122472 14.5409C0.520639 17.5024 1.87112 20.2168 3.93603 22.206C6.00094 24.1951 8.64783 25.3314 11.4105 25.4147C14.1731 25.498 16.8743 24.5229 19.0382 22.6612L27.5287 28.2482L26.1559 34.7546L19.0577 39.4679C16.8877 37.6023 14.1754 36.6338 11.4062 36.7356C8.63708 36.8375 5.99174 38.003 3.94359 40.0237C1.89544 42.0444 0.578137 44.7884 0.227404 47.7647C-0.123328 50.7409 0.515398 53.7552 2.02929 56.2682C3.54318 58.7811 5.83344 60.6287 8.49024 61.4803C11.147 62.3319 13.997 62.132 16.5301 60.9163C19.0633 59.7007 21.1143 57.5486 22.3161 54.8451C23.518 52.1417 23.7922 49.0634 23.0899 46.161L73 14.1469V8.51067ZM11.7578 19.7832C10.471 19.7832 9.21313 19.37 8.14321 18.5959C7.07328 17.8217 6.23937 16.7214 5.74694 15.434C5.25451 14.1466 5.12566 12.7301 5.3767 11.3634C5.62774 9.99673 6.24739 8.74137 7.15729 7.75606C8.06719 6.77075 9.22647 6.09975 10.4885 5.8279C11.7506 5.55606 13.0588 5.69558 14.2476 6.22882C15.4364 6.76207 16.4526 7.66509 17.1675 8.82369C17.8824 9.98229 18.2639 11.3444 18.2639 12.7379C18.2639 13.6631 18.0957 14.5792 17.7687 15.434C17.4417 16.2888 16.9625 17.0655 16.3583 17.7197C15.7542 18.3739 15.037 18.8929 14.2476 19.2469C13.4582 19.601 12.6122 19.7832 11.7578 19.7832ZM11.7578 56.419C10.471 56.419 9.21313 56.0058 8.14321 55.2317C7.07328 54.4575 6.23937 53.3572 5.74694 52.0698C5.25451 50.7824 5.12566 49.3658 5.3767 47.9992C5.62774 46.6325 6.24739 45.3772 7.15729 44.3919C8.06719 43.4065 9.22647 42.7355 10.4885 42.4637C11.7506 42.1918 13.0588 42.3314 14.2476 42.8646C15.4364 43.3979 16.4526 44.3009 17.1675 45.4595C17.8824 46.6181 18.2639 47.9802 18.2639 49.3737C18.2639 51.2422 17.5785 53.0342 16.3583 54.3555C15.1382 55.6767 13.4833 56.419 11.7578 56.419ZM36.4811 31.0558C35.9664 31.0558 35.4632 30.8905 35.0353 30.5808C34.6073 30.2712 34.2737 29.831 34.0767 29.3161C33.8798 28.8011 33.8282 28.2345 33.9287 27.6878C34.0291 27.1412 34.2769 26.639 34.6409 26.2449C35.0048 25.8508 35.4686 25.5824 35.9734 25.4736C36.4782 25.3649 37.0015 25.4207 37.477 25.634C37.9525 25.8473 38.359 26.2085 38.645 26.672C38.9309 27.1354 39.0836 27.6803 39.0836 28.2376C39.0836 28.985 38.8094 29.7019 38.3213 30.2304C37.8333 30.7589 37.1713 31.0558 36.4811 31.0558Z" fill="white"/>
-                                            </svg>                                                
-                                        </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-3 col-6 ">
+                            <!-- box in -->
+                            <a href="">
+                                <div class="small-box">
+                                    <div class="inner text-dark">
+                                        <h3>Report</h3>
+
+                                        <p>Laporan Pemakaian</p>
                                     </div>
-                                </a>
-                            </div>
+                                    <div class="icon">
+                                        <svg width="50" height="50" viewBox="0 0 63 67" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M17.25 21.7692V17.0769C17.25 13.3435 18.7513 9.76297 21.4237 7.12304C24.0961 4.4831 27.7207 3 31.5 3C35.2793 3 38.9039 4.4831 41.5763 7.12304C44.2487 9.76297 45.75 13.3435 45.75 17.0769V21.7692M5.375 21.7692C4.74511 21.7692 4.14102 22.0164 3.69562 22.4564C3.25022 22.8964 3 23.4931 3 24.1154V55.7885C3 60.2227 6.82375 64 11.3125 64H51.6875C56.1763 64 60 60.406 60 55.9718V24.1154C60 23.4931 59.7498 22.8964 59.3044 22.4564C58.859 22.0164 58.2549 21.7692 57.625 21.7692H5.375Z"
+                                                stroke="white" stroke-width="6" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                            <path
+                                                d="M16.5001 30.1113V32.2899C16.5001 35.7567 18.0015 39.0814 20.6739 41.5328C23.3462 43.9842 26.9708 45.3613 30.7501 45.3613C34.5295 45.3613 38.154 43.9842 40.8264 41.5328C43.4988 39.0814 45.0001 35.7567 45.0001 32.2899V30.1113"
+                                                stroke="white" stroke-width="6" stroke-linecap="round"
+                                                stroke-linejoin="round" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
-        </section>
+                </div>
+    </section>
     </div>
 @endsection

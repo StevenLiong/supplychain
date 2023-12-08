@@ -23,7 +23,7 @@
                     <div class="col-lg-3 col-6 ">
                         <!-- box in -->
                         <a href="{{ url('scan/information') }}">
-                            <div class="small-box ">
+                            <div class="small-box">
                                 <div class="inner text-dark">
                                     <h3>Scan</h3>
 
@@ -38,8 +38,8 @@
                     <div class="col-lg-3 col-6 ">
                         <!-- box in -->
                         <a href="#">
-                            <div class="small-box bg-success">
-                                <div class="inner text-light">
+                            <div class="small-box">
+                                <div class="inner text-dark">
                                     <h3>{{ $material->count() }}</h3>
 
                                     <p>Materials</p>
@@ -50,8 +50,8 @@
                     <div class="col-lg-3 col-6 ">
                         <!-- box in -->
                         <a href="#">
-                            <div class="small-box bg-info">
-                                <div class="inner text-light">
+                            <div class="small-box">
+                                <div class="inner text-dark">
                                     <h3>{{ $supplier->count() }}</h3>
 
                                     <p>Supplier</p>
@@ -94,3 +94,4 @@
         </section>
     </div>
 @endsection
+

@@ -18,6 +18,7 @@ use App\Http\Controllers\logistic\ScanController;
 use App\Http\Controllers\planner\StockController;
 use App\Http\Controllers\logistic\OrderController;
 use App\Http\Controllers\planner\GPADryController;
+use App\Http\Controllers\logistic\CuttingController;
 use App\Http\Controllers\logistic\PickingController;
 use App\Http\Controllers\logistic\StorageController;
 use App\Http\Controllers\logistic\IncomingController;
@@ -105,11 +106,22 @@ Route::middleware(['auth', 'logistic'])->group(function () {
 
     // order 
     Route::resource('services/transaksigudang/order', OrderController::class);
+    Route::get('services/transaksigudang/order/{nama_workcenter}', [OrderController::class, 'show']);
 
     // picking
     Route::get('services/transaksigudang/picking/scan', [PickingController::class, 'pickingScan']);
     Route::get('services/transaksigudang/picking/cutstock/{id}', [PickingController::class, 'cutStock']);
     Route::put('services/transaksigudang/picking/cutstock/{id}', [PickingController::class, 'updateStock']);
+
+    // cutting 
+    Route::resource('services/transaksigudang/cutting', CuttingController::class);
+    Route::get('services/transaksigudang/cutting/{bon_f}', [OrderController::class, 'show']);
+
+    // Transaksi produksi
+    Route::get('/services/transaksiproduksi/listpending', [CuttingController::class, 'pendingList']);
+    Route::get('/services/transaksiproduksi/listpending/show/{nama_workcenter}', [CuttingController::class, 'showPendingList']);
+    Route::get('/services/transaksiproduksi/listpending/cut/{nama_workcenter}', [CuttingController::class, 'cutMaterial']);
+
 
     // Shipping
     Route::get('shipping/createpackinglist', [ShippingController::class, 'indexPack']);

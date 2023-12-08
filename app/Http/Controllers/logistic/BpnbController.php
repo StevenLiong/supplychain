@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\logistic;
 
-use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BpnbController extends Controller
 {
@@ -64,6 +67,16 @@ class BpnbController extends Controller
     }
 
     public function print (){
+        // $filename = 'Report Sample' . time() . rand('9999', '999999') . Str::random('10') . '.pdf';
+        // $pdfPath = public_path($filename);
+        
+        // $pdf = PDF::loadView('logistic.receiving.bpnb.printbpnb');
+        // $pdf->save($pdfPath);
+
+      
+
+        // // Kembalikan respons PDF
+        // return response()->download($pdfPath, $filename)->deleteFileAfterSend(true);
         return view('logistic.receiving.bpnb.printbpnb');
     }
 }

@@ -35,7 +35,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="tanggal" class="form-label">Date</label>
-                            <input type="date" class="form-control" id="tanggal" value="{{$now->toDateString()}}" placeholder="Masukan Tanggal" name="tanggal_mr">
+                            <input type="date" class="form-control" id="tanggal" value="{{$now->toDateString()}}" placeholder="Masukan Tanggal" name="tanggal_mr" readonly>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Division Name</label>
@@ -58,7 +58,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="tanggal" class="form-label">Accepted date</label>
-                            <input type="date" class="form-control" id="tanggal" value="{{$now->toDateString()}}" placeholder="Masukan Tanggal" name="accepted_mr">
+                            <input type="date" class="form-control" id="tanggal" value="" placeholder="Masukan Tanggal" name="accepted_mr">
                         </div>
                         <div class=" mt-5 items">
                             <h3 class="my-1 text-muted text-center">Add Material</h3>

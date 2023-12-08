@@ -9,7 +9,7 @@ use App\Models\purchaser\po;
 use App\Models\purchaser\mr;
 // use App\Models\supplier;
 use App\Models\logistic\Supplier as supplier;
-
+use App\Models\purchaser\pesanan;
 use Carbon\Carbon;
 
 class poController extends Controller
@@ -23,7 +23,6 @@ class poController extends Controller
     //tampilan data mr
     public function purchaseOrder()
     {
-
         $dataPo = mr::all();
         return view('purchaser.contentpo.purchaseorder', ['dataPo' => $dataPo,]);
     }
@@ -50,15 +49,54 @@ class poController extends Controller
         );
     }
 
+    public function editpo($id_po)
+    {
+        $po = po::where('id_po', $id_po)->firstOrFail();
+        return view(
+            'purchaser.contentpo.editdatamaterialpo',
+            [
+                'po' => $po,
+            ]
+        );
+    }
+
+     //save stage edit mr from DB
+     public function storeEditpo($id_po, Request $request)
+     {
+        //  @dd($request->all());
+         $validated = $request->validate([
+             'status_po' => 'required',
+             'keterangan' => 'required',
+             'term' => 'required',
+             'pesanan' => 'required',
+             'total' => 'required'
+         ]);
+        //  dd($validated);
+         $po = po::where('id_po', $id_po)->firstOrFail();
+ 
+         $po->status_po = $validated['status_po'];
+         $po->keterangan = $validated['keterangan'];
+         $po->term = $validated['term'];
+ 
+         foreach ($validated['pesanan'] as $key => $value) {
+            $pesanan = Pesanan::where('id_pesanan',$value)->firstOrFail();
+            $pesanan->total = $validated['total'][$key];
+            $pesanan->save();
+        }
+         $po->save();
+ 
+         return redirect('/purchaseorder')->with('success', 'Item has been edited successfully!');
+     }
+
     //create data form to DB
     public function storepo(Request $request)
     {
         // dd($request->all());
         $validated = $request->validate([
             'id_po' => 'required',
+            'tanggal_po' => 'required',
             'supplier' => 'required',
             'status_po' => 'required',
-            'tanggal_po' => 'required',
             'jenispembelian' => 'required',
             'term' => 'required',
             'tanggal_kirim' => 'required',
@@ -66,9 +104,11 @@ class poController extends Controller
             'id_mr' => 'required',
             'keterangan' => 'required',
             'id_delivery' => 'required',
+            'pesanan'=>'required',
+            'total'=> 'required',
         ]);
-        // dd($validated);
 
+        // dd($validated);
         $po = new po();
         $po->id_po = $validated['id_po'];
         $po->tanggal_po = $validated['tanggal_po'];
@@ -82,11 +122,17 @@ class poController extends Controller
         $po->term = $validated['term'];
         $po->id_mr = $validated['id_mr'];
 
-        $po->save();
-
         $mr = mr::where('id_mr', $validated['id_mr'])->firstOrFail();
         $mr->id_po = $validated['id_po'];
         $mr->save();
+        
+        foreach ($validated['pesanan'] as $key => $value) {
+            $pesanan = Pesanan::where('id_pesanan',$value)->firstOrFail();
+            $pesanan->total = $validated['total'][$key];
+            $pesanan->save();
+        }
+        $po->save();
+
 
         return redirect('/purchaseorder')->with('success', 'Item has been created successfully!');
     }

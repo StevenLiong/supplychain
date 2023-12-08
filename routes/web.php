@@ -200,7 +200,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
     Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
     Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
-    
+
     // --GPA OIL--
     Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
     Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
@@ -214,12 +214,12 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // MENU WORK CENTER OIL
     Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
-    Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil'); 
-    
+    Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
+
     // MENU WORK CENTER DRY TYPE
     Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
     Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
-    
+
     // MENU FINISH GOOD
     Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
     Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
@@ -296,4 +296,6 @@ Route::middleware(['auth', 'purchaseorder'])->group(function () {
     Route::get('/purchaseorder', [poController::class, 'purchaseorder']);
     Route::get('/purchaseorder/createPo/{id_mr}', [poController::class, 'createpo']);
     Route::post('/purchaseorder/{id_mr}/add', [poController::class, 'storepo']);
+    Route::get('/purchaseorder/{id_po}', [poController::class, 'editpo']);
+    Route::post('/purchaseorder/editPo/{id_po}', [poController::class, 'storeEditpo']);
 });

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\purchaser;
 use App\Http\Controllers\Controller;
 use App\Models\purchaser\division;
 use App\Models\logistic\Material as material;
-use App\Models\pesanan as ModelsPesanan;
 use App\Models\purchaser\pesanan;
 use App\Models\purchaser\mr as mr;
 use Illuminate\Http\Request;

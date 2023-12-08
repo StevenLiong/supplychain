@@ -43,7 +43,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlInput1" class="form-label">Division Code</label>
-                            <input type="text" class="form-control" name="id_division" disabled value="{{ $mr->id_division }}" disabled>
+                            <input type="text" class="form-control" name="id_division" value="{{ $mr->id_division }}" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="exampleFormControlTextarea1" class="form-label">Note</label>

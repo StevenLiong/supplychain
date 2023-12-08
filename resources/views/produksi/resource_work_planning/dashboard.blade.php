@@ -264,7 +264,14 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
+                            @if ($data['qtyPL3'] == 0)
+                            <div class="card-body text-center">
+                                <h6>Chart Data</h6>
+                                <p style=" text-align: center; vrtical-align: middle;">No Data</p>
+                            </div>
+                        @else
                             <canvas id="chDonutKapasitasPL3"></canvas>
+                        @endif
                         </div>
                     </div>
                 </div>
@@ -357,7 +364,14 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
-                            <canvas id="chDonutKapasitasCTVT"></canvas>
+                            @if ($data['qtyCTVT'] == 0)
+                                <div class="card-body text-center">
+                                    <h6>Chart Data</h6>
+                                    <p style=" text-align: center; vrtical-align: middle;">No Data</p>
+                                </div>
+                            @else
+                                <canvas id="chDonutKapasitasCTVT"></canvas>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -451,7 +465,14 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
-                            <canvas id="chDonutKapasitasDRY"></canvas>
+                            @if ($data['qtyDRY'] == 0)
+                                <div class="card-body text-center">
+                                    <h6>Chart Data</h6>
+                                    <p style=" text-align: center; vrtical-align: middle;">No Data</p>
+                                </div>
+                            @else
+                                <canvas id="chDonutKapasitasDRY"></canvas>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -545,7 +566,14 @@
                     </div>
                     <div class="col-lg-2">
                         <div class="card card-widget task-card">
-                            <canvas id="chDonutKapasitasREPAIR"></canvas>
+                            @if ($data['qtyREPAIR'] == 0)
+                                <div class="card-body text-center">
+                                    <h6>Chart Data</h6>
+                                    <p style=" text-align: center; vrtical-align: middle;">No Data</p>
+                                </div>
+                            @else
+                                <canvas id="chDonutKapasitasREPAIR"></canvas>
+                            @endif
                         </div>
                     </div>
                 </div>

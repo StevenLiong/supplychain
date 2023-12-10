@@ -31,7 +31,7 @@
                     <div class="row mt-3">
                         <div class="col-lg-3 col-6 ">
                             <!-- box in -->
-                            <a href="">
+                            <a href="{{ url('/services/transaksiproduksi/transfer') }}">
                                 <div class="small-box ">
                                     <div class="inner text-dark">
                                         <h3>Transfer</h3>

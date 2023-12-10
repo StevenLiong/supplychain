@@ -29,13 +29,24 @@
             <div class="card rounded-0 m-2">
                 <div class="card-header">
                     <div class="row justify-content-between mx-2">
-                        {{-- button create data --}}
-                        <div class="btn-create">
-                            <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('/services/transaksigudang/cutting/create') }}">New
-                                Cutting</button>
+                        <div class="btn-group">
+                            {{-- btn back --}}
+                            <button class="btn btn-xs btn-red mr-2"
+                                onclick="window.location='{{ url('/services/transaksigudang') }}'"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="10" height="15" viewBox="0 0 12 22"
+                                    fill="none">
+                                    <path d="M11 1L1 11L11 21" stroke="#252525" stroke-opacity="0.8" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg> Kembali </button>
+                            {{-- btn back end --}}
+                            {{-- button create data --}}
+                            <div class="btn-create">
+                                <button type="button" class="btn btn-sm btn-red"
+                                    onclick=window.location="{{ url('/services/transaksigudang/cutting/create') }}">New
+                                    Cutting</button>
+                            </div>
+                            {{-- button create data end --}}
                         </div>
-                        {{-- button create data end --}}
 
                         {{-- search --}}
                         <div>
@@ -72,7 +83,8 @@
                                         <td>{{ $item->no_bon }}</td>
                                         <td>{{ $item->order->no_bon }}</td>
                                         <td>{{ $item->tanggal_bon }}</td>
-                                        <td width="5%"> <span class="badge bg-warning">{{ $item->statusText }}</span></td>
+                                        <td width="5%"> <span class="badge bg-warning">{{ $item->statusText }}</span>
+                                        </td>
                                         <td class="text-center">
                                             {{-- cetak print --}}
                                             <a href="{{ url('services/transaksigudang/cutting/' . $item->order->nama_workcenter) }}"

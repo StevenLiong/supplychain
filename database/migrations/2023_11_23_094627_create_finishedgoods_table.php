@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fgoods', function (Blueprint $table) {
+        Schema::create('finishedgoods', function (Blueprint $table) {
             $table->id();
+            $table->string('no_transfer')->reference('no_bon')->on('transfers');
+            $table->string('id_wo');
             $table->string('kd_finishedgood');
-            $table->string('nama_barang');
-            $table->string('wo')->references('id_wo')->on('wos');
+            $table->integer('kva'); 
+            $table->integer('qty');
             $table->string('nsk');
             $table->string('nsp');
-            $table->integer('kva');
-            $table->integer('qty');
+            $table->string('gudang')->reference('nama_gudang')->on('gudangs');
             $table->timestamps();
         });
     }

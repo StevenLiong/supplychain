@@ -14,15 +14,6 @@
             {{-- headline end --}}
 
             {{-- notif session --}}
-            <div class="row px-2">
-                <div class="col-lg-8">
-                    @if (session()->has('success'))
-                        <div class="alert alert-success rounded-0 ">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                </div>
-            </div>
             {{-- notif session end --}}
 
             {{-- card tabel --}}

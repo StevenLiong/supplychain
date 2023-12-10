@@ -14,16 +14,6 @@
             {{-- headline end --}}
 
             {{-- notif session --}}
-            <div class="row px-2">
-                <div class="col-lg-12">
-                    @if (session()->has('success'))
-                        <div class="alert alert-success rounded-0 ">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                </div>
-            </div>
-
             {{-- notif session end --}}
 
             <div class="card rounded-0 m-2 col-lg-8">
@@ -67,7 +57,6 @@
                                         </td>
                                         <td class="text-center">
                                             <a href="{{ url('/services/transaksiproduksi/listpending/show/' . $item->order->nama_workcenter) }}"><span class="badge bg-primary">Lihat</span></a>
-                                            <a href="{{ url('') }}" ><span class="badge bg-success">Terima</span></a>
                                         </td>
                                     </tr>
                                 @endforeach

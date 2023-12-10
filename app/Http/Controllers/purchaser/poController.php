@@ -60,33 +60,33 @@ class poController extends Controller
         );
     }
 
-     //save stage edit mr from DB
-     public function storeEditpo($id_po, Request $request)
-     {
+    //save stage edit mr from DB
+    public function storeEditpo($id_po, Request $request)
+    {
         //  @dd($request->all());
-         $validated = $request->validate([
-             'status_po' => 'required',
-             'keterangan' => 'required',
-             'term' => 'required',
-             'pesanan' => 'required',
-             'total' => 'required'
-         ]);
+        $validated = $request->validate([
+            'status_po' => 'required',
+            'keterangan' => 'required',
+            'term' => 'required',
+            'pesanan' => 'required',
+            'total' => 'required'
+        ]);
         //  dd($validated);
-         $po = po::where('id_po', $id_po)->firstOrFail();
- 
-         $po->status_po = $validated['status_po'];
-         $po->keterangan = $validated['keterangan'];
-         $po->term = $validated['term'];
- 
-         foreach ($validated['pesanan'] as $key => $value) {
-            $pesanan = Pesanan::where('id_pesanan',$value)->firstOrFail();
+        $po = po::where('id_po', $id_po)->firstOrFail();
+
+        $po->status_po = $validated['status_po'];
+        $po->keterangan = $validated['keterangan'];
+        $po->term = $validated['term'];
+
+        foreach ($validated['pesanan'] as $key => $value) {
+            $pesanan = Pesanan::where('id_pesanan', $value)->firstOrFail();
             $pesanan->total = $validated['total'][$key];
             $pesanan->save();
         }
-         $po->save();
- 
-         return redirect('/purchaseorder')->with('success', 'Item has been edited successfully!');
-     }
+        $po->save();
+
+        return redirect('/purchaseorder')->with('success', 'Item has been edited successfully!');
+    }
 
     //create data form to DB
     public function storepo(Request $request)
@@ -104,8 +104,8 @@ class poController extends Controller
             'id_mr' => 'required',
             'keterangan' => 'required',
             'id_delivery' => 'required',
-            'pesanan'=>'required',
-            'total'=> 'required',
+            'pesanan' => 'required',
+            'total' => 'required',
         ]);
 
         // dd($validated);
@@ -125,15 +125,14 @@ class poController extends Controller
         $mr = mr::where('id_mr', $validated['id_mr'])->firstOrFail();
         $mr->id_po = $validated['id_po'];
         $mr->save();
-        
+
         foreach ($validated['pesanan'] as $key => $value) {
-            $pesanan = Pesanan::where('id_pesanan',$value)->firstOrFail();
+            $pesanan = Pesanan::where('id_pesanan', $value)->firstOrFail();
             $pesanan->total = $validated['total'][$key];
             $pesanan->save();
         }
         $po->save();
-
-
+        
         return redirect('/purchaseorder')->with('success', 'Item has been created successfully!');
     }
 }

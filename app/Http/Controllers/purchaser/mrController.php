@@ -59,7 +59,7 @@ class mrController extends Controller
     public function editmr($id_mr)
     {
         $mr = mr::where('id_mr', $id_mr)->firstOrFail();
-        $materials = material::all()->groupBy('name_material');
+        $materials = material::all();
         return view(
             'purchaser.contentmr.editdatamaterialmr',
             [
@@ -69,24 +69,33 @@ class mrController extends Controller
         );
     }
 
+    public function removemat($id_pesanan)
+    {
+        $pesanan = pesanan::where('id_pesanan', $id_pesanan)->firstOrFail();
+        // dd($pesanan);
+        $pesanan->delete();
+        return redirect()->back()->with('succes', 'item berhasil dihapus');
+    }
+
     //save stage edit mr from DB
     public function storeEditmr($id_mr, Request $request)
     {
+        // @dd($request->all());
         $validated = $request->validate([
             'status_mr' => 'required',
             'keterangan' => 'required',
             'qty' => 'required',
-            'material' => 'required',
+            'material' => 'required'
         ]);
 
         $mr = mr::where('id_mr', $id_mr)->firstOrFail();
 
         $mr->status_mr = $validated['status_mr'];
-        $mr_keterangan = $validated['keterangan'];
+        $mr->keterangan = $validated['keterangan'];
 
         foreach ($validated['material'] as $key => $value) {
             $pesanan = new pesanan();
-            $pesanan->id_material = $value;
+            $pesanan->kd_material = $value;
             $pesanan->id_mr = $mr->id_mr;
             $pesanan->qty_pesanan = $validated['qty'][$key];
             $pesanan->save();

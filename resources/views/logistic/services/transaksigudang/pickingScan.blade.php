@@ -110,7 +110,7 @@
             scanner.addListener('scan', function(content) {
                 console.log(content);
                 let id = content;
-                window.location.href = '/receiving/incoming/' + id;
+                window.location.href = '/services/transaksigudang/picking/cutstock/' + id;
             });
             Instascan.Camera.getCameras().then(function(cameras) {
                 if (cameras.length > 0) {

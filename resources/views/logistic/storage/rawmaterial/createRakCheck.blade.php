@@ -64,7 +64,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="qty_rak" class="form-label">Qty Rak</label>
+                                    <label for="qty_rak" class="form-label">Jumlah Material</label>
                                     <input type="number"
                                         class="form-control @error('qty_rak')
                                         is-invalid

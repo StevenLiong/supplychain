@@ -23,6 +23,11 @@
 </div>
 
 <div class="row mt-5">
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="col-md-12">
         <div class="card p-4 rounded-4">
             <div class="d-flex justify-content-between align-items-center">
@@ -55,10 +60,13 @@
                             <td class="table-plus">{{$addpurchase->po ? $addpurchase->po->status_po : '-'}}</td>
 
                             <td>
+                                <a href="/purchaseorder/{{$addpurchase->id_po}}" class="pdf-link btn " type="button">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
                                 <a href="/purchaseorder/createPo/{{$addpurchase->id_mr}}" class="pdf-link btn " type="button">
                                     <i class="bi bi-plus-circle"></i>
                                 </a>
-                                <a href="" class="pdf-link btn " type="button">
+                                <a href="" class="pdf-link btn " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$no}}">
                                     <i class="bi bi-file-earmark"></i>
                                 </a>
                             </td>
@@ -70,6 +78,47 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+@foreach($dataPo as $no => $po)
+<div class="modal fade" id="exampleModal{{$no}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">List Material</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">NO</th>
+                            <th scope="col">Kode Material</th>
+                            <th scope="col">Nama Material</th>
+                            <th scope="col">Qty</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($po->pesanan as $nomer => $addpesanan)                      
+                        <tr>
+                            <td class="table-plus">{{ $nomer + 1 }}</td>
+                            <td class="table-plus">{{ $addpesanan->kd_material }}</td>
+                            <td class="table-plus">{{ $addpesanan->material->nama_material }}</td>
+                            <td class="table-plus">{{ $addpesanan->qty_pesanan }}</td>
+                            <td class="table-plus">{{ $addpesanan->total ? : '-'}} </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <!-- Tombol "Add Data" di sini -->
 <script>

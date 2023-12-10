@@ -40,6 +40,6 @@ class po extends Model
     }
     public function supplier(): BelongsTo
     {
-        return $this->belongsTo(Supplier::class, 'id_supplier', 'id_supplier');
+        return $this->belongsTo(Supplier::class, 'kd_supplier', 'kd_supplier');
     }
 }

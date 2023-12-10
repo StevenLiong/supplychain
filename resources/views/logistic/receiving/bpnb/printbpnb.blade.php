@@ -72,7 +72,7 @@
     
                         {{-- tabel-data --}}
                         <div class="tabel border border-dark" style="height: 300px">
-                            <table class="table table-bordered">
+                            <table class="table table-borderless">
                                 <tr>
                                     <th>No.</th>
                                     <th>Nama dan Kode Material</th>

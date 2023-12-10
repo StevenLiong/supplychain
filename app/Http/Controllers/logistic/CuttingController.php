@@ -23,7 +23,7 @@ class CuttingController extends Controller
     public function create()
     {
         $order = Order::where('status', 0)
-        ->get();
+            ->get();
         // Dapatkan data dari session
         $detailbom = session()->get('detailbom');
         $dataOrder = session()->get('dataOrder');
@@ -81,7 +81,6 @@ class CuttingController extends Controller
                 return view('logistic.services.transaksigudang.detailcutting', compact('dataBom', 'item'));
             }
         }
-
     }
 
     public function pendingList()
@@ -133,15 +132,8 @@ class CuttingController extends Controller
                         // Lakukan pemotongan stok
                         $masterMaterial->jumlah -= $usage_material;
                         $masterMaterial->save();
-                    } else {
-                        // Handle jika stok tidak cukup
-                        // ...
                     }
-                } else {
-                    // Handle jika material tidak ditemukan di tabel master_material
-                    // ...
                 }
-
 
                 // Ubah status di tabel cutting menjadi 1
                 $cutting = Cutting::with('order')
@@ -150,15 +142,13 @@ class CuttingController extends Controller
                     })
                     ->get();
 
-
                 foreach ($cutting as $cuttingItem) {
                     // Update status pada tabel cutting
                     $cuttingItem->update(['status' => 1]);
                 }
             }
 
-            return redirect('/services/transaksiproduksi/listpending');
-            // return view('logistic.services.transaksigudang.detailcutting', compact('dataBom', 'item'));
+            return redirect('/services/transaksiproduksi/listpending')->with('success', 'Stok Material Terpotong');
         }
     }
 }

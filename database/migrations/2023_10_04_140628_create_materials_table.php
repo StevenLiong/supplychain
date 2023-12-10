@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('nama_material');
             $table->string('satuan', 100);
             $table->integer('jumlah')->default(0);
+            $table->integer('booked')->default(0)->nullable();
             $table->timestamps();
         });
     }

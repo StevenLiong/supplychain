@@ -1,0 +1,15 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\Http",
+    "\\app\\Http\\Controllers",
+    "\\app\\Http\\Controllers\\planner",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\planner",
+    "\\resources\\views\\planner\\BOM"
+  ],
+  "SelectedNode": "\\resources\\views\\planner\\BOM\\add-material.blade.php",
+  "PreviewInSolutionExplorer": false
+}

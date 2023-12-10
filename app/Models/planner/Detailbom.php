@@ -29,6 +29,7 @@ class Detailbom extends Model
         'usage_material',
         'submitted',
         'email_status',
+        'last_kirim_email',
     ];
     public function bom()
     {

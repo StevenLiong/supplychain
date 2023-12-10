@@ -240,8 +240,16 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
 
     //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
-
     Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
+    Route::get('/getdatawo/{id_fg}', [WoController::class, 'getDataWO']);
+
+    //NYOBA EMAIL 2 HARI & 7 HARI
+    // Route::post('/send-email-notif', [DetailbomController::class, 'emailNotif']);
+    Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
+    // routes/web.php
+// Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
+
+
 });
 
 // Planner End

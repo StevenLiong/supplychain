@@ -32,6 +32,7 @@
                                     <th style="width: 6rem; text-align: center">Work Order Code</th>
                                     <th style="width: 6rem; text-align: center">BOM Code</th>
                                     <th style="width: 6rem; text-align:center">Standardize Work Code</th>
+                                    <th style="width: 6rem; text-align:center">ID Finish Good</th>
                                     <th style="width: 6rem; text-align:center">Sales Order</th>
                                     <th style="width: 6rem; text-align:center">Start Date</th>
                                     <th style="width: 6rem; text-align:center">Finish Date</th>
@@ -56,6 +57,7 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->id_wo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_boms }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_standardize_work }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $item->id_fg }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_so }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->start_date)->format('d-F-Y') }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->finish_date)->format('d-F-Y') }}</td>

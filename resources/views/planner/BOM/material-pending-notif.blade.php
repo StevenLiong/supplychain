@@ -66,8 +66,11 @@
                     <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">ID Material BOM</th>
                     <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Nama Material</th>
                     <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Usage Material</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Supplier</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Stock Gudang</th>
                     <th class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00ff00;">ROP Safety</th>
                     <th class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00ff00;">Max Safety</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -78,7 +81,8 @@
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">{{ $item['id_materialbom'] }}</td>
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">{{ $item['nama_materialbom'] }}</td>
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">{{ $item['usage_material'] }}</td>
-                        
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">{{ $stockInfo->supplier }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: left;">{{ $materialInfo['jumlah'] }}</td>
                         <td class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00ff00;">{{ $stockInfo->rop_safety }}</td>
                         <td class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #00ff00;">{{ $stockInfo->max_safety }}</td>
                     </tr>

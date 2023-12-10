@@ -52,7 +52,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Quantity</label>
-                    <input type="text" class="form-control" name="qty_trafo" required disabled>
+                    <input type="text" class="form-control" name="qty_trafo" required>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">KVA</label>
@@ -65,18 +65,8 @@
         </form>
     </div>
 </div>
-<!-- Tambahkan script flatpickr
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    // Inisialisasi datepicker
-    flatpickr('.datepicker', {
-        dateFormat: 'Y-m-d', // Format tanggal yang diinginkan
-        enableTime: false, // Biarkan false jika tidak memerlukan waktu
-    });
-</script> -->
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
 <script>
     function getDataByIdFg(idFg) {
         $.ajax({
@@ -86,7 +76,7 @@
                 // Isi nilai-nilai formulir berdasarkan data yang diterima dari server
                 $('input[name="id_standardize_work"]').val(data.kd_manhour);
                 $('input[name="id_boms"]').val(data.id_boms);
-                $('input[name="qty_trafo"]').val(data.qty_trafo);
+                // $('input[name="qty_trafo"]').val(data.qty_trafo);
                 $('input[name="id_so"]').val(data.id_so);
             },
             error: function (xhr, status, error) {

@@ -17,6 +17,7 @@ class Material extends Model
         'nama_material',
         'satuan',
         'jumlah',
+        'booked',
     ];
 
     /**

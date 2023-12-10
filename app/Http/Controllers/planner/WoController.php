@@ -41,7 +41,7 @@ class WoController extends Controller
         $data = [
             'kd_manhour' => $standardizeWork->kd_manhour ?? null,
             'id_boms' => $databom->id_bom ?? null,
-            'qty_trafo' => $databom->qty_bom ?? null,
+            // 'qty_trafo' => $databom->qty_bom ?? null,
             'id_so' => $databom->id_so ?? null,
         ];
 
@@ -64,7 +64,7 @@ class WoController extends Controller
 
         if ($bom && $standardizedWork) {
             $wo->id_boms = $bom->id_bom;
-            $wo->qty_trafo = $bom->qty_bom;
+            // $wo->qty_trafo = $bom->qty_bom;
             $wo->id_so = $bom->id_so;
             $wo->id_standardize_work = $standardizedWork->kd_manhour;
         }
@@ -78,38 +78,81 @@ class WoController extends Controller
     {
         $detailWo = Wo::where('id_wo', $id_wo)->first();
 
-        $id_wo = session('idWo');
-        return view('planner.wo.edit-wo', compact('detailWo'));
+        // Fetch additional data based on the selected id_fg
+        $id_fg = $detailWo->id_fg;
+        $dataBom = Bom::all();
+        $databom = Bom::where('id_fg', $id_fg)->first();
+        $standardizeWork = StandardizeWork::where('id_fg', $id_fg)->first();
+
+        $additionalData = [
+            'id_standardize_work' => $standardizeWork->kd_manhour ?? null,
+            'bom_code' => $databom->bom_code ?? null,
+            'id_so' => $databom->id_so ?? null,
+        ];
+
+        return view('planner.wo.edit-wo', compact('detailWo', 'dataBom', 'additionalData'));
+    }
+
+    public function getDataWO($id_fg)
+    {
+        $dataBom = Bom::where('id_fg', $id_fg)->first();
+        $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
+
+        $data = [
+            'id_boms' => $dataBom->id_bom ?? '',
+            'id_standardize_work' => $standardizedWork->kd_manhour ?? '',
+            'id_so' => $dataBom->id_so ?? '',
+        ];
+
+        return response()->json($data);
     }
 
     public function update(Request $request, $id_wo): RedirectResponse
-    {   
-        $detailWo = Wo::where('id_wo', $id_wo)->first();
+    {
         $this->validate($request, [
-            'id_boms' => 'required|string',
-            'id_wo' => 'required|string',
-            'id_standardize_work' => 'required|string',
-            'qty_trafo' => 'required|integer',
             'id_fg' => 'required|string',
+            'qty_trafo' => 'required|integer',
             'kva' => 'required|integer',
-            'id_so' => 'required|string',
             'start_date' => 'required|date',
-            'finish_date'=> 'required|date',
+            'finish_date' => 'required|date',
+            // 'id_boms' => 'required|string',
+            // 'id_standardize_work' => 'required|string',
+            // 'id_so' => 'required|string',
+
         ]);
 
-        $detailWo -> update([
-            'id_boms' => $request->id_boms,
-            'id_wo'=> $request->id_wo,
-            'id_standardize_work'=> $request->id_standardize_work,
-            'id_fg'=> $request->id_fg,
-            'qty_trafo'=> $request->qty_trafo,
+        $detailWo = Wo::where('id_wo', $id_wo)->first();
+
+        $id_fg = $request->id_fg;
+        // dd($id_fg);
+        $bom = Bom::where('id_fg', $id_fg)->first();
+        $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
+        // dd($bom, $standardizedWork);
+
+        // Fetch additional data based on the selected id_fg
+        $databom = Bom::where('id_fg', $id_fg)->first();
+        // dd($databom);
+
+        // Update the Wo data based on the selected id_fg
+        $detailWo->update([
+            'id_boms' => $bom->id_bom,
+            'id_standardize_work' => $standardizedWork->kd_manhour,
+            // 'id_boms' => $request->id_boms,
+            // 'id_standardize_work' => $request->id_standardize_work,
+            // 'id_so' => $request->id_so,
+            'id_fg' => $request->id_fg,
+            'qty_trafo' => $request->qty_trafo,
             'kva' => $request->kva,
-            'id_so'=> $request->id_so,
-            'start_date'=> $request->start_date,
-            'finish_date'=> $request->finish_date,
+            'id_so' => $bom->id_so,
+            'start_date' => $request->start_date,
+            'finish_date' => $request->finish_date,
         ]);
+        // dd($detailWo);
 
-        return redirect()->route('workorder-index');
+        // \Log::info('ID to Update:', $id_wo);
+
+
+        return redirect()->route('workorder-index')->with('success', 'Data berhasil diupdate');
     }
 
     public function destroy($id_wo) : RedirectResponse

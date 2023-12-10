@@ -14,27 +14,27 @@
           <div class="form-row">
             <input type="hidden" name="id_boms" value="{{ $id_bom }}">
             <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Work Center</label>
+                <label for="validationDefault01">Work Center<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="nama_workcenter" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Material Code</label>
+                <label for="validationDefault01">Material Code<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="id_materialbom" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Material Name</label>
+                <label for="validationDefault01">Material Name<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="nama_materialbom" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="validationDefault01">UOM</label>
+                <label for="validationDefault01">UOM<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="uom_material" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Composite</label>
+                <label for="validationDefault01">Composite<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="qty_trafo" required>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Quantity</label>
+                <label for="validationDefault01">Quantity<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="qty_material" required>
             </div>
           </div>

@@ -59,7 +59,7 @@
         </div>
         <br>
 
-        <h3>Material Belum Submit</h3>
+        <h3>Material Belum Booking</h3>
         <div class="table-responsive">
           <table id="unsubmittedDatatable" class="table data-table table-striped dataTable" role="grid" aria-describedby="datatable_info">
             <thead>
@@ -112,7 +112,7 @@
         @endif
         <br>
         <!-- Tabel Data yang Sudah di-Submit -->
-        <h3>Material Sudah Submit</h3>
+        <h3>Material Sudah Booking</h3>
         <div class="table-responsive">
           <table id="submittedDatatable" class="table data-table table-striped dataTable" role="grid" aria-describedby="datatable_info">
             <thead>

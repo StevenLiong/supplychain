@@ -13,6 +13,7 @@ class Mps extends Model
         'id_wo',
         'project',
         'production_line',
+        'kd_manhour',
         'kva',
         'jenis',
         'qty_trafo',

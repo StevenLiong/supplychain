@@ -582,11 +582,64 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.DRY.work-load', ['data' => $data]);
     }
 
-    function dryRekomendasi()
+    function dryRekomendasi(Request $request)
     {
         $title1 = 'Dry - Rekomendasi';
+        
+
+        $selectedWorkcenter_rekomendasi = $request->input('selectedWorkcenter_rekomendasi', 1);
+
+        switch ($selectedWorkcenter_rekomendasi) {
+            case 1:
+                $workcenterLabel = 'Coil Making HV ';
+                break;
+            case 2:
+                $workcenterLabel = 'Coil Making LV ';
+                break;
+            case 3:
+                $workcenterLabel = 'Mould & Casting ';
+                break;
+            case 4:
+                $workcenterLabel = 'Core Coil Assembly';
+                break;
+        }
+
+        // $periode = $request->session()->get('periode', 1);
+        // switch ($periode) {
+        //     case 1:
+        //         $deadlineDate = [
+        //             now()->startOfMonth(),
+        //             now()->endOfMonth(),
+        //         ];
+        //         break;
+
+        //     case 2:
+        //         $deadlineDate = [
+        //             now()->startOfWeek(),
+        //             now()->endOfWeek(),
+        //         ];
+        //         break;
+
+        //     case 3:
+        //         $deadlineDate = [
+        //             now()->startOfWeek()->addWeek(),
+        //             now()->endOfWeek()->addWeek(),
+        //         ];
+        //         break;
+
+        //     case 4:
+        //         $deadlineDate = [
+        //             now()->addMonth()->startOfMonth(),
+        //             now()->addMonth()->endOfMonth()
+        //         ];
+        //         break;
+        //     }
+        //     dd($deadlineDate);
         $data = [
             'title1' => $title1,
+            // 'deadlineDate' => $deadlineDate,
+            'workcenterLabel' => $workcenterLabel,
+
         ];
         return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
     }
@@ -672,8 +725,8 @@ class ResourceWorkPlanningController extends Controller
 
             case 4:
                 $deadlineDate = [
-                    now()->startOfWeek()->addWeeks(2),
-                    now()->endOfWeek()->addWeeks(2),
+                    now()->addMonth()->startOfMonth(),
+                    now()->addMonth()->endOfMonth(),
                     $totalJamKerja = 173,
                 ];
                 break;
@@ -684,11 +737,11 @@ class ResourceWorkPlanningController extends Controller
         $wc_MoulD_Casting =  'Mould & Casting';
         $wc_Core_Assembly =  'Core & Assembly';
 
-        
+
             $jumlahtotalHourCoil_Making_HV = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
                 ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_hv')
                 ->sum();
-                
+
             $jumlahtotalHourCoil_Making_LV = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
                 ->with(['wo.standardize_work.dry_cast_resin'])
                 ->get()
@@ -705,15 +758,15 @@ class ResourceWorkPlanningController extends Controller
                         ->get()
                         ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi')
                 )->sum();
-                
+
             $jumlahtotalHourMoulD_Casting = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
                 ->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')
                 ->sum();
-         
+
             $jumlahtotalHourCore_Assembly = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
                 ->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')
                 ->sum();
-         
+
 
 
         $kebutuhanMP = $jumlahtotalHour / ($totalJamKerja  * 0.93);

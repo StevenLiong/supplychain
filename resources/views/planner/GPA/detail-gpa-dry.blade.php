@@ -39,12 +39,6 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="validationDefault07">Dead Line</label>
-                        {{-- @php
-                            $mpsDryType = $dataMps->firstWhere('jenis', 'Dry Type');
-                        @endphp
-                        @if($mpsDryType)
-                            <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($mpsDryType->deadline)->format('d-F-Y') }}" required disabled>
-                        @endif --}}
                         <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataMps->deadline)->format('d-F-Y') }}"required disabled>
                     </div>
                 </div>    
@@ -59,12 +53,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center;" class="sorting_1">{{ $dataWorkcenter->where('id', 1)->first()->nama_workcenter }}</td>
-                                <td style="text-align: center">{{ \Carbon\Carbon::parse($dataMps->deadline)->subDays(8)->format('d-F-Y') }}</td>
-                            </tr>
+                            @foreach ($dataGpa as $detailGpa)
+                                <tr role="row" class="odd">
+                                    <td style="text-align: center;" class="sorting_1">{{ $detailGpa->nama_workcenter }}</td>
+                                    <td style="text-align: center">{{ \Carbon\Carbon::parse($detailGpa->deadline)->format('d-F-Y') }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
-
                     </table>
                 </div>
             </div>

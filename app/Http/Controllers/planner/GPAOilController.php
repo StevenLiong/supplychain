@@ -8,6 +8,7 @@ use App\Models\planner\Mps;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use App\Models\planner\GPAOil;
 use App\Models\planner\WorkcenterOilTrafo;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -22,9 +23,9 @@ class GPAOilController extends Controller
     public function gpaOilDetail(String $id_wo):View
     {
         $dataMps = Mps::where('id_wo', $id_wo)->first();
-        $dataWorkcenter = WorkcenterOilTrafo::all();
+        $dataGpa = GPAOil::where('id_wo', $id_wo)->get();
         // dd($dataWorkcenter);
-        return view('planner.gpa.detail-gpa-oil', compact('dataMps', 'dataWorkcenter'));
+        return view('planner.gpa.detail-gpa-oil', compact('dataMps', 'dataGpa'));
     }
 
     public function exportToExcel()

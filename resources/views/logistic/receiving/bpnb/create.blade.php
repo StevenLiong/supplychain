@@ -61,6 +61,48 @@
                         </form>
                         {{-- form end --}}
                     </div>
+
+                    {{-- output --}}
+                    {{-- {{-- @if (!is_null($detailbom)) --}}
+                    <div class="card mx-2 p-5">
+                        <div class="head-tabel">
+                            <div class="row">
+                                <h3 class="col-lg-6">List Permintaan bahan</h3>
+                            </div>
+                        </div>
+                        <div class="tabel table-sm" style="height: 300px">
+                            <table class="table border-bottom ">
+                                <thead class="border-top text-center">
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Kode </th>
+                                        <th>Nama Material</th>
+                                        <th>Satuan</th>
+                                        <th>Jumlah Diminta</th>
+                                        <th>Diserahkan</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1dcwd</td>
+                                        <td>1dcwdd</td>
+                                        <td>1dcwdd</td>
+                                        <td>1dcwdd</td>
+                                        <td>1dcwdd</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row justify-content-end">
+                                <a href="{{ url('services/transaksigudang/cutting/' ) }}"
+                                    target="_blank" class="btn btn-sm btn-red ">Print</a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    {{-- @endif --}} 
+                    {{-- output end --}}
                 </div>
             </div>
         </div>

@@ -21,7 +21,6 @@ class TransferController extends Controller
     public function create()
     {
         $wo = Wo::all();
-
         return view('logistic.services.transaksiproduksi.transfermaterialcreate', compact('wo'));
     }
 

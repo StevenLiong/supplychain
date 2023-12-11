@@ -359,7 +359,7 @@ class ResourceWorkPlanningController extends Controller
 
         //kirim ke view
         $data = [
-             'title1' => $title1,
+            'title1' => $title1,
             'drycastresin' => $drycastresin,
             'mps' => $mps,
             'PL' => $PL,
@@ -503,13 +503,13 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.PL2.rekomendasi', ['data' => $data]);
     }
 
-    function pl2Jumlah()
+    function pl2Kebutuhan()
     {
-        $title1 = 'PL 2 - Jumlah';
+        $title1 = 'PL 2 - Kebutuhan';
         $data = [
             'title1' => $title1,
         ];
-        return view('produksi.resource_work_planning.PL2.jumlah', ['data' => $data]);
+        return view('produksi.resource_work_planning.PL2.kebutuhan', ['data' => $data]);
     }
 
     function pl3Workload()
@@ -532,13 +532,13 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.PL3.rekomendasi', ['data' => $data]);
     }
 
-    function pl3Jumlah()
+    function pl3Kebutuhan()
     {
-        $title1 = 'PL 3 - RekomJumlah';
+        $title1 = 'PL 3 - Jumlah';
         $data = [
             'title1' => $title1,
         ];
-        return view('produksi.resource_work_planning.PL3.jumlah', ['data' => $data]);
+        return view('produksi.resource_work_planning.PL3.kebutuhan', ['data' => $data]);
     }
 
     function ctvtWorkload()
@@ -561,13 +561,13 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.CT-VT.rekomendasi', ['data' => $data]);
     }
 
-    function ctvtJumlah()
+    function ctvtKebutuhan()
     {
-        $title1 = 'CT VT - RekomJumlah';
+        $title1 = 'CT VT - Jumlah';
         $data = [
             'title1' => $title1,
         ];
-        return view('produksi.resource_work_planning.CT-VT.jumlah', ['data' => $data]);
+        return view('produksi.resource_work_planning.CT-VT.kebutuhan', ['data' => $data]);
     }
 
     function dryWorkload()
@@ -597,30 +597,17 @@ class ResourceWorkPlanningController extends Controller
     {
         $title1 = 'Dry - Kebutuhan';
         $PL = ProductionLine::all();
-        $mps = Mps2::where('production_line', 'DRY')
-            // ->with(['wo.standardize_work.dry_cast_resin'])
-            ->get();
-
+        $mps = Mps2::where('production_line', 'DRY')->get();
         $proses = Proses::all();
         $kapasitas = Kapasitas::all();
-        // $ukuran_kapasitas = $kapasitas->where('ukuran_kapasitas');
         $drycastresin = DryCastResin::all();
-        $filteredData = $mps->filter(function ($item) use ($kapasitas) {
-            return $item->kapasitas_id == $kapasitas->first()->id;
-        });
 
-        $jumlahkebutuhanMPDRY = $filteredData->pluck('wo.standardize_work.dry_cast_resin.totalHour_coil_making')->sum();
-
-
-        $PL = $mps->where('production_line', '=', 'DRY');
-        $qtyDry = $PL->where('jenis', '=', 'D')->sum('qty_trafo');
 
         $selectedWorkcenter = $request->input('selectedWorkcenter', 1);
         switch ($selectedWorkcenter) {
             case 1:
                 $selectedWorkcenterData = $proses->where('nama_proses', 'COIL MAKING')->first();
                 $hourworkcenter = Mps2::where('production_line', '=', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()->pluck('wo.standardize_work.dry_cast_resin.totalHour_coil_making')->sum();
-
                 break;
             case 2:
                 $selectedWorkcenterData = $proses->where('nama_proses', 'MOULD & CASTING')->first();
@@ -632,42 +619,53 @@ class ResourceWorkPlanningController extends Controller
                 break;
         }
 
-
         $periode = $request->session()->get('periode', 1);
         switch ($periode) {
             case 1:
                 $deadlineDate = [
                     now()->startOfMonth(),
-                    now()->endOfMonth()
+                    now()->endOfMonth(),
+                    $totalJamKerja = 173,
                 ];
-                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 173 * 0.93;
                 break;
+
             case 2:
-                $deadlineDate =[
+                $deadlineDate = [
                     now()->startOfWeek(),
-                    now()->endOfWeek()
+                    now()->endOfWeek(),
+                    $totalJamKerja = 40,
                 ];
-                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 120 * 0.93;
                 break;
+
             case 3:
-                $deadlineDate =[
+                $deadlineDate = [
                     now()->startOfWeek()->addWeek(),
-                    now()->endOfWeek()->addWeek()
+                    now()->endOfWeek()->addWeek(),
+                    $totalJamKerja = 40,
                 ];
-                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 80 * 0.93;
                 break;
+
             case 4:
-                $deadlineDate =[
-                    now()->startOfMonth()->addMonth(),
-                    now()->endOfMonth()->addMonth()
+                $deadlineDate = [
+                    now()->startOfWeek()->addWeeks(2),
+                    now()->endOfWeek()->addWeeks(2),
+                    $totalJamKerja = 173,
                 ];
-                $jumlahkebutuhanMPDRY = ($hourworkcenter * $qtyDry) / 40 * 0.93;
                 break;
         }
 
+        $qtytrafo = $mps->where('production_line', '=', 'DRY')
+            ->where('kva', $kapasitas->first()->ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
+            ->sum('qty_trafo');
+
+        dd($qtytrafo);
+
+        $kebutuhanMP = ($hourworkcenter * $qtytrafo) / ($totalJamKerja * 0.93);
 
         $data = [
-            'jumlahkebutuhanMPDRY' => $jumlahkebutuhanMPDRY,
+            // 'jumlahkebutuhanMPDRY' => $jumlahkebutuhanMPDRY,
+            'kebutuhanMP' => $kebutuhanMP,
             'title1' => $title1,
             'mps' => $mps,
             'kapasitas' => $kapasitas,
@@ -677,7 +675,7 @@ class ResourceWorkPlanningController extends Controller
             'drycastresin' => $drycastresin,
 
         ];
-        return view('produksi.resource_work_planning.DRY.jumlah', ['data' => $data]);
+        return view('produksi.resource_work_planning.DRY.kebutuhan', ['data' => $data]);
     }
 
     function repairWorkload()
@@ -703,13 +701,13 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.REPAIR.rekomendasi', ['data' => $data]);
     }
 
-    function repairJumlah()
+    function repairKebutuhan()
     {
-        $title1 = 'Repair - Jumlah';
+        $title1 = 'Repair - Kebutuhan';
         $data = [
             'title1' => $title1,
         ];
-        return view('produksi.resource_work_planning.REPAIR.jumlah', ['data' => $data]);
+        return view('produksi.resource_work_planning.REPAIR.kebutuhan', ['data' => $data]);
     }
 
     function kalkulasiSDM()

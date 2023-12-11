@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                    <h4 class="card-title">Kebutuhan Man Power dan Mesin</h4>
+                    <h4 class="card-title">Kebutuhan Man Power</h4>
                 </div>
             </div>
             <div class="card-body">
@@ -20,7 +20,6 @@
                             <option value="3">Mould & Casting</option>
                             <option value="4">Core & Assembly</option>
                         </select>
-
                     </form>
                     <div class="ml-auto mr-3" style="align-items: d-flex right;">
                         <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i
@@ -33,79 +32,59 @@
                             aria-describedby="datatable_info">
                             <thead class="text-center">
                                 <tr>
-                                    <th rowspan="2" style="width: 150px; vertical-align: middle;">Kapasitas</th>
-                                    <th>Kebutuhan Man Power</th>
-                                    <th>Kebutuhan Mesin</th>
+                                    <th>Work Center</th>
+                                    <th>Kebutuhan Man Power</th> 
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <th>{{ $data['workcenterLabel'] }}</th>
                                     <th>{{ $data['workcenterLabel'] }}</th>
-                                </tr>
+                                </tr> --}}
                             </thead>
                             <tbody class="text-center">
-                                @php
-                                    if (is_object($data['kebutuhanMP']) || is_array($data['kebutuhanMP'])) {
-                                        $data['kebutuhanMP'] = (array) $data['kebutuhanMP'];
-                                    } else {
-                                        // Handle jika $data['kebutuhanMP'] bukan objek atau array
-                                        // Misalnya, jika Anda ingin membuatnya menjadi array dengan satu elemen
-                                        $data['kebutuhanMP'] = [$data['kebutuhanMP']];
-                                    }
-                                @endphp
-                                @foreach ($data['kapasitas'] as $kap)
-                                @foreach ($data['kebutuhanMP'] as $keb)
-                                    <tr>
-                                        <th class="text-center">
-                                            {{-- @php
-                                                $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
-                                            @endphp --}}
-                                            @if ($kap->ukuran_kapasitas && $keb != 0)
-                                                {{ $kap->ukuran_kapasitas }}
-                                            @endif
-                                        </th>
-                                        <td>
-                                            {{$keb}}
-                                        </td>
-                                        <td>
-                                            3
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                @endforeach
-                                {{-- <tr> --}}
-
-                                {{-- @foreach ($data['kapasitas'] as $kap)
-                                        @php
-                                            $qtyTrafo = $data['mps']
-                                                ->where('kva', $kap->ukuran_kapasitas)
-                                                ->sum('qty_trafo');
-                                        @endphp
-                                        @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                            <th claF="text-center">
-                                                {{ $kap->ukuran_kapasitas }}
-                                            </th>
-                                        @endif
-                                    @endforeach --}}
-
-
-                                {{-- <td> --}}
-                                {{-- YAY --}}
-                                {{-- {{ $data['kebutuhanMP'] }} --}}
-                                {{-- </td>
-                                    <th>/ini buat Mesin</th>
-                                </tr> --}}
+                                <tr>
+                                    <td>
+                                        {{$data['wc_Coil_Making_HV']}}
+                                    </td>
+                                    <td>
+                                        2
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{$data['wc_Coil_Making_LV']}}
+                                    </td>
+                                    <td>
+                                        2
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{$data['wc_MoulD_Casting']}}
+                                    </td>
+                                    <td>
+                                        2
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{$data['wc_Core_Assembly']}}
+                                    </td>
+                                    <td>
+                                        {{$data['jumlahtotalHourCore_Assembly']}}
+                                    </td>
+                                </tr>
+                                 
                             </tbody>
                             <tfoot class="text-center">
                                 <tr>
                                     <th>Total</th>
                                     <th>20</th>
-                                    <th>15</th>
+                                     
 
                                 </tr>
                                 <tr>
                                     <th>Catatan</th>
-                                    <th>-3</th>
-                                    <th>1</th>
+                                    <th>-3</th> 
 
                                 </tr>
                             </tfoot>

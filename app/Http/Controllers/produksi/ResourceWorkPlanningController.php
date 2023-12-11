@@ -679,11 +679,53 @@ class ResourceWorkPlanningController extends Controller
                 break;
         }
 
+        $wc_Coil_Making_HV =  'Coil Making HV';
+        $wc_Coil_Making_LV =  'Coil Making LV';
+        $wc_MoulD_Casting =  'Mould & Casting';
+        $wc_Core_Assembly =  'Core & Assembly';
+
+        
+            $jumlahtotalHourCoil_Making_HV = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
+                ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_hv')
+                ->sum();
+                
+            $jumlahtotalHourCoil_Making_LV = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+                ->with(['wo.standardize_work.dry_cast_resin'])
+                ->get()
+                ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_lv')
+                ->merge(
+                    Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+                        ->with(['wo.standardize_work.dry_cast_resin'])
+                        ->get()
+                        ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_leadwire')
+                )
+                ->merge(
+                    Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+                        ->with(['wo.standardize_work.dry_cast_resin'])
+                        ->get()
+                        ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi')
+                )->sum();
+                
+            $jumlahtotalHourMoulD_Casting = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
+                ->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')
+                ->sum();
+         
+            $jumlahtotalHourCore_Assembly = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
+                ->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')
+                ->sum();
+         
+
+
         $kebutuhanMP = $jumlahtotalHour / ($totalJamKerja  * 0.93);
         // dd( $kebutuhanMP);
 
         $data = [
             // 'testing' => $testing,
+            'jumlahtotalHourCore_Assembly'=> $jumlahtotalHourCore_Assembly,
+            'wc_Coil_Making_HV' => $wc_Coil_Making_HV,
+            'wc_Coil_Making_LV' => $wc_Coil_Making_LV,
+            'wc_MoulD_Casting' => $wc_MoulD_Casting,
+            'wc_Core_Assembly' => $wc_Core_Assembly,
             'jumlahtotalHour' => $jumlahtotalHour,
             'kebutuhanMP' => $kebutuhanMP,
             'workcenterLabel' => $workcenterLabel,

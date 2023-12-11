@@ -599,52 +599,51 @@ class ResourceWorkPlanningController extends Controller
         $mps = Mps2::where('production_line', 'DRY')->get();
         $drycastresin = DryCastResin::all();
 
+        $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
+        // $testing = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->get();
+
+        // dd($testing);
+
         $selectedWorkcenter = $request->input('selectedWorkcenter', 1);
         switch ($selectedWorkcenter) {
             case 1:
                 $workcenterLabel = 'Coil Making HV';
-                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
                     ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_hv')
                     ->sum();
                 break;
             case 2:
                 $workcenterLabel = 'Coil Making LV';
-                $jumlahtotalHour = Mps2::where('production_line', 'DRY')
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
                     ->with(['wo.standardize_work.dry_cast_resin'])
                     ->get()
                     ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_lv')
                     ->merge(
-                        Mps2::where('production_line', 'DRY')
+                        Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
                             ->with(['wo.standardize_work.dry_cast_resin'])
                             ->get()
                             ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_leadwire')
                     )
                     ->merge(
-                        Mps2::where('production_line', 'DRY')
+                        Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
                             ->with(['wo.standardize_work.dry_cast_resin'])
                             ->get()
                             ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi')
                     )
                     ->sum();
-                // dd($jumlahtotalHour);
-                break;
             case 3:
-                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
                     ->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')
                     ->sum();
                 $workcenterLabel = 'Coil Making Mould & Casting';
                 break;
             case 4:
-                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
                     ->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')
                     ->sum();
                 $workcenterLabel = 'Core Coil Assembly';
                 break;
         }
-
-        // dd($jumlahtotalHour);
-
-
         $periode = $request->session()->get('periode', 1);
         switch ($periode) {
             case 1:
@@ -679,9 +678,12 @@ class ResourceWorkPlanningController extends Controller
                 ];
                 break;
         }
+
         $kebutuhanMP = $jumlahtotalHour / ($totalJamKerja  * 0.93);
+        // dd( $kebutuhanMP);
 
         $data = [
+            // 'testing' => $testing,
             'jumlahtotalHour' => $jumlahtotalHour,
             'kebutuhanMP' => $kebutuhanMP,
             'workcenterLabel' => $workcenterLabel,
@@ -689,7 +691,6 @@ class ResourceWorkPlanningController extends Controller
             'mps' => $mps,
             'kapasitas' => $kapasitas,
             'PL' => $PL,
-            // 'selectedWorkcenterData' => $selectedWorkcenterData,
             'deadlineDate' => $deadlineDate,
             'drycastresin' => $drycastresin,
 

@@ -43,30 +43,57 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
+                                @php
+                                    if (is_object($data['kebutuhanMP']) || is_array($data['kebutuhanMP'])) {
+                                        $data['kebutuhanMP'] = (array) $data['kebutuhanMP'];
+                                    } else {
+                                        // Handle jika $data['kebutuhanMP'] bukan objek atau array
+                                        // Misalnya, jika Anda ingin membuatnya menjadi array dengan satu elemen
+                                        $data['kebutuhanMP'] = [$data['kebutuhanMP']];
+                                    }
+                                @endphp
+                                @foreach ($data['kapasitas'] as $kap)
+                                @foreach ($data['kebutuhanMP'] as $keb)
+                                    <tr>
+                                        <th class="text-center">
+                                            {{-- @php
+                                                $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                            @endphp --}}
+                                            @if ($kap->ukuran_kapasitas && $keb != 0)
+                                                {{ $kap->ukuran_kapasitas }}
+                                            @endif
+                                        </th>
+                                        <td>
+                                            {{$keb}}
+                                        </td>
+                                        <td>
+                                            3
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                @endforeach
+                                {{-- <tr> --}}
 
-                                <tr>
-                                    @foreach ($data['kapasitas'] as $kap)
+                                {{-- @foreach ($data['kapasitas'] as $kap)
                                         @php
                                             $qtyTrafo = $data['mps']
                                                 ->where('kva', $kap->ukuran_kapasitas)
                                                 ->sum('qty_trafo');
                                         @endphp
                                         @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
-                                            <th class="text-center">
+                                            <th claF="text-center">
                                                 {{ $kap->ukuran_kapasitas }}
                                             </th>
                                         @endif
-                                    @endforeach
+                                    @endforeach --}}
 
-                                    <th>
 
-                                        {{ $data['kebutuhanMP'] }}
-                                    </th>
+                                {{-- <td> --}}
+                                {{-- YAY --}}
+                                {{-- {{ $data['kebutuhanMP'] }} --}}
+                                {{-- </td>
                                     <th>/ini buat Mesin</th>
-                                </tr>
-
-
-
+                                </tr> --}}
                             </tbody>
                             <tfoot class="text-center">
                                 <tr>

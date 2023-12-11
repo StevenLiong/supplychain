@@ -10,14 +10,15 @@
             <div class="card-body">
 
                 <div class="row mb-4 align-items-center">
-                    
+
                     <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
                         @csrf
                         <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
                                 class="ri-arrow-down-s-line ml-2 mr-0"></i>
-                            <option value="1">Coil Making</option>
-                            <option value="2">Mould & Casting</option>
-                            <option value="3">Core & Assembly</option>
+                            <option value="1">Coil Making HV</option>
+                            <option value="2">Coil Making LV</option>
+                            <option value="3">Mould & Casting</option>
+                            <option value="4">Core & Assembly</option>
                         </select>
 
                     </form>
@@ -37,33 +38,33 @@
                                     <th>Kebutuhan Mesin</th>
                                 </tr>
                                 <tr>
-                                    <th>{{ $data['selectedWorkcenterData']->nama_proses }}</th>
-                                    <th>{{ $data['selectedWorkcenterData']->nama_proses }}</th>
+                                    <th>{{ $data['workcenterLabel'] }}</th>
+                                    <th>{{ $data['workcenterLabel'] }}</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                @foreach ($data['kapasitas'] as $kap)
-                                    <tr>
-                                        <th>
-                                            @if ($kap->ukuran_kapasitas)
+
+                                <tr>
+                                    @foreach ($data['kapasitas'] as $kap)
+                                        @php
+                                            $qtyTrafo = $data['mps']
+                                                ->where('kva', $kap->ukuran_kapasitas)
+                                                ->sum('qty_trafo');
+                                        @endphp
+                                        @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
+                                            <th class="text-center">
                                                 {{ $kap->ukuran_kapasitas }}
-                                            @endif
-                                        </th>
-                                        <th>
-                                            @foreach ($data['kapasitas'] as $kap)
-                                                @php
-                                                    $kebutuhanMPDRY = $data['mps']
-                                                        ->where($data['selectedWorkcenterData']->nama_proses , $data['selectedWorkcenterData']->nama_proses )
-                                                        ->where('kva', $kap->ukuran_kapasitas)
-                                                        ->whereBetween('deadline', $data['deadlineDate'])
-                                                        ->sum('qty_trafo');
-                                                @endphp
-                                            @endforeach
-                                            {{ $kebutuhanMPDRY }}
-                                        </th>
-                                        <th>/ini buat Mesin</th>
-                                    </tr>
-                                @endforeach
+                                            </th>
+                                        @endif
+                                    @endforeach
+
+                                    <th>
+
+                                        {{ $data['kebutuhanMP'] }}
+                                    </th>
+                                    <th>/ini buat Mesin</th>
+                                </tr>
+
 
 
                             </tbody>

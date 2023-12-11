@@ -73,7 +73,7 @@ class ResourceWorkPlanningController extends Controller
         $qtyCTVT =  $filteredMpsCTVT->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         $qtyREPAIR =  $filteredMpsREPAIR->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
-// dd($qtyPL2);
+        // dd($qtyPL2);
 
         $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL2;
         $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL3;
@@ -445,9 +445,7 @@ class ResourceWorkPlanningController extends Controller
         $title1 = ' Work Load';
         $mps = Mps2::all();
         $kapasitas = Kapasitas::all();
-
         $periode = $request->session()->get('periode', 1);
-
         switch ($periode) {
             case 1:
                 $periodeLabel = 'Bulan Sekarang';
@@ -597,27 +595,55 @@ class ResourceWorkPlanningController extends Controller
     {
         $title1 = 'Dry - Kebutuhan';
         $PL = ProductionLine::all();
-        $mps = Mps2::where('production_line', 'DRY')->get();
-        $proses = Proses::all();
         $kapasitas = Kapasitas::all();
+        $mps = Mps2::where('production_line', 'DRY')->get();
         $drycastresin = DryCastResin::all();
-
 
         $selectedWorkcenter = $request->input('selectedWorkcenter', 1);
         switch ($selectedWorkcenter) {
             case 1:
-                $selectedWorkcenterData = $proses->where('nama_proses', 'COIL MAKING')->first();
-                $hourworkcenter = Mps2::where('production_line', '=', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()->pluck('wo.standardize_work.dry_cast_resin.totalHour_coil_making')->sum();
+                $workcenterLabel = 'Coil Making HV';
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()
+                    ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_hv')
+                    ->sum();
                 break;
             case 2:
-                $selectedWorkcenterData = $proses->where('nama_proses', 'MOULD & CASTING')->first();
-                $hourworkcenter = Mps2::where('production_line', '=', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')->sum();
+                $workcenterLabel = 'Coil Making LV';
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')
+                    ->with(['wo.standardize_work.dry_cast_resin'])
+                    ->get()
+                    ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_lv')
+                    ->merge(
+                        Mps2::where('production_line', 'DRY')
+                            ->with(['wo.standardize_work.dry_cast_resin'])
+                            ->get()
+                            ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_leadwire')
+                    )
+                    ->merge(
+                        Mps2::where('production_line', 'DRY')
+                            ->with(['wo.standardize_work.dry_cast_resin'])
+                            ->get()
+                            ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi')
+                    )
+                    ->sum();
+                // dd($jumlahtotalHour);
                 break;
             case 3:
-                $selectedWorkcenterData = $proses->where('nama_proses', 'CORE COIL ASSEMBLY')->first();
-                $hourworkcenter = Mps2::where('production_line', '=', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')->sum();
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()
+                    ->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')
+                    ->sum();
+                $workcenterLabel = 'Coil Making Mould & Casting';
+                break;
+            case 4:
+                $jumlahtotalHour = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work.dry_cast_resin'])->get()
+                    ->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')
+                    ->sum();
+                $workcenterLabel = 'Core Coil Assembly';
                 break;
         }
+
+        // dd($jumlahtotalHour);
+
 
         $periode = $request->session()->get('periode', 1);
         switch ($periode) {
@@ -653,24 +679,17 @@ class ResourceWorkPlanningController extends Controller
                 ];
                 break;
         }
-
-        $qtytrafo = $mps->where('production_line', '=', 'DRY')
-            ->where('kva', $kapasitas->first()->ukuran_kapasitas)
-            ->whereBetween('deadline', $deadlineDate)
-            ->sum('qty_trafo');
-
-        dd($qtytrafo);
-
-        $kebutuhanMP = ($hourworkcenter * $qtytrafo) / ($totalJamKerja * 0.93);
+        $kebutuhanMP = $jumlahtotalHour / ($totalJamKerja  * 0.93);
 
         $data = [
-            // 'jumlahkebutuhanMPDRY' => $jumlahkebutuhanMPDRY,
+            'jumlahtotalHour' => $jumlahtotalHour,
             'kebutuhanMP' => $kebutuhanMP,
+            'workcenterLabel' => $workcenterLabel,
             'title1' => $title1,
             'mps' => $mps,
             'kapasitas' => $kapasitas,
             'PL' => $PL,
-            'selectedWorkcenterData' => $selectedWorkcenterData,
+            // 'selectedWorkcenterData' => $selectedWorkcenterData,
             'deadlineDate' => $deadlineDate,
             'drycastresin' => $drycastresin,
 

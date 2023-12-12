@@ -2,12 +2,25 @@
 @section('content')
 @section('work-order', 'active')
 @section('main', 'show')
+
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"> -->
+
+
 <div class="card">
     <div class="card-header d-flex justify-content-between">
         <div class="header-title">
             <h4 class="card-title">Create Work Order</h4>
         </div>
     </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="card-body">
         <form action="{{ route('wo.store') }}" method="post">
             @csrf
@@ -19,28 +32,43 @@
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">BOM Code</label>
                     <input type="text" class="form-control" name="id_boms" required disabled>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="id_fg">Kode Finish Good</label>
-                        <select class="form-control @error('id_fg') is-invalid @enderror" id="id_fg" name="id_fg">
-                            <option selected="" disabled="">Select Kode Finish Good:</option>
-                            @foreach ($dataBom as $bom)
-                                <option value="{{ $bom->id_fg }}">{{ $bom->id_fg }}</option>
-                            @endforeach
-                        </select>
-                        @error('id_fg')
+                    @error('id_boms')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
-                        @enderror
+                    @enderror
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="id_fg">Kode Finish Good</label>
+                    <select class="form-control @error('id_fg') is-invalid @enderror" id="id_fg" name="id_fg">
+                        <option selected="" disabled="">Select Kode Finish Good:</option>
+                        @foreach ($dataBom as $bom)
+                            <option value="{{ $bom->id_fg }}">{{ $bom->id_fg }}</option>
+                        @endforeach
+                    </select>
+                    @error('id_fg')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Sales Order</label>
                     <input type="text" class="form-control" name="id_so" required disabled>
+                    @error('id_so')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Standardize Work Code</label>
                     <input type="text" class="form-control" name="id_standardize_work" required disabled>
+                    @error('id_standardize_work')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Start Date</label>

@@ -33,49 +33,64 @@
                             <thead class="text-center">
                                 <tr>
                                     <th>Work Center</th>
-                                    <th>Kebutuhan Man Power</th> 
+                                    <th>Total MH</th>
+                                    <th>Total Kebutuhan MP</th>
+                                    <th>Selisih Kekurangan MP</th>
+                                    <th>Ketersediaan MP</th>
                                 </tr>
-                                {{-- <tr>
-                                    <th>{{ $data['workcenterLabel'] }}</th>
-                                    <th>{{ $data['workcenterLabel'] }}</th>
-                                </tr> --}}
                             </thead>
                             <tbody class="text-center">
                                 <tr>
                                     <td>
-                                        {{$data['wc_Coil_Making_HV']}}
+                                        {{ $data['wc_Coil_Making_LV'] }}
                                     </td>
                                     <td>
-                                        2
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        {{$data['wc_Coil_Making_LV']}}
+                                        {{$data['jumlahtotalHourCoil_Making_LV']}}
                                     </td>
                                     <td>
-                                        2
+                                        {{ $data['kebutuhanMPCoil_Making_LV'] }}
+                                    </td>
+                                    <td> 
+                                        {{ $data['selisihMPCoil_Making_LV'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        {{$data['wc_MoulD_Casting']}}
+                                        {{ $data['wc_Coil_Making_HV'] }}
                                     </td>
                                     <td>
-                                        2
+                                        {{$data['jumlahtotalHourCoil_Making_HV']}}
+                                    </td>
+                                    <td>
+                                        {{ $data['kebutuhanMPCoil_Making_HV'] }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        {{ $data['wc_Mould_Casting'] }}
+                                    </td>
+                                    <td>
+                                        {{$data['jumlahtotalHourMould_Casting']}}
+                                    </td>
+                                    <td>
+                                        {{ $data['kebutuhanMPMould_Casting'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        {{$data['wc_Core_Assembly']}}
+                                        {{ $data['wc_Core_Assembly'] }}
                                     </td>
                                     <td>
                                         {{$data['jumlahtotalHourCore_Assembly']}}
                                     </td>
+                                    <td>
+                                        {{ $data['kebutuhanMPCore_Assembly'] }}
+                                    </td>
                                 </tr>
-                                 
+
                             </tbody>
-                            <tfoot class="text-center">
+                            {{-- <tfoot class="text-center">
                                 <tr>
                                     <th>Total</th>
                                     <th>20</th>
@@ -87,7 +102,7 @@
                                     <th>-3</th> 
 
                                 </tr>
-                            </tfoot>
+                            </tfoot> --}}
                         </table>
                     </div>
                 </div>

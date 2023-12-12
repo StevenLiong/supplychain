@@ -120,8 +120,17 @@
     <script src="{{ asset('/') }}assets/dist/js/bootstrap.js"></script>
 
     {{-- sweet alert --}}
-    <script src="{{ asset('/') }}assets/plugins/sweetalert2/sweetalert2.all.js"></script>
-    <script src="{{ asset('vendor/sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Tampilkan SweetAlert jika ada notifikasi session 'success'
+        @if (session()->has('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: '{{ session('success') }}',
+            });
+        @endif
+    </script>
 
     {{-- js scan --}}
 

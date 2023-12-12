@@ -6,13 +6,14 @@ use App\Models\planner\Mps;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use App\Models\planner\GPADry;
 use App\Models\planner\WorkcenterDryType;
 
 class WorkcenterDryTypeController extends Controller
 {
     public function index()
     {
-        $dataWorkcenter = WorkcenterDryType::all();
+        $dataWorkcenter = WorkcenterDryType::select('nama_workcenter')->get();
         return view('planner.WC.indexworkcenterdrytype', compact('dataWorkcenter'));
     }
 
@@ -20,21 +21,17 @@ class WorkcenterDryTypeController extends Controller
     {
         // Ambil data WorkcenterDryType berdasarkan nama_workcenter yang diberikan
         $dataWorkcenter = WorkcenterDryType::where('nama_workcenter', $nama_workcenter)->first();
+        $dataGpa = GPADry::where('nama_workcenter', $nama_workcenter)->get();
 
-        // Jika data WorkcenterDryType tidak ditemukan, bisa ditangani di sini
+        // // Jika nama_workcenter adalah 'Bill of Material', kurangi 8 hari dari deadline
+        // if ($nama_workcenter === 'Bill of Material') {
+        //     foreach ($dataGpa as $item) {
+        //         $item->deadline = date('Y-m-d', strtotime($item->deadline . ' -8 days'));
+        //     }
+        // }
+        // dd($dataWorkcenter);
 
-        // Ambil data MPS berdasarkan kondisi yang diinginkan dan relasi dengan WorkcenterDryType
-        $dataMps = $dataWorkcenter->mps()
-            ->where('jenis', 'Dry Type')
-            ->where('kva', 1600)
-            ->get();
-
-        // Modifikasi deadline jika memenuhi kriteria
-        foreach ($dataMps as $mps) {
-            $mps->deadline = \Carbon\Carbon::parse($mps->deadline)->subDays(8);
-        }
-
-        return view('planner.WC.detailworkcenterdrytype', compact('dataWorkcenter', 'dataMps'));
+        return view('planner.WC.detailworkcenterdrytype', compact('dataWorkcenter','dataGpa'));
     }
 
 

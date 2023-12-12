@@ -14,15 +14,11 @@
             {{-- headline end --}}
 
             {{-- notif session --}}
-            <div class="row px-2">
-                <div class="col-lg-6 col-sm-12">
-                    @if (session()->has('success'))
-                        <div class="alert alert-success rounded-0 ">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                </div>
-            </div>
+            @if (session()->has('success'))
+                <script>
+                    showSweetAlert('success', '{{ session('success') }}');
+                </script>
+            @endif
             {{-- notif session end --}}
 
             <div class="card rounded-0 m-2 ">

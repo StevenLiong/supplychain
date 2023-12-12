@@ -14,15 +14,11 @@
             {{-- headline end --}}
 
             {{-- notif session --}}
-            <div class="row px-2">
-                <div class="col-lg-12">
-                    @if (session()->has('success'))
-                        <div class="alert alert-success rounded-0 ">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                </div>
-            </div>
+            @if (session()->has('success'))
+                <script>
+                    showSweetAlert('success', '{{ session('success') }}');
+                </script>
+            @endif
             {{-- notif session end --}}
 
             {{-- card tabel --}}
@@ -34,7 +30,7 @@
                             <button type="button" class="btn btn-xs btn-gray"
                                 onclick=window.location="{{ url('receiving/incoming/create') }}">Create data</button>
                         </div>
-                        {{-- btn create end--}}
+                        {{-- btn create end --}}
 
                         {{-- search --}}
                         <div class="">
@@ -92,7 +88,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <div class="btn-group">
-                                                    
+
                                                     {{-- lihat --}}
                                                     <button type="button" class="btn btn-xs btn-primary rounded-0"
                                                         onclick="window.location='{{ url('receiving/incoming/' . $item->id) }}'">

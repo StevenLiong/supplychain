@@ -79,9 +79,17 @@
                             </div>
                         </div>
                         <div class="m-3">
+                            <button type="button" class="btn btn-sm btn-red text-black"
+                                onclick="window.location='{{ url('/services/transaksigudang/order') }}'"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="10" height="15" viewBox="0 0 12 22"
+                                    fill="none">
+                                    <path d="M11 1L1 11L11 21" stroke="#252525" stroke-opacity="0.8" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg> Kembali </button>
                             <button class="btn btn-sm btn-red" type="submit" id="submit">Submit</button>
                         </div>
                 </form>
+
                 {{-- form end --}}
             </div>
         </div>
@@ -129,8 +137,7 @@
                         </tbody>
                     </table>
                     <div class="row justify-content-end">
-                        <a href="{{ url('services/transaksigudang/order/' . $item->nama_workcenter) }}"
-                            target="_blank"
+                        <a href="{{ url('services/transaksigudang/order/' . $item->nama_workcenter) }}" target="_blank"
                             class="btn btn-sm btn-red ">Print</a>
 
                     </div>

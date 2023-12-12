@@ -59,7 +59,14 @@
                             </div>
                     </div>
                     <div class="m-3">
-                        <button class="btn btn-red" type="submit" name="submit" id="submit">Submit</button>
+                        <button type="button" class="btn btn-sm btn-red text-black"
+                            onclick="window.location='{{ url('/services/transaksigudang/cutting') }}'"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="10" height="15" viewBox="0 0 12 22"
+                                fill="none">
+                                <path d="M11 1L1 11L11 21" stroke="#252525" stroke-opacity="0.8" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg> Kembali </button>
+                        <button class="btn btn-sm btn-red" type="submit" name="submit" id="submit">Submit</button>
                     </div>
                     </form>
 
@@ -69,26 +76,26 @@
 
             {{-- output --}}
             @if (!is_null($detailbom))
-            <div class="card mx-2 p-5">
-                <div class="head-tabel">
-                    <div class="row">
-                        <h3 class="col-lg-6">List Permintaan bahan</h3>
+                <div class="card mx-2 p-5">
+                    <div class="head-tabel">
+                        <div class="row">
+                            <h3 class="col-lg-6">List Permintaan bahan</h3>
+                        </div>
                     </div>
-                </div>
-                <div class="tabel table-sm" style="height: 300px">
-                    <table class="table border-bottom ">
-                        <thead class="border-top text-center">
-                            <tr>
-                                <th>No.</th>
-                                <th>Kode </th>
-                                <th>Nama Material</th>
-                                <th>Satuan</th>
-                                <th>Jumlah Diminta</th>
-                                <th>Diserahkan</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            @foreach ($detailbom as $item)
+                    <div class="tabel table-sm" style="height: 300px">
+                        <table class="table border-bottom ">
+                            <thead class="border-top text-center">
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Kode </th>
+                                    <th>Nama Material</th>
+                                    <th>Satuan</th>
+                                    <th>Jumlah Diminta</th>
+                                    <th>Diserahkan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                @foreach ($detailbom as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->id_materialbom }}</td>
@@ -98,7 +105,7 @@
                                         <td></td>
                                     </tr>
                                 @endforeach
-                            {{-- <tr>
+                                {{-- <tr>
                                 <td>1</td>
                                 <td>1dcwd</td>
                                 <td>1dcwdd</td>
@@ -106,16 +113,16 @@
                                 <td>1dcwdd</td>
                                 <td>1dcwdd</td>
                             </tr> --}}
-                        </tbody>
-                    </table>
-                    <div class="row justify-content-end">
-                        <a href="{{ url('services/transaksigudang/cutting/'. $item->nama_workcenter) }}" target="_blank"
-                            class="btn btn-sm btn-red ">Print</a>
+                            </tbody>
+                        </table>
+                        <div class="row justify-content-end">
+                            <a href="{{ url('services/transaksigudang/cutting/' . $item->nama_workcenter) }}"
+                                target="_blank" class="btn btn-sm btn-red ">Print</a>
 
+                        </div>
                     </div>
-                </div>
 
-            </div>
+                </div>
             @endif
             {{-- output end --}}
         </div>

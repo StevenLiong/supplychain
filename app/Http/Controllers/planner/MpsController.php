@@ -7,9 +7,15 @@ use App\Exports\PdfExport;
 use App\Models\planner\Wo;
 use App\Models\planner\Mps;
 use Illuminate\Http\Request;
+use App\Models\planner\GPADry;
+use App\Models\planner\GPAOil;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\produksi\DryCastResin;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use App\Models\planner\WorkcenterDryType;
+use App\Models\planner\WorkcenterOilTrafo;
+use Database\Seeders\WorkcenterOilTrafoSeeder;
 
 class MpsController extends Controller
 {
@@ -25,9 +31,10 @@ class MpsController extends Controller
         return view('planner.MPS.upload-mps', ['dataWo' => $dataWo]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        // $dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
+        //$dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
+        // $dataWo = Wo::all();
         // session(['idWo' => $id_wo]);
         // $dryCastResin = DryCastResin::where('id_wo', $request->get('id_wo'))->first();
     
@@ -739,7 +746,7 @@ class MpsController extends Controller
     }
 
     
-        // return redirect()->route('mps-index'); // Jika jenis bukan 'Dry Type', redirect ke halaman mps-index biasa
+         // return redirect()->route('mps-index'); // Jika jenis bukan 'Dry Type', redirect ke halaman mps-index biasa
     }
 
     public function getTotalHour($id)

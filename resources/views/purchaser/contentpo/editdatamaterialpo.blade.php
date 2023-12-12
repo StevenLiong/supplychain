@@ -1,7 +1,7 @@
 @extends('purchaser.layout.layoutpo.wraplayoutpo')
 
 @section('title', 'purchaseorder')
-@section('contentpo')
+@section('contentpo') 
 
 
 <div>

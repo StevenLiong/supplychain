@@ -16,6 +16,7 @@ return new class extends Migration
             // $table->foreignId('id_wo')->constrained('wo2s');;;
             $table->string('id_wo')->references('id_wo')->on('wos');
             $table->string('project');
+            $table->string('kd_manhour');
             $table->string('production_line');
             $table->string('kva');
             $table->string('jenis');

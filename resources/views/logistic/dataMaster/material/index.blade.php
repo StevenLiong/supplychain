@@ -14,7 +14,7 @@
             {{-- headline end --}}
 
             {{-- notif session --}}
-            <div class="row px-2">
+            {{-- <div class="row px-2">
                 <div class="col-lg-12">
                     @if (session()->has('success'))
                         <div class="alert alert-success rounded-0 ">
@@ -22,7 +22,12 @@
                         </div>
                     @endif
                 </div>
-            </div>
+            </div> --}}
+            @if (session()->has('success'))
+                <script>
+                    showSweetAlert('success', '{{ session('success') }}');
+                </script>
+            @endif
 
             {{-- notif session end --}}
 

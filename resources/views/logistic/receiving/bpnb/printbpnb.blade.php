@@ -34,10 +34,10 @@
                                 <div class="">
                                     <table>
                                         <tr>
-                                            <td>No Surat Jalan</td>
+                                            <td>{{ $bpnb->surat_jalan }}</td>
                                         </tr>
                                         <tr>
-                                            <td>Tgl. Surat Jalan</td>
+                                            <td>{{ $bpnb->tgl_suratjalan }}</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -50,21 +50,21 @@
                             <table class="table table-borderless">
                                 <tr>
                                     <th>Nama</th>
-                                    <td>: PT. ABC</td>
+                                    <td>: {{ $bpnb->po->supplier->nama_supplier }}</td>
                                     <th>No. Surat PO</th>
-                                    <td>: 123456</td>
+                                    <td>: {{ $bpnb->id_po }}</td>
                                 </tr>
                                 <tr>
                                     <th>Alamat</th>
-                                    <td>: Jl. Jendral Sudirman No. 123, Jakarta</td>
+                                    <td>: {{ $bpnb->po->supplier->alamat }} </td>
                                     <th>Tgl Surat jalan</th>
-                                    <td>: 12/20/20</td>
+                                    <td>: {{ $bpnb->tgl_suratjalan }}</td>
                                 </tr>
                                 <tr>
                                     <th>No. Surat Jalan</th>
-                                    <td>: SJ0990281</td>
+                                    <td>: {{ $bpnb->surat_jalan }}</td>
                                     <th>Jenis Pembelian</th>
-                                    <td>: Pembelian Lokal</td>
+                                    <td>: {{ $bpnb->po->jenispembelian }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -75,18 +75,22 @@
                             <table class="table table-borderless">
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nama dan Kode Material</th>
+                                    <th>Kode Material</th>
+                                    <th>Nama Material</th>
                                     <th>Qty</th>
                                     <th>Satuan</th>
                                     <th>No. MR</th>
                                 </tr>
+                                @foreach ($bpnb->po->mr->pesanan as $item)
                                 <tr>
-                                    <td>1</td>
-                                    <td>Tembaga 52418</td>
-                                    <td>100</td>
-                                    <td>Kg</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->kd_material }}</td>
+                                    <td>{{ $item->material->nama_material }}</td>
+                                    <td>{{ $item->qty_pesanan }}</td>
+                                    <td>{{ $item->material->satuan }}</td>
                                     <td>1P0838640</td>
                                 </tr>
+                                @endforeach
                             </table>
                         </div>
                         {{-- tabel data end --}}

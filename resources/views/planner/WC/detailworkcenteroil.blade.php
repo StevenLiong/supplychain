@@ -29,14 +29,13 @@
                                     <th style="width: 6rem; text-align: center">Project Name</th>
                                     <th style="width: 6rem; text-align:center">Production Line</th>
                                     <th style="width: 6rem; text-align:center">KVA</th>
-                                    <th style="width: 6rem; text-align:center">Jenis Trafo</th>
                                     <th style="width: 6rem; text-align:center">Quantity</th>
                                     <th style="width: 6rem; text-align:center">Dead Line</th>
                                 </tr>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($dataMps as $index => $item)
+                            @foreach ($dataGpa as $index => $item)
                                 @if ($item->jenis === 'Oil Trafo')
                                     <tr role="row" class="odd">
                                         <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
@@ -44,7 +43,6 @@
                                         <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->jenis }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
                                         <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
                                     </tr>

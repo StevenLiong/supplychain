@@ -74,13 +74,57 @@ class ResourceWorkPlanningController extends Controller
         $qtyCTVT =  $filteredMpsCTVT->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         $qtyREPAIR =  $filteredMpsREPAIR->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
-        // dd($qtyPL2);
 
-        $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL2;
-        $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyPL3;
-        $jumlahtotalHourSumCTVT = Mps2::where('production_line', 'CTVT')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyCTVT;
-        $jumlahtotalHourSumDRY = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyDRY;
-        $jumlahtotalHourSumREPAIR = Mps2::where('production_line', 'REPAIR')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour')->sum() * $qtyREPAIR;
+        //ambil id WO
+        $woPL2 = Mps2::where('production_line', 'PL2')->pluck('id_wo');
+        $woPL3 = Mps2::where('production_line', 'PL3')->pluck('id_wo');
+        $woCTVT = Mps2::where('production_line', 'CTVT')->pluck('id_wo');
+        $woDRY = Mps2::where('production_line', 'DRY')->pluck('id_wo');
+        $woREPAIR = Mps2::where('production_line', 'REPAIR')->pluck('id_wo');
+
+        //ambil data mps berdasarkan PL, 
+        $jumlahtotalHourSumDRY = Mps2::where('production_line', 'DRY')
+            ->with(['wo.standardize_work'])
+            ->whereIn('id_wo', $woDRY)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+            });
+        $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')
+            ->with(['wo.standardize_work'])
+            ->whereIn('id_wo', $woPL2)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+            });
+        $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')
+            ->with(['wo.standardize_work'])
+            ->whereIn('id_wo', $woPL3)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+            });
+        $jumlahtotalHourSumCTVT = Mps2::where('production_line', 'CTVT')
+            ->with(['wo.standardize_work'])
+            ->whereIn('id_wo', $woCTVT)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+            });
+        $jumlahtotalHourSumREPAIR = Mps2::where('production_line', 'REPAIR')
+            ->with(['wo.standardize_work'])
+            ->whereIn('id_wo', $woREPAIR)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+            });
+
+        // $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
+        // $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
+        // $jumlahtotalHourSumCTVT = Mps2::where('production_line', 'CTVT')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
+        // $jumlahtotalHourSumDRY = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
+
+        // $jumlahtotalHourSumREPAIR = Mps2::where('production_line', 'REPAIR')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
 
 
         switch ($periode) {
@@ -695,44 +739,110 @@ class ResourceWorkPlanningController extends Controller
         //QTY PL         
         $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         // dd($qtyDRY);
-        $jumlahtotalHourCoil_Making_HV = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
-            ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_hv')
-            ->sum() * $qtyDRY;
-
-        $jumlahtotalHourCoil_Making_LV = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+        $woDRY = Mps2::where('production_line', 'DRY')->pluck('id_wo');
+        $jumlahtotalHourCoil_Making_HV = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
             ->with(['wo.standardize_work.dry_cast_resin'])
+            ->whereIn('id_wo', $woDRY)
             ->get()
-            ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_lv')
-            ->merge(
-                Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
-                    ->with(['wo.standardize_work.dry_cast_resin'])
-                    ->get()
-                    ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_leadwire')
-            )
-            ->merge(
-                Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
-                    ->with(['wo.standardize_work.dry_cast_resin'])
-                    ->get()
-                    ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi')
-            )->sum() * $qtyDRY;
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->dry_cast_resin->hour_coil_hv * $item->qty_trafo;
+            });
 
-        $jumlahtotalHourMould_Casting = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
-            ->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')
-            ->sum() * $qtyDRY;
+        $jumlahtotalHourCoil_Making_LV = Mps2::where('production_line', 'DRY')
+            ->where('kva', $ukuran_kapasitas)
+            ->with(['wo.standardize_work.dry_cast_resin'])
+            ->whereIn('id_wo', $woDRY)
+            ->get()
+            ->sum(function ($item) {
+                //ambil hour dulu baru dikali qty
+                $hourCoilLV = $item->wo->standardize_work->dry_cast_resin->hour_coil_lv;
+                $hourPotongLeadwire = $item->wo->standardize_work->dry_cast_resin->hour_potong_leadwire;
+                $hourPotongIsolasi = $item->wo->standardize_work->dry_cast_resin->hour_potong_isolasi;
+                //dikali qty
+                return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
+            });
 
-        $jumlahtotalHourCore_Assembly = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
-            ->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')
-            ->sum() * $qtyDRY;
+        $jumlahtotalHourMould_Casting = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+            ->with(['wo.standardize_work.dry_cast_resin'])
+            ->whereIn('id_wo', $woDRY)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->dry_cast_resin->totalHour_MouldCasting * $item->qty_trafo;
+            });
 
-        $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
-        $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
-        $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
-        $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
+        $jumlahtotalHourCore_Assembly = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+            ->with(['wo.standardize_work.dry_cast_resin'])
+            ->whereIn('id_wo', $woDRY)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->dry_cast_resin->totalHour_CoreCoilAssembly * $item->qty_trafo;
+            });
+
+
+        // $jumlahtotalHourCoil_Making_LV  = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+        //     ->with(['wo.standardize_work.dry_cast_resin'])
+        //     ->get()
+        //     ->pluck('wo.standardize_work.dry_cast_resin.hour_coil_lv')
+        //     ->merge(
+        //         Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+        //             ->with(['wo.standardize_work.dry_cast_resin'])
+        //             ->get()
+        //             ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_leadwire')
+        //     )
+        //     ->merge(
+        //         Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+        //             ->with(['wo.standardize_work.dry_cast_resin'])
+        //             ->get()
+        //             ->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi')
+        //     )->sum() * $qtyDRY;
+
+        // $jumlahtotalHourMould_Casting = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
+        //     ->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting')
+        //     ->sum() * $qtyDRY;
+
+        // $jumlahtotalHourCore_Assembly = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)->with(['wo.standardize_work.dry_cast_resin'])->get()
+        //     ->pluck('wo.standardize_work.dry_cast_resin.totalHour_CoreCoilAssembly')
+        //     ->sum() * $qtyDRY;
+
+        $kebutuhanMPCoil_Making_HV = round($jumlahtotalHourCoil_Making_HV / (173  * 0.93),2);
+        $kebutuhanMPCoil_Making_LV = round($jumlahtotalHourCoil_Making_LV / (173  * 0.93),2);
+        $kebutuhanMPMould_Casting = round($jumlahtotalHourMould_Casting / (173  * 0.93),2);
+        $kebutuhanMPCore_Assembly = round($jumlahtotalHourCore_Assembly / (173  * 0.93),2);
 
         $selisihMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - $totalManPower;
         $selisihMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - $totalManPower;
         $selisihMPMould_Casting = $kebutuhanMPMould_Casting - $totalManPower;
         $selisihMPCore_Assembly = $kebutuhanMPCore_Assembly - $totalManPower;
+
+        if ($kebutuhanMPCoil_Making_HV != 0) {
+            $presentaseKurangMPCoil_Making_HV = ($selisihMPCoil_Making_HV / $kebutuhanMPCoil_Making_HV) * 100;
+            $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - ($kebutuhanMPCoil_Making_HV * $presentaseKurangMPCoil_Making_HV) / 100;
+        } else {
+            $presentaseKurangMPCoil_Making_HV = 0;
+        }
+        
+        if ($kebutuhanMPCoil_Making_LV != 0) {
+            $presentaseKurangMPCoil_Making_LV = ($selisihMPCoil_Making_LV / $kebutuhanMPCoil_Making_LV) * 100;
+            $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - ($kebutuhanMPCoil_Making_LV * $presentaseKurangMPCoil_Making_LV) / 100;
+        } else {
+            $presentaseKurangMPCoil_Making_LV = 0;
+        }
+        
+        if ($kebutuhanMPMould_Casting != 0) {
+            $presentaseKurangMPMould_Casting = ($selisihMPMould_Casting / $kebutuhanMPMould_Casting) * 100;
+            $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting - ($kebutuhanMPMould_Casting * $presentaseKurangMPMould_Casting) / 100;
+        } else {
+            $presentaseKurangMPMould_Casting = 0;
+        }
+       
+        if ($kebutuhanMPCore_Assembly != 0) {
+            $presentaseKurangMPCore_Assembly = ($selisihMPCore_Assembly / $kebutuhanMPCore_Assembly) * 100;
+            $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly - ($kebutuhanMPCore_Assembly * $presentaseKurangMPCore_Assembly) / 100;
+        } else {
+            $presentaseKurangMPCore_Assembly = 0;
+        }
+
+        
 
 
         $wc_Coil_Making_HV =  'Coil Making HV';
@@ -760,6 +870,10 @@ class ResourceWorkPlanningController extends Controller
             'wc_Coil_Making_LV' => $wc_Coil_Making_LV,
             'wc_Mould_Casting' => $wc_Mould_Casting,
             'wc_Core_Assembly' => $wc_Core_Assembly,
+            'ketersediaanMPCoil_Making_HV' => $ketersediaanMPCoil_Making_HV,
+            'ketersediaanMPCoil_Making_LV' => $ketersediaanMPCoil_Making_LV,
+            'ketersediaanMPMould_Casting' => $ketersediaanMPMould_Casting,
+            'ketersediaanMPCore_Assembly' => $ketersediaanMPCore_Assembly,
             // 'jumlahtotalHour' => $jumlahtotalHour,
             // 'kebutuhanMP' => $kebutuhanMP,
             // 'workcenterLabel' => $workcenterLabel,

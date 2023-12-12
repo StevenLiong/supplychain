@@ -53,6 +53,9 @@
                                     <td> 
                                         {{ $data['selisihMPCoil_Making_LV'] }}
                                     </td>
+                                    <td> 
+                                        {{ $data['ketersediaanMPCoil_Making_LV'] }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -63,6 +66,12 @@
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPCoil_Making_HV'] }}
+                                    </td>
+                                    <td> 
+                                        {{ $data['selisihMPCoil_Making_HV'] }}
+                                    </td>
+                                    <td> 
+                                        {{ $data['ketersediaanMPCoil_Making_HV'] }}
                                     </td>
                                 </tr>
 
@@ -76,6 +85,12 @@
                                     <td>
                                         {{ $data['kebutuhanMPMould_Casting'] }}
                                     </td>
+                                    <td> 
+                                        {{ $data['selisihMPMould_Casting'] }}
+                                    </td>
+                                    <td> 
+                                        {{ $data['ketersediaanMPMould_Casting'] }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -86,6 +101,12 @@
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPCore_Assembly'] }}
+                                    </td>
+                                    <td> 
+                                        {{ $data['selisihMPCore_Assembly'] }}
+                                    </td>
+                                    <td> 
+                                        {{ $data['ketersediaanMPCore_Assembly'] }}
                                     </td>
                                 </tr>
 

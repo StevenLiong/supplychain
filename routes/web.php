@@ -100,7 +100,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
     Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
 
-    // order 
+    // order
     Route::resource('services/transaksigudang/order', OrderController::class);
     Route::get('services/transaksigudang/order/{nama_workcenter}', [OrderController::class, 'show']);
 
@@ -270,22 +270,29 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
 Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('/', [ResourceWorkPlanningController::class, 'dashboard']);
-    Route::get('resource_work_planning/dashboard', [ResourceWorkPlanningController::class, 'dashboard']);
-    Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
+    Route::get('resource_work_planning/dashboard', [ResourceWorkPlanningController::class, 'dashboard'])->name('dashboard');
+
+
+    Route::post('resource_work_planning/dashboard/data/process-periode', [ResourceWorkPlanningController::class, 'dashboard'])->name('process.periode');
+    Route::get('resource_work_planning/Work-Load', [ResourceWorkPlanningController::class, 'Workload']);
+
+    // Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
     Route::get('resource_work_planning/PL2/Rekomendasi', [ResourceWorkPlanningController::class, 'pl2Rekomendasi']);
-    Route::get('resource_work_planning/PL2/Jumlah', [ResourceWorkPlanningController::class, 'pl2Jumlah']);
-    Route::get('resource_work_planning/PL3/Work-Load', [ResourceWorkPlanningController::class, 'pl3Workload']);
+    Route::get('resource_work_planning/PL2/Kebutuhan', [ResourceWorkPlanningController::class, 'pl2Kebutuhan']);
+    // Route::get('resource_work_planning/PL3/Work-Load', [ResourceWorkPlanningController::class, 'pl3Workload']);
     Route::get('resource_work_planning/PL3/Rekomendasi', [ResourceWorkPlanningController::class, 'pl3Rekomendasi']);
-    Route::get('resource_work_planning/PL3/Jumlah', [ResourceWorkPlanningController::class, 'pl3Jumlah']);
-    Route::get('resource_work_planning/CT-VT/Work-Load', [ResourceWorkPlanningController::class, 'ctvtWorkload']);
+    Route::get('resource_work_planning/PL3/Kebutuhan', [ResourceWorkPlanningController::class, 'pl3Kebutuhan']);
+    // Route::get('resource_work_planning/CT-VT/Work-Load', [ResourceWorkPlanningController::class, 'ctvtWorkload']);
     Route::get('resource_work_planning/CT-VT/Rekomendasi', [ResourceWorkPlanningController::class, 'ctvtRekomendasi']);
-    Route::get('resource_work_planning/CT-VT/Jumlah', [ResourceWorkPlanningController::class, 'ctvtJumlah']);
-    Route::get('resource_work_planning/Dry/Work-Load', [ResourceWorkPlanningController::class, 'dryWorkload']);
+    Route::get('resource_work_planning/CT-VT/Kebutuhan', [ResourceWorkPlanningController::class, 'ctvtKebutuhan']);
+    // Route::get('resource_work_planning/Dry/Work-Load', [ResourceWorkPlanningController::class, 'dryWorkload']);
     Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceWorkPlanningController::class, 'dryRekomendasi']);
-    Route::get('resource_work_planning/Dry/Jumlah', [ResourceWorkPlanningController::class, 'dryJumlah']);
-    Route::get('resource_work_planning/Repair/Work-Load', [ResourceWorkPlanningController::class, 'repairWorkload']);
+    Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceWorkPlanningController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
+    Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceWorkPlanningController::class, 'dryKebutuhan'])->name('dryKebutuhan');
+    Route::post('resource_work_planning/Dry/Kebutuhan/data/proses-workcenter', [ResourceWorkPlanningController::class, 'dryKebutuhan'])->name('process.workcenter');
+    // Route::get('resource_work_planning/Repair/Work-Load', [ResourceWorkPlanningController::class, 'repairWorkload']);
     Route::get('resource_work_planning/Repair/Rekomendasi', [ResourceWorkPlanningController::class, 'repairRekomendasi']);
-    Route::get('resource_work_planning/Repair/Jumlah', [ResourceWorkPlanningController::class, 'repairJumlah']);
+    Route::get('resource_work_planning/Repair/Kebutuhan', [ResourceWorkPlanningController::class, 'repairKebutuhan']);
     Route::get('resource_work_planning/Kalkulasi-SDM', [ResourceWorkPlanningController::class, 'kalkulasiSDM']);
 });
 
@@ -298,8 +305,9 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/standardized_work/Create-Data/Dry-Cast-Resin', [DryCastResinController::class, 'create'])->name('create.dryresin');
     Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/{id}', [DryCastResinController::class, 'createManhour'])->name('create.dryresin.createManhour');
     Route::post('/standardized_work/Create-Data/Dry-Cast-Resin/Store', [DryCastResinController::class, 'store'])->name('store.dryresin');
-    Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/{id}/edit', [DryCastResinController::class, 'edit'])->name('dryresin.edit');
-    Route::put('/standardized_work/Create-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'update'])->name('dryresin.update');
+    Route::get('/standardized_work/Edit-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'edit'])->name('dryresin.edit');
+    Route::put('/standardized_work/Edit-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'update'])->name('dryresin.update');
+    Route::get('/standardized_work/Detail-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'detail'])->name('dryresin.detail');
 
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin', [DryNonResinController::class, 'create'])->name('create.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/{id}', [DryNonResinController::class, 'createManhour'])->name('create.drynonresin.createManhour');

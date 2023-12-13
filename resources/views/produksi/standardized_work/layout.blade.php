@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>$title | PT Trafoindo Prima Perkasa</title>
+    <title>{{$title}} | PT Trafoindo Prima Perkasa</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="https://www.trafoindonesia.com/favicon.ico" type="image/x-icon">
@@ -65,7 +65,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
-                    <div id="app" style="margin-bottom:300px">
+                    <div id="app"   >
                         <!-- - - - - - - - - - - - start content-- - - - - - - - - - - -->
                         @yield('content')
                         <!-- - - - - - - - - - - - end content-- - - - - - - - - - - -->

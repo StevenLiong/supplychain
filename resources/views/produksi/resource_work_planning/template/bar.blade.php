@@ -13,10 +13,16 @@
         <div class="data-scrollbar" data-scroll="1">
             <nav class="iq-sidebar-menu">
                 <ul id="iq-sidebar-toggle" class="iq-menu">
-                    <li class="{{ Request::is('resource_work_planning/dashboard') ? 'active' : '' }}">
+                    <li class="{{ Request::is('resource_work_planning/dashboard') || Request::is('resource_work_planning/dashboard/data/process-periode') ? 'active' : '' }}">
                         <a href="/resource_work_planning/dashboard" class="svg-icon">
                             <i style="font-size: 20px" class="fa-solid fa-chart-simple"></i><span
                                 class="ml-4">Dashboards</span>
+                        </a>
+                    </li>
+                    <li class="{{ Request::is('resource_work_planning/Work-Load') ? 'active' : '' }}">
+                        <a href="/resource_work_planning/Work-Load" class="svg-icon">
+                            <i style="font-size: 20px" class="fa-solid fa-clipboard-list"></i>
+                            <span class="ml-4">Work Load</span>
                         </a>
                     </li>
                     <li class="{{ Request::is('resource_work_planning/PL2/') ? 'active' : '' }}">
@@ -27,16 +33,16 @@
                             <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
                         </a>
                         <ul id="PL2" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="{{ Request::is('resource_work_planning/PL2/Work-Load') ? 'active' : '' }}">
+                            {{-- <li class="{{ Request::is('resource_work_planning/PL2/Work-Load') ? 'active' : '' }}">
                                 <a href="/resource_work_planning/PL2/Work-Load" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-clipboard-list"></i>
                                     <span class="ml-4">Work Load</span>
                                 </a>
-                            </li>
-                            <li class="{{ Request::is('resource_work_planning/PL2/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/PL2/Jumlah" class="svg-icon">
+                            </li> --}}
+                            <li class="{{ Request::is('resource_work_planning/PL2/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/PL2/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/PL2/Rekomendasi') ? 'active' : '' }}">
@@ -55,16 +61,16 @@
                             <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
                         </a>
                         <ul id="PL3" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="{{ Request::is('resource_work_planning/PL3/Work-Load') ? 'active' : '' }}">
+                            {{-- <li class="{{ Request::is('resource_work_planning/PL3/Work-Load') ? 'active' : '' }}">
                                 <a href="/resource_work_planning/PL3/Work-Load" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-clipboard-list"></i>
                                     <span class="ml-4">Work Load</span>
                                 </a>
-                            </li>
-                            <li class="{{ Request::is('resource_work_planning/PL3/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/PL3/Jumlah" class="svg-icon">
+                            </li> --}}
+                            <li class="{{ Request::is('resource_work_planning/PL3/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/PL3/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/PL3/Rekomendasi') ? 'active' : '' }}">
@@ -83,16 +89,16 @@
                             <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
                         </a>
                         <ul id="CT-VT" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="{{ Request::is('resource_work_planning/CT-VT/Work-Load') ? 'active' : '' }}">
+                            {{-- <li class="{{ Request::is('resource_work_planning/CT-VT/Work-Load') ? 'active' : '' }}">
                                 <a href="/resource_work_planning/CT-VT/Work-Load" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-clipboard-list"></i>
                                     <span class="ml-4">Work Load</span>
                                 </a>
-                            </li>
-                            <li class="{{ Request::is('resource_work_planning/CT-VT/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/CT-VT/Jumlah" class="svg-icon">
+                            </li> --}}
+                            <li class="{{ Request::is('resource_work_planning/CT-VT/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/CT-VT/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/CT-VT/Rekomendasi') ? 'active' : '' }}">
@@ -111,16 +117,16 @@
                             <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
                         </a>
                         <ul id="Dry" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="{{ Request::is('resource_work_planning/Dry/Work-Load') ? 'active' : '' }}">
+                            {{-- <li class="{{ Request::is('resource_work_planning/Dry/Work-Load') ? 'active' : '' }}">
                                 <a href="/resource_work_planning/Dry/Work-Load" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-clipboard-list"></i>
                                     <span class="ml-4">Work Load</span>
                                 </a>
-                            </li>
-                            <li class="{{ Request::is('resource_work_planning/Dry/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/Dry/Jumlah" class="svg-icon">
+                            </li> --}}
+                            <li class="{{ Request::is('resource_work_planning/Dry/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/Dry/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/Dry/Rekomendasi') ? 'active' : '' }}">
@@ -139,16 +145,16 @@
                             <i class="las la-angle-down iq-arrow-right arrow-hover"></i>
                         </a>
                         <ul id="Repair" class="iq-submenu collapse" data-parent="#iq-sidebar-toggle">
-                            <li class="{{ Request::is('resource_work_planning/Repair/Work-Load') ? 'active' : '' }}">
+                            {{-- <li class="{{ Request::is('resource_work_planning/Repair/Work-Load') ? 'active' : '' }}">
                                 <a href="/resource_work_planning/Repair/Work-Load" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-clipboard-list"></i>
                                     <span class="ml-4">Work Load</span>
                                 </a>
-                            </li>
-                            <li class="{{ Request::is('resource_work_planning/Repair/Jumlah') ? 'active' : '' }}">
-                                <a href="/resource_work_planning/Repair/Jumlah" class="svg-icon">
+                            </li> --}}
+                            <li class="{{ Request::is('resource_work_planning/Repair/Kebutuhan') ? 'active' : '' }}">
+                                <a href="/resource_work_planning/Repair/Kebutuhan" class="svg-icon">
                                     <i style="font-size: 20px" class="fa-solid fa-layer-group"></i>
-                                    <span class="ml-4">Jumlah</span>
+                                    <span class="ml-4">Kebutuhan</span>
                                 </a>
                             </li>
                             <li class="{{ Request::is('resource_work_planning/Repair/Rekomendasi') ? 'active' : '' }}">
@@ -250,7 +256,7 @@
 @section('footer')
     <footer class="iq-footer">
         <div class="container-fluid">
-            <div class="row"> 
+            <div class="row">
                 <div class="col-lg-6 text-center     text-primary">
                     <span class="mr-1"> Supply Chain Team </span>
                 </div>

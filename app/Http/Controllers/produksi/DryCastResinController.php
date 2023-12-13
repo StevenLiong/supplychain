@@ -15,7 +15,9 @@ class DryCastResinController extends Controller
 {
     public function create(): Response
     {
-        return response(view('produksi.standardized_work.formdrycastresin', ['manhour' => ManHour::all()]));
+        $title = 'Form Dry Cast Resin';
+        $manhour = Manhour::all();
+        return response(view('produksi.standardized_work.formdrycastresin', ['manhour' => $manhour, 'title' => $title]));
     }
 
     public function createManhour($id)
@@ -51,11 +53,20 @@ class DryCastResinController extends Controller
         return redirect(route('home'))->with('success', 'Added!');
     }
 
-    public function edit(string $id): Response
+    public function detail(string $id): Response
     {
+        $title = 'Detail Dry Cast Resin';
         $product = DryCastResin::findOrFail($id);
         $manhour = ManHour::orderBy('id')->get();
-        return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour]));
+        return response(view('produksi.standardized_work.detaildrycastresin', ['product' => $product, 'manhour' => $manhour, 'title' => $title]));
+    }
+
+    public function edit(string $id): Response
+    {
+        $title = 'Edit Dry Cast Resin';
+        $product = DryCastResin::findOrFail($id);
+        $manhour = ManHour::orderBy('id')->get();
+        return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour, 'title' => $title]));
     }
 
     /**

@@ -16,7 +16,8 @@ class DryNonResinController extends Controller
     public function create(): Response
     {
         // $standardize_works = StandardizeWork::all();
-        return response(view('produksi.standardized_work.formdrynonresin',['manhour' => ManHour::all()]));
+        $title = 'Form Dry Non Resin';
+        return response(view('produksi.standardized_work.formdrynonresin',['manhour' => ManHour::all(),'title' => $title]));
     }
 
 

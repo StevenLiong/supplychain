@@ -214,23 +214,50 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <a href="" type="button" class="btn btn-primary m-1"><i
-                                                class="fa-solid fa-circle-info m-1"></i></a>
+                                        <a type="button" href="{{ route('dryresin.detail', ['id' => $std->id]) }}"
+                                            class="btn btn-primary m-1"><i class="fa-solid fa-circle-info m-1"></i></a>
                                         <a type="button" href="{{ route('dryresin.edit', ['id' => $std->id]) }}"
                                             class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a>
                                         <a href="#" class="btn btn-primary m-1" data-toggle="modal"
-                                            data-target=".bd-example-modal-sm"
-                                            onclick="
+                                            data-target=".delete-modal">
+                                            {{-- onclick="
                                                     event.preventDefault();
                                                     if (confirm('Do you want to remove this?')) {
                                                     document.getElementById('delete-row-{{ $std->id }}').submit();
-                                                    }">
+                                                    }"> --}}
                                             <i class="fa-solid fa-trash m-1"></i>
                                         </a>
+                                        <!-- delete modal -->
+                                        <div class="modal fade delete-modal" tabindex="-1" role="dialog"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-sm">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Yakin ingin menghapus data ini?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal" >Batal</button>
+                                                        <button type="button" class="btn btn-primary" onclick="
+                                                        event.preventDefault();
+                                                        if (confirm('Do you want to remove this?')) {
+                                                        document.getElementById('delete-row-{{ $std->id }}').submit();
+                                                        }" >Hapus</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <form id="delete-row-{{ $std->id }}"
                                             action="{{ route('delete', ['id' => $std->id]) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             @csrf
+                                             
                                         </form>
 
                                     </td>

@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('production_line', function (Blueprint $table) {
+        Schema::create('man_power', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_pl');
-            $table->double('kapasitas_pl');
-            $table->timestamps();                                                               
+            $table->string('nama');
+            $table->string('nik');
+            $table->string('status_mp');
+            $table->date('tanggal_lahir');
+            // $table->integer('usia')->nullable(); 
+            $table->timestamps();
         });
     }
 
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('production_line');
+        Schema::dropIfExists('man_power');
     }
 };

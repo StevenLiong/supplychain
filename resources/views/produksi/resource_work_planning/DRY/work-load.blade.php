@@ -26,88 +26,82 @@
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th rowspan="2" style="width: 150px; vertical-align: middle;">Proses</th>
-                                    <th colspan="10">KVA SWASTA</th>
-                                </tr>
-                                <tr>
-                                    <th>10</th>
-                                    <th>15</th>
-                                    <th>20</th>
-                                    <th>25</th>
-                                    <th>30</th>
-                                    <th>31.5</th>
-                                    <th>40</th>
-                                    <th>45</th>
-                                    <th>50</th>
-                                    <th>63</th>
-
+                                    <th></th>
+                                    @foreach ($data['kapasitas'] as $kap)
+                                        <th>
+                                            @if ($kap->ukuran_kapasitas)
+                                                {{ $kap->ukuran_kapasitas }}
+                                            @endif
+                                        </th>
+                                    @endforeach
                                 </tr>
                             </thead>
                             <tbody class="text-center">
                                 <tr>
+
+                                </tr>
+                                
+                                <tr>
                                     <th>Coil LV</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    @foreach ($data['kapasitas'] as $kap)
+                                        @php
+                                            $qtyTrafo = $data['mps']->where('kva', $kap->ukuran_kapasitas)->sum('qty_trafo');
+                                            $totalQtyTrafo = $qtyTrafo > 0 ? $qtyTrafo : 0;
+                                        @endphp
+                                        <td>{{ $totalQtyTrafo }}</td>
+                                    @endforeach
                                 </tr>
                                 <tr>
                                     <th>Coil HV</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                </tr>
+                                <tr>
+                                    <th>CCA</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
                                 <tr>
                                     <th>Mould & Casting</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                </tr>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                </tr>                                 
                                 <tr>
-                                    <th>Core & Assembly</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                </tr>
-                                <tr>
-                                    <th>QC</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
-                                    <th>6</th>
+                                    <th>Final Assembly & Finishing</th>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
+                                    <td>6</td>
                                 </tr>
 
                             </tbody>

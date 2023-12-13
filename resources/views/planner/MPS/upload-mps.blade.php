@@ -13,13 +13,18 @@
             @csrf
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">Work Order</label>
-                    <select id="id_wo" name="id_wo" class="form-control" required>
-                        <option value="">Choose...</option>
-                        @foreach($dataWo as $woId)
-                            <option value="{{ $woId->id_wo }}">{{ $woId->id_wo }}</option>
-                        @endforeach
-                    </select>
+                    <label for="id_fg">Work Order</label>
+                        <select class="form-control @error('id_wo') is-invalid @enderror" id="id_wo" name="id_wo">
+                            <option selected="" disabled="">Select Kode Work Order:</option>
+                            @foreach ($dataWo as $wo)
+                                <option value="{{ $wo->id_wo }}">{{ $wo->id_wo }}</option>
+                            @endforeach
+                        </select>
+                        @error('id_wo')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Project Name</label>
@@ -31,13 +36,13 @@
                         <option>Choose...</option>
                         <option value="PL2">PL2</option>
                         <option value="PL3">PL3</option>
-                        <option value="DRY TYPE">DRY TYPE</option>
+                        <option value="Dry Type">Dry Type</option>
                         <option value="CTVT">CTVT</option>
                     </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">KVA</label>
-                    <input type="text" class="form-control" name="kva" required>
+                    <input type="text" class="form-control" name="kva" required disabled>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Jenis Trafo</label>
@@ -51,15 +56,11 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Quantity</label>
-                    <input type="text" class="form-control" name="qty_trafo" required>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">Lead Time (Hari)</label>
-                    <input type="text" class="form-control" name="lead_time" id="lead_time" required>
+                    <input type="text" class="form-control" name="qty_trafo" required disabled>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Deadline</label>
-                    <input type="text" class="form-control datepicker" name="deadline" id="deadline" required>
+                    <input type="date" class="form-control datepicker" name="deadline" required>
                 </div>
             </div>
             <div class="col text-center">
@@ -69,19 +70,30 @@
     </div>
 </div>
 
-<!-- Tambahkan script flatpickr -->
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
-    // Inisialisasi datepicker
-    flatpickr('.datepicker', {
-        dateFormat: 'Y-m-d', // Format tanggal yang diinginkan
-        enableTime: false, // Biarkan false jika tidak memerlukan waktu
-    });
-    $(document).ready(function(){
-        $('id_wo').on('change', function(){
-            var id_wo = $(this).val();
-            console.log(id_wo);
+    function getDataByIdWo(idWo) {
+        $.ajax({
+            url: '/getdataid-wo/' + idWo,
+            method: 'GET',
+            success: function (data) {
+                // Isi nilai-nilai formulir berdasarkan data yang diterima dari server
+                $('input[name="qty_trafo"]').val(data.qty_trafo);
+                $('input[name="kva"]').val(data.kva);
+            },
+            error: function (xhr, status, error) {
+                // Handle error jika diperlukan
+                console.log('Error fetching data:', status, error);
+                console.log(xhr.responseText); // Log the response for further inspection
+            }
+        });
+    }
+
+    // Event listener untuk perubahan nilai pada input id_fg
+    $(document).ready(function () {
+        $('#id_wo').on('change', function () {
+            var idWo = $(this).val();
+            getDataByIdWo(idWo);
         });
     });
 </script>

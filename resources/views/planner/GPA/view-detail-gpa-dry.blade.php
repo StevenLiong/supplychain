@@ -71,10 +71,6 @@
                 <input type="text" class="form-control" name="qty_trafo" value="{{ $dataGpa->first()->qty_trafo }}"required disabled>
             </div>
             <div class="col-md-4 mb-2">
-                <label for="lead_time">Lead Time</label>
-                <input type="text" class="form-control" name="lead_time" value="{{ $dataGpa->first()->lead_time }}"required disabled>
-            </div>
-            <div class="col-md-4 mb-2">
                 <label for="validationDefault07">Dead Line</label>
                 <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataGpa->first()->deadline)->format('d-F-Y') }}"required disabled>
             </div>

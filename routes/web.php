@@ -212,6 +212,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
     Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
     Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
+    Route::get('/getdataid-wo/{idWo}', [MpsController::class, 'getDataByIdWo']);
 
     // --EXPORT MPS--
     Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
@@ -339,6 +340,7 @@ Route::middleware(['auth', 'purchaseorder'])->group(function () {
     Route::post('/purchaseorder/{id_mr}/add', [poController::class, 'storepo']);
     Route::get('/purchaseorder/{id_po}', [poController::class, 'editpo']);
     Route::post('/purchaseorder/editPo/{id_po}', [poController::class, 'storeEditpo']);
+
     Route::get('/reportpo', [poController::class, 'reportPo']);
 
 });

@@ -16,6 +16,7 @@ use App\Models\produksi\StandardizeWork;
 use App\Models\produksi\Wo2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Phpml\Classification\KNearestNeighbors;
 
 class ResourceWorkPlanningController extends Controller
 {
@@ -82,7 +83,7 @@ class ResourceWorkPlanningController extends Controller
         $woDRY = Mps2::where('production_line', 'DRY')->pluck('id_wo');
         $woREPAIR = Mps2::where('production_line', 'REPAIR')->pluck('id_wo');
 
-        //ambil data mps berdasarkan PL, 
+        //ambil data mps berdasarkan PL,
         $jumlahtotalHourSumDRY = Mps2::where('production_line', 'DRY')
             ->with(['wo.standardize_work'])
             ->whereIn('id_wo', $woDRY)
@@ -627,67 +628,98 @@ class ResourceWorkPlanningController extends Controller
         return view('produksi.resource_work_planning.DRY.work-load', ['data' => $data]);
     }
 
-    function dryRekomendasi(Request $request)
-    {
-        $title1 = 'Dry - Rekomendasi';
+    public function dryRekomendasi(Request $request)
+{
+    $title1 = 'Dry - Rekomendasi';
 
+    // Ambil data dari tabel matriks_skill
+    $matrixSkills = MatriksSkill::all();
+    $selectedWorkcenter_rekomendasi = $request->input('selectedWorkcenter_rekomendasi', 1);
 
-        $selectedWorkcenter_rekomendasi = $request->input('selectedWorkcenter_rekomendasi', 1);
-
-        switch ($selectedWorkcenter_rekomendasi) {
-            case 1:
-                $workcenterLabel = 'Coil Making HV ';
-                break;
-            case 2:
-                $workcenterLabel = 'Coil Making LV ';
-                break;
-            case 3:
-                $workcenterLabel = 'Mould & Casting ';
-                break;
-            case 4:
-                $workcenterLabel = 'Core Coil Assembly';
-                break;
-        }
-
-        // $periode = $request->session()->get('periode', 1);
-        // switch ($periode) {
-        //     case 1:
-        //         $deadlineDate = [
-        //             now()->startOfMonth(),
-        //             now()->endOfMonth(),
-        //         ];
-        //         break;
-
-        //     case 2:
-        //         $deadlineDate = [
-        //             now()->startOfWeek(),
-        //             now()->endOfWeek(),
-        //         ];
-        //         break;
-
-        //     case 3:
-        //         $deadlineDate = [
-        //             now()->startOfWeek()->addWeek(),
-        //             now()->endOfWeek()->addWeek(),
-        //         ];
-        //         break;
-
-        //     case 4:
-        //         $deadlineDate = [
-        //             now()->addMonth()->startOfMonth(),
-        //             now()->addMonth()->endOfMonth()
-        //         ];
-        //         break;
-        //     }
-        //     dd($deadlineDate);
-        $data = [
-            'title1' => $title1,
-            // 'deadlineDate' => $deadlineDate,
-            'workcenterLabel' => $workcenterLabel,
-
-        ];
-        return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
+    switch ($selectedWorkcenter_rekomendasi) {
+        case 1:
+            $workcenterLabel = 'Coil Making HV';
+            $targetProses = 2; // Sesuaikan dengan proses yang diinginkan
+            break;
+        case 2:
+            $workcenterLabel = 'Coil Making LV';
+            $targetProses = 1; // Sesuaikan dengan proses yang diinginkan
+            break;
+        case 3:
+            $workcenterLabel = 'Mould & Casting';
+            // Sesuaikan dengan proses yang diinginkan untuk workcenter ini
+            break;
+        case 4:
+            $workcenterLabel = 'Core Coil Assembly';
+            // Sesuaikan dengan proses yang diinginkan untuk workcenter ini
+            break;
     }
+
+    // Siapkan data untuk PHP-ML
+    $samples = [];
+    $targets = [];
+
+    foreach ($matrixSkills as $matrixSkill) {
+        // Filter berdasarkan workcenter, kategori produk, dan proses yang diinginkan
+        if (
+            $matrixSkill->id_production_line == 5 &&
+            $matrixSkill->id_kategori_produk == 4 &&
+            $matrixSkill->id_proses == $targetProses
+            // Sesuaikan dengan kondisi lainnya jika diperlukan
+        ) {
+            $samples[] = [
+                $matrixSkill->id_production_line,
+                $matrixSkill->id_kategori_produk,
+                $matrixSkill->id_proses,
+                $matrixSkill->id_tipe_proses
+            ];
+            $targets[] = $matrixSkill->skill;
+        }
+    }
+
+
+    // Buat dan latih model Knn
+    $model = new KNearestNeighbors();
+    $model->train($samples, $targets);
+
+    // Contoh ID manpower, Anda dapat menggantinya dengan ID yang sesuai dari request atau data lainnya
+    $manpowerId = 5;
+
+    // Ambil data manpower berdasarkan ID
+    $manpower = ManPower::find($manpowerId);
+
+    if (!$manpower) {
+        return redirect()->route('home')->with('error', 'Manpower not found');
+    }
+
+    // Prediksi skill menggunakan model PHP-ML
+    $predictedSkill = $model->predict([
+        $manpower->id_production_line,
+        $manpower->id_kategori_produk,
+        $manpower->id_proses,
+        $manpower->id_tipe_proses
+    ]);
+
+    // Mencari semua ID_MP yang sesuai dengan hasil prediksi
+    $matchingManpowers = MatriksSkill::where('skill', '>=', $predictedSkill)->get();
+
+    // Mendapatkan semua ID_MP dari hasil pencarian tanpa duplikasi
+    $idMpsFromPrediction = $matchingManpowers->pluck('id_mp')->unique()->toArray();
+
+    // Mendapatkan nama dari semua ID_MP yang sesuai dengan hasil prediksi tanpa duplikasi
+    $manpowerNames = ManPower::whereIn('id', $idMpsFromPrediction)->pluck('nama')->toArray();
+
+    $data = [
+        'title1' => $title1,
+        'workcenterLabel' => $workcenterLabel,
+        'manpowerNames' => $manpowerNames,
+    ];
+
+
+    // Tampilkan atau lakukan apa pun yang Anda inginkan dengan $data
+    return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
+}
+
 
     function dryKebutuhan(Request $request)
     {
@@ -733,10 +765,10 @@ class ResourceWorkPlanningController extends Controller
                 ];
                 break;
         }
-        //FILTER PL 
+        //FILTER PL
         $filteredMpsDRY = $mps->where('production_line', 'DRY');
 
-        //QTY PL         
+        //QTY PL
         $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         // dd($qtyDRY);
         $woDRY = Mps2::where('production_line', 'DRY')->pluck('id_wo');
@@ -745,7 +777,7 @@ class ResourceWorkPlanningController extends Controller
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                return $item->wo->standardize_work->dry_cast_resin->hour_coil_hv * $item->qty_trafo;
+                return $item->wo->standardize_work->dry_cast_resin->hour_coil_hv * $item->z;
             });
 
         $jumlahtotalHourCoil_Making_LV = Mps2::where('production_line', 'DRY')
@@ -820,21 +852,21 @@ class ResourceWorkPlanningController extends Controller
         } else {
             $presentaseKurangMPCoil_Making_HV = 0;
         }
-        
+
         if ($kebutuhanMPCoil_Making_LV != 0) {
             $presentaseKurangMPCoil_Making_LV = ($selisihMPCoil_Making_LV / $kebutuhanMPCoil_Making_LV) * 100;
             $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - ($kebutuhanMPCoil_Making_LV * $presentaseKurangMPCoil_Making_LV) / 100;
         } else {
             $presentaseKurangMPCoil_Making_LV = 0;
         }
-        
+
         if ($kebutuhanMPMould_Casting != 0) {
             $presentaseKurangMPMould_Casting = ($selisihMPMould_Casting / $kebutuhanMPMould_Casting) * 100;
             $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting - ($kebutuhanMPMould_Casting * $presentaseKurangMPMould_Casting) / 100;
         } else {
             $presentaseKurangMPMould_Casting = 0;
         }
-       
+
         if ($kebutuhanMPCore_Assembly != 0) {
             $presentaseKurangMPCore_Assembly = ($selisihMPCore_Assembly / $kebutuhanMPCore_Assembly) * 100;
             $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly - ($kebutuhanMPCore_Assembly * $presentaseKurangMPCore_Assembly) / 100;
@@ -842,7 +874,7 @@ class ResourceWorkPlanningController extends Controller
             $presentaseKurangMPCore_Assembly = 0;
         }
 
-        
+
 
 
         $wc_Coil_Making_HV =  'Coil Making HV';

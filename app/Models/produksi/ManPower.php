@@ -4,6 +4,7 @@ namespace App\Models\produksi;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 
 class ManPower extends Model
@@ -21,6 +22,8 @@ class ManPower extends Model
     ];
 
     // Event listener untuk event creating
+
+    
 
     public static function boot()
     {

@@ -30,6 +30,7 @@ class OrderController extends Controller
         // Dapatkan data dari session
         $detailbom = session()->get('detailbom');
         $dataBom = session()->get('dataBom');
+        
         return view('logistic.services.transaksigudang.createOrder', compact('wo', 'workcenter', 'detailbom', 'dataBom'));
     }
 

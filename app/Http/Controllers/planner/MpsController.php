@@ -46,7 +46,7 @@ class MpsController extends Controller
         $mps = new Mps();
         $mps->id_wo = $request->get('id_wo');
         $dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
-        $mps->kd_manhour = $dataWo->kd_manhour;
+        $mps->kd_manhour = $dataWo->id_standardize_work;
         $mps->project = $request->get('project');
         $mps->production_line = $request->get('production_line');
         $mps->kva = $request->get('kva');
@@ -60,8 +60,20 @@ class MpsController extends Controller
         if ($request->get('jenis') === 'Dry Type') {
         // Ambil data workcenter_dry_types
         $workcenterDryTypes = WorkcenterDryType::all();
-        $drycastresins = DryCastResin::where('kd_manhour', $dataWo->kd_manhour)->get();
+        $drycastresins = DryCastResin::where('kd_manhour', $dataWo->id_standardize_work)->get();
         foreach ($workcenterDryTypes as $workcenterDryType) {
+                // $gpadrys = new GPADry();
+                // $gpadrys->id_wo = $request->get('id_wo');
+                // $gpadrys->project = $request->get('project');
+                // $gpadrys->production_line = $request->get('production_line');
+                // $gpadrys->kva = $request->get('kva');
+                // $gpadrys->jenis = $request->get('jenis');
+                // $gpadrys->qty_trafo = $request->get('qty_trafo');
+                // $gpadrys->lead_time = $request->get('lead_time');
+                // $adjustedDeadline = $request->get('deadline');
+                // // dd($adjustedDeadline); 
+                // $gpadrys->nama_workcenter = $workcenterDryType->nama_workcenter;
+                // $gpadrys->save();
             foreach ($drycastresins as $drycastresin) {
                 $gpadrys = new GPADry();
                 $gpadrys->id_wo = $request->get('id_wo');
@@ -727,7 +739,6 @@ class MpsController extends Controller
                         }
                     }
                 }
-                
                 $gpadrys->save();
             }
         }
@@ -758,5 +769,4 @@ class MpsController extends Controller
         $pdf = PDF::loadView('planner.mps.view', ['dataMps' => $dataMps]);
         return $pdf->download('MPS.pdf');
     }
-
 }

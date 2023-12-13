@@ -56,14 +56,17 @@ class MaterialPendingNotification extends Mailable
     public $stockInfo;
     public $subjekEmail;
     public $materialInfo;
+    public $pesananInfo;
 
-    public function __construct($material, $stockInfo, $subjekEmail, $idBom, $materialInfo)
+
+    public function __construct($material, $stockInfo, $subjekEmail, $idBom, $materialInfo, $pesananInfo)
     {
         $this->material = $material;
         $this->stockInfo = $stockInfo;
         $this->subjekEmail = $subjekEmail;
         $this->idBom = $idBom;
         $this->materialInfo = $materialInfo;
+        $this->pesananInfo = $pesananInfo;
     }
 
     public function build()
@@ -76,6 +79,7 @@ class MaterialPendingNotification extends Mailable
                 'material' => $this->material,
                 'stockInfo' => $this->stockInfo,
                 'materialInfo' => $this->materialInfo,
+                'pesananInfo' => $this->pesananInfo,
             ]);
     }
 }

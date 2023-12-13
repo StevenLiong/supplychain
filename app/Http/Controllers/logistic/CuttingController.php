@@ -9,6 +9,7 @@ use App\Models\logistic\Material;
 use App\Models\planner\Detailbom;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\logistic\StokProduksi;
 
 class CuttingController extends Controller
 {
@@ -121,6 +122,8 @@ class CuttingController extends Controller
             $orderNamaWorkcenter = $item->nama_workcenter;
             $kd_material = $item->id_materialbom;
             $usage_material = $item->usage_material;
+            $satuan_material = $item->uom_material;
+            $nama_material = $item->nama_materialbom;
 
             // Pastikan material hanya dipotong jika nama_workcenter sesuai
             if ($orderNamaWorkcenter === $nama_workcenter) {
@@ -132,6 +135,28 @@ class CuttingController extends Controller
                         // Lakukan pemotongan stok
                         $masterMaterial->jumlah -= $usage_material;
                         $masterMaterial->save();
+                    }
+
+                    // Ambil informasi lengkap material
+                    $kd_material = $masterMaterial->kd_material;
+                    $nama_material = $masterMaterial->nama_material;
+                    $satuan = $masterMaterial->satuan;
+                    $jumlah = $masterMaterial->jumlah;
+
+                    // Tambahan: Lakukan penambahan stok produksi
+                    $stokProduksi = StokProduksi::where('kd_material', $kd_material)->first();
+                    if ($stokProduksi) {
+                        // Lakukan penambahan stok produksi
+                        $stokProduksi->jumlah += $usage_material;
+                        $stokProduksi->save();
+                    } else {
+                        // Jika belum ada data stok produksi, buat baru
+                        StokProduksi::create([
+                            'kd_material' => $kd_material,
+                            'nama_material' => $nama_material,
+                            'satuan' => $satuan,
+                            'jumlah' => $usage_material,
+                        ]);
                     }
                 }
 
@@ -148,7 +173,7 @@ class CuttingController extends Controller
                 }
             }
 
-            return redirect('/services/transaksiproduksi/listpending')->with('success', 'Stok Material Terpotong');
+            return redirect('/services/transaksiproduksi/stok')->with('success', 'Stok Master Material Terpotong dan masuk ke stok produksi');
         }
     }
 }

@@ -23,7 +23,7 @@ class MpsExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'ID',
+            'Nomor',
             'Work Order',
             'Project Name',
             'Production Line',

@@ -31,6 +31,20 @@ class MpsController extends Controller
         return view('planner.MPS.upload-mps', ['dataWo' => $dataWo]);
     }
 
+    public function getDataByIdWo($idWo)
+    {
+        // NARIK DATA WO 
+        $datawo = Wo::where('id_wo', $idWo)->first();
+
+        //jadiin array
+        $data = [
+            'qty_trafo' => $datawo->qty_trafo ?? null,
+            'kva' => $datawo->kva ?? null,
+        ];
+
+        return response()->json($data);
+    }
+
     public function store(Request $request)
     {
         //$dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
@@ -44,15 +58,21 @@ class MpsController extends Controller
         //     return view('planner.mps.index', compact('dataMps'))->with('manHourCode', $manHourCode);
         // }
         $mps = new Mps();
-        $mps->id_wo = $request->get('id_wo');
-        $dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
-        $mps->kd_manhour = $dataWo->id_standardize_work;
+        $id_wo = $request->get('id_wo');
+        $mps->id_wo = $id_wo;
+        
+        $wo = Wo::where('id_wo', $id_wo)->first();
+        if ($wo) {
+            $mps->id_wo = $wo->id_wo;
+            // $wo->qty_trafo = $bom->qty_bom;
+            $mps->qty_trafo = $wo->qty_trafo;
+            $mps->kva = $wo->kva;
+        }
+        
+        $mps->kd_manhour = $wo->id_standardize_work;
         $mps->project = $request->get('project');
         $mps->production_line = $request->get('production_line');
-        $mps->kva = $request->get('kva');
         $mps->jenis = $request->get('jenis');
-        $mps->qty_trafo = $request->get('qty_trafo');
-        $mps->lead_time = $request->get('lead_time');
         $mps->deadline = $request->get('deadline');
 
         $mps->save();
@@ -60,29 +80,16 @@ class MpsController extends Controller
         if ($request->get('jenis') === 'Dry Type') {
         // Ambil data workcenter_dry_types
         $workcenterDryTypes = WorkcenterDryType::all();
-        $drycastresins = DryCastResin::where('kd_manhour', $dataWo->id_standardize_work)->get();
+        $drycastresins = DryCastResin::where('kd_manhour', $wo->id_standardize_work)->get();
         foreach ($workcenterDryTypes as $workcenterDryType) {
-                // $gpadrys = new GPADry();
-                // $gpadrys->id_wo = $request->get('id_wo');
-                // $gpadrys->project = $request->get('project');
-                // $gpadrys->production_line = $request->get('production_line');
-                // $gpadrys->kva = $request->get('kva');
-                // $gpadrys->jenis = $request->get('jenis');
-                // $gpadrys->qty_trafo = $request->get('qty_trafo');
-                // $gpadrys->lead_time = $request->get('lead_time');
-                // $adjustedDeadline = $request->get('deadline');
-                // // dd($adjustedDeadline); 
-                // $gpadrys->nama_workcenter = $workcenterDryType->nama_workcenter;
-                // $gpadrys->save();
             foreach ($drycastresins as $drycastresin) {
                 $gpadrys = new GPADry();
                 $gpadrys->id_wo = $request->get('id_wo');
                 $gpadrys->project = $request->get('project');
                 $gpadrys->production_line = $request->get('production_line');
-                $gpadrys->kva = $request->get('kva');
+                $gpadrys->kva = $mps->kva;
                 $gpadrys->jenis = $request->get('jenis');
-                $gpadrys->qty_trafo = $request->get('qty_trafo');
-                $gpadrys->lead_time = $request->get('lead_time');
+                $gpadrys->qty_trafo = $mps->qty_trafo;
                 $adjustedDeadline = $request->get('deadline');
                 // dd($adjustedDeadline); 
                 $gpadrys->nama_workcenter = $workcenterDryType->nama_workcenter;
@@ -304,7 +311,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineSusunCore = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSusunCore);
-                            $daysToSubtract = 5 + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 6 + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) {
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -354,7 +361,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineMoulding = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineMoulding);
-                            $daysToSubtract = 2 + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 7 + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) {
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -404,7 +411,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineSupplyFixingCore = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyFixingCore);
-                            $daysToSubtract = 6 + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 9 + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) {
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -452,7 +459,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineCore = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineCore);
-                            $daysToSubtract = 9 + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 11 + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) {
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -500,7 +507,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineHV = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineHV);
-                            $daysToSubtract = 8 + $daysToSubtractHV; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 13 + $daysToSubtractHV; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) {
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -548,7 +555,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineLV = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineLV);
-                            $daysToSubtract = 11 + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 17 + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) { 
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -596,7 +603,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineSupplyMoulding = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyMoulding);
-                            $daysToSubtract = 3 + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 8 + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) {
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -646,7 +653,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineSupplyInsulationCoil = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyInsulationCoil);
-                            $daysToSubtract = 12 + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 19 + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) { 
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -694,7 +701,7 @@ class MpsController extends Controller
                         if($daysToSubtractFinishing == 0){
                             $adjustedDeadlineInsPaper = $request->get('deadline');
                             $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineInsPaper);
-                            $daysToSubtract = 15 + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                            $daysToSubtract = 22 + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
                             $countWorkDays = 0;
                             while ($daysToSubtract > 0) { 
                                 $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -758,14 +765,14 @@ class MpsController extends Controller
 
     public function exportToExcel()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'project', 'production_line', 'kva', 'jenis', 'qty_trafo', 'lead_time', 'deadline')->get(); // Ambil data Mps dari database
+        $dataMps = Mps::select('id', 'id_wo', 'project', 'production_line', 'kva', 'jenis', 'qty_trafo', 'deadline')->get(); // Ambil data Mps dari database
 
         return Excel::download(new MpsExport($dataMps), 'MPS.xlsx');
     }
 
     public function exportToPdf()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'project', 'production_line', 'kva', 'jenis', 'qty_trafo', 'lead_time', 'deadline')->get(); // Ambil data Mps dari database
+        $dataMps = Mps::select('id', 'id_wo', 'project', 'production_line', 'kva', 'jenis', 'qty_trafo', 'deadline')->get(); // Ambil data Mps dari database
         $pdf = PDF::loadView('planner.mps.view', ['dataMps' => $dataMps]);
         return $pdf->download('MPS.pdf');
     }

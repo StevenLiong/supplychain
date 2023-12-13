@@ -63,7 +63,7 @@
                                         {{-- Kolom tetap --}}
                                         <th>W1234567FA</th>
                                     <th>Broomfield</th>
-                                    <th>Nia</th>
+                                    <th>{{ $manpowerName }}</th>
                                     </tr>
                                 @endforeach
 

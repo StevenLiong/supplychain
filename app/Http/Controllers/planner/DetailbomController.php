@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MaterialPendingNotification;
+use App\Models\purchaser\pesanan;
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
 
@@ -54,6 +55,10 @@ class DetailbomController extends Controller
         $status = $statusAndKeterangan['status'];
         $keterangan = $statusAndKeterangan['keterangan'];
 
+        // $this->emailReminder();
+        // $this->emailReminder();
+
+        // $this->sendEmailReminder($material);
         $this->CekMaterial($id_bom);
         $this->updateStatusbom($id_bom); 
 
@@ -226,11 +231,9 @@ class DetailbomController extends Controller
             ->where('email_status', 0)
             ->get();
 
-        // dd($notifMaterial);
         if ($notifMaterial->count() > 0) {
             $subjekEmail = "Bill of Material Tertunda $idBom";
-            // dd($subjekEmail);
-            // Kumpulkan semua informasi dari $notifFg
+
             $dataMaterial = $notifMaterial->map(function ($material) {
                 return [
                     'id_boms' => $material->id_boms,
@@ -240,136 +243,101 @@ class DetailbomController extends Controller
                 ];
             });
 
-            // dd($notifMaterial);
-    
-            // Ambil informasi Stock berdasarkan item_code
             $stockInfo = Stock::where('item_code', $notifMaterial->first()->id_materialbom)->first();
-            $materialInfo = Material::where('kd_material', $notifMaterial->first()->id_materialbom)->first();
             // dd($stockInfo);
-            // Kirim email ke alamat yang ditentukan
+            $pesananInfo = pesanan::where('kd_material', $notifMaterial->first()->id_materialbom)->first();
+            // dd($pesananInfo);
+            $materialInfo = Material::where('kd_material', $notifMaterial->first()->id_materialbom)->first();
             $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
             Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
                 $dataMaterial,
                 $stockInfo,
                 $subjekEmail,
                 $idBom,
-                $materialInfo
+                $materialInfo,
+                $pesananInfo
             ));
-    
-            // Perbarui status email_status menjadi 1 untuk setiap data yang telah dikirimkan
+
             $notifMaterial->each(function ($material) {
-                $material->update(['email_status' => 1]);
+                $material->update(['email_status' => 1, 'last_kirim_email' => now()]);
             });
         }
     }
 
-    public function emailReminder()
-    {
-        $pendingMaterials = Detailbom::where('db_status', 0)->get();
-
-        if ($pendingMaterials->count() > 0) {
-            foreach ($pendingMaterials as $material) {
-                $stockInfo = Stock::where('item_code', $material->id_materialbom)->first();
-                $materialInfo = Material::where('kd_material', $material->id_materialbom)->first();
-
-                $subject = "Reminder: Bill of Material Tertunda {$material->id_boms}";
-
-                if (strtolower($stockInfo->supplier) == 'lokal') {
-                    $emailDelay = 2; // Supplier lokal, kirim email setelah 2 hari
-                } else {
-                    $emailDelay = 1; // Supplier impor, kirim email setelah 7 hari
-                }
-
-                if ($material->last_kirim_email === null || optional($material->last_kirim_email)->diffInDays(now()) >= $emailDelay) {
-                    $data = [
-                        'id_boms' => $material->id_boms,
-                        'id_materialbom' => $material->id_materialbom,
-                        'nama_materialbom' => $material->nama_materialbom,
-                        'usage_material' => $material->usage_material,
-                    ];
-
-                    $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
-                    Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
-                        collect([$data]),
-                        $stockInfo,
-                        $subject,
-                        $material->id_boms,
-                        $materialInfo
-                    ));
-
-                    $material->update(['last_kirim_email' => now()]);
-                }
-            }
-        }
-    }
-
-    public function manualEmailReminder()
-    {
-        $this->emailReminder();
-        // $this->emailNotif($idBom);
-
-        return 'Manual Email Reminder executed.';
-    }
-
-    // public function emailNotif($idBom)
+    // public function emailReminder()
     // {
-    //     $notifMaterial = Detailbom::where('id_boms', $idBom)
-    //         ->where('db_status', 0)
-    //         ->where('email_status', 0)
-    //         ->get();
+    //     $pendingMaterials = Detailbom::where('db_status', 0)->get();
+    //     // dd($pendingMaterials);
 
-    //     // Periksa apakah ada tertunda
-    //     if ($notifMaterial->count() > 0) {
-    //         // Anda dapat menyesuaikan konten email dan subjek sesuai kebutuhan
-    //         $subjekEmail = "Bill of Material Tertunda $idBom";
-    //         // dd($subjekEmail);
+    //     if ($pendingMaterials->count() > 0) {
+    //         foreach ($pendingMaterials as $material) {
+    //             $emailDelay = (strtolower($material->supplier) == 'lokal') ? 2 : 7;
 
-    //         $dataMaterial = $notifMaterial->map(function ($material) {
-    //             return [
-    //                 'id_boms' => $material->id_boms,
-    //                 'id_materialbom' => $material->id_materialbom,
-    //                 'nama_materialbom' => $material->nama_materialbom,
-    //                 'usage_material' => $material->usage_material,
-    //             ];
-    //         });
-
-    //         // dd($notifMaterial);
-
-    //         $stockInfo = Stock::where('item_code', $notifMaterial->first()->id_materialbom)->first();
-    //         $materialInfo = Material::where('kd_material', $notifMaterial->first()->id_materialbom)->first();
-    //         // dd($stockInfo);
-
-    //         $supplier = $stockInfo->supplier;
-    //         // dd($supplier);
-
-    //         // Tambahkan kondisi untuk menentukan waktu penundaan berdasarkan jenis supplier
-    //         if (strtolower($supplier) == 'lokal') {
-    //             $emailDelay = 2; // Supplier lokal, kirim email setelah 2 hari
-    //         } else {
-    //             $emailDelay = 7; // Supplier impor, kirim email setelah 7 hari
+    //             if ($material->email_status === 1 && $material->db_status === 0 && optional($material->last_kirim_email)->diffInDays(now()) >= $emailDelay) {
+    //                 $this->sendEmailReminder($material);
+    //                 $material->update(['last_kirim_email' => now()]);
+    //             }
     //         }
-
-    //         // Periksa apakah sudah lewat waktu tertentu sejak terakhir kali email dikirim
-    //         $notifMaterial = $notifMaterial->filter(function ($material) use ($emailDelay) {
-    //             return $material->last_kirim_email === null || optional($material->last_kirim_email)->diffInDays(now()) >= $emailDelay;
-    //         });
-
-    //         // Kirim email ke alamat yang ditentukan
-    //         $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
-    //         Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
-    //             $dataMaterial,
-    //             $stockInfo,
-    //             $subjekEmail,
-    //             $idBom,
-    //             $materialInfo
-    //         ));
-
-    //         $notifMaterial->each(function ($material) {
-    //             $material->update(['email_status' => 1, 'last_kirim_email' => now()]);
-    //         });
     //     }
     // }
 
+    // protected function sendEmailReminder($material)
+    // {
+    //     $subjekEmail = "Reminder: Bill of Material Tertunda {$material->id_boms}";
+    //     $dataMaterial = [
+    //         'id_boms' => $material->id_boms,
+    //         'id_materialbom' => $material->id_materialbom,
+    //         'nama_materialbom' => $material->nama_materialbom,
+    //         'usage_material' => $material->usage_material,
+    //     ];
+
+    //     $stockInfo = Stock::where('item_code', $material->id_materialbom)->first();
+    //     // dd($stockInfo);
+    //     $pesananInfo = pesanan::where('kd_material', $material->first()->id_materialbom)->first();
+
+    //     $materialInfo = Material::where('kd_material', $material->id_materialbom)->first();
+
+    //     $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
+    //     Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
+    //         collect([$dataMaterial]),
+    //         $stockInfo,
+    //         $subjekEmail,
+    //         $material->id_boms,
+    //         $materialInfo,
+    //         $pesananInfo
+    //     ));
+
+    //     $material->update(['email_status' => 1, 'last_kirim_email' => now()]);
+    // }
+
+    // protected function sendEmailReminder($material)
+// {
+//     $subjekEmail = "Reminder: Bill of Material Tertunda {$material->id_boms}";
+//     $dataMaterial = [
+//         'id_boms' => $material->id_boms,
+//         'id_materialbom' => $material->id_materialbom,
+//         'nama_materialbom' => $material->nama_materialbom,
+//         'usage_material' => $material->usage_material,
+//     ];
+
+//     // Ambil informasi Stock berdasarkan item_code
+//     $stockInfo = Stock::where('item_code', $material->id_materialbom)->first();
+//     dd($stockInfo);
+//     $materialInfo = Material::where('kd_material', $material->id_materialbom)->first();
+
+//     // Kirim email ke alamat yang ditentukan
+//     $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
+//     Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
+//         collect([$dataMaterial]),
+//         $stockInfo,
+//         $subjekEmail,
+//         $material->id_boms,
+//         $materialInfo
+//     ));
+
+//     // Perbarui status email_status menjadi 1 dan last_kirim_email untuk data yang telah dikirimkan
+//     $material->update(['email_status' => 1, 'last_kirim_email' => now()]);
+// }
 
     public function getStatusAndKeterangan($detailbom, $id_bom)
     {
@@ -407,37 +375,10 @@ class DetailbomController extends Controller
         }
 
         $this->emailNotif($idBom);
-        $this->emailReminder();
+        // $this->emailReminder();
 
         Bom::where('id_bom', $id_bom)->update(['status_bom' => $statusBom]);
     }
-
-    // public function submit(Request $request)
-    // {
-    //     $idBom = $request->input('id_bom');
-        
-    //     Detailbom::where('id_boms', $idBom)->update(['submitted' => 1]);
-
-    //     return redirect()->route('bom.detailbom', $idBom);
-    // }
-
-    // public function restoreMaterial(Request $request, $id_materialbom, $id_bom) {
-        
-    //     $detailBom = Detailbom::where('id_materialbom', $id_materialbom)->where('id_boms', $id_bom)->first();
-    
-    //     if ($detailBom->submitted == 1) {
-    //         $material = Material::where('kd_material', $detailBom->id_materialbom)->first();
-
-    //         if ($material) {
-    //             $material->jumlah += $detailBom->usage_material;
-    //             $material->save();
-    //         }
-    //     }
-    //     $detailBom->setAttribute('submitted', 0);
-    //     $detailBom->save();
-    
-    //     return redirect()->back();
-    // }
 
     public function submit(Request $request)
     {

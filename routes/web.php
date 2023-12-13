@@ -33,6 +33,7 @@ use App\Http\Controllers\planner\FinishgoodController;
 use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryNonResinController;
 use App\Http\Controllers\logistic\FinishedgoodController;
+use App\Http\Controllers\logistic\StokProduksiController;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\planner\WorkcenterDryTypeController;
@@ -66,11 +67,8 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
     // rak end
 
-
-
     // finished good
     Route::resource('datamaster/finishedgood', FinishedgoodController::class);
-
 
     // receiving
     Route::resource('receiving/incoming', IncomingController::class);
@@ -85,7 +83,6 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('storage/rawmaterial', [StorageController::class, 'indexHome']);
     Route::get('storage/finishedgood', [StorageController::class, 'indexFinishedGood']);
 
-
     // Scan All
     Route::get('scan/information', [ScanController::class, 'scanInformationMaterial']);
     Route::get('receiving/scan', [ScanController::class, 'receivingScan']);
@@ -94,13 +91,10 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     // rawmat
     Route::get('storage/rawmaterial/scan', [ScanController::class, 'storageScan']);
 
-
-
     // untuk rackchecking
     Route::resource('storage/rawmaterial/listmaterial', MaterialRakController::class);
     Route::get('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'addStock']);
     Route::put('storage/rawmaterial/listmaterial/addstock/{id}', [MaterialRakController::class, 'updateStock']);
-
 
     // Services index transaksi gudang dan transaksi produksi
     Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
@@ -128,6 +122,9 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     route::get('/services/transaksiproduksi/transfer', [TransferController::class, 'index']);
     route::get('/services/transaksiproduksi/trasnfer/create', [TransferController::class, 'create']);
 
+    // stok produksi
+    Route::resource('/services/transaksiproduksi/stok', StokProduksiController::class);
+
     route::resource('/services/transaksiproduksi/transfer', TransferController::class);
     route::get('/services/transaksiproduksi/transfer/lacak/{no_bon}', [TransferController::class, 'tracker']);
     route::put('/services/transaksiproduksi/transfer/lacak/update/{no_bon}', [TransferController::class, 'updateStatus']);
@@ -136,9 +133,14 @@ Route::middleware(['auth', 'logistic'])->group(function () {
 
     // Shipping
     Route::get('shipping/createpackinglist', [ShippingController::class, 'indexPack']);
-    Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
     Route::get('shipping/createpackinglist/create', [ShippingController::class, 'createPack']);
+    Route::post('shipping/createpackinglist', [ShippingController::class, 'storePack']);
+    Route::get('shipping/createpackinglist/print/id', [ShippingController::class, 'printPack']);
+    Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
     Route::get('shipping/deliveryreceipt/create', [ShippingController::class, 'createDelivery']);
+    Route::post('shipping/deliveryreceipt', [ShippingController::class, 'storeDelivery']);
+    Route::get('shipping/deliveryreceipt/print/id', [ShippingController::class, 'printDelivery']);
+
     // logistic end
 
 });

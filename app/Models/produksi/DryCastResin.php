@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DryCastResin extends Model
 {
     use HasFactory;
+    protected $table = 'dry_cast_resins';
+
     protected $fillable = [
         'kd_manhour',
         'nama_product',
@@ -63,7 +65,7 @@ class DryCastResin extends Model
 
     public function man_hour(): BelongsTo
     {
-        return $this->belongsTo(ManHour::class,'manhour_id','id');
+        return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
     }
 
     public static function boot()
@@ -73,6 +75,9 @@ class DryCastResin extends Model
         static::created(function ($dryresin) {
             StandardizeWork::create([
                 'id_dry_cast_resin' => $dryresin->id,
+                'total_hour' => $dryresin->total_hour,
+                'id_fg' => $dryresin->id_fg,
+                'kd_manhour' => $dryresin->kd_manhour,
             ]);
         });
 

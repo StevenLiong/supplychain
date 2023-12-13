@@ -11,16 +11,17 @@
 
                 <div class="row mb-4 align-items-center">
 
-                    <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03"
-                        data-toggle="dropdown" aria-expanded="false">
-                        <div class="btn btn-primary">Work Center<i class="ri-arrow-down-s-line ml-2 mr-0"></i></div>
-                        <div class="dropdown-menu dropdown-menu" aria-labelledby="dropdownMenuButton03">
-                            <a class="dropdown-item" href="#"> Coil Making</a>
-                            <a class="dropdown-item" href="#"> Mould & Casting</a>
-                            <a class="dropdown-item" href="#"> Core & Assembly</a>
-                            <a class="dropdown-item" href="#"> QC</a>
-                        </div>
-                    </div>
+                    <form action="{{ route('process.workcenter_rekomendasi') }}" method="post" class="ml-2" id="workcenterForm_rekomendasi">
+                        @csrf
+                        <select class="custom-select" name="selectedWorkcenter_rekomendasi" id="workcenterSelect_rekomendasi"><i
+                                class="ri-arrow-down-s-line ml-2 mr-0"></i>
+                                <option value="1">Coil Making HV</option>
+                                <option value="2">Coil Making LV</option>
+                                <option value="3">Mould & Casting</option>
+                                <option value="4">Core & Assembly</option>
+                        </select>
+
+                    </form>
                     <div class="ml-auto mr-3" style="align-items: d-flex right;">
                         <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i
                                 class="mr-2 fa-solid fa-print"></i>Print</a>
@@ -34,7 +35,7 @@
 
                                 <tr>
                                     <th rowspan="2" style="width: 150px; vertical-align: middle;">Tanggal</th>
-                                    <th colspan="3">Coil LV</th>
+                                    <th colspan="3">{{ $data['workcenterLabel'] }}</th>
                                     <th colspan="3">Coil HV</th>
                                 </tr>
                                 <tr>
@@ -140,4 +141,27 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Mendeteksi perubahan pada dropdown
+            $('#workcenterSelect_rekomendasi').change(function() {
+                // Mengambil nilai yang dipilih
+                var selectedValue = $(this).val();
+
+                // Menyimpan nilai yang dipilih dalam localStorage
+                localStorage.setItem('selectedWorkcenter_rekomendasi', selectedValue);
+
+                // Mengirimkan formulir secara otomatis
+                $('#workcenterForm_rekomendasi').submit();
+            });
+
+            // Memeriksa apakah ada nilai yang disimpan dalam localStorage
+            var storedValue = localStorage.getItem('selectedWorkcenter_rekomendasi');
+            if (storedValue) {
+                // Menetapkan nilai yang disimpan sebagai nilai awal dropdown
+                $('#workcenterSelect_rekomendasi').val(storedValue);
+            }
+        });
+    </script>
 @endsection

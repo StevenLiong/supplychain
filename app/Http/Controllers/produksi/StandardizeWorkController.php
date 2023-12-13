@@ -21,7 +21,8 @@ class StandardizeWorkController extends Controller
     {
         if (auth()->check()) {
             $standardize_works = StandardizeWork::all();
-            return response(view('produksi.standardized_work.dashboard', ['standardize_works' => $standardize_works]));
+            $title = 'Home';
+            return response(view('produksi.standardized_work.dashboard', ['standardize_works' => $standardize_works, 'title' => $title]));
         }
         return view('auth.login');
     }

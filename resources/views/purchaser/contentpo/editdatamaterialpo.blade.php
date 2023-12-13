@@ -72,7 +72,7 @@
                         <div class="col-md-3">
                             <div class="mb-3">
                                 <label for="exampleInputName" class="form-label">Term</label>
-                                <input type="text" class="form-control" id="term" name="term">
+                                <input type="text" class="form-control" id="term" name="term" value="{{ $po->term}}">
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="longText" class="form-label">Keterangan</label>
-                                <textarea class="form-control scrollable-textarea" id="longText" name="keterangan"></textarea>
+                                <textarea class="form-control scrollable-textarea" id="longText" name="keterangan">{{$po->keterangan}}</textarea>
                             </div>
                         </div>
                         <div class="col-md-3">

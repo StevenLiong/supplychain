@@ -58,11 +58,6 @@ class MpsController extends Controller
         //     return view('planner.mps.index', compact('dataMps'))->with('manHourCode', $manHourCode);
         // }
         $mps = new Mps();
-<<<<<<< Updated upstream
-        $mps->id_wo = $request->get('id_wo');
-        $dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
-        $mps->kd_manhour = $dataWo->kd_manhour;
-=======
         $id_wo = $request->get('id_wo');
         $mps->id_wo = $id_wo;
         
@@ -75,7 +70,6 @@ class MpsController extends Controller
         }
         
         $mps->kd_manhour = $wo->id_standardize_work;
->>>>>>> Stashed changes
         $mps->project = $request->get('project');
         $mps->production_line = $request->get('production_line');
         $mps->jenis = $request->get('jenis');
@@ -86,11 +80,7 @@ class MpsController extends Controller
         if ($request->get('jenis') === 'Dry Type') {
         // Ambil data workcenter_dry_types
         $workcenterDryTypes = WorkcenterDryType::all();
-<<<<<<< Updated upstream
-        $drycastresins = DryCastResin::where('kd_manhour', $dataWo->kd_manhour)->get();
-=======
         $drycastresins = DryCastResin::where('kd_manhour', $wo->id_standardize_work)->get();
->>>>>>> Stashed changes
         foreach ($workcenterDryTypes as $workcenterDryType) {
             foreach ($drycastresins as $drycastresin) {
                 $gpadrys = new GPADry();
@@ -756,7 +746,6 @@ class MpsController extends Controller
                         }
                     }
                 }
-                
                 $gpadrys->save();
             }
         }
@@ -787,5 +776,4 @@ class MpsController extends Controller
         $pdf = PDF::loadView('planner.mps.view', ['dataMps' => $dataMps]);
         return $pdf->download('MPS.pdf');
     }
-
 }

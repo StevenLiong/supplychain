@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\produksi;
 
 use App\Models\produksi\StandardizeWork;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Wo2 extends Model
 {
+    protected $table = 'wo2s';
     protected $fillable = [
         'id_boms',
         'id_wo',

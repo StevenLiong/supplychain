@@ -48,45 +48,26 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                <tr>
-                                    <th rowspan="3">04/04/2002</th>
+
+
+                                @foreach ($data['manpowerNames'] as $manpowerName)
+                                    <tr>
+                                        {{-- Kolom yang ingin di-merge dengan baris sebelumnya --}}
+                                        <th>04/04/2002</th>
                                     <th>W1234567FA</th>
                                     <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
+
+                                        {{-- Kolom dengan nama ManPower --}}
+                                        <th>{{ $manpowerName }}</th>
+
+                                        {{-- Kolom tetap --}}
+                                        <th>W1234567FA</th>
                                     <th>Broomfield</th>
                                     <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th rowspan="3">04/04/2002</th>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
+                                    </tr>
+                                @endforeach
+
+                                {{-- <tr>
                                     <th>W1234567FA</th>
                                     <th>Honghua</th>
                                     <th>Widia</th>
@@ -132,6 +113,34 @@
                                     <th>Broomfield</th>
                                     <th>Nia</th>
                                 </tr>
+                                <tr>
+                                    <th rowspan="3">04/04/2002</th>
+                                    <th>W1234567FA</th>
+                                    <th>Honghua</th>
+                                    <th>Widia</th>
+                                    <th>W1234567FA
+                                    </th>
+                                    <th>Broomfield</th>
+                                    <th>Nia</th>
+                                </tr>
+                                <tr>
+                                    <th>W1234567FA</th>
+                                    <th>Honghua</th>
+                                    <th>Widia</th>
+                                    <th>W1234567FA
+                                    </th>
+                                    <th>Broomfield</th>
+                                    <th>Nia</th>
+                                </tr>
+                                <tr>
+                                    <th>W1234567FA</th>
+                                    <th>Honghua</th>
+                                    <th>Widia</th>
+                                    <th>W1234567FA
+                                    </th>
+                                    <th>Broomfield</th>
+                                    <th>Nia</th>
+                                </tr> --}}
 
                             </tbody>
 

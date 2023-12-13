@@ -13,7 +13,7 @@ class MatriksSkillSeeder extends Seeder
      */
     public function run()
     {
-        $csvFile = database_path('seeders\csv\matriks_skill.csv'); // Tentukan jalur ke file CSV Anda
+        $csvFile = database_path('seeders\csv\matrix_skill3.csv'); // Tentukan jalur ke file CSV Anda
 
         $csvData = array_map('str_getcsv', file($csvFile));
 
@@ -23,11 +23,11 @@ class MatriksSkillSeeder extends Seeder
             $data = array_combine($header, $row);
 
             DB::table('matriks_skill')->insert([
-                'nama_mp' => $data['nama_mp'],
-                'production_line' => $data['production_line'],
-                'kategori_produk' => $data['kategori_produk'],
-                'proses' => $data['proses'],
-                'tipe_proses' => $data['tipe_proses'],
+                'id_mp' => $data['id_mp'],
+                'id_production_line' => $data['id_production_line'],
+                'id_kategori_produk' => $data['id_kategori_produk'],
+                'id_proses' => $data['id_proses'],
+                'id_tipe_proses' => $data['id_tipe_proses'],
                 'skill' => $data['skill'],
                 'created_at' => now(),
                 'updated_at' => now(),

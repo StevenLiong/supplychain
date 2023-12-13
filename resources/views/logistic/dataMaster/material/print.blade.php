@@ -16,7 +16,7 @@
             {{-- table cetak --}}
             {{-- button print --}}
             <div class="btn-print px-3 mb-3">
-                <button class="btn-btn-sm btn-gray" id="print">Cetak</button>
+                <button class="btn btn-sm btn-gray" id="print">Cetak</button>
             </div>
             {{-- button print end --}}
             <div class="table-responsive px-3">

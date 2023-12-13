@@ -20,8 +20,8 @@
                         <div class="col-lg-3 col-6 ">
                             <!-- box in -->
                             <a href="{{ url('services/transaksigudang/order') }}">
-                                <div class="small-box bg-blue">
-                                    <div class="inner text-light">
+                                <div class="small-box">
+                                    <div class="inner text-dark">
                                         <h3>Order</h3>
 
                                         <p>Permintaan Material</p>
@@ -44,12 +44,11 @@
                         <div class="col-lg-3 col-6 ">
                             <!-- box in -->
                             <a href="{{ url('services/transaksigudang/picking/scan') }}">
-                                <div class="small-box bg-red">
-                                    <div class="inner text-light">
+                                <div class="small-box">
+                                    <div class="inner text-dark">
                                         <h3>Picking</h3>
 
                                         <p>Mengambil Material</p>
-
                                     </div>
                                     <div class="icon">
                                         <svg width="50" height="50" viewBox="0 0 63 67" fill="none"
@@ -69,9 +68,9 @@
                         </div>
                         <div class="col-lg-3 col-6 ">
                             <!-- box in -->
-                            <a href="#">
-                                <div class="small-box bg-success">
-                                    <div class="inner text-light">
+                            <a href="{{ url('services/transaksigudang/cutting') }}">
+                                <div class="small-box ">
+                                    <div class="inner text-dark">
                                         {{-- <h3>{{ $material->count() }}</h3> --}}
                                         <h3>Cut Stock</h3>
 

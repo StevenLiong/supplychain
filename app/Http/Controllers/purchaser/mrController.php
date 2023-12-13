@@ -3,46 +3,41 @@
 namespace App\Http\Controllers\purchaser;
 
 use App\Http\Controllers\Controller;
-use App\Models\division;
-use App\Models\mr;
-use App\Models\material;
-use App\Models\pesanan;
-use Illuminate\Http\Request; 
+use App\Models\purchaser\division;
+use App\Models\logistic\Material as material;
+use App\Models\purchaser\pesanan;
+use App\Models\purchaser\mr as mr;
+use Illuminate\Http\Request;
 use GuzzleHttp\Promise\Create;
 use Carbon\Carbon;
-
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class mrController extends Controller
 {
-    //
+
     public function index()
     {
-        return view('purchaser.contentmr.dashboardmr');
-    }
-    public function materialRequest()
-    {
         $dataMr = mr::all();
-        return view(
-            'purchaser.contentmr.materialrequest',
-
-            [
-                'dataMr' => $dataMr,
-            ]
-        );      
+        return view('purchaser.contentmr.materialrequest', ['dataMr' => $dataMr,]);
     }
+    // public function materialRequest()
+    // {
+    //     $dataMr = mr::all();
+    //     return view('purchaser.contentmr.materialrequest', ['dataMr' => $dataMr,]);
+    // }
 
     public function editmaterial()
     {
         return view('purchaser.contentmr.editmaterialmr');
     }
 
-    public function tableMaterial()
+    public function reportmr()
     {
-        return view('purchaser.contentmr.tabelmaterialmr');
+        $dataMr = mr :: all();
+        return view('purchaser.contentmr.reportmr', ['dataMr' => $dataMr,]);
     }
 
-
+    //create data mr
     public function createmr()
     {
         $length = 10;
@@ -50,23 +45,23 @@ class mrController extends Controller
         $uniqueNumber = str_pad(random_int(0, pow(10, $length) - 1), $length, '0', STR_PAD_LEFT);
         $id = 'MR' . $uniqueNumber;
         $now = Carbon::now();
-        $material = material::all()->groupBy('name_material');
+        $materials = material::all();
         return view(
             'purchaser.contentmr.adddatamaterialmr',
             [
                 'id' => $id,
                 'now' => $now,
-                'materials' => $material,
-                'divisions'=>$divisions
+                'materials' => $materials,
+                'divisions' => $divisions
             ]
         );
-
     }
 
+    //edit mr to DB
     public function editmr($id_mr)
     {
-        $mr = mr::where('id_mr',$id_mr)->firstOrFail();
-        $materials = material::all()->groupBy('name_material');
+        $mr = mr::where('id_mr', $id_mr)->firstOrFail();
+        $materials = material::all();
         return view(
             'purchaser.contentmr.editdatamaterialmr',
             [
@@ -74,47 +69,90 @@ class mrController extends Controller
                 'materials' => $materials
             ]
         );
-
     }
 
+    // public function removemat($id_pesanan)
+    // {
+    //     $pesanan = pesanan::where('id_pesanan', $id_pesanan)->firstOrFail();
+    //     // dd($pesanan);
+    //     $pesanan->delete();
+    //     return redirect()->back()->with('succes', 'item berhasil dihapus');
+    // }
 
-
-    public function storemr(Request $request)
-    { 
+    //save stage edit mr from DB
+    public function storeEditmr($id_mr, Request $request)
+    {
+        // @dd($request->all());
         $validated = $request->validate([
-            'id_mr'=>'required',
-            'keterangan'=>'required',
-            'status_mr'=>'required',
-            'tanggal_mr'=>'required',
-            'id_division'=>'required',
-            'material'=>'required',
-            'qty'=>'required',
+            'status_mr' => 'required',
+            'keterangan' => 'required',
+            'qty' => 'required',
+            'material' => 'sometimes'
+        ]);
+
+        $mr = mr::where('id_mr', $id_mr)->firstOrFail();
+
+        $mr->status_mr = $validated['status_mr'];
+        $mr->keterangan = $validated['keterangan'];
+        // @dd($validated);
+        if(isset($validated['material'])){
+            foreach ($validated['material'] as $key => $value) {
+                $pesanan = new pesanan();
+                $pesanan->kd_material = $value;
+                $pesanan->id_mr = $mr->id_mr;
+                $pesanan->qty_pesanan = $validated['qty'][$key];
+                $pesanan->save();
+            }
+        }
+        $mr->save();
+
+        return redirect('/materialrequest')->with('success', 'Item has been created successfully!');
+    }
+
+    //create data form to DB
+    public function storemr(Request $request)
+    {
+        $validated = $request->validate([
+            'id_mr' => 'required',
+            // 'id_po'=>'required',
+            'keterangan' => 'required',
+            'status_mr' => 'required',
+            'tanggal_mr' => 'required',
+            'accepted_mr' => 'required',
+            'id_division' => 'required',
+            'material' => 'required',
+            'qty' => 'required',
         ]);
         $mr = new mr();
         $mr->id_mr = $validated['id_mr']; // asumsi 'name' adalah nama kolom di tabel
         $mr->keterangan = $validated['keterangan']; // asumsi 'name' adalah nama kolom di tabel
         $mr->status_mr = $validated['status_mr']; // asumsi 'name' adalah nama kolom di tabel
         $mr->tanggal_mr = $validated['tanggal_mr']; // asumsi 'name' adalah nama kolom di tabel
+        $mr->accepted_mr = $validated['accepted_mr']; // asumsi 'name' adalah nama kolom di tabel
         $mr->id_division = $validated['id_division']; // asumsi 'name' adalah nama kolom di tabel
+        // $mr->id_po = $validated['id_po']; // asumsi 'name' adalah nama kolom di tabel
+
         $orders = [];
         foreach ($validated['material'] as $key => $value) {
             $pesanan = new pesanan();
-            $pesanan->id_material = $value;
+            $pesanan->kd_material = $value;
             $pesanan->id_mr = $mr->id_mr;
             $pesanan->qty_pesanan = $validated['qty'][$key];
             $pesanan->save();
         }
         $mr->save();
 
-        return redirect('/materialrequest')->with('success', 'Item has been created successfully!'); 
+        return redirect('/materialrequest')->with('success', 'Item has been created successfully!');
     }
 
-
+    //delete mr from DB
     public function destroymr($id)
     {
         $data = mr::where('id_mr', $id)->first();
-
         if ($data) {
+            foreach ($data->pesanan as  $pesanan) {
+                $pesanan->delete();
+            }
             $data->delete();
             return redirect('/materialrequest')->with('success', 'Item has been delete successfully!');
         }

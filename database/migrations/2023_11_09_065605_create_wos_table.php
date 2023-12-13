@@ -13,15 +13,21 @@ return new class extends Migration
     {
         Schema::create('wos', function (Blueprint $table) {
             $table->id();
-            $table->string('id_boms')->references('id_bom')->on('boms');
-            $table->string('id_wo');
+            // $table->unsignedBigInteger('id_boms');
+            $table->string('id_boms');
+            $table->string('id_wo')->references('id_wo')->on('mps');
+            // $table->string('id_wo');
+            $table->string('id_fg');
+            //$table->unsignedBigInteger('id_standardize_work');
             $table->string('id_standardize_work');
-            $table->integer('qty_trafo')->references('qty_trafo')->on('detailboms');
-            $table->string('id_so')->references('id_so')->on('sos');
+            $table->integer('qty_trafo');
+            $table->integer('kva');
+            //$table->unsignedBigInteger('id_so');
+            $table->string('id_so')->references('kode_so')->on('sos');
             $table->date('start_date')->nullable();
             $table->date('finish_date')->nullable();
             $table->timestamps();
-    
+
         });
     }
 

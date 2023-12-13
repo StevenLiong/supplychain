@@ -21,9 +21,9 @@
                         <div class="table-responsive p-2">
                             <table class="table table-bordered ">
                                 <tbody>
+                                    {{-- material --}}
                                     <tr>
                                         <td class="border-form">
-                                            {{-- material --}}
                                             <ul>
                                                 <li>
                                                     <h3>Material</h3>
@@ -38,12 +38,16 @@
                                                             class="form-control form-select form-select-lg @error('kd_material_rak')
                                                             is-invalid
                                                         @enderror"
-                                                            name="kd_material_rak" id="kd_material_rak">
-                                                            <option selected>Pilih kode material</option>
+                                                            name="kd_material_rak" id="kd_material_rak"
+                                                            onchange="updateMat(this)">
+                                                            <option value="" selected>Pilih kode material</option>
                                                             @foreach ($materialRak as $item)
                                                                 <option value="{{ $item->id }}"
+                                                                    data-nama="{{ $item->material->nama_material }}"
+                                                                    data-satuan="{{ $item->material->satuan }}"
                                                                     {{ old('kd_material_rak') == $item->id ? 'selected' : '' }}>
-                                                                    {{ $item->material->kd_material }}</option>
+                                                                    {{ $item->material->kd_material }}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                         @error('kd_material_rak')
@@ -53,12 +57,28 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-2 p-2">
+                                                        <label for="exampleInputName" class="form-label">Nama Material
+                                                        </label>
+                                                        <input type="text" class="form-control" id="materialname"
+                                                            disabled name="materialname">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-2 p-2">
+                                                        <label for="exampleInputSatuan" class="form-label">Satuan
+                                                        </label>
+                                                        <input type="text" class="form-control" id="satuan" disabled
+                                                            name="satuan">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
+                                    {{-- form supplier --}}
                                     <tr>
                                         <td class="border-form">
-                                            {{-- form supplier --}}
                                             <ul>
                                                 <li>
                                                     <h3>Supplier</h3>
@@ -72,12 +92,15 @@
                                                             class="form-control form-select form-select-lg @error('kd_supplier')
                                                             is-invalid
                                                         @enderror"
-                                                            name="kd_supplier" id="kd_supplier">
-                                                            <option selected>Pilih Nama Supplier</option>
+                                                            name="kd_supplier" id="kd_supplier" onchange="updateForm(this)">
+                                                            <option value="" selected disabled>Pilih Kode Supplier
+                                                            </option>
                                                             @foreach ($supplier as $item)
                                                                 <option value="{{ $item->id }}"
+                                                                    data-supplier="{{ $item->nama_supplier }}"
+                                                                    data-valuta="{{ $item->valuta }}"
                                                                     {{ old('kd_supplier') == $item->id ? 'selected' : '' }}>
-                                                                    {{ $item->nama_supplier }}</option>
+                                                                    {{ $item->kd_supplier }}</option>
                                                             @endforeach
                                                         </select>
                                                         @error('kd_supplier')
@@ -89,13 +112,34 @@
                                                         @enderror
                                                     </div>
                                                 </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 p-2">
+                                                        <div class="col-mb-3">
+                                                            <label for="exampleInputName" class="form-label">Nama Supplier
+                                                            </label>
+                                                            <input type="text" class="form-control" id="nama_supplier"
+                                                                disabled name="nama_supplier">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="mb-3 p-2">
+                                                        <div class="col-mb-3">
+                                                            <label for="exampleInputEmail" class="form-label">Valuta
+                                                            </label>
+                                                            <input type="text" class="form-control" id="valuta"
+                                                                disabled name="valuta">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             {{-- form supplier end --}}
                                         </td>
                                     </tr>
+                                    {{-- form informasi tambahan --}}
                                     <tr>
                                         <td class="border-form">
-                                            {{-- form informasi tambahan --}}
                                             <ul>
                                                 <li>
                                                     <h3>Informasi Tambahan</h3>
@@ -206,5 +250,25 @@
             {{-- form end --}}
         </div>
     </div>
-@endsection
 
+
+    <script>
+        function updateForm(sel) {
+            var selectedOption = $('#kd_supplier').find('option:selected');
+            var suppliername = $('input[name="nama_supplier"]');
+            var valuta = $('input[name="valuta"]');
+            suppliername.val(selectedOption.data('supplier'));
+            valuta.val(selectedOption.data('valuta'));
+        }
+
+        function updateMat(select) {
+            var selectedOption = $('#kd_material_rak').find('option:selected');
+            var materialname = $('input[name="materialname"]');
+            var satuan = $('input[name="satuan"]');
+            console.log(selectedOption.data('materialname'));
+
+            materialname.val(selectedOption.data('nama'));
+            satuan.val(selectedOption.data('satuan'));
+        }
+    </script>
+@endsection

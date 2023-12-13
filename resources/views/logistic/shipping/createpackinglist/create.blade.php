@@ -16,22 +16,22 @@
             {{-- form --}}
             <div class="row">
                 <div class="col-12 px-3">
-                    <form action="{{ url('shipping/createpackinglist/create') }}" method="post">
+                    <form action="{{ url('shipping/createpackinglist') }}" method="POST">
                         @csrf
                         {{-- Form Packing List --}}
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="tgl_packing" class="form-label">Tanggal
+                                    <label for="Tanggal_Packing" class="form-label">Tanggal
                                         Packing</label>
                                     <input type="date"
-                                        class="form-control @error('tgl_packing')
+                                        class="form-control @error('Tanggal_Packing')
                                         is-invalid
                                     @enderror"
-                                        id="tgl_packing" name="tgl_packing"
-                                        placeholder="Input kode Purchase"
-                                        value="{{ old('tgl_packing') }}">
-                                    @error('tgl_packing')
+                                        id="Tanggal_Packing" name="Tanggal_Packing"
+                                        placeholder="Pilih Tanggal Packing"
+                                        value="{{ old('Tanggal_Packing') }}">
+                                    @error('Tanggal_Packing')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -40,15 +40,15 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="no_do" class="form-label">No. DO</label>
+                                    <label for="NO_DO" class="form-label">No. DO</label>
                                     <input type="text"
-                                        class="form-control @error('no_do')
+                                        class="form-control @error('NO_DO')
                                         is-invalid
                                     @enderror"
-                                        id="no_do" name="no_do"
+                                        id="NO_DO" name="NO_DO"
                                         placeholder="Input No. DO"
-                                        value="{{ old('no_do') }}">
-                                    @error('no_do')
+                                        value="{{ old('NO_DO') }}">
+                                    @error('NO_DO')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -57,15 +57,15 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="no_wo" class="form-label">No. WO</label>
+                                    <label for="NO_WO" class="form-label">No. WO</label>
                                     <input type="text"
-                                        class="form-control @error('no_wo')
+                                        class="form-control @error('NO_WO')
                                         is-invalid
                                     @enderror"
-                                        id="no_wo" name="no_wo"
+                                        id="NO_WO" name="NO_WO"
                                         placeholder="Input No. WO"
-                                        value="{{ old('no_wo') }}">
-                                    @error('no_wo')
+                                        value="{{ old('NO_WO') }}">
+                                    @error('NO_WO')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -74,15 +74,15 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="nsp" class="form-label">NSP</label>
+                                    <label for="NSP" class="form-label">NSP</label>
                                     <input type="text"
-                                        class="form-control @error('nsp')
+                                        class="form-control @error('NSP')
                                         is-invalid
                                     @enderror"
-                                        id="nsp" name="nsp"
+                                        id="NSP" name="NSP"
                                         placeholder="Input NSP"
-                                        value="{{ old('nsp') }}">
-                                    @error('nsp')
+                                        value="{{ old('NSP') }}">
+                                    @error('NSP')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -91,15 +91,15 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="nsk" class="form-label">NSK</label>
+                                    <label for="NSK" class="form-label">NSK</label>
                                     <input type="text"
-                                        class="form-control @error('nsk')
+                                        class="form-control @error('NSK')
                                         is-invalid
                                     @enderror"
-                                        id="nsk" name="nsk"
+                                        id="NSK" name="NSK"
                                         placeholder="Input NSK"
-                                        value="{{ old('nsk') }}">
-                                    @error('nsk')
+                                        value="{{ old('NSK') }}">
+                                    @error('NSK')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -109,13 +109,12 @@
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
                                     <label for="packaging" class="form-label">Packaging</label>
-                                    <input type="text"
-                                        class="form-control @error('packaging')
-                                        is-invalid
-                                    @enderror"
-                                        id="packaging" name="packaging"
-                                        placeholder="Input Packaging"
-                                        value="{{ old('packaging') }}">
+                                    <select class="form-control @error('packaging') is-invalid @enderror" id="packaging" name="packaging">
+                                        <option value="" selected disabled>Choose Packaging</option>
+                                        <option value="plastik" {{ old('packaging') == 'plastik' ? 'selected' : '' }}>Plastik</option>
+                                        <option value="peti" {{ old('packaging') == 'peti' ? 'selected' : '' }}>Peti</option>
+                                        <option value="pallet" {{ old('packaging') == 'pallet' ? 'selected' : '' }}>Pallet</option>
+                                    </select>
                                     @error('packaging')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -125,7 +124,7 @@
                             </div>
                             <div class="col-lg-3">
                                 <div class="mb-3 p-2">
-                                    <label for="ukuran_dimensi" class="form-label">Ukuran & Dismensi</label>
+                                    <label for="ukuran_dimensi" class="form-label">Ukuran & Dimensi</label>
                                     <input type="text"
                                         class="form-control @error('ukuran_dimensi')
                                         is-invalid
@@ -148,7 +147,7 @@
                                         is-invalid
                                     @enderror"
                                         id="customer" name="customer"
-                                        placeholder="Input Supplier"
+                                        placeholder="Input Customer"
                                         value="{{ old('customer') }}">
                                     @error('customer')
                                         <div class="invalid-feedback">

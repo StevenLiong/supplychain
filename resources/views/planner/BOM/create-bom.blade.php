@@ -13,19 +13,19 @@
        @csrf
          <div class="form-row">
             <div class="col-md-6 mb-3">
-               <label for="validationDefault01">BOM Code</label>
+               <label for="validationDefault01">BOM Code<span class="text-danger"> *</span></label>
                <input type="text" class="form-control" name="id_bom" required>
-            </div>
-            <div class="col-md-6 mb-3">
-               <label for="validationDefault01">Quantity</label>
-               <input type="text" class="form-control" name="qty_bom" required>
             </div>
             <div class="col-md-6 mb-3">
                <label for="validationDefault01">BOM Status</label>
                <input type="text" class="form-control" name="qty_bom" value="Aktif" disabled>
             </div>
             <div class="col-md-6 mb-3">
-               <label for="validationDefault01">UOM BOM</label>
+               <label for="validationDefault01">Quantity<span class="text-danger"> *</span></label>
+               <input type="text" class="form-control" name="qty_bom" required>
+            </div>
+            <div class="col-md-6 mb-3">
+               <label for="validationDefault01">UOM BOM<span class="text-danger"> *</span></label>
                   <div class="input-group">
                      <select class="form-control" name="uom_bom" required>
                            <option value="Large">Large</option>
@@ -34,11 +34,11 @@
                   </div>
             </div>
             <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Sales Order</label>
+                <label for="validationDefault01">Sales Order Code<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="id_so" required>
              </div>
              <div class="col-md-6 mb-3">
-                <label for="validationDefault01">Kode Finish Good</label>
+                <label for="validationDefault01">Finish Good Code<span class="text-danger"> *</span></label>
                 <input type="text" class="form-control" name="id_fg" required>
              </div>
          </div>

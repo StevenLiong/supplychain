@@ -8,6 +8,8 @@ use App\Models\planner\Mps;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use App\Models\planner\GPADry;
+use App\Models\planner\WorkcenterDryType;
 use Maatwebsite\Excel\Facades\Excel;
 
 class GPADryController extends Controller
@@ -21,7 +23,8 @@ class GPADryController extends Controller
     public function gpaDryDetail(String $id_wo):View
     {
         $dataMps = Mps::where('id_wo', $id_wo)->first();
-        return view('planner.gpa.detail-gpa-dry', compact('dataMps'));
+        $dataGpa = GPADry::where('id_wo', $id_wo)->get();
+        return view('planner.gpa.detail-gpa-dry', compact('dataMps', 'dataGpa'));
     }
 
     public function exportToExcel()
@@ -38,10 +41,12 @@ class GPADryController extends Controller
         return $pdf->download('GPA.pdf');
     }
 
-    public function exportToPdfDetail()
+    public function exportToPdfDetail(Request $request, $id_wo)
     {
-        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'lead_time', 'deadline')->get(); // Ambil data Mps dari database
-        $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataMps' => $dataMps]);
-        return $pdf->download('GPA.pdf');
+        $dataGpa = GPADry::where('id_wo', $id_wo)
+        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'lead_time', 'deadline', 'nama_workcenter')
+        ->get();
+        $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataGpa' => $dataGpa]);
+        return $pdf->download('DetailGPADry.pdf');
     }
 }

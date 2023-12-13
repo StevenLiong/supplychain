@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('mrs', function (Blueprint $table) {
             $table->id();
             $table->string('id_mr');
-            $table->integer('qty_mr')->nullable();
             $table->string('keterangan')->nullable();
             $table->date('tanggal_mr')->nullable();
-            $table->string('id_ppic')->nullable();
-            $table->string('id_division')->nullable();
+            $table->date('accepted_mr')->nullable();
             $table->string('status_mr')->nullable();
+            $table->string('id_division')->nullable();
+            $table->string('id_po')->nullable();
         });
     }
 

@@ -53,56 +53,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center;" class="sorting_1">Bill of Material</td>
-                                <td style="text-align: center">{{ \Carbon\Carbon::parse($dataMps->deadline)->subDays(2)->format('d-F-Y') }}</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Insulation Paper</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Supply Material Insulation & Coil</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">LV Windling</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">HV Windling</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Core</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Supply Fixing Parts & Core</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Moulding</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Supply Material Connection & FA</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">Connection & FA</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">QC</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
-                            <tr role="row" class="odd">
-                                <td style="text-align: center" class="sorting_1">QC Transfer Gudang</td>
-                                <td style="text-align: center">DD-MMMM-YYYY</td>
-                            </tr>
+                            @foreach ($dataGpa as $detailGpa)
+                                <tr role="row" class="odd">
+                                    <td style="text-align: center;" class="sorting_1">{{ $detailGpa->nama_workcenter }}</td>
+                                    <td style="text-align: center">{{ \Carbon\Carbon::parse($detailGpa->deadline)->format('d-F-Y') }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
-
                     </table>
                 </div>
             </div>

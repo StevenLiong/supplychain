@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>{{$data['title1']}} || Resource Work Planing</title>
+    <title>Supply Chain DX - Planning Full-Cycle</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="https://www.trafoindonesia.com/favicon.ico" type="image/x-icon">

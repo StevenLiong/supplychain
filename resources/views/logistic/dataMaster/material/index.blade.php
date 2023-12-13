@@ -14,7 +14,7 @@
             {{-- headline end --}}
 
             {{-- notif session --}}
-            <div class="row px-2">
+            {{-- <div class="row px-2">
                 <div class="col-lg-12">
                     @if (session()->has('success'))
                         <div class="alert alert-success rounded-0 ">
@@ -22,7 +22,12 @@
                         </div>
                     @endif
                 </div>
-            </div>
+            </div> --}}
+            @if (session()->has('success'))
+                <script>
+                    showSweetAlert('success', '{{ session('success') }}');
+                </script>
+            @endif
 
             {{-- notif session end --}}
 
@@ -160,15 +165,6 @@
                         to {{ $material->lastItem() }}
                         of {{ $material->total() }}
                         data
-                        {{-- <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav> --}}
                     </div>
                     <div class="col d-flex justify-content-end">
                         {{ $material->appends(request()->input())->links() }}

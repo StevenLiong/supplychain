@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\logistic;
 
-use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Str;
+use App\Models\purchaser\po;
 use Illuminate\Http\Request;
+use App\Models\logistic\Bpnb;
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Http\Controllers\Controller;
 
 class BpnbController extends Controller
 {
@@ -12,7 +17,8 @@ class BpnbController extends Controller
      */
     public function index()
     {
-        return view('logistic.receiving.bpnb.index');
+        $bpnb = Bpnb::latest()->get();
+        return view('logistic.receiving.bpnb.index', compact('bpnb'));
     }
 
     /**
@@ -20,7 +26,8 @@ class BpnbController extends Controller
      */
     public function create()
     {
-        return view('logistic.receiving.bpnb.create');
+        $po = po::all();
+        return view('logistic.receiving.bpnb.create', compact('po'));
     }
 
     /**
@@ -28,7 +35,14 @@ class BpnbController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Bpnb::create([
+            'id_po' => $request->input('id_po'),
+            'surat_jalan' => $request->input('surat_jalan'),
+            'tgl_bpnb' => $request->input('tgl_bpnb'),
+            'tgl_suratjalan' => $request->input('tgl_suratjalan'),
+        ]);
+
+        return redirect('receiving/bpnb')->with('success', 'BPNB berhasil di buat');
     }
 
     /**
@@ -63,7 +77,9 @@ class BpnbController extends Controller
         //
     }
 
-    public function print (){
-        return view('logistic.receiving.bpnb.printbpnb');
+    public function print($no_bon)
+    {
+        $bpnb = Bpnb::where('no_bon', $no_bon)->first();
+        return view('logistic.receiving.bpnb.printbpnb', compact('bpnb'));
     }
 }

@@ -22,8 +22,8 @@ class StandardizedWorkSeeder extends Seeder
             'id_vt' => null,
             'id_repair' => null,
             'total_hour' => 100,
-            'id_fg' => 'zxxvcxcvc',
-            'kd_manhour' => '54S12123124124',
+            'id_fg' => 'FG1111',
+            'kd_manhour' => 'MH1111',
         ]);
         DB::table('standardize_works')->insert([
             'id_dry_cast_resin' => 2,
@@ -34,8 +34,8 @@ class StandardizedWorkSeeder extends Seeder
             'id_vt' => null,
             'id_repair' => null,
             'total_hour' => 200,
-            'id_fg' => 'zxxvcxcvc',
-            'kd_manhour' => '54S12123124124',
+            'id_fg' => 'FG2222',
+            'kd_manhour' => 'MH2222',
         ]);
         DB::table('standardize_works')->insert([
             'id_dry_cast_resin' => 3,
@@ -46,8 +46,8 @@ class StandardizedWorkSeeder extends Seeder
             'id_vt' => null,
             'id_repair' => null,
             'total_hour' => 300,
-            'id_fg' => 'zxxvcxcvc',
-            'kd_manhour' => '54S12123124124',
+            'id_fg' => 'FG3333',
+            'kd_manhour' => 'MH3333',
         ]);
         DB::table('standardize_works')->insert([
             'id_dry_cast_resin' => 4,
@@ -58,8 +58,8 @@ class StandardizedWorkSeeder extends Seeder
             'id_vt' => null,
             'id_repair' => null,
             'total_hour' => 400,
-            'id_fg' => 'zxxvcxcvc',
-            'kd_manhour' => '54S12123124124',
+            'id_fg' => 'FG4444',
+            'kd_manhour' => 'MH4444',
         ]);
         DB::table('standardize_works')->insert([
             'id_dry_cast_resin' => 5,
@@ -70,8 +70,8 @@ class StandardizedWorkSeeder extends Seeder
             'id_vt' => null,
             'id_repair' => null,
             'total_hour' => 500,
-            'id_fg' => 'zxxvcxcvc',
-            'kd_manhour' => '54S12123124124',
+            'id_fg' => 'FG5555',
+            'kd_manhour' => 'MH5555',
         ]);
     }
 }

@@ -39,14 +39,14 @@ class SupplierSeeder extends Seeder
             'nama_supplier' => 'CV SUMBER MAKMUR',
             'email' => 'sumber@gmail.com',
             'alamat' => 'GEDUNG METRO GLODOK, JL BLUSTRU NO 15-16-41, JAKARTA',
-            'valuta' => 'IDR',
+            'valuta' => 'EUR',
         ]);
         Supplier::create([
             'kd_supplier' => 'SUM.002.00',
             'nama_supplier' => 'SUMBER REJEKI TEKNIK, CV',
             'email' => 'rejeki@gmail.com',
             'alamat' => 'JL. CAMAN RAYA NO.25, JATIBENING II, BEKASI 17412',
-            'valuta' => 'IDR',
+            'valuta' => 'ER',
         ]);
         Supplier::create([
             'kd_supplier' => 'SUM.003.00',

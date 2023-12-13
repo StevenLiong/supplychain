@@ -1,4 +1,4 @@
-@extends('layout.layoutpo.wraplayoutpo')
+@extends('purchaser.layout.layoutpo.wraplayoutpo')
 
 @section('title', 'Dashboard')
 @section('contentpo')

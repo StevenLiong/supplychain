@@ -9,6 +9,7 @@ use App\Models\logistic\Material;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Matrix\Operators\Division;
 
 class DatabaseSeeder extends Seeder
 {
@@ -98,28 +99,25 @@ class DatabaseSeeder extends Seeder
         $this->call(MaterialRakSeeder::class);
         $this->call(SupplierSeeder::class);
         $this->call(IncomingSeeder::class);
-        $this->call(FinishedgoodSeeder::class);
+        // $this->call(FinishedgoodSeeder::class);
+        $this->call(DryCastResinSeeder::class);
+        // $this->call(StandardizedWorkSeeder::class);
 
 
+        $this->call(DivisionSeeder::class);
+        $this->call(DeliverySeeder::class);
 
         $this->call(KapasitasSeeder::class);
         $this->call(KategoriProdukSeeder::class);
         $this->call(ProsesSeeder::class);
         $this->call(TipeProsesSeeder::class);
         $this->call(WorkCenterSeeder::class);
-        $this->call(JamKerjaSeeder::class);
-        $this->call(DryCastResinSeeder::class);
-        $this->call(StandardizedWorkSeeder::class);
-        // $this->call(WoSeeder::class);
-        $this->call(Wo2Seeder::class);
+        $this->call(WorkCenterDryTypeSeeder::class);
+        $this->call(WorkCenterOilTrafoSeeder::class);
         // $this->call(MpsSeeder::class);
-        $this->call(Mps2Seeder::class);
-        $this->call(ProductionLineSeeder::class);
-        $this->call(ManPowerSeeder::class);
-        $this->call(MatriksSkillSeeder::class);
-        $this->call(PeriodeSeeder::class);
-        $this->call(MesinSeeder::class);
+
         $this->call(ManHourSeeder::class);
-        
+        $this->call(DivisionSeeder::class);
+
     }
 }

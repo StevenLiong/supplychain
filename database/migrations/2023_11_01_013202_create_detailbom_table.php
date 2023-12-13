@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('tolerance');
             $table->integer('usage_material'); 
             $table->boolean('submitted')->default(false);
+            $table->timestamp('last_kirim_email')->nullable();
             $table->timestamps();
         });
     }

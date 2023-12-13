@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\purchaser\pesanan;
 
 class Material extends Model
 {
@@ -16,6 +17,7 @@ class Material extends Model
         'nama_material',
         'satuan',
         'jumlah',
+        'booked',
     ];
 
     /**
@@ -28,6 +30,9 @@ class Material extends Model
         return $this->hasMany(MaterialRak::class);
     }
 
-    
+    public function pesananPurchaser(): HasMany
+    {
+        return $this->hasMany(pesanan::class, 'id_pesanan', 'id_pesanan');
+    }
   
 }

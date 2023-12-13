@@ -1,6 +1,6 @@
 @extends('purchaser.layout.layoutmr.wraplayoutmr')
 
-@section('title', 'materialrequest')
+@section('title', 'reportmr')
 @section('contentmr')
 
 <!-- Tautan ke jQuery -->
@@ -26,61 +26,44 @@
                     <thead class="text-center">
                         <tr>
                             <th scope="col">No</th>
-                            <th scope="col">PR NO</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Divison Name</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">PO Status</th>
+                            <th scope="col">MR NO</th>
+                            <th scope="col">Status MR</th>
+                            <th scope="col">Tanggal Terima</th>
+                            <th scope="col">Keterangan MR</th>
+                            <th scope="col">PO NO</th>
+                            <th scope="col">Status PO</th>
+                            <th scope="col">Tanggal Kirim</th>
+                            <th scope="col">Keterangan PO</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
+                    @foreach ($dataMr as $no => $addmaterial)
                     <tbody class="text-center">
                         <tr>
-                            <th scope="row">1</th>
-                            <td>09284923890</td>
-                            <td>A123982791</td>
+                            <th>{{ $no + 1 }}</th>
+                            <td>{{ $addmaterial->id_mr}}</td>
+                            <td>{{ $addmaterial->status_mr}}</td>
+                            <td>{{ $addmaterial->accepted_mr}}</td>
+                            <td>{{ $addmaterial->keterangan}}</td>
+                            <td>{{ $addmaterial->po ? $addmaterial->po->id_po : '-'}}</td>
+                            <td>{{ $addmaterial->po ? $addmaterial->po->status_po : '-'}}</td>
+                            <td>{{ $addmaterial->po ? $addmaterial->po->tanggal_kirim : '-'}}</td>
+                            <td>{{ $addmaterial->po ? $addmaterial->po->keterangan : '-'}}</td>
                             <td>
-                                <div>DGA</div>
+                                <a href="" class="pdf-link btn " type="button">
+                                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                                </a>
+                                <a href="" class="pdf-link btn " type="button">
+                                    <i class="bi bi-file-earmark-excel-fill"></i>
+                                </a>
+                                <a href="" class="pdf-link btn " type="button" data-bs-toggle="modal" data-bs-target="">
+                                    <i class="bi bi-file-earmark-arrow-down-fill"></i>
+                                </a>
                             </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>09284923890</td>
-                            <td>A123982791</td>
-                            <td>
-                                <div>DGA</div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>09284923890</td>
-                            <td>A123982791</td>
-                            <td>
-                                <div>DGA</div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>09284923890</td>
-                            <td>A123982791</td>
-                            <td>
-                                <div>DGA</div>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                         </tr>
                         <!-- Tambahkan entri lain sesuai kebutuhan -->
                     </tbody>
+                    @endforeach
                 </table>
             </div>
         </div>

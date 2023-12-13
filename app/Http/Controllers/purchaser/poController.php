@@ -17,15 +17,22 @@ class poController extends Controller
     //
     public function index()
     {
-        return view('purchaser.contentpo.dashboardpo');
-    }
-
-    //tampilan data mr
-    public function purchaseOrder()
-    {
         $dataPo = mr::all();
         return view('purchaser.contentpo.purchaseorder', ['dataPo' => $dataPo,]);
     }
+
+    public function reportPo()
+    {
+        $dataPo = mr :: all();
+        return view('purchaser.contentpo.reportpo', ['dataPo' => $dataPo,]);
+    }
+
+    //tampilan data mr
+    // public function purchaseOrder()
+    // {
+    //     $dataPo = mr::all();
+    //     return view('purchaser.contentpo.purchaseorder', ['dataPo' => $dataPo,]);
+    // }
 
     //create data po
     public function createpo($id_mr)

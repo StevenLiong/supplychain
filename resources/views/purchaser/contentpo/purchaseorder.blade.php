@@ -21,7 +21,6 @@
         </div>
     </div>
 </div>
-
 <div class="row mt-5">
     @if (session('success'))
     <div class="alert alert-success">
@@ -63,12 +62,15 @@
                                 <a href="/purchaseorder/{{$addpurchase->id_po}}" class="pdf-link btn " type="button">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a href="/purchaseorder/createPo/{{$addpurchase->id_mr}}" class="pdf-link btn " type="button">
-                                    <i class="bi bi-plus-circle"></i>
-                                </a>
                                 <a href="" class="pdf-link btn " type="button" data-bs-toggle="modal" data-bs-target="#exampleModal{{$no}}">
                                     <i class="bi bi-file-earmark"></i>
                                 </a>
+                                @if ($addpurchase->po)
+                                @else
+                                <a href="/purchaseorder/createPo/{{$addpurchase->id_mr}}" class="pdf-link btn " type="button">
+                                    <i class="bi bi-plus-circle"></i>
+                                </a>
+                                @endif
                             </td>
                         </tr>
                     </tbody>

@@ -67,7 +67,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     // rak end
 
 
-    
+
     // finished good
     Route::resource('datamaster/finishedgood', FinishedgoodController::class);
 
@@ -132,7 +132,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     route::get('/services/transaksiproduksi/transfer/lacak/{no_bon}', [TransferController::class, 'tracker']);
     route::put('/services/transaksiproduksi/transfer/lacak/update/{no_bon}', [TransferController::class, 'updateStatus']);
     route::post('/services/transaksiproduksi/transfer/lacak/addStock', [TransferController::class, 'addToStock']);
-    
+
 
     // Shipping
     Route::get('shipping/createpackinglist', [ShippingController::class, 'indexPack']);
@@ -259,7 +259,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // Route::post('/send-email-notif', [DetailbomController::class, 'emailNotif']);
     Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
     // routes/web.php
-// Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
+    // Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
 
 
 });
@@ -310,24 +310,25 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
 //Material Request
 Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/', [mrController::class, 'index'])->name('home');
-    Route::get('/materialrequest/dashboard', [mrController::class, 'index']);
-    Route::get('/materialrequest', [mrController::class, 'materialRequest']);
+    Route::get('/materialrequest', [mrController::class, 'index']);
+    // Route::get('/materialrequest', [mrController::class, 'materialRequest']);
     Route::get('/materialrequest/add', [mrController::class, 'createmr']);
     Route::get('/materialrequest/{id_mr}', [mrController::class, 'editmr']);
     Route::post('/materialrequest/{id_mr}', [mrController::class, 'storeEditmr']);
-    Route::get('/materialrequest/delete/{id_pesanan}', [mrController::class, 'removemat']);
-    Route::get('/tabelmaterial', [mrController::class, 'tableMaterial']);
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);
+    Route::get('/reportmr', [mrController::class, 'reportmr']);
 });
 
 //Purchase Order
 Route::middleware(['auth', 'purchaseorder'])->group(function () {
     Route::get('/', [poController::class, 'index'])->name('home');
-    Route::get('/purchaseorder/dashboard', [poController::class, 'index']);
-    Route::get('/purchaseorder', [poController::class, 'purchaseorder']);
+    Route::get('/purchaseorder', [poController::class, 'index']);
+    // Route::get('/purchaseorder', [poController::class, 'purchaseorder']);
     Route::get('/purchaseorder/createPo/{id_mr}', [poController::class, 'createpo']);
     Route::post('/purchaseorder/{id_mr}/add', [poController::class, 'storepo']);
     Route::get('/purchaseorder/{id_po}', [poController::class, 'editpo']);
     Route::post('/purchaseorder/editPo/{id_po}', [poController::class, 'storeEditpo']);
+    Route::get('/reportpo', [poController::class, 'reportPo']);
+
 });

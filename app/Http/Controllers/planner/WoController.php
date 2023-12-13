@@ -34,7 +34,9 @@ class WoController extends Controller
     public function getDataByIdFg($idFg)
     {
         // NARIK DATA BOM DAN STANDARDIZED PAKE ID_FG
-        $databom = Bom::where('id_fg', $idFg)->first();
+        $databom = Bom::where('id_fg', $idFg)        
+        ->where('status_bom', 3)
+        ->first();
         $standardizeWork = StandardizeWork::where('id_fg', $idFg)->first();
 
         //jadiin array
@@ -59,7 +61,9 @@ class WoController extends Controller
         $id_fg = $request->get('id_fg');
         $wo->id_fg = $id_fg;
         
-        $bom = Bom::where('id_fg', $id_fg)->first();
+        $bom = Bom::where('id_fg', $id_fg)
+        ->where('status_bom', 3)
+        ->first();
         $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
 
         if ($bom && $standardizedWork) {
@@ -67,8 +71,11 @@ class WoController extends Controller
             // $wo->qty_trafo = $bom->qty_bom;
             $wo->id_so = $bom->id_so;
             $wo->id_standardize_work = $standardizedWork->kd_manhour;
+        } else {
+            return redirect()->back()->withInput()->withErrors(['error' => 'Terdapat Data yang Kosong']);
         }
 
+        // dd($wo);
         $wo->save();
 
         return redirect()->route('workorder-index');
@@ -81,7 +88,9 @@ class WoController extends Controller
         // Fetch additional data based on the selected id_fg
         $id_fg = $detailWo->id_fg;
         $dataBom = Bom::all();
-        $databom = Bom::where('id_fg', $id_fg)->first();
+        $databom = Bom::where('id_fg', $id_fg)
+        ->where('status_bom', 3)
+        ->first();
         $standardizeWork = StandardizeWork::where('id_fg', $id_fg)->first();
 
         $additionalData = [
@@ -95,7 +104,9 @@ class WoController extends Controller
 
     public function getDataWO($id_fg)
     {
-        $dataBom = Bom::where('id_fg', $id_fg)->first();
+        $dataBom = Bom::where('id_fg', $id_fg)
+        ->where('status_bom', 3)
+        ->first();
         $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
 
         $data = [
@@ -125,7 +136,9 @@ class WoController extends Controller
 
         $id_fg = $request->id_fg;
         // dd($id_fg);
-        $bom = Bom::where('id_fg', $id_fg)->first();
+        $bom = Bom::where('id_fg', $id_fg)
+        ->where('status_bom', 3)
+        ->first();
         $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
         // dd($bom, $standardizedWork);
 

@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder
         $this->call(IncomingSeeder::class);
         // $this->call(FinishedgoodSeeder::class);
         $this->call(DryCastResinSeeder::class);
-        $this->call(StandardizedWorkSeeder::class);
+        // $this->call(StandardizedWorkSeeder::class);
 
 
         $this->call(DivisionSeeder::class);
@@ -112,9 +112,10 @@ class DatabaseSeeder extends Seeder
         $this->call(ProsesSeeder::class);
         $this->call(TipeProsesSeeder::class);
         $this->call(WorkCenterSeeder::class);
+        $this->call(WorkCenterDryTypeSeeder::class);
+        $this->call(WorkCenterOilTrafoSeeder::class);
         // $this->call(MpsSeeder::class);
-        // $this->call(ManHourSeeder::class);
+        $this->call(ManHourSeeder::class);
         $this->call(DivisionSeeder::class);
-        
     }
 }

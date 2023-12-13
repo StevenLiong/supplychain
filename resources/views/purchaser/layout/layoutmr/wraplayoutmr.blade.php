@@ -32,7 +32,7 @@
         
         <div class="btn-group">
             <button type="button" class="btn btn-sm btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                {{ Auth::user()->username }}
+                {{ Auth::user()->name }}
             </button>
             <ul class="dropdown-menu dropdown-menu-lg-end">
                 <li>

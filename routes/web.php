@@ -318,6 +318,8 @@ Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);
     Route::get('/reportmr', [mrController::class, 'reportmr']);
+    Route::get('/exportmr/{id_mr}', [mrController::class, 'exportExel']);
+
 });
 
 //Purchase Order

@@ -15,10 +15,6 @@
         <div class="card p-4 rounded-4">
             <div class="d-flex justify-content-between align-items-center">
                 <h3 class="text-start text-dark my-4" style="font-weight: bold;">Daftar Material Request</h3>
-                <a href="adddatamaterialmr" class="btn btn-danger text-white mt-5 mb-1">
-                    Add Material
-                    <i class="fas fa-plus-square ms-2"></i>
-                </a>
             </div>
             <hr class="mt-1" style="background-color: black;">
             <div class="table-responsive">
@@ -53,7 +49,7 @@
                                 <a href="" class="pdf-link btn " type="button">
                                     <i class="bi bi-file-earmark-pdf-fill"></i>
                                 </a>
-                                <a href="" class="pdf-link btn " type="button">
+                                <a href="/exportmr/{{$addmaterial->id_mr}}" class="pdf-link btn " type="button">
                                     <i class="bi bi-file-earmark-excel-fill"></i>
                                 </a>
                                 <a href="" class="pdf-link btn " type="button" data-bs-toggle="modal" data-bs-target="">

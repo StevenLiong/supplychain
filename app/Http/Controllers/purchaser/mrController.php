@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\purchaser;
 
+use App\Exports\MrExport;
 use App\Http\Controllers\Controller;
 use App\Models\purchaser\division;
 use App\Models\logistic\Material as material;
 use App\Models\purchaser\pesanan;
 use App\Models\purchaser\mr as mr;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use GuzzleHttp\Promise\Create;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,7 +35,7 @@ class mrController extends Controller
 
     public function reportmr()
     {
-        $dataMr = mr :: all();
+        $dataMr = mr::all();
         return view('purchaser.contentmr.reportmr', ['dataMr' => $dataMr,]);
     }
 
@@ -95,7 +97,7 @@ class mrController extends Controller
         $mr->status_mr = $validated['status_mr'];
         $mr->keterangan = $validated['keterangan'];
         // @dd($validated);
-        if(isset($validated['material'])){
+        if (isset($validated['material'])) {
             foreach ($validated['material'] as $key => $value) {
                 $pesanan = new pesanan();
                 $pesanan->kd_material = $value;
@@ -159,4 +161,17 @@ class mrController extends Controller
 
         return redirect('/materialrequest')->with('error', 'Item not found or already deleted!');
     }
+
+    public function exportExel(Request $request, $id_mr)
+    {
+        $dataExel = pesanan::where('id_mr', $id_mr)->select('id_mr', 'kd_material', 'qty_pesanan')->get();
+
+        return Excel::download(new MrExport($dataExel), 'MR.xlsx');
+    }
+
+    // public function exportExel()
+    // {
+    //     $dataExel = pesanan::select('id_mr', 'kd_material', 'qty_pesanan')->get();
+    //     return Excel::download(new MrExport($dataExel), 'MR.xlsx');
+    // }
 }

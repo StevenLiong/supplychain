@@ -17,22 +17,24 @@ class mrController extends Controller
 
     public function index()
     {
-        return view('purchaser.contentmr.dashboardmr');
-    }
-    public function materialRequest()
-    {
         $dataMr = mr::all();
         return view('purchaser.contentmr.materialrequest', ['dataMr' => $dataMr,]);
     }
+    // public function materialRequest()
+    // {
+    //     $dataMr = mr::all();
+    //     return view('purchaser.contentmr.materialrequest', ['dataMr' => $dataMr,]);
+    // }
 
     public function editmaterial()
     {
         return view('purchaser.contentmr.editmaterialmr');
     }
 
-    public function tableMaterial()
+    public function reportmr()
     {
-        return view('purchaser.contentmr.tabelmaterialmr');
+        $dataMr = mr :: all();
+        return view('purchaser.contentmr.reportmr', ['dataMr' => $dataMr,]);
     }
 
     //create data mr
@@ -69,13 +71,13 @@ class mrController extends Controller
         );
     }
 
-    public function removemat($id_pesanan)
-    {
-        $pesanan = pesanan::where('id_pesanan', $id_pesanan)->firstOrFail();
-        // dd($pesanan);
-        $pesanan->delete();
-        return redirect()->back()->with('succes', 'item berhasil dihapus');
-    }
+    // public function removemat($id_pesanan)
+    // {
+    //     $pesanan = pesanan::where('id_pesanan', $id_pesanan)->firstOrFail();
+    //     // dd($pesanan);
+    //     $pesanan->delete();
+    //     return redirect()->back()->with('succes', 'item berhasil dihapus');
+    // }
 
     //save stage edit mr from DB
     public function storeEditmr($id_mr, Request $request)
@@ -85,20 +87,22 @@ class mrController extends Controller
             'status_mr' => 'required',
             'keterangan' => 'required',
             'qty' => 'required',
-            'material' => 'required'
+            'material' => 'sometimes'
         ]);
 
         $mr = mr::where('id_mr', $id_mr)->firstOrFail();
 
         $mr->status_mr = $validated['status_mr'];
         $mr->keterangan = $validated['keterangan'];
-
-        foreach ($validated['material'] as $key => $value) {
-            $pesanan = new pesanan();
-            $pesanan->kd_material = $value;
-            $pesanan->id_mr = $mr->id_mr;
-            $pesanan->qty_pesanan = $validated['qty'][$key];
-            $pesanan->save();
+        // @dd($validated);
+        if(isset($validated['material'])){
+            foreach ($validated['material'] as $key => $value) {
+                $pesanan = new pesanan();
+                $pesanan->kd_material = $value;
+                $pesanan->id_mr = $mr->id_mr;
+                $pesanan->qty_pesanan = $validated['qty'][$key];
+                $pesanan->save();
+            }
         }
         $mr->save();
 
@@ -145,8 +149,10 @@ class mrController extends Controller
     public function destroymr($id)
     {
         $data = mr::where('id_mr', $id)->first();
-
         if ($data) {
+            foreach ($data->pesanan as  $pesanan) {
+                $pesanan->delete();
+            }
             $data->delete();
             return redirect('/materialrequest')->with('success', 'Item has been delete successfully!');
         }

@@ -49,9 +49,9 @@ class loginController extends Controller
             else if (Auth::user()->id_role == 4)
                 return redirect('resource_work_planning/dashboard');
             else if (Auth::user()->id_role == 5)
-                return redirect('/materialrequest/dashboard');
+                return redirect('/materialrequest');
             else if (Auth::user()->id_role == 6)
-                return redirect('/purchaseorder/dashboard');
+                return redirect('/purchaseorder');
         }
 
 

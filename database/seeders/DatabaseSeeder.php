@@ -115,7 +115,9 @@ class DatabaseSeeder extends Seeder
         $this->call(WorkCenterDryTypeSeeder::class);
         $this->call(WorkCenterOilTrafoSeeder::class);
         // $this->call(MpsSeeder::class);
+
         $this->call(ManHourSeeder::class);
         $this->call(DivisionSeeder::class);
+
     }
 }

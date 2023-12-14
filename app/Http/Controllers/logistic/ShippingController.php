@@ -18,7 +18,8 @@ class ShippingController extends Controller
 
     public function createPack()
     {
-        return view('logistic.shipping.createpackinglist.create');
+        $wo = Finishedgood::all();
+        return view('logistic.shipping.createpackinglist.create',compact('wo'));
     }
 
     public function storePack(Request $request)
@@ -90,8 +91,9 @@ class ShippingController extends Controller
         return redirect('shipping/deliveryreceipt/create');
     }
 
-    public function printDelivery()
+    public function printDelivery($no_delivery)
     {
-        return view('logistic.shipping.deliveryreceipt.print');
+        $delivery = DeliveryReceipt::where('no_delivery', $no_delivery)->first();
+        return view('logistic.shipping.deliveryreceipt.print', compact('delivery'));
     }
 }

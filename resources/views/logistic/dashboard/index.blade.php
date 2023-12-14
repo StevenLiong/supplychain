@@ -2,16 +2,10 @@
 @section('js')
     <script src="{{ $chart->cdn() }}"></script>
     {{ $chart->script() }}
+    {!! $materialStock->script() !!}
+    {!! $finishedgoodChart->script() !!}
+
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth'
-            });
-            calendar.render();
-        });
-    </script>
 @endsection
 @section('content')
     <div class="content-wrapper bg-white">
@@ -42,7 +36,7 @@
                                 <div class="inner text-dark">
                                     <h3>{{ $material->count() }}</h3>
 
-                                    <p>Materials</p>
+                                    <p>Items Materials</p>
                                 </div>
                             </div>
                         </a>
@@ -52,9 +46,9 @@
                         <a href="#">
                             <div class="small-box">
                                 <div class="inner text-dark">
-                                    <h3>{{ $supplier->count() }}</h3>
+                                    <h3>{{ $finishedgood->count() }}</h3>
 
-                                    <p>Supplier</p>
+                                    <p>Stok FinishedGood</p>
                                 </div>
                             </div>
                         </a>
@@ -63,7 +57,7 @@
 
                 <!-- main content dashboard chart-->
                 <div class="row">
-                    <section class="col-lg-7 connectedSortable">
+                    <section class="col-lg-6 connectedSortable">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
@@ -76,16 +70,29 @@
                             </div>
                         </div>
                     </section>
-                    <section class="col-lg-5">
+                    <section class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">
-                                    <i class="fas fa-calendar mr-1"></i>
-                                    Kalender 2023
+                                    <i class="fas fa-chart-pie mr-1"></i>
+                                    Monitoring Stok Material
                                 </h3>
                             </div>
                             <div class="card-body">
-                                    <div class="p" id='calendar'></div>
+                                    {!! $materialStock->container() !!}
+                            </div>
+                        </div>
+                    </section>
+                    <section class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-pie mr-1"></i>
+                                    Data Stok Finishedgood Per kVA
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                    {!! $finishedgoodChart->container() !!}
                             </div>
                         </div>
                     </section>

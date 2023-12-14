@@ -7,7 +7,7 @@
                 <div class="col-lg-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Data Rak</h4>
+                        ">Inventory Rak</h4>
                     </div>
                 </div>
             </div>

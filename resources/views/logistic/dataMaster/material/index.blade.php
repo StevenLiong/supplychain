@@ -7,7 +7,7 @@
                 <div class="col-12 px-3">
                     <div class="card mt-3 px-3 py-2 rounded-0" style="background: rgba(228, 45, 45, 0.70);">
                         <h4 class="text-bold m-0
-                        ">Data Material</h4>
+                        ">Inventory Material</h4>
                     </div>
                 </div>
             </div>

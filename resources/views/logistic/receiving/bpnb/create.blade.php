@@ -64,7 +64,7 @@
 
                     {{-- output --}}
                     {{-- {{-- @if (!is_null($detailbom)) --}}
-                    <div class="card mx-2 p-5">
+                    {{-- <div class="card mx-2 p-5">
                         <div class="head-tabel">
                             <div class="row">
                                 <h3 class="col-lg-6">List Permintaan bahan</h3>
@@ -96,12 +96,11 @@
                             <div class="row justify-content-end">
                                 <a href="{{ url('services/transaksigudang/cutting/' ) }}"
                                     target="_blank" class="btn btn-sm btn-red ">Print</a>
-
                             </div>
                         </div>
 
-                    </div>
-                    {{-- @endif --}} 
+                    </div> --}}
+                    {{-- @endif --}}
                     {{-- output end --}}
                 </div>
             </div>

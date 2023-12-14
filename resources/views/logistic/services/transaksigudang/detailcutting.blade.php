@@ -29,7 +29,7 @@
                             <tr>
                                 <td>PT Trafoindo Prima Perkasa</td>
                                 <td>SLIP PENGIRIMAN MATERIAL</td>
-                                <td>{{ $item->nama_workcenter }}</td>
+                                <td>PL 3</td>
                             </tr>
                         </table>
                     </div>

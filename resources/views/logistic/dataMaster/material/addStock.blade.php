@@ -10,15 +10,15 @@
                         </div>
                         <div class="card-body">
                             {{-- session success --}}
-                            {{-- <div class="row px-2">
+                            <div class="row px-2">
                                 <div class="col-lg-12">
                                     @if (session()->has('success'))
-                                        <div class="alert alert-success rounded-0">
+                                        {{-- <div class="alert alert-success rounded-0">
                                             {{ session('success') }}
-                                        </div>
+                                        </div> --}}
                                     @endif
                                 </div>
-                            </div> --}}
+                            </div>
                             {{-- session success end --}}
 
                             <table class="table table-borderless">

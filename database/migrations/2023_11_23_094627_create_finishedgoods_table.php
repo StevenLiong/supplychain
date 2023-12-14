@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('nsk');
             $table->string('nsp');
             $table->string('gudang')->reference('nama_gudang')->on('gudangs');
+            $table->string('status', 1)->default(0)->comment('0=stok, 1=send');
             $table->timestamps();
         });
     }

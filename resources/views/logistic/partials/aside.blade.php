@@ -76,28 +76,28 @@
                              <a href={{ url('datamaster/material') }}
                                  class="nav-link {{ request()->segment(2) === 'material' ? 'active' : '' }} ">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Data Material</p>
+                                 <p>Inventory Material</p>
                              </a>
                          </li>
                          <li class="nav-item ">
                              <a href={{ url('datamaster/rak') }}
                                  class="nav-link {{ request()->segment(2) === 'rak' ? 'active' : '' }} ">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Data Rak</p>
+                                 <p>Inventory Rak</p>
                              </a>
                          </li>
                          <li class="nav-item ">
                              <a href={{ url('datamaster/supplier') }}
                                  class="nav-link {{ request()->segment(2) === 'supplier' ? 'active' : '' }} ">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Data Supplier</p>
+                                 <p>Inventory Supplier</p>
                              </a>
                          </li>
                          <li class="nav-item">
                              <a href={{ url('datamaster/finishedgood') }}
                                  class="nav-link {{ request()->segment(2) === 'finishedgood' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Data Finished good</p>
+                                 <p>Inventory Finished good</p>
                              </a>
                          </li>
                      </ul>
@@ -142,13 +142,7 @@
                                  <p>Kedatangan</p>
                              </a>
                          </li>
-                         <li class="nav-item">
-                             <a href="{{ url('receiving/bpnb') }}"
-                                 class="nav-link {{ request()->segment(2) == 'bpnb' ? 'active' : '' }}">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>BPNB</p>
-                             </a>
-                         </li>
+
                          <li class="nav-item">
                              <a href="{{ url('receiving/scan') }}"
                                  class="nav-link {{ request()->segment(2) == 'scan' ? 'active' : '' }}">
@@ -157,12 +151,19 @@
                              </a>
                          </li>
                          <li class="nav-item">
+                             <a href="{{ url('receiving/bpnb') }}"
+                                 class="nav-link {{ request()->segment(2) == 'bpnb' ? 'active' : '' }}">
+                                 <i class="far fa-circle nav-icon"></i>
+                                 <p>BPNB</p>
+                             </a>
+                         </li>
+                         {{-- <li class="nav-item">
                              <a href="{{ url('receiving/scan') }}"
                                  class="nav-link {{ request()->segment(2) == 'return' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Return</p>
                              </a>
-                         </li>
+                         </li> --}}
                      </ul>
                  </li>
                  <!-- Receiving End-->
@@ -204,13 +205,13 @@
                              </a>
                          </li>
                          <!-- Finished Good -->
-                         <li class="nav-item">
+                         {{-- <li class="nav-item">
                              <a href="{{ url('storage/finishedgood') }}"
                                  class="nav-link {{ request()->segment(2) == 'finishedgood' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
                                  <p>Finished Good</p>
                              </a>
-                         </li>
+                         </li> --}}
                      </ul>
                  </li>
                  <!-- Storage End -->
@@ -334,11 +335,11 @@
                              </a>
                          </li>
                      </ul>
-                     
+
                  </li>
 
                  <!-- Cycle Count -->
-                 <li class="nav-item">
+                 <li class="nav-item {{ request()->segment(1) == 'cyclecount' ? 'menu-open' : '' }}">
                      <a href="#" class="nav-link">
                          <i class="nav-icon">
                              <svg width="26" height="27" viewBox="0 0 36 32" fill="none"
@@ -368,65 +369,17 @@
                          </p>
                      </a>
                      <ul class="nav nav-treeview">
-                         <!-- Raw Material -->
+                         <!-- cycle count -->
                          <li class="nav-item">
-                             <a href="#" class="nav-link">
+                             <a href="{{ url('cyclecount') }}"
+                                 class="nav-link {{ request()->segment(1) == 'cyclecount' ? 'active' : '' }}">
                                  <i class="far fa-circle nav-icon"></i>
-                                 <p>Raw Material</p>
-                                 <i class="right fas fa-angle-left"></i>
+                                 <p>Create Cycle Count</p>
                              </a>
-                             <ul class="nav nav-treeview">
-                                 <li class="nav-item">
-                                     <a href="./raw-material-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Create Cycle Count</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Generate & Release</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./raw-material-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p> Pending Review</p>
-                                     </a>
-                                 </li>
-                             </ul>
-                         </li>
-                         <!-- Finished Good -->
-                         <li class="nav-item">
-                             <a href="#" class="nav-link">
-                                 <i class="far fa-circle nav-icon"></i>
-                                 <p>Finished Good</p>
-                                 <i class="right fas fa-angle-left"></i>
-                             </a>
-                             <ul class="nav nav-treeview">
-                                 <li class="nav-item">
-                                     <a href="./raw-material-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Create Cycle Count y</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./raw-material-rack-monitoring.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Generate and Release Cycle Count</p>
-                                     </a>
-                                 </li>
-                                 <li class="nav-item">
-                                     <a href="./raw-material-put-away.html" class="nav-link">
-                                         <i class="far fa-circle nav-icon"></i>
-                                         <p>Cycle Counting Pending Review</p>
-                                     </a>
-                                 </li>
-                             </ul>
                          </li>
                      </ul>
                  </li>
-                 <!-- Storage End -->
+                 <!-- Cycle COunt End -->
 
                  <!-- Logout-->
                  <li class="nav-item ">

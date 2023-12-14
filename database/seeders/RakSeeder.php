@@ -25,17 +25,46 @@ class RakSeeder extends Seeder
             'kd_rak' => 'A-01.1.2.L',
             'kd_gudang' => '1'
         ]);
-        Rak::create([
-            'kd_rak' => 'A-01.1.2.R',
-            'kd_gudang' => '1'
-        ]);
-        Rak::create([
-            'kd_rak' => 'A-01.1.3.L',
-            'kd_gudang' => '1'
-        ]);
+       
         Rak::create([
             'kd_rak' => 'A-01.1.3.R',
             'kd_gudang' => '1'
+        ]);
+        Rak::create([
+            'kd_rak' => 'B-01.1.1.R',
+            'kd_gudang' => '2'
+        ]);
+        Rak::create([
+            'kd_rak' => 'B-01.1.2.R',
+            'kd_gudang' => '2'
+        ]);
+        Rak::create([
+            'kd_rak' => 'B-01.1.3.R',
+            'kd_gudang' => '2'
+        ]);
+        Rak::create([
+            'kd_rak' => 'B-01.1.5.R',
+            'kd_gudang' => '2'
+        ]);
+        Rak::create([
+            'kd_rak' => 'B-01.1.6.R',
+            'kd_gudang' => '2'
+        ]);
+        Rak::create([
+            'kd_rak' => 'C-01.1.1.R',
+            'kd_gudang' => '3'
+        ]);
+        Rak::create([
+            'kd_rak' => 'C-01.1.1.R',
+            'kd_gudang' => '3'
+        ]);
+        Rak::create([
+            'kd_rak' => 'C-01.1.2.R',
+            'kd_gudang' => '3'
+        ]);
+        Rak::create([
+            'kd_rak' => 'C-01.1.3.R',
+            'kd_gudang' => '3'
         ]);
     }
 }

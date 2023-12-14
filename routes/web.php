@@ -30,6 +30,7 @@ use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\logistic\TransferController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\planner\FinishgoodController;
+use App\Http\Controllers\logistic\CycleCountController;
 use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryNonResinController;
 use App\Http\Controllers\logistic\FinishedgoodController;
@@ -139,7 +140,10 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
     Route::get('shipping/deliveryreceipt/create', [ShippingController::class, 'createDelivery']);
     Route::post('shipping/deliveryreceipt', [ShippingController::class, 'storeDelivery']);
-    Route::get('shipping/deliveryreceipt/print/id', [ShippingController::class, 'printDelivery']);
+    Route::get('shipping/deliveryreceipt/print/{no_delivery}', [ShippingController::class, 'printDelivery']);
+
+    // cycle count
+    Route::resource('cyclecount', CycleCountController::class);
 
     // logistic end
 

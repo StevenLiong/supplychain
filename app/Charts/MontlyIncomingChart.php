@@ -11,7 +11,6 @@ use ArielMejiaDev\LarapexCharts\LarapexChart;
 class MontlyIncomingChart
 {
     protected $chart;
-
     public function __construct(LarapexChart $chart)
     {
         $this->chart = $chart;
@@ -21,9 +20,9 @@ class MontlyIncomingChart
     {
         // Mengambil data kedatangan material setiap bulan
         $monthlyIncomingData = Incoming::selectRaw('COUNT(*) as total_kedatangan, MONTH(tgl_kedatangan) as bulan')
-        ->groupBy('bulan')
-        ->orderBy('bulan')
-        ->get();
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
 
         // Mendapatkan nama-nama bulan
         $bulanLabels = $this->generateMonthLabels();
@@ -35,6 +34,7 @@ class MontlyIncomingChart
             ->setTitle('Kedatangan Selama 2023')
             ->setSubtitle('Jumlah kedatangan')
             ->addData('Jumlah kedatangan', $dataPerBulan)
+            ->setColors(['#E42D2D', '#E42D2D'])
             ->setHeight(250)
             ->setXAxis($bulanLabels->values()->all());
     }
@@ -42,8 +42,8 @@ class MontlyIncomingChart
     {
         // Mendapatkan nama-nama bulan
         $bulanLabels = Incoming::selectRaw('DISTINCT MONTH(tgl_kedatangan) as bulan')
-        ->orderBy('bulan')
-        ->pluck('bulan');
+            ->orderBy('bulan')
+            ->pluck('bulan');
 
         // Mengonversi nilai bulan menjadi nama bulan
         return $bulanLabels->map(function ($bulan) {

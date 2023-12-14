@@ -63,7 +63,6 @@
                                     <th>Kode Finsihed Good </th>
                                     <th>kVA</th>
                                     <th>Qty</th>
-                                    <th>Status</th>
                                     <th>Lacak</th>
                                 </tr>
                             </thead>
@@ -76,7 +75,6 @@
                                         <td>{{ $item->wo->id_fg }}</td>
                                         <td>{{ $item->wo->kva }}</td>
                                         <td>{{ $item->wo->qty_trafo }}</td>
-                                        <td>{{ $item->status }}</td>
                                         <td width="3%" class="text-center ">
                                             <a href="{{ url('/services/transaksiproduksi/transfer/lacak/'. $item->no_bon) }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="22"

@@ -25,12 +25,12 @@ class MaterialRakSeeder extends Seeder
         ]);
         MaterialRak::create([
             'material_id' => 8,
-            'rak_id' => 1,
+            'rak_id' => 4,
             'qty_rak' => 810
         ]);
         MaterialRak::create([
             'material_id' => 5,
-            'rak_id' => 1,
+            'rak_id' => 8,
             'qty_rak' => 830
         ]);
         MaterialRak::create([
@@ -40,13 +40,18 @@ class MaterialRakSeeder extends Seeder
         ]);
         MaterialRak::create([
             'material_id' => 1,
-            'rak_id' => 2,
+            'rak_id' => 4,
             'qty_rak' => 3
         ]);
         MaterialRak::create([
             'material_id' => 1,
-            'rak_id' => 3,
+            'rak_id' => 8,
             'qty_rak' => 700
+        ]);
+        MaterialRak::create([
+            'material_id' => 1,
+            'rak_id' => 8,
+            'qty_rak' => 900
         ]);
     }
 }

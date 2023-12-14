@@ -35,8 +35,8 @@
                                     <th>Work Center</th>
                                     <th>Total MH</th>
                                     <th>Total Kebutuhan MP</th>
-                                    <th>Selisih Kekurangan MP</th>
                                     <th>Ketersediaan MP</th>
+                                    <th>Kekurangan MP</th>
                                 </tr>
                             </thead>
                             <tbody class="text-center">
@@ -51,10 +51,10 @@
                                         {{ $data['kebutuhanMPCoil_Making_LV'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['selisihMPCoil_Making_LV'] }}
+                                        {{ $data['ketersediaanMPCoil_Making_LV'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['ketersediaanMPCoil_Making_LV'] }}
+                                        {{ $data['selisihMPCoil_Making_LV'] }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -68,10 +68,10 @@
                                         {{ $data['kebutuhanMPCoil_Making_HV'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['selisihMPCoil_Making_HV'] }}
+                                        {{ $data['ketersediaanMPCoil_Making_HV'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['ketersediaanMPCoil_Making_HV'] }}
+                                        {{ $data['selisihMPCoil_Making_HV'] }}
                                     </td>
                                 </tr>
 
@@ -86,10 +86,10 @@
                                         {{ $data['kebutuhanMPMould_Casting'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['selisihMPMould_Casting'] }}
+                                        {{ $data['ketersediaanMPMould_Casting'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['ketersediaanMPMould_Casting'] }}
+                                        {{ $data['selisihMPMould_Casting'] }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -103,10 +103,10 @@
                                         {{ $data['kebutuhanMPCore_Assembly'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['selisihMPCore_Assembly'] }}
+                                        {{ $data['ketersediaanMPCore_Assembly'] }}
                                     </td>
                                     <td> 
-                                        {{ $data['ketersediaanMPCore_Assembly'] }}
+                                        {{ $data['selisihMPCore_Assembly'] }}
                                     </td>
                                 </tr>
 

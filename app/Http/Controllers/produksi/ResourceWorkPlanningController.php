@@ -830,60 +830,53 @@ class ResourceWorkPlanningController extends Controller
 
         if ($kebutuhanMPCoil_Making_HV != 0) {
             $presentaseKurangMPCoil_Making_HV = ($selisihMPCoil_Making_HV / $kebutuhanMPCoil_Making_HV) * 100;
-            $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - ($kebutuhanMPCoil_Making_HV * $presentaseKurangMPCoil_Making_HV) / 100;
         } else {
             $presentaseKurangMPCoil_Making_HV = 0;
-            $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - ($kebutuhanMPCoil_Making_HV * $presentaseKurangMPCoil_Making_HV) / 100;
         }
-
         if ($kebutuhanMPCoil_Making_LV != 0) {
             $presentaseKurangMPCoil_Making_LV = ($selisihMPCoil_Making_LV / $kebutuhanMPCoil_Making_LV) * 100;
-            $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - ($kebutuhanMPCoil_Making_LV * $presentaseKurangMPCoil_Making_LV) / 100;
         } else {
             $presentaseKurangMPCoil_Making_LV = 0;
-            $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - ($kebutuhanMPCoil_Making_LV * $presentaseKurangMPCoil_Making_LV) / 100;
         }
-
         if ($kebutuhanMPMould_Casting != 0) {
             $presentaseKurangMPMould_Casting = ($selisihMPMould_Casting / $kebutuhanMPMould_Casting) * 100;
-            $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting - ($kebutuhanMPMould_Casting * $presentaseKurangMPMould_Casting) / 100;
-            // dd($ketersediaanMPMould_Casting);
         } else {
             $presentaseKurangMPMould_Casting = 0;
-            $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting - ($kebutuhanMPMould_Casting * $presentaseKurangMPMould_Casting) / 100;
         }
-
         if ($kebutuhanMPCore_Assembly != 0) {
             $presentaseKurangMPCore_Assembly = ($selisihMPCore_Assembly / $kebutuhanMPCore_Assembly) * 100;
-            $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly - ($kebutuhanMPCore_Assembly * $presentaseKurangMPCore_Assembly) / 100;
         } else {
             $presentaseKurangMPCore_Assembly = 0;
-            $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly - ($kebutuhanMPCore_Assembly * $presentaseKurangMPCore_Assembly) / 100;
         }
+
+        $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - ($kebutuhanMPCoil_Making_HV * $presentaseKurangMPCoil_Making_HV) / 100;
+        $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - ($kebutuhanMPCoil_Making_LV * $presentaseKurangMPCoil_Making_LV) / 100;
+        $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting - ($kebutuhanMPMould_Casting * $presentaseKurangMPMould_Casting) / 100;
+        $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly - ($kebutuhanMPCore_Assembly * $presentaseKurangMPCore_Assembly) / 100;
 
         if ($kebutuhanMPCoil_Making_HV <= $ketersediaanMPCoil_Making_HV) {
             $selisihMPCoil_Making_HV = 0;
+            $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV;
         }
         if ($kebutuhanMPCoil_Making_LV <= $ketersediaanMPCoil_Making_LV) {
             $selisihMPCoil_Making_LV = 0;
+            $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV;
         }
         if ($kebutuhanMPMould_Casting <= $ketersediaanMPMould_Casting) {
             $selisihMPMould_Casting = 0;
+            $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting;
         }
         if ($kebutuhanMPCore_Assembly <= $ketersediaanMPCore_Assembly) {
             $selisihMPCore_Assembly = 0;
+            $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly;
         }
-
-
 
         $wc_Coil_Making_HV =  'Coil Making HV';
         $wc_Coil_Making_LV =  'Coil Making LV';
         $wc_Mould_Casting =  'Mould & Casting';
         $wc_Core_Assembly =  'Core & Assembly';
 
-
         $data = [
-
             'jumlahtotalHourCoil_Making_LV' => $jumlahtotalHourCoil_Making_LV,
             'jumlahtotalHourCoil_Making_HV' => $jumlahtotalHourCoil_Making_HV,
             'jumlahtotalHourMould_Casting' => $jumlahtotalHourMould_Casting,
@@ -905,9 +898,6 @@ class ResourceWorkPlanningController extends Controller
             'ketersediaanMPCoil_Making_LV' => $ketersediaanMPCoil_Making_LV,
             'ketersediaanMPMould_Casting' => $ketersediaanMPMould_Casting,
             'ketersediaanMPCore_Assembly' => $ketersediaanMPCore_Assembly,
-            // 'jumlahtotalHour' => $jumlahtotalHour,
-            // 'kebutuhanMP' => $kebutuhanMP,
-            // 'workcenterLabel' => $workcenterLabel,
             'title1' => $title1,
             'mps' => $mps,
             'kapasitas' => $kapasitas,

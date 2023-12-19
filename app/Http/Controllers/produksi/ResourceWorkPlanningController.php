@@ -35,7 +35,6 @@ class ResourceWorkPlanningController extends Controller
                     now()->startOfMonth(),
                     now()->endOfMonth()
                 ];
-                // dd($deadlineDate);
                 break;
 
             case 2:
@@ -59,7 +58,7 @@ class ResourceWorkPlanningController extends Controller
                 ];
                 break;
         }
-
+        // dd($deadlineDate);
         $request->session()->put('periode', $periode);
 
         //FILTER PL
@@ -119,14 +118,6 @@ class ResourceWorkPlanningController extends Controller
             ->sum(function ($item) {
                 return $item->wo->standardize_work->total_hour * $item->qty_trafo;
             });
-
-        // $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-        // $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-        // $jumlahtotalHourSumCTVT = Mps2::where('production_line', 'CTVT')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-        // $jumlahtotalHourSumDRY = Mps2::where('production_line', 'DRY')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-
-        // $jumlahtotalHourSumREPAIR = Mps2::where('production_line', 'REPAIR')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-
 
         switch ($periode) {
             case 1:
@@ -227,11 +218,34 @@ class ResourceWorkPlanningController extends Controller
         //ambil inputan dari dropdown
         // dd($kapasitasPL2);
         //presentasi muatan kapasitas
-        $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2) * 100;
-        $loadkapasitasPL3 = ($qtyPL3 / $kapasitasPL3) * 100;
-        $loadkapasitasCTVT = ($qtyCTVT / $kapasitasCTVT) * 100;
-        $loadkapasitasDRY = ($qtyDRY / $kapasitasDRY) * 100;
-        $loadkapasitasREPAIR = ($qtyREPAIR / $kapasitasREPAIR) * 100;
+
+        if ($kapasitasPL2 == 0) {
+            $loadkapasitasPL2 = 0;
+        } else {
+            $loadkapasitasPL2 = ($qtyPL2 / $kapasitasPL2) * 100;
+        }
+
+        if ($kapasitasPL3 == 0) {
+            $loadkapasitasPL3 = 0;
+        } else {
+            $loadkapasitasPL3 = ($qtyPL3 / $kapasitasPL3) * 100;
+        }
+        if ($kapasitasCTVT == 0) {
+            $loadkapasitasCTVT = 0;
+        } else {
+            $loadkapasitasCTVT = ($qtyCTVT / $kapasitasCTVT) * 100;
+        }
+        if ($kapasitasDRY == 0) {
+            $loadkapasitasDRY = 0;
+        } else {
+            $loadkapasitasDRY = ($qtyDRY / $kapasitasDRY) * 100;
+        }
+
+        if ($kapasitasREPAIR == 0) {
+            $loadkapasitasREPAIR = 0;
+        } else {
+            $loadkapasitasREPAIR = ($qtyREPAIR / $kapasitasREPAIR) * 100;
+        }
 
         //rules untuk jika over capacity
         $ifoverCapacityPL2 = $loadkapasitasPL2 > 100; //100 adalah hasil dari $loadkapasitas PL2
@@ -740,7 +754,6 @@ class ResourceWorkPlanningController extends Controller
                 $deadlineDate = [
                     now()->startOfMonth(),
                     now()->endOfMonth(),
-                    // $totalJamKerja = 173,
                 ];
                 break;
 
@@ -748,7 +761,6 @@ class ResourceWorkPlanningController extends Controller
                 $deadlineDate = [
                     now()->startOfWeek(),
                     now()->endOfWeek(),
-                    // $totalJamKerja = 40,
                 ];
                 break;
 
@@ -756,7 +768,6 @@ class ResourceWorkPlanningController extends Controller
                 $deadlineDate = [
                     now()->startOfWeek()->addWeek(),
                     now()->endOfWeek()->addWeek(),
-                    // $totalJamKerja = 40,
                 ];
                 break;
 
@@ -764,7 +775,6 @@ class ResourceWorkPlanningController extends Controller
                 $deadlineDate = [
                     now()->addMonth()->startOfMonth(),
                     now()->addMonth()->endOfMonth(),
-                    // $totalJamKerja = 173,
                 ];
                 break;
         }
@@ -777,6 +787,7 @@ class ResourceWorkPlanningController extends Controller
         $woDRY = Mps2::where('production_line', 'DRY')->pluck('id_wo');
         $jumlahtotalHourCoil_Making_HV = Mps2::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.dry_cast_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
@@ -785,6 +796,7 @@ class ResourceWorkPlanningController extends Controller
             });
         $jumlahtotalHourCoil_Making_LV = Mps2::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.dry_cast_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
@@ -796,10 +808,9 @@ class ResourceWorkPlanningController extends Controller
                 //dikali qty
                 return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
             });
-
-
         $jumlahtotalHourMould_Casting = Mps2::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.dry_cast_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
@@ -809,6 +820,7 @@ class ResourceWorkPlanningController extends Controller
 
         $jumlahtotalHourCore_Assembly = Mps2::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.dry_cast_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
@@ -817,10 +829,33 @@ class ResourceWorkPlanningController extends Controller
             });
 
 
-        $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
-        $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
-        $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
-        $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
+        switch ($periode) {
+            case 1:
+                $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
+                $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
+                $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
+                $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
+                break;
+            case 2:
+                $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
+                $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
+                $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
+                $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (40  * 0.93);
+                break;
+            case 3:
+                $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
+                $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
+                $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
+                $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (40  * 0.93);
+                break;
+            case 4:
+                $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
+                $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
+                $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
+                $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
+                break;
+        }
+
 
 
         $selisihMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - $totalManPower;

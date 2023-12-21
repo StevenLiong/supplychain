@@ -81,7 +81,7 @@
                                             <td>{{ $item->satuan }}</td>
                                             <td class="text-center">
                                                 {{-- cetak print --}}
-                                                <a href="{{ url('datamaster/material/print/' . $item->id) }}"
+                                                <a href="{{ url('datamaster/material/print/' . $item->kd_material) }}"
                                                     target="_blank">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                         viewBox="0 0 18 24" fill="none">
@@ -95,7 +95,7 @@
                                                 <div class="btn-group">
                                                     {{-- add qty --}}
                                                     <button class="btn btn-xs btn-primary rounded-0"
-                                                        onclick="window.location='{{ url('datamaster/material/addstock/' . $item->id) }}'">
+                                                        onclick="window.location='{{ url('datamaster/material/addstock/' . $item->kd_material) }}'">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                             height="20" viewBox="0 0 24 24" fill="none">
                                                             <path

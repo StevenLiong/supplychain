@@ -37,7 +37,7 @@
                         {{-- button create data --}}
                         <div class="btn-create">
                             <button type="button" class="btn btn-xs btn-gray"
-                                onclick=window.location="{{ url('datamaster/material/create') }}">Tambah Data</button>
+                                onclick=window.location="{{ url('cyclecount/create') }}">Tambah Data</button>
                         </div>
                         {{-- button create data end --}}
 

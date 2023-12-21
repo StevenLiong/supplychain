@@ -54,8 +54,8 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     // master data
     // material
     route::resource('datamaster/material', MaterialController::class);
-    Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
-    Route::get('datamaster/material/addstock/{id}', [MaterialController::class, 'addStock']);
+    Route::get('datamaster/material/print/{kd_material}', [MaterialController::class, 'print']);
+    Route::get('datamaster/material/addstock/{kd_material}', [MaterialController::class, 'addStock']);
     Route::put('datamaster/material/addstock/{id}', [MaterialController::class, 'updateStock']);
     // material end
 

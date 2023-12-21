@@ -36,7 +36,7 @@
                                 </tr>
                             </table>
                             <div class="row justify-content-center">
-                                <form action="{{ url('datamaster/material/addstock/' . $material->id) }}" method="post"
+                                <form action="{{ url('datamaster/material/addstock/' . $material->kd_material) }}" method="post"
                                     class="text-center">
                                     @csrf
                                     @method('put')

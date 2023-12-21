@@ -15,7 +15,9 @@ class RepairController extends Controller
 {
     public function create(): Response
     {
-        return response(view('produksi.standardized_work.formrepair', ['manhour' => ManHour::all()]));
+
+        $title = 'Form Repair';
+        return response(view('produksi.standardized_work.formrepair', ['manhour' => ManHour::all(), 'title' => $title]));
     }
 
     public function createManhour($id)

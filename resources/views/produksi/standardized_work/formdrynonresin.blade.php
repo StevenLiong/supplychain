@@ -78,7 +78,7 @@
                                 data-toggle="modal">
                                 <i class="fa-solid fa-circle-check"></i>Preview
                             </a>
-                            <a href="/" class="btn btn-primary m-2">
+                            <a href="/standardized_work/home" class="btn btn-primary m-2">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i>Cancel
                             </a>
                         </div>
@@ -157,9 +157,9 @@
                                             <span class="input-group-text">COIL MAKING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <input type="text" class="input-group-text bg-warning" 
-                                            style="width: 3rem" id="totalHour_coil_making" 
-                                            name="totalHour_coil_making" value="{{ old('totalHour_coil_making') }}"  
+                                            <input type="text" class="input-group-text bg-warning"
+                                            style="width: 3rem" id="totalHour_coil_making"
+                                            name="totalHour_coil_making" value="{{ old('totalHour_coil_making') }}"
                                             readonly>
                                         </div>
                                         <div class="input-group-append">

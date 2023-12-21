@@ -15,7 +15,9 @@ class CtController extends Controller
 {
     public function create(): Response
     {
-        return response(view('produksi.standardized_work.formct', ['manhour' => ManHour::all()]));
+
+        $title = 'Form CT';
+        return response(view('produksi.standardized_work.formct', ['manhour' => ManHour::all(), 'title' => $title]));
     }
 
     public function createManhour($id)

@@ -15,7 +15,9 @@ class OilCustomController extends Controller
 {
     public function create(): Response
     {
-        return response(view('produksi.standardized_work.formoilcustom', ['manhour' => ManHour::all()]));
+
+        $title = 'Form Oil Custom';
+        return response(view('produksi.standardized_work.formoilcustom', ['manhour' => ManHour::all(), 'title' => $title]));
     }
 
     public function createManhour($id)

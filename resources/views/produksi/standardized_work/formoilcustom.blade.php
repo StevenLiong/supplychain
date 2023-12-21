@@ -78,7 +78,7 @@
                                 data-toggle="modal">
                                 <i class="fa-solid fa-circle-check"></i>Preview
                             </a>
-                            <a href="/" class="btn btn-primary m-2">
+                            <a href="/standardized_work/home" class="btn btn-primary m-2">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i>Cancel
                             </a>
                         </div>

@@ -96,7 +96,7 @@
                         <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder=""
-                                    name="nama_product" value="Dry Cast Non Resin" id="category" disabled>
+                                    name="nama_product" value="Oil Custom" id="category" disabled>
                                 <label>Category</label>
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" name="kategori" id="kategori"
@@ -141,7 +141,7 @@
                     <!-- kiri  -->
                     <div class="col-lg-6">
                         <!--Coil Making  -->
-                        <div class="card card-body">
+                        <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
                                 <!-- tampilan total hour pada tiap work center  -->
                                 <div class="row align-items-center justify-content-center ">
@@ -159,7 +159,7 @@
                                     </div>
                                 </div>
                                 <!-- kolom isi  -->
-                                <div class="align-items-center justify-content-left p-2">
+                                <div class="align-items-center justify-content-left pt-1 px-1">
                                     <table>
                                         <tr style="height: 70px;" !important>
                                             <!-- tampilan hour dari inputan  -->

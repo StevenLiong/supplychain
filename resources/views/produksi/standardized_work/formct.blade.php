@@ -95,7 +95,7 @@
                         <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
-                                    value="Dry Cast Non Resin" id="category" disabled>
+                                    value="CT" id="category" disabled>
                                 <label>Category</label>
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" name="kategori" id="kategori"
@@ -109,7 +109,7 @@
                                     id="ukuran_kapasitas">
                                     @php
                                         $selectedValue = old('ukuran_kapasitas');
-                                        $manhourData = $manhour->where('id_kategori_produk', '5')->unique('ukuran_kapasitas');
+                                        $manhourData = $manhour->where('id_kategori_produk', '3')->unique('ukuran_kapasitas');
                                     @endphp
                                     <option value="">Pilih</option>
                                     @foreach ($manhourData as $data)
@@ -162,19 +162,181 @@
                                     <table class="w-100">
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
-                                            <td>
+                                            <td class="w-20">
                                                 <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_coil_lv">0</p>
+                                                    id="selectedInfo_balutcore_ct">0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Balut Core CT</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select
                                                     class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="coil_lv" id="coil_lv">
+                                                    style="height: 33px;" name="balutcore_ct" id="balutcore_ct">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_cca_balutvt">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Core Coil Assembly & Balut VT</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="cca_balutvt" id="cca_balutvt">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_buat_pasangshelding">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Buat & Pasang Shielding</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="buat_pasangshelding" id="buat_pasangshelding">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_gulungcoil_sekunderct">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Gulung Coil Sekunder CT</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="gulungcoil_sekunderct" id="gulungcoil_sekunderct">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_buatcoilprimer_ctmanual">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Buat Coil Primer CT Manual</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="buatcoilprimer_ctmanual" id="buatcoilprimer_ctmanual">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_buat_coilprimerct_menggunakanmesin">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Buat Coil Primer CT Menggunakan Mesin</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="buat_coilprimerct_menggunakanmesin" id="buat_coilprimerct_menggunakanmesin">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_koneksi_ctvt">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Koneksi CT Dan VT</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="koneksi_ctvt" id="koneksi_ctvt">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_solder">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Solder</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="solder" id="solder">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_gulungcoilprimer_cutcore">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Gulung Coil Primer Cut Core</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="gulungcoilprimer_cutcore" id="gulungcoilprimer_cutcore">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="selectedInfo_gulungcoilprimer_nocutcore">0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Gulung Coil Primer No Cut Core</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control form-select input border border-dark rounded text-center"
+                                                    style="height: 33px;" name="gulungcoilprimer_nocutcore" id="gulungcoilprimer_nocutcore">
                                                 </select>
                                             </td>
                                         </tr>
@@ -184,6 +346,10 @@
 
                             </div>
                         </div>
+
+                    </div>
+                    <!-- kanan  -->
+                    <div class="col-lg-6" style="padding-left: 5px">
                         <!-- Mould & Casting  -->
                         <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
@@ -209,128 +375,121 @@
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
                                                 <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_moulding_casting"> 0</p>
+                                                    style="width:100%;" id="selectedInfo_prosesmouldassembly_typect"> 0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Mould Assembly Type CT</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="moulding_casting" id="moulding_casting">
-
+                                                    style="height: 33px;"name="prosesmouldassembly_typect" id="prosesmouldassembly_typect">
                                                 </select>
                                             </td>
                                         </tr>
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card card-body my-1 py-1">
-                            <div style="padding: 5px;">
-                                <!-- tampilan total hour pada tiap work center  -->
-                                <div class="row align-items-center">
-                                    <div class="input-group input-group-md justify-content-center">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">Final Assy</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalMouldCasting_value"></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- kolom isi  -->
-                                <div class="align-items-center justify-content-left pt-1 px-1">
-                                    <table class="w-100">
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
                                                 <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_moulding_casting"> 0</p>
+                                                    style="width:100%;" id="selectedInfo_prosesmouldassembly_typerct"> 0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Mould Assembly Type RCT</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="moulding_casting" id="moulding_casting">
-
+                                                    style="height: 33px;"name="prosesmouldassembly_typerct" id="prosesmouldassembly_typerct">
                                                 </select>
                                             </td>
                                         </tr>
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card card-body my-1 py-1">
-                            <div style="padding: 5px;">
-                                <!-- tampilan total hour pada tiap work center  -->
-                                <div class="row align-items-center ">
-                                    <div class="input-group input-group-md justify-content-center">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">QC TESTING</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalQCTest_value"></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- kolom isi  -->
-                                <div class="align-items-center justify-content-left pt-1 px-1">
-                                    <table class="w-100">
                                         <tr !important>
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
                                                 <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_qc_testing">0</p>
+                                                    style="width:100%;" id="selectedInfo_proses_pengovenan"> 0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">Routine Test</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Pengovenan</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="margin-bottom: 0rem" name="qc_testing[]" id="qc_testing"
-                                                    multiple>
-
+                                                    style="height: 33px;"name="proses_pengovenan" id="proses_pengovenan">
                                                 </select>
                                             </td>
                                         </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p type="text" class="border border-dark rounded p-1 text-center"
+                                                    style="width:100%;" id="selectedInfo_proses_pembuatanmaterial"> 0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Pembuatan Material</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;"name="proses_pembuatanmaterial" id="proses_pembuatanmaterial">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p type="text" class="border border-dark rounded p-1 text-center"
+                                                    style="width:100%;" id="selectedInfo_proses_casting"> 0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Casting</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;"name="proses_casting" id="proses_casting">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <!-- tampilan hour dari inputan  -->
+                                            <td class="w-20">
+                                                <p type="text" class="border border-dark rounded p-1 text-center"
+                                                    style="width:100%;" id="selectedInfo_proses_demoulding"> 0</p>
+                                            </td>
+                                            <!-- nama proses-->
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Proses demoulding</h6>
+                                            </td>
+                                            <!-- inputan spek -->
+                                            <td class="w-50">
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;"name="proses_demoulding" id="proses_demoulding">
+                                                </select>
+                                            </td>
+                                        </tr>
+
                                     </table>
                                 </div>
-
                             </div>
                         </div>
-
-                    </div>
-                    <!-- kanan  -->
-                    <div class="col-lg-6" style="padding-left: 5px">
-                        {{-- core & Assembly  --}}
+                        {{-- Final Assembly  --}}
                         <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
                                 <!-- tampilan total hour pada tiap work center  -->
                                 <div class="row align-items-center ">
                                     <div class="input-group input-group-md justify-content-center">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">CORE & ASSEMBLY</span>
+                                            <span class="input-group-text">FINAL ASSEMBLY</span>
                                         </div>
                                         <div class="input-group-append">
                                             <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalCoreCoilAssembly_value"></span>
+                                                id="totalfinalassembly_value"></span>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -344,17 +503,16 @@
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
                                                 <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_type_susun_core">0</p>
+                                                    style="width:100%;" id="selectedInfo_proses_gerindra">0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">Type Susun Core</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">Proses Gerindra</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="type_susun_core" id="type_susun_core">
-
+                                                    style="height: 33px;" name="proses_gerindra" id="proses_gerindra">
                                                 </select>
                                             </td>
                                         </tr>
@@ -362,16 +520,16 @@
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
                                                 <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_hv_connection">0</p>
+                                                    style="width:100%;" id="selectedInfo_proses_cat">0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">HV Connection</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">Proses Cat</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" id="hv_connection" name="hv_connection">
+                                                    style="height: 33px;" id="proses_cat" name="proses_cat">
                                                 </select>
                                             </td>
                                         </tr>
@@ -379,17 +537,16 @@
                                             <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
                                                 <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_lv_connection">0</p>
+                                                    style="width:100%;" id="selectedInfo_proses_accessories">0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">LV Connection</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">Proses Accessories</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" id="lv_connection" name="lv_connection">
-
+                                                    style="height: 33px;" id="proses_accessories" name="proses_accessories">
                                                 </select>
                                             </td>
                                         </tr>
@@ -397,135 +554,16 @@
                                             <!-- tampilan hour dari inputan  -->
                                             <td>
                                                 <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_wiring">0</p>
-
+                                                    style="width:100%;" id="selectedInfo_testqc">0</p>
                                             </td>
                                             <!-- nama proses-->
                                             <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Wiring</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">Test QC</h6>
                                             </td>
                                             <!-- inputan spek -->
                                             <td>
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="wiring" id="wiring">
-
-
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_instal_housing">0</p>
-
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Instal Housing</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td>
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="instal_housing" id="instal_housing">
-
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_bongkar_housing">0</p>
-
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Bongkar Housing</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td>
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="bongkar_housing" id="bongkar_housing">
-
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_pembuatan_cu_link">0</p>
-
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Pembuatan CU Link
-                                                </h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td>
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="pembuatan_cu_link"
-                                                    id="pembuatan_cu_link">
-
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_others">0</p>
-
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Others</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td style="width:500px ">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    name="others[]" id="others" multiple>
-
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_accesories"p>0</p>
-
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Accessories</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td style="width:500px ">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    name="accesories[]" id="accesories" multiple>
-
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_potong_isolasi_fiber">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi Fiber
-                                                </h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td style="width:500px ">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    name="potong_isolasi_fiber[]" id="potong_isolasi_fiber" multiple>
-
+                                                    style="height: 33px;" name="testqc" id="testqc">
                                                 </select>
                                             </td>
                                         </tr>
@@ -533,8 +571,6 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>

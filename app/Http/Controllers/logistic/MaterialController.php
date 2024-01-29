@@ -74,20 +74,21 @@ class MaterialController extends Controller
         return redirect('datamaster/material')->with('success', 'Berhasil di hapus');
     }
 
-    public function print($id)
+    public function print($kd_material)
     {
-        $material = Material::find($id);
+        $material = Material::where('kd_material', $kd_material)->first();
+        // dd($material->kd_material);
         return view('logistic.dataMaster.material.print', compact('material'));
     }
 
-    public function addStock($id)
+    public function addStock($kd_material)
     {
-        $material = Material::find($id);
+        $material = Material::where('kd_material', $kd_material)->first();
         return view('logistic.datamaster.material.addStock', compact('material'));
     }
 
-    public function updateStock(Request $request, $id){
-        $material = Material::find($id);
+    public function updateStock(Request $request, $kd_material){
+        $material = Material::where('kd_material', $kd_material)->first();
         
         $request->validate([
             'addstock' => 'required|numeric|min:1',
@@ -96,6 +97,6 @@ class MaterialController extends Controller
         $material->jumlah += $request->input('addstock');
         $material->save();
 
-        return redirect('datamaster/material/addstock/'.$id)->with('success', 'Stock added successfully');
+        return redirect('datamaster/material/addstock/'.$kd_material)->with('success', 'Stock added successfully');
     }
 }

@@ -12,6 +12,11 @@
     <div class="data-scrollbar" data-scroll="1">
         <nav class="iq-sidebar-menu">
             <ul id="iq-sidebar-toggle" class="iq-menu">
+                <!-- <li class="@yield('dashboard')">
+                    <a href="/Dashboard" class="svg-icon">
+                        <i class="fa-solid fa-house"></i> <span class="ml-4">Dashboards</span>
+                    </a>
+                </li> -->
                 <li class="@yield('bill-of-material')">
                     <a href="{{ route('bom-index') }}">
                         <svg class="svg-icon" width="25" height="25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -127,9 +132,9 @@
 
                         <li class="nav-item nav-icon dropdown caption-content">
                             <a href="#" class="search-toggle dropdown-toggle  d-flex align-items-center" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="/templatetrafindo/assets/images/user/1.jpg" class="img-fluid rounded-circle" alt="user">
+                                <!-- <img src="/templatetrafindo/assets/images/user/1.jpg" class="img-fluid rounded-circle" alt="user"> -->
                                 <div class="caption ml-3">
-                                    <h6 class="mb-0 line-height">$username<i class="las la-angle-down ml-2"></i></h6>
+                                    <h6 class="mb-0 line-height"><i class="las la-angle-down ml-2"></i></h6>
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right border-none" aria-labelledby="dropdownMenuButton">

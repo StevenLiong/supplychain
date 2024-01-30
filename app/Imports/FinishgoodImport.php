@@ -2,6 +2,7 @@
 
 namespace App\Imports;
 
+use App\Models\logistic\Finishedgood;
 use App\Models\planner\Fgoods;
 use App\Models\planner\Kanbanfg;
 use Maatwebsite\Excel\Concerns\Importable;
@@ -18,26 +19,23 @@ class FinishgoodImport implements ToModel, WithHeadingRow, WithCalculatedFormula
     public function model(array $row)
     {
         if ($this->startRow === 1) {
-            $this->startRow = 0; // Set the first row as the current row
-            return null; // Return null to ignore the second row
-        }
-
-        if (empty($row)) {
-            return null; // Ignore empty rows
-        }
-
-        $fgoods = Fgoods::where('kd_finishedgood', $row['kode_fg'])->first();
-
-        if (!$fgoods) {
+            $this->startRow = 0;
             return null;
         }
 
-        $stockOnHand = $fgoods->qty;
+        if (empty($row)) {
+            return null;
+        }
 
-        // Calculate 'unit' and ensure it's not below 0
+        $kd_finishedgood = $row['kode_fg'];
+
+        $fgoods = Finishedgood::where('kd_finishedgood', $kd_finishedgood)->first();
+
+        $stockOnHand = $fgoods ? $fgoods->qty : 0;
+        // $stockOnHand = '1';
+
         $unit = max(0, $row['max_kanban'] - $stockOnHand);
 
-        // Calculate 'status' based on the 'unit' value
         $status = ($unit > 0) ? 'Order' : 'Aman';
 
         return new Kanbanfg([

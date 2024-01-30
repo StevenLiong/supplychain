@@ -24,13 +24,16 @@ class EmailCommand extends Command
     
                 $this->info("email_status: {$material->email_status}, db_status: {$material->db_status}, supplier: {$stockInfo->supplier}, last_kirim_email: {$material->last_kirim_email}");
     
-                // Perbarui logika untuk menangani situasi last_kirim_email kosong
                 $emailDelay = 0;
                 if (!is_null($material->last_kirim_email)) {
                     $emailDelay = (strtolower($stockInfo->supplier) == 'lokal') ? 2 : 7;
                 }
     
                 $daysDifference = now()->diffInDays($material->last_kirim_email);
+                if($daysDifference > 7)
+                {
+                    $daysDifference = 0;
+                }
                 $this->info("Selisih hari: " . $daysDifference . ", emailDelay: {$emailDelay}");
     
                 if ($daysDifference >= $emailDelay) {

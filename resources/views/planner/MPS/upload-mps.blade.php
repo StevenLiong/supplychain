@@ -13,18 +13,14 @@
             @csrf
             <div class="form-row">
                 <div class="col-md-6 mb-3">
-                    <label for="id_fg">Work Order</label>
-                        <select class="form-control @error('id_wo') is-invalid @enderror" id="id_wo" name="id_wo">
-                            <option selected="" disabled="">Select Kode Work Order:</option>
-                            @foreach ($dataWo as $wo)
-                                <option value="{{ $wo->id_wo }}">{{ $wo->id_wo }}</option>
-                            @endforeach
-                        </select>
-                        @error('id_wo')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                        @enderror
+                    <label for="validationDefault01">Work Order</label>
+                    <select id="id_wo" name="id_wo" class="form-control" required>
+                        <option value="">Choose...</option>
+                        @foreach($dataWo as $woId)
+                            <option value="{{ $woId->id }}">{{ $woId->id_wo }}</option>
+                            
+                        @endforeach
+                    </select>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Project Name</label>

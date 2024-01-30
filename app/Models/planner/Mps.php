@@ -25,7 +25,7 @@ class Mps extends Model
 
     public function wo(): BelongsTo
     {
-        return $this->belongsTo(Wo2::class, 'id_wo', 'id');
+        return $this->belongsTo(Wo::class, 'id_wo', 'id');
     }
 
     public function workcenterDryType()

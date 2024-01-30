@@ -19,7 +19,7 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-2">
                         <label for="id_wo">Work Order</label>
-                        <input type="text" class="form-control" name="id_wo" value="{{ $dataMps->id_wo }}"required disabled>
+                        <input type="text" class="form-control" name="id_wo" value="{{ $dataMps->wo->id_wo }}"required disabled>
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="production_line">Production Line</label>

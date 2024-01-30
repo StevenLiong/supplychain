@@ -188,6 +188,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // --EXPORT DETAIL BOM--
     Route::get('/DetailBom/ExportExcel', [DetailbomController::class, 'exportToExcel'])->name('dbom.exportExcel');
+    Route::get('/DetailBom/ExportPdf', [DetailbomController::class, 'exportToPdf'])->name('dbom.exportPdf');
 
 
     //DELETE MATERIAL & RESTORE MATERIAL
@@ -274,7 +275,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // routes/web.php
     // Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
 
-
+    Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
 });
 
 // Planner End

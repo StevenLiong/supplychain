@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\planner;
 
+use PDF;
 use App\Exports\DetailBomExport;
 use App\Imports\BomImport;
 use App\Models\planner\Bom;
@@ -430,5 +431,13 @@ class DetailbomController extends Controller
         // dd($dataBom);
         $id_boms = $dataBom->isNotEmpty() ? $dataBom->first()->id_boms : 'Kode Bom Tidak Ada';
         return Excel::download(new DetailBomExport($dataBom), "File Bill of Material $id_boms.xlsx");
+    }
+
+    public function exportToPdf()
+    {
+        $dataBom = Detailbom::select('id', 'id_boms', 'nama_workcenter', 'id_materialbom', 'nama_materialbom', 'uom_material', 'usage_material', 'keterangan')->get(); // Ambil data Mps dari database
+        $id_boms = $dataBom->isNotEmpty() ? $dataBom->first()->id_boms : 'Kode Bom Tidak Ada';
+        $pdf = PDF::loadView('planner.bom.pdf-view', ['dataBom' => $dataBom]);
+        return $pdf->download("Bill of Material $id_boms.pdf");
     }
 }

@@ -72,7 +72,7 @@ class MaterialPendingNotification extends Mailable
     public function build()
     {
         return $this->view('planner.bom.material-pending-notif')
-            ->subject($this->subjekEmail) // Set the email subject
+            ->subject($this->subjekEmail)
             ->with([
                 'idBom' => $this->idBom,
                 'subjekEmail' => $this->subjekEmail,

@@ -31,7 +31,7 @@
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Standardize Work Code</label>
-                    <input type="text" class="form-control" name="id_standardize_work" value="{{ $detailWo->id_standardize_work }}"required disabled>
+                    <input type="text" class="form-control" name="id_standardize_work" value="{{ $detailWo->standardize_work->kd_manhour}}"required disabled>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Sales Order</label>

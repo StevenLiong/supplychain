@@ -43,7 +43,7 @@
                             @foreach ($dataMps as $index => $item)
                                 <tr role="row" class="odd">
                                     <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ $item->id_wo }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $item->wo->id_wo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>

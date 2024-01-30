@@ -17,7 +17,8 @@
                     <select id="id_wo" name="id_wo" class="form-control" required>
                         <option value="">Choose...</option>
                         @foreach($dataWo as $woId)
-                            <option value="{{ $woId->id_wo }}">{{ $woId->id_wo }}</option>
+                            <option value="{{ $woId->id }}">{{ $woId->id_wo }}</option>
+                            
                         @endforeach
                     </select>
                 </div>

@@ -20,7 +20,9 @@ class WoController extends Controller
 {
     public function index()
     {
+        // $dataWo = Wo::with('standardize_work')->get();
         $dataWo = Wo::all();
+        // $workOrders = ModelWorkOrder::with('id_standardize_work')->get();
         return view('planner.wo.index', compact('dataWo'));
     }
 
@@ -37,13 +39,14 @@ class WoController extends Controller
         $databom = Bom::where('id_fg', $idFg)        
         ->where('status_bom', 3)
         ->first();
+        // dd($databom);
         $standardizeWork = StandardizeWork::where('id_fg', $idFg)->first();
+        // dd($standardizeWork);
 
         //jadiin array
         $data = [
             'kd_manhour' => $standardizeWork->kd_manhour ?? null,
             'id_boms' => $databom->id_bom ?? null,
-            // 'qty_trafo' => $databom->qty_bom ?? null,
             'id_so' => $databom->id_so ?? null,
         ];
 
@@ -65,12 +68,12 @@ class WoController extends Controller
         ->where('status_bom', 3)
         ->first();
         $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
+        // dd($standardizedWork);
 
         if ($bom && $standardizedWork) {
             $wo->id_boms = $bom->id_bom;
-            // $wo->qty_trafo = $bom->qty_bom;
             $wo->id_so = $bom->id_so;
-            $wo->id_standardize_work = $standardizedWork->kd_manhour;
+            $wo->id_standardize_work = $standardizedWork->id;
         } else {
             return redirect()->back()->withInput()->withErrors(['error' => 'Terdapat Data yang Kosong']);
         }
@@ -94,7 +97,8 @@ class WoController extends Controller
         $standardizeWork = StandardizeWork::where('id_fg', $id_fg)->first();
 
         $additionalData = [
-            'id_standardize_work' => $standardizeWork->kd_manhour ?? null,
+            // 'id_standardize_work' => $standardizeWork->kd_manhour ?? null,
+            'id_standardize_work' => $standardizeWork->id ?? null,
             'bom_code' => $databom->bom_code ?? null,
             'id_so' => $databom->id_so ?? null,
         ];
@@ -149,7 +153,8 @@ class WoController extends Controller
         // Update the Wo data based on the selected id_fg
         $detailWo->update([
             'id_boms' => $bom->id_bom,
-            'id_standardize_work' => $standardizedWork->kd_manhour,
+            // 'id_standardize_work' => $standardizedWork->kd_manhour,
+            'id_standardize_work' => $standardizedWork->id,
             // 'id_boms' => $request->id_boms,
             // 'id_standardize_work' => $request->id_standardize_work,
             // 'id_so' => $request->id_so,

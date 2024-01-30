@@ -14,6 +14,9 @@
       <div class="header-title">
         <h4 class="card-title">Detail Bill Of Material</h4>
       </div>
+      <div class="col text-right">
+        <a href="{{ route('dbom.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
+      </div>
     </div>
     <div class="card-body">
       <form>

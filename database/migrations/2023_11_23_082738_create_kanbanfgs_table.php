@@ -18,9 +18,12 @@ return new class extends Migration
             $table->integer('max_kanban');
             $table->integer('stock_on_hand')->nullable();
             $table->integer('unit');
+            $table->string('fg_status', 1)->default(0)->comment('0=Pending, 1=Completed');
             $table->string('status')->nullable();
             $table->integer('realisasi')->nullable();
             $table->string('email_status', 1)->default(0)->comment('0=Belum Kirim, 1=Sudah Dikirim');
+            $table->integer('peruntukan_unit')->nullable()->default(0);
+            $table->integer('stock_akhir')->nullable()->default(0);
             $table->timestamps();
         });
     }

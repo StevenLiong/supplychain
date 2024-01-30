@@ -66,12 +66,14 @@
                                 <th style="width: 6rem; text-align: center" rowspan="2" class="text-center align-middle">Nama Item</th>
                                 <th style="width: 6rem; text-align:center" rowspan="2" class="text-center align-middle">Max Kanban</th>
                                 <th style="width: 6rem; text-align:center" rowspan="2" class="text-center align-middle">Stock On Hand</th>
+                                <th style="width: 6rem; text-align:center" rowspan="2" class="text-center align-middle">Peruntukan Unit</th>
+                                <th style="width: 6rem; text-align:center" rowspan="2" class="text-center align-middle">Stock Akhir</th>
                                 <th style="width: 18rem; text-align:center;" colspan="3" class="text-center align-middle">ORDER REQUEST</th>
+
                             </tr>
                             <tr class="ligth" role="row" tabindex="0" aria-controls="datatable" aria-sort="ascending" aria-label="activate to sort column descending" style="width: auto;">
                                 <th style="width: 6rem; text-align:center;" class="text-center align-middle">Unit</th>
                                 <th style="width: 6rem; text-align:center;" class="text-center align-middle">Status</th>
-                                <th style="width: 6rem; text-align:center;" class="text-center align-middle">Realisasi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,15 +83,16 @@
                               <td style="width: 6rem; text-align: center">{{ $item['nama_item'] }}</td>
                               <td style="width: 6rem; text-align: center">{{ $item['max_kanban'] }}</td>
                               <td style="width: 6rem; text-align: center">{{ $item['stock_on_hand'] }}</td>
+                              <td style="width: 6rem; text-align: center">{{ $item['peruntukan_unit'] }}</td>
+                              <td style="width: 6rem; text-align: center">{{ $item['stock_akhir'] }}</td>
                               <td style="width: 6rem; text-align: center;">{{ $item['unit'] }}</td>
                               <td style="width: 6rem; text-align: center; background-color: #00ff00;">{{ $item['status'] }}</td>
-                              <td style="width: 6rem; text-align: center;">{{ $item['realisasi'] }}</td>
                           </tr>
                       @endforeach
 
                         </tbody>
                     </table>
-        <p class="terima-kasih" style="margin-top: 20px;">Terima kasih,<br><br>Steven Liong</p>
+        <p class="terima-kasih" style="margin-top: 20px;">Terima kasih,<br></p>
     </div>
 </body>
 

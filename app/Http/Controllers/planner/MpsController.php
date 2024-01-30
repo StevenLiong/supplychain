@@ -28,6 +28,7 @@ class MpsController extends Controller
     public function upload()
     {
         $dataWo = Wo::all(); // Mengambil nilai 'id_wo' dari tabel Wo
+        // dd($dataWo);
         return view('planner.MPS.upload-mps', ['dataWo' => $dataWo]);
     }
 
@@ -45,7 +46,8 @@ class MpsController extends Controller
         // }
         $mps = new Mps();
         $mps->id_wo = $request->get('id_wo');
-        $dataWo = Wo::where('id_wo', $request->get('id_wo'))->first();
+        $dataWo = Wo::where('id', $request->get('id_wo'))->first();
+        // dd($dataWo);
         $mps->kd_manhour = $dataWo->id_standardize_work;
         $mps->project = $request->get('project');
         $mps->production_line = $request->get('production_line');

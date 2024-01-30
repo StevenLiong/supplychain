@@ -108,9 +108,8 @@
                 $('input[name="id_so"]').val(data.id_so);
             },
             error: function (xhr, status, error) {
-                // Handle error jika diperlukan
                 console.log('Error fetching data:', status, error);
-                console.log(xhr.responseText); // Log the response for further inspection
+                console.log(xhr.responseText);
             }
         });
     }

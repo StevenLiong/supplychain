@@ -71,7 +71,7 @@
                                             <td class="text-center">{{ $item->ekspedisi}}</td>
                                             <td class="text-center">{{ $item->no_kendaraan}}</td>
                                             <td class="text-center">
-                                                <a href="{{ url('shipping/deliveryreceipt/print/id') }}">
+                                                <a href="{{ url('shipping/deliveryreceipt/print/'.$item->no_delivery) }}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="24"
                                                         viewBox="0 0 18 24" fill="none">
                                                         <path

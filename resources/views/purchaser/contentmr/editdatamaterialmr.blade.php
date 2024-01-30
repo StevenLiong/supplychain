@@ -61,16 +61,16 @@
                                 <label for="tanggal" class="form-label">Kode Material</label>
                                 <div class="row d-flex justify-content-between">
                                     <div class="col-8">
-                                        <input readonly type="text" class="form-control " id="tanggal" value="{{$pesanan->material->kd_material}}" name="material[]">
+                                        <input readonly type="text" class="form-control " id="tanggal" value="{{$pesanan->material->kd_material}}" name="">
                                     </div>
                                     <div class="col">
                                         <strong>qty</strong>
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" name="qty[]" value="{{$pesanan->qty_pesanan}}">
+                                        <input class="form-control" name="" value="{{$pesanan->qty_pesanan}}">
                                     </div>
                                     <div class="col">
-                                        <input class="form-control" name="dim" value="{{$pesanan->material->satuan}}" disabled>
+                                        <input class="form-control" name="" value="{{$pesanan->material->satuan}}" disabled>
                                     </div>
                                     <div class="col">
                                         <a class=" btn btn-danger form-control" href="/materialrequest/delete/{{$pesanan->id_pesanan}}"><i class="bi bi-trash-fill"></i></a>
@@ -161,6 +161,7 @@
         dimension.val(dataDim);
         name.val(dataName);
     }
+
     //variabel kosong, harus sama dengan var pada script
     function updateItem(select) {
         var selectedOption = $(select).find(":selected");
@@ -260,7 +261,7 @@
             
             // Clear existing options
                     stockDropdown.empty();
-
+                    
                     if (materialId) {
                         // Fetch stocks based on the selected material and current store using an AJAX request
                         $.ajax({
@@ -270,7 +271,7 @@
                                 // Populate the stock dropdown with the retrieved data
                                 $.each(data, function(index, stock) {
                                     stockDropdown.append('<option value="' + stock.id_stock +
-                                        '">' + stock.spesifikasi_sparepart + '</option>');
+                                    '">' + stock.spesifikasi_sparepart + '</option>');
                                 });
                             }
                         });
@@ -278,5 +279,29 @@
                 });
             });
         </script> --}}
+<!-- <script>
+    let itemCount = 1;
+
+function addNewItem() {
+    const formContainer = document.querySelector(".items");
+    const originalDiv = formContainer.querySelector(".item");
+    const newDiv = originalDiv.cloneNode(true);
+
+    
+    newDiv.querySelector('select.material-select').selectedIndex = 0;
+    newDiv.querySelector('input[name="qty[]"]').value = "0";
+    newDiv.querySelector('input[name="satuan"]').value = "";
+    newDiv.querySelector('.nama_material').value = "";
+
+    formContainer.appendChild(newDiv);
+}
+
+function deleteItem(element) {
+    const itemElements = document.querySelectorAll('.item');
+    if (itemElements.length > 1) {
+        element.closest('.item').remove();
+    }
+}
+</script> -->
 
 @endsection

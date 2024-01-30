@@ -6,10 +6,13 @@ namespace Database\Seeders;
 
 use App\Models\logistic\Gudang;
 use App\Models\logistic\Material;
+use App\Models\produksi\Mps2;
+use App\Models\produksi\Wo2;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Matrix\Operators\Division;
+use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Standardize;
 
 class DatabaseSeeder extends Seeder
 {
@@ -107,15 +110,30 @@ class DatabaseSeeder extends Seeder
         $this->call(DivisionSeeder::class);
         $this->call(DeliverySeeder::class);
 
-        $this->call(KapasitasSeeder::class);
         $this->call(KategoriProdukSeeder::class);
         $this->call(ProsesSeeder::class);
         $this->call(TipeProsesSeeder::class);
         $this->call(WorkCenterSeeder::class);
+        $this->call(JamKerjaSeeder::class);
+        $this->call(StandardizedWorkSeeder::class);
+        // $this->call(WoSeeder::class);
+        $this->call(Wo2Seeder::class);
+        // $this->call(MpsSeeder::class);
+        $this->call(Mps2Seeder::class);
+        $this->call(ProductionLineSeeder::class);
+        $this->call(ManPowerSeeder::class);
+        $this->call(MatriksSkillSeeder::class);
+        $this->call(PeriodeSeeder::class);
+        $this->call(MesinSeeder::class);
+
+        $this->call(KapasitasSeeder::class);
         $this->call(WorkCenterDryTypeSeeder::class);
         $this->call(WorkCenterOilTrafoSeeder::class);
+        $this->call(StandardizedWorkSeeder::class);
         // $this->call(MpsSeeder::class);
-        $this->call(ManHourSeeder::class);
+
         $this->call(DivisionSeeder::class);
+        $this->call(ManHourSeeder::class);
+
     }
 }

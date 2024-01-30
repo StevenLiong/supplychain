@@ -60,7 +60,6 @@
                     <td>{{ $item->production_line }}</td>
                     <td>{{ $item->kva }}</td>
                     <td>{{ $item->qty_trafo }}</td>
-                    <td>{{ $item->lead_time }}</td>
                     <td>{{ $item->deadline }}</td>
                     <!-- Add other columns as needed -->
                 </tr>

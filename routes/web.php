@@ -30,6 +30,7 @@ use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\logistic\TransferController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\planner\FinishgoodController;
+use App\Http\Controllers\logistic\CycleCountController;
 use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryNonResinController;
 use App\Http\Controllers\logistic\FinishedgoodController;
@@ -53,8 +54,8 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     // master data
     // material
     route::resource('datamaster/material', MaterialController::class);
-    Route::get('datamaster/material/print/{id}', [MaterialController::class, 'print']);
-    Route::get('datamaster/material/addstock/{id}', [MaterialController::class, 'addStock']);
+    Route::get('datamaster/material/print/{kd_material}', [MaterialController::class, 'print']);
+    Route::get('datamaster/material/addstock/{kd_material}', [MaterialController::class, 'addStock']);
     Route::put('datamaster/material/addstock/{id}', [MaterialController::class, 'updateStock']);
     // material end
 
@@ -66,7 +67,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::resource('datamaster/rak', RakController::class);
     Route::get('datamaster/rak/print/{id}', [RakController::class, 'print']);
     // rak end
-    
+
     // finished good
     Route::resource('datamaster/finishedgood', FinishedgoodController::class);
 
@@ -100,7 +101,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('services/transaksigudang', [ServicesController::class, 'indexGudang']);
     Route::get('services/transaksiproduksi', [ServicesController::class, 'indexProduksi']);
 
-    // order 
+    // order
     Route::resource('services/transaksigudang/order', OrderController::class);
     Route::get('services/transaksigudang/order/{nama_workcenter}', [OrderController::class, 'show']);
 
@@ -139,7 +140,10 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('shipping/deliveryreceipt', [ShippingController::class, 'indexDelivery']);
     Route::get('shipping/deliveryreceipt/create', [ShippingController::class, 'createDelivery']);
     Route::post('shipping/deliveryreceipt', [ShippingController::class, 'storeDelivery']);
-    Route::get('shipping/deliveryreceipt/print/id', [ShippingController::class, 'printDelivery']);
+    Route::get('shipping/deliveryreceipt/print/{no_delivery}', [ShippingController::class, 'printDelivery']);
+
+    // cycle count
+    Route::resource('cyclecount', CycleCountController::class);
 
     // logistic end
 
@@ -215,6 +219,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
     Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
     Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
+    Route::get('/getdataid-wo/{idWo}', [MpsController::class, 'getDataByIdWo']);
 
     // --EXPORT MPS--
     Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
@@ -267,7 +272,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // Route::post('/send-email-notif', [DetailbomController::class, 'emailNotif']);
     Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
     // routes/web.php
-// Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
+    // Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
 
 
 });
@@ -276,22 +281,29 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
 Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('/', [ResourceWorkPlanningController::class, 'dashboard']);
-    Route::get('resource_work_planning/dashboard', [ResourceWorkPlanningController::class, 'dashboard']);
-    Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
+    Route::get('resource_work_planning/dashboard', [ResourceWorkPlanningController::class, 'dashboard'])->name('dashboard');
+
+
+    Route::post('resource_work_planning/dashboard/data/process-periode', [ResourceWorkPlanningController::class, 'dashboard'])->name('process.periode');
+    Route::get('resource_work_planning/Work-Load', [ResourceWorkPlanningController::class, 'Workload']);
+
+    // Route::get('resource_work_planning/PL2/Work-Load', [ResourceWorkPlanningController::class, 'pl2Workload']);
     Route::get('resource_work_planning/PL2/Rekomendasi', [ResourceWorkPlanningController::class, 'pl2Rekomendasi']);
-    Route::get('resource_work_planning/PL2/Jumlah', [ResourceWorkPlanningController::class, 'pl2Jumlah']);
-    Route::get('resource_work_planning/PL3/Work-Load', [ResourceWorkPlanningController::class, 'pl3Workload']);
+    Route::get('resource_work_planning/PL2/Kebutuhan', [ResourceWorkPlanningController::class, 'pl2Kebutuhan']);
+    // Route::get('resource_work_planning/PL3/Work-Load', [ResourceWorkPlanningController::class, 'pl3Workload']);
     Route::get('resource_work_planning/PL3/Rekomendasi', [ResourceWorkPlanningController::class, 'pl3Rekomendasi']);
-    Route::get('resource_work_planning/PL3/Jumlah', [ResourceWorkPlanningController::class, 'pl3Jumlah']);
-    Route::get('resource_work_planning/CT-VT/Work-Load', [ResourceWorkPlanningController::class, 'ctvtWorkload']);
+    Route::get('resource_work_planning/PL3/Kebutuhan', [ResourceWorkPlanningController::class, 'pl3Kebutuhan']);
+    // Route::get('resource_work_planning/CT-VT/Work-Load', [ResourceWorkPlanningController::class, 'ctvtWorkload']);
     Route::get('resource_work_planning/CT-VT/Rekomendasi', [ResourceWorkPlanningController::class, 'ctvtRekomendasi']);
-    Route::get('resource_work_planning/CT-VT/Jumlah', [ResourceWorkPlanningController::class, 'ctvtJumlah']);
-    Route::get('resource_work_planning/Dry/Work-Load', [ResourceWorkPlanningController::class, 'dryWorkload']);
+    Route::get('resource_work_planning/CT-VT/Kebutuhan', [ResourceWorkPlanningController::class, 'ctvtKebutuhan']);
+    // Route::get('resource_work_planning/Dry/Work-Load', [ResourceWorkPlanningController::class, 'dryWorkload']);
     Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceWorkPlanningController::class, 'dryRekomendasi']);
-    Route::get('resource_work_planning/Dry/Jumlah', [ResourceWorkPlanningController::class, 'dryJumlah']);
-    Route::get('resource_work_planning/Repair/Work-Load', [ResourceWorkPlanningController::class, 'repairWorkload']);
+    Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceWorkPlanningController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
+    Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceWorkPlanningController::class, 'dryKebutuhan'])->name('dryKebutuhan');
+    Route::post('resource_work_planning/Dry/Kebutuhan/data/proses-workcenter', [ResourceWorkPlanningController::class, 'dryKebutuhan'])->name('process.workcenter');
+    // Route::get('resource_work_planning/Repair/Work-Load', [ResourceWorkPlanningController::class, 'repairWorkload']);
     Route::get('resource_work_planning/Repair/Rekomendasi', [ResourceWorkPlanningController::class, 'repairRekomendasi']);
-    Route::get('resource_work_planning/Repair/Jumlah', [ResourceWorkPlanningController::class, 'repairJumlah']);
+    Route::get('resource_work_planning/Repair/Kebutuhan', [ResourceWorkPlanningController::class, 'repairKebutuhan']);
     Route::get('resource_work_planning/Kalkulasi-SDM', [ResourceWorkPlanningController::class, 'kalkulasiSDM']);
 });
 
@@ -304,8 +316,9 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/standardized_work/Create-Data/Dry-Cast-Resin', [DryCastResinController::class, 'create'])->name('create.dryresin');
     Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/{id}', [DryCastResinController::class, 'createManhour'])->name('create.dryresin.createManhour');
     Route::post('/standardized_work/Create-Data/Dry-Cast-Resin/Store', [DryCastResinController::class, 'store'])->name('store.dryresin');
-    Route::get('/standardized_work/Create-Data/Dry-Cast-Resin/{id}/edit', [DryCastResinController::class, 'edit'])->name('dryresin.edit');
-    Route::put('/standardized_work/Create-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'update'])->name('dryresin.update');
+    Route::get('/standardized_work/Edit-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'edit'])->name('dryresin.edit');
+    Route::put('/standardized_work/Edit-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'update'])->name('dryresin.update');
+    Route::get('/standardized_work/Detail-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'detail'])->name('dryresin.detail');
 
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin', [DryNonResinController::class, 'create'])->name('create.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/{id}', [DryNonResinController::class, 'createManhour'])->name('create.drynonresin.createManhour');
@@ -318,24 +331,26 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
 //Material Request
 Route::middleware(['auth', 'materialrequest'])->group(function () {
     Route::get('/', [mrController::class, 'index'])->name('home');
-    Route::get('/materialrequest/dashboard', [mrController::class, 'index']);
-    Route::get('/materialrequest', [mrController::class, 'materialRequest']);
+    Route::get('/materialrequest', [mrController::class, 'index']);
+    // Route::get('/materialrequest', [mrController::class, 'materialRequest']);
     Route::get('/materialrequest/add', [mrController::class, 'createmr']);
     Route::get('/materialrequest/{id_mr}', [mrController::class, 'editmr']);
     Route::post('/materialrequest/{id_mr}', [mrController::class, 'storeEditmr']);
-    Route::get('/materialrequest/delete/{id_pesanan}', [mrController::class, 'removemat']);
-    Route::get('/tabelmaterial', [mrController::class, 'tableMaterial']);
     Route::post('/materialstore', [mrController::class, 'storemr']);
     Route::get('/materialrequest/delete/{id_mr}', [mrController::class, 'destroymr']);
+    Route::get('/reportmr', [mrController::class, 'reportmr']);
 });
 
 //Purchase Order
 Route::middleware(['auth', 'purchaseorder'])->group(function () {
     Route::get('/', [poController::class, 'index'])->name('home');
-    Route::get('/purchaseorder/dashboard', [poController::class, 'index']);
-    Route::get('/purchaseorder', [poController::class, 'purchaseorder']);
+    Route::get('/purchaseorder', [poController::class, 'index']);
+    // Route::get('/purchaseorder', [poController::class, 'purchaseorder']);
     Route::get('/purchaseorder/createPo/{id_mr}', [poController::class, 'createpo']);
     Route::post('/purchaseorder/{id_mr}/add', [poController::class, 'storepo']);
     Route::get('/purchaseorder/{id_po}', [poController::class, 'editpo']);
     Route::post('/purchaseorder/editPo/{id_po}', [poController::class, 'storeEditpo']);
+
+    Route::get('/reportpo', [poController::class, 'reportPo']);
+
 });

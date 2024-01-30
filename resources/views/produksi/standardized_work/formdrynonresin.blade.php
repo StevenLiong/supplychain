@@ -157,7 +157,10 @@
                                             <span class="input-group-text">COIL MAKING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_coil_making" name="totalHour_coil_making" value="{{ old('totalHour_coil_making') }}"  readonly>
+                                            <input type="text" class="input-group-text bg-warning" 
+                                            style="width: 3rem" id="totalHour_coil_making" 
+                                            name="totalHour_coil_making" value="{{ old('totalHour_coil_making') }}"  
+                                            readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -287,7 +290,6 @@
                                                 </select>
                                             </td>
                                         </tr>
-
                                     </table>
                                 </div>
                             </div>
@@ -567,6 +569,7 @@
     </form>
 
     {{-- modal preview  --}}
+    {{-- @include('standardized_work.modaldrynonresin') --}}
     <div class="modal fade preview" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -732,107 +735,60 @@
                                                         <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_hv_moulding"></h6>
+                                                                id="preview-hour_mouldingcasting"></h6>
                                                         </td>
                                                         <!-- nama proses-->
                                                         <td class="w-30">
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Moulding</h6>
+                                                            <h6 class=" border border-dark rounded p-1 text-center">
+                                                                Moulding Casting</h6>
                                                         </td>
                                                         <!-- inputan spek -->
                                                         <td class="w-50">
                                                             <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_moulding"></h6>
-
+                                                                id="preview-mouldingcasting"></h6>
                                                         </td>
                                                     </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- qc testing  -->
+                                    <div class="card card-body my-1 py-1">
+                                        <div style="padding: 5px;">
+                                            <!-- tampilan total hour pada tiap work center  -->
+                                            <div class="row align-items-center ">
+                                                <div class="input-group input-group-md justify-content-center">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">QC Testing</span>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text bg-warning"
+                                                            id="preview-hour_qctesting"></span>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">HOUR</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- kolom isi  -->
+                                            <div class="align-items-center justify-content-left pt-1 px-1">
+                                                <table class="w-100">
                                                     <tr !important>
                                                         <!-- tampilan hour dari inputan  -->
-                                                        <td>
+                                                        <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_hv_casting">
+                                                                id="preview-hour_qc_testing">
                                                             </h6>
                                                         </td>
                                                         <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Casting</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td class="w-50">
-                                                            <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_casting"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_hv_demoulding"></h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Demoulding</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_demoulding"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_lv_bobbin">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">LV
-                                                                Bobbin</h6>
+                                                        <td class="w-30">
+                                                            <h6 class="border border-dark rounded p-1 text-center">Routine
+                                                                Test</h6>
                                                         </td>
                                                         <!-- inputan spek -->
                                                         <td>
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-lv_bobbin"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_lv_moulding">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">LV
-                                                                Moulding</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-lv_moulding"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_touch_up">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">Touch
-                                                                Up</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-touch_up"></h6>
+                                                                id="preview-qc_testing"></h6>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -879,6 +835,40 @@
                                                         <td class="w-50">
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
                                                                 id="preview-type_susun_core"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <!-- tampilan hour dari inputan  -->
+                                                        <td class="w-20">
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_hvconnection">
+                                                            </h6>
+                                                        </td>
+                                                        <!-- nama proses-->
+                                                        <td class="w-30">
+                                                            <h6 class="border border-dark rounded p-1 text-center">HV Connection</h6>
+                                                        </td>
+                                                        <!-- inputan spek -->
+                                                        <td class="w-50">
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-hvconnection"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <!-- tampilan hour dari inputan  -->
+                                                        <td class="w-20">
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_lvconnection">
+                                                            </h6>
+                                                        </td>
+                                                        <!-- nama proses-->
+                                                        <td class="w-30">
+                                                            <h6 class="border border-dark rounded p-1 text-center">LV Connection</h6>
+                                                        </td>
+                                                        <!-- inputan spek -->
+                                                        <td class="w-50">
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-lvconnection"></h6>
                                                         </td>
                                                     </tr>
                                                     <tr !important>
@@ -1008,49 +998,6 @@
                                                         <td>
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
                                                                 id="preview-potong_isolasi_fiber"></h6>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- qc testing  --}}
-                                    <div class="card card-body my-1 py-1">
-                                        <div style="padding: 5px;">
-                                            <!-- tampilan total hour pada tiap work center  -->
-                                            <div class="row align-items-center ">
-                                                <div class="input-group input-group-md justify-content-center">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">QC Testing</span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text bg-warning"
-                                                            id="preview-hour_qctesting"></span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">HOUR</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- kolom isi  -->
-                                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                                <table class="w-100">
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td class="w-20">
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_qc_testing">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td class="w-30">
-                                                            <h6 class="border border-dark rounded p-1 text-center">Routine
-                                                                Test</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-qc_testing"></h6>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -1361,20 +1308,14 @@
                 "hour_potong_leadwire").innerHTML;
             document.getElementById("preview-hour_potong_isolasi").innerHTML = document.getElementById(
                 "hour_potong_isolasi").innerHTML;
-            document.getElementById("preview-hour_hv_moulding").innerHTML = document.getElementById(
-                "hour_hv_moulding").innerHTML;
-            document.getElementById("preview-hour_hv_casting").innerHTML = document.getElementById(
-                "hour_hv_casting").innerHTML;
-            document.getElementById("preview-hour_hv_demoulding").innerHTML = document.getElementById(
-                "hour_hv_demoulding").innerHTML;
-            document.getElementById("preview-hour_lv_bobbin").innerHTML = document.getElementById(
-                "hour_lv_bobbin").innerHTML;
-            document.getElementById("preview-hour_lv_moulding").innerHTML = document.getElementById(
-                "hour_lv_moulding").innerHTML;
-            document.getElementById("preview-hour_touch_up").innerHTML = document.getElementById(
-                "hour_touch_up").innerHTML;
+            document.getElementById("preview-hour_mouldingcasting").innerHTML = document.getElementById(
+                "hour_mouldingcasting").innerHTML;
             document.getElementById("preview-hour_type_susun_core").innerHTML = document.getElementById(
                 "hour_type_susun_core").innerHTML;
+            document.getElementById("preview-hour_lvconnection").innerHTML = document.getElementById(
+                "hour_lvconnection").innerHTML;
+            document.getElementById("preview-hour_hvconnection").innerHTML = document.getElementById(
+                "hour_hvconnection").innerHTML;
             document.getElementById("preview-hour_wiring").innerHTML = document.getElementById(
                 "hour_wiring").innerHTML;
             document.getElementById("preview-hour_instal_housing").innerHTML = document.getElementById(
@@ -1389,6 +1330,8 @@
                 "hour_accesories").innerHTML;
             document.getElementById("preview-hour_potong_isolasi_fiber").innerHTML = document.getElementById(
                 "hour_potong_isolasi_fiber").innerHTML;
+            document.getElementById("preview-hour_qc_testing").innerHTML = document.getElementById(
+                "hour_qc_testing").innerHTML;
             document.getElementById("preview-totalHour_MouldCasting").innerHTML = document.getElementById(
                 "totalHour_MouldCasting").innerHTML;
             document.getElementById("preview-totalHour_QCTest").innerHTML = document.getElementById(
@@ -1398,13 +1341,7 @@
             document.getElementById('preview-potong_isolasi').innerHTML = '' + [...document.getElementById('potong_isolasi')
                 .selectedOptions
             ].map(option => option.value).join(', ');
-            document.getElementById('preview-lv_bobbin').innerHTML = '' + [...document.getElementById('lv_bobbin')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-lv_moulding').innerHTML = '' + [...document.getElementById('lv_moulding')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-touch_up').innerHTML = '' + [...document.getElementById('touch_up')
+            document.getElementById('preview-qc_testing').innerHTML = '' + [...document.getElementById('preview-qc_testing')
                 .selectedOptions
             ].map(option => option.value).join(', ');
             document.getElementById('preview-others').innerHTML = '' + [...document.getElementById('others')
@@ -1425,11 +1362,11 @@
             document.getElementById("preview-coil_hv").textContent = document.getElementById("coil_hv").value;
             document.getElementById("preview-potong_leadwire").textContent = document.getElementById("potong_leadwire")
                 .value;
-            document.getElementById("preview-hv_moulding").textContent = document.getElementById("hv_moulding").value;
-            document.getElementById("preview-hv_casting").textContent = document.getElementById("hv_casting").value;
-            document.getElementById("preview-hv_demoulding").textContent = document.getElementById("hv_demoulding").value;
+            document.getElementById("preview-mouldingcasting").textContent = document.getElementById("mouldingcasting").value;
             document.getElementById("preview-type_susun_core").textContent = document.getElementById("type_susun_core")
                 .value;
+            document.getElementById("preview-lvconnection").textContent = document.getElementById("lvconnection").value;
+            document.getElementById("preview-hvconnection").textContent = document.getElementById("hvconnection").value;
             document.getElementById("preview-wiring").textContent = document.getElementById("wiring").value;
             document.getElementById("preview-instal_housing").textContent = document.getElementById("instal_housing").value;
             document.getElementById("preview-bongkar_housing").textContent = document.getElementById("bongkar_housing")

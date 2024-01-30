@@ -191,7 +191,7 @@
         var suppliername = $('input[name="supplier"]');
         var valuta = $('input[name="valuta"]');
         suppliername.val(selectedOption.data('supplier'));
-        // valuta.val(selectedOption.data('valuta'));
+        valuta.val(selectedOption.data('valuta'));
     }
 
     function updateDel(select) {

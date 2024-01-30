@@ -34,7 +34,6 @@
                                     <th style="width: 6rem; text-align:center">KVA</th>
                                     <th style="width: 6rem; text-align:center">Jenis Trafo</th>
                                     <th style="width: 6rem; text-align:center">Quantity</th>
-                                    <th style="width: 6rem; text-align:center">Lead Time (Hari)</th>
                                     <th style="width: 6rem; text-align:center">Dead Line</th>
                                 </tr>
                             </tr>
@@ -49,7 +48,6 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->jenis }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
-                                    <td style="width: 6rem; text-align: center">{{ $item->lead_time }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
                                 </tr>
                             @endforeach

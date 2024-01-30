@@ -33,7 +33,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
-            'total_hour' => 200,
+            'total_hour' => 50,
             'id_fg' => 'FG2222',
             'kd_manhour' => 'MH2222',
         ]);
@@ -45,7 +45,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
-            'total_hour' => 300,
+            'total_hour' => 5,
             'id_fg' => 'FG3333',
             'kd_manhour' => 'MH3333',
         ]);
@@ -57,7 +57,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
-            'total_hour' => 400,
+            'total_hour' => 20,
             'id_fg' => 'FG4444',
             'kd_manhour' => 'MH4444',
         ]);
@@ -69,7 +69,7 @@ class StandardizedWorkSeeder extends Seeder
             'id_ct' => null,
             'id_vt' => null,
             'id_repair' => null,
-            'total_hour' => 500,
+            'total_hour' => 15,
             'id_fg' => 'FG5555',
             'kd_manhour' => 'MH5555',
         ]);

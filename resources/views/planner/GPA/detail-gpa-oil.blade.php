@@ -35,10 +35,6 @@
                         <input type="text" class="form-control" name="qty_trafo" value="{{ $dataMps->qty_trafo }}"required disabled>
                     </div>
                     <div class="col-md-4 mb-2">
-                        <label for="lead_time">Lead Time</label>
-                        <input type="text" class="form-control" name="lead_time" value="{{ $dataMps->lead_time }}"required disabled>
-                    </div>
-                    <div class="col-md-4 mb-2">
                         <label for="validationDefault07">Dead Line</label>
                         <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataMps->deadline)->format('d-F-Y') }}"required disabled>
                     </div>

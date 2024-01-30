@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class DryNonResin extends Model
 {
     use HasFactory;
+    protected $table = 'dry_non_resins';
+
     protected $fillable = [
         'kd_manhour',
         'nama_product',
@@ -67,6 +69,9 @@ class DryNonResin extends Model
         static::created(function ($drynonresin) {
             StandardizeWork::create([
                 'id_dry_non_resin' => $drynonresin->id,
+                'total_hour' => $drynonresin->total_hour,
+                'id_fg' => $drynonresin->id_fg,
+                'kd_manhour' => $drynonresin->kd_manhour,
             ]);
         });
 

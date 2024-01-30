@@ -43,7 +43,6 @@ return new class extends Migration
             $table->date('finish_date')->nullable();
             $table->timestamps();
 
-            // $table->foreign('id_standardize_work')->references('id')->on('standardize_works');
         });
     }
 

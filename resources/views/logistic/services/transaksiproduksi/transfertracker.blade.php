@@ -14,14 +14,14 @@
                                         <path d="M11 1L1 11L11 21" stroke="#ffffff" stroke-opacity="0.8" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" />
                                     </svg> Transfer</button>
-                                <h3 class="text-center m-0 h3-0">Tracker Posisi Work Order</h3>
+                                <h3 class="text-center m-0 h3-0">Pergerakan Posisi Work Order (WO)</h3>
                                 <form
                                     action="{{ url('/services/transaksiproduksi/transfer/lacak/update/' . $transfer->no_bon) }}"
                                     method="post">
                                     @csrf
                                     @method('put')
                                     <button type="submit" class="btn btn-sm btn-red text-white" di
-                                        {{ $transfer->status == 6 ? 'disabled' : '' }}>
+                                        {{ $transfer->status >= 6 ? 'disabled' : '' }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                             viewBox="0 0 15 15">
                                             <path fill="currentColor" fill-rule="evenodd"

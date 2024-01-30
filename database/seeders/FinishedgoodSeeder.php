@@ -1,6 +1,8 @@
 <?php
 
 namespace Database\Seeders;
+
+use App\Models\logistic\Finishedgood;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\planner\Fgoods;
@@ -12,65 +14,83 @@ class FinishedgoodSeeder extends Seeder
      */
     public function run(): void
     {
-        $data = [
+        Finishedgood::create(
             [
+                'kd_transfer' => 'T001',
+                'id_wo' => 'W66666',
                 'kd_finishedgood' => 'TAE24AH0644001JAAW',
-                'nama_barang' => 'Trafo 1',
-                'wo' => 'W111111',
-                'nsk' => 'NSK111111',
-                'nsp' => 'NSP111111',
                 'kva' => 1000,
-                'qty' => 4,
-            ],
+                'nsk' => 'NSK11111',
+                'nsp' => 'NSP111111',
+                'gudang' => 'Finishedgood Trafo',
+                'qty' => 1,
+                'status' => 0
+            ]
+        );
+        Finishedgood::create(
             [
-                'kd_finishedgood' => 'TAE28AH0644201AAAW',
-                'nama_barang' => 'Trafo 2',
-                'wo' => 'W222222',
-                'nsk' => 'NSK222222',
-                'nsp' => 'NPS222222',
-                'kva' => 500,
-                'qty' => 30,
-            ],
+                'kd_transfer' => 'T002',
+                'id_wo' => 'W22222',
+                'kd_finishedgood' => 'TAE24AH0644001JAAW',
+                'kva' => 1000,
+                'nsk' => 'NSK22222',
+                'nsp' => 'NSP22222',
+                'gudang' => 'Finishedgood Trafo',
+                'qty' => 1,
+                'status' => 1
+            ]
+        );
+        Finishedgood::create(
             [
-                'kd_finishedgood' => 'TAE28AH0644201AAAC',
-                'nama_barang' => 'Trafo 3',
-                'wo' => 'WO333333',
-                'nsk' => 'NSK333333',
-                'nsp' => 'NSP666666',
-                'kva' => 1600,
-                'qty' => 6,
-            ],
+                'kd_transfer' => 'T003',
+                'id_wo' => 'W33333',
+                'kd_finishedgood' => 'TAE24AH0644001JAAW',
+                'kva' => 1000,
+                'nsk' => 'NSK33333',
+                'nsp' => 'NSP33333',
+                'gudang' => 'Finishedgood Trafo',
+                'qty' => 1,
+                'status' => 0
+            ]
+        );
+        Finishedgood::create(
             [
-                'kd_finishedgood' => 'TAE29AH0644201AAAW',
-                'nama_barang' => 'Trafo 4',
-                'wo' => 'WO444444',
-                'nsk' => 'NSK444444',
-                'nsp' => 'NSP444444',
-                'kva' => 1500,
-                'qty' => 5,
-            ],
+                'kd_transfer' => 'T004',
+                'id_wo' => 'W44444',
+                'kd_finishedgood' => 'TAE24AH0644001JAAW',
+                'kva' => 1000,
+                'nsk' => 'NSK44444',
+                'nsp' => 'NSP44444',
+                'gudang' => 'Finishedgood Trafo',
+                'qty' => 1,
+                'status' => 0
+            ]
+        );
+        Finishedgood::create(
             [
-                'kd_finishedgood' => 'TAE29AH0644201AAAC',
-                'nama_barang' => 'Trafo 5',
-                'wo' => 'WO555555',
-                'nsk' => 'NSK5555555',
-                'nsp' => 'NSP555555',
-                'kva' => 800,
-                'qty' => 4,
-            ],
+                'kd_transfer' => 'T005',
+                'id_wo' => 'W55555',
+                'kd_finishedgood' => 'TAE24AH0644001JAAW',
+                'kva' => 1000,
+                'nsk' => 'NSK55555',
+                'nsp' => 'NSP55555',
+                'gudang' => 'Finishedgood Trafo',
+                'qty' => 1,
+                'status' => 1
+            ]
+        );
+        Finishedgood::create(
             [
-                'kd_finishedgood' => 'TAE31AH0644201AAAW',
-                'nama_barang' => 'Trafo 6',
-                'wo' => 'WO666666',
-                'nsk' => 'NSK666666',
-                'nsp' => 'NSP666666',
-                'kva' => 1600,
-                'qty' => 6,
-            ],
-        ];
-
-        foreach($data as $fgood){
-            Fgoods::create($fgood);
-        }
+                'kd_transfer' => 'T006',
+                'id_wo' => 'W66666',
+                'kd_finishedgood' => 'TAE24AH0644001JAAW',
+                'kva' => 1000,
+                'nsk' => 'NSK66666',
+                'nsp' => 'NSP66666',
+                'gudang' => 'Finishedgood Trafo',
+                'qty' => 1,
+                'status' => 0
+            ]
+        );
     }
 }

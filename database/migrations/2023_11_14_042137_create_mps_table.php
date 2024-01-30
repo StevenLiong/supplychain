@@ -34,14 +34,15 @@ return new class extends Migration
             $table->id();
             // $table->foreignId('id_wo')->constrained( 'wos');
             $table->foreignId('id_wo')->nullable()->constrained('wos');
-            $table->string('kd_manhour');
+            $table->foreignId('kd_manhour')->nullable()->constrained('standardize_works');
+            // $table->string('kd_manhour');
             $table->string('project');
             $table->string('production_line');
             $table->string('kva');
             $table->string('jenis');
             $table->string('qty_trafo');
-            $table->integer('lead_time');
             $table->string('nama_workcenter')->nullable();
+            $table->integer('lead_time');
             $table->date('deadline')->nullable();
             $table->timestamps();
         });

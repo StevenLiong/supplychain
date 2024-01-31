@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\planner;
 
+use PDF;
+use App\Exports\DetailBomExport;
 use App\Imports\BomImport;
 use App\Models\planner\Bom;
 use App\Models\planner\Detailbom;
@@ -38,6 +40,9 @@ class DetailbomController extends Controller
         $dataBom = Bom::where('id_bom', $id_bom)->first();
         session(['idBom' => $id_bom]);
 
+        $this->CekMaterial($id_bom);
+        $this->updateStatusbom($id_bom); 
+
         $detailbom = Detailbom::with('bom')
             ->where('id_boms', $id_bom)
             ->orderBy('id', 'asc')
@@ -59,8 +64,6 @@ class DetailbomController extends Controller
         // $this->emailReminder();
 
         // $this->sendEmailReminder($material);
-        $this->CekMaterial($id_bom);
-        $this->updateStatusbom($id_bom); 
 
         return view('planner.bom.detail-bom', [
             'dataBom' => $dataBom,
@@ -245,7 +248,9 @@ class DetailbomController extends Controller
 
             $stockInfo = Stock::where('item_code', $notifMaterial->first()->id_materialbom)->first();
             // dd($stockInfo);
-            $pesananInfo = pesanan::where('kd_material', $notifMaterial->first()->id_materialbom)->first();
+            $pesananInfo = pesanan::where('kd_material', $notifMaterial->first()->id_materialbom)
+            ->whereNotNull('total')
+            ->first();
             // dd($pesananInfo);
             $materialInfo = Material::where('kd_material', $notifMaterial->first()->id_materialbom)->first();
             $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
@@ -418,5 +423,21 @@ class DetailbomController extends Controller
         $detailBom->save();
 
         return redirect()->back();
+    }
+
+    public function exportToExcel()
+    {
+        $dataBom = Detailbom::select('id', 'id_boms', 'nama_workcenter', 'id_materialbom', 'nama_materialbom', 'uom_material', 'usage_material', 'keterangan')->get();
+        // dd($dataBom);
+        $id_boms = $dataBom->isNotEmpty() ? $dataBom->first()->id_boms : 'Kode Bom Tidak Ada';
+        return Excel::download(new DetailBomExport($dataBom), "File Bill of Material $id_boms.xlsx");
+    }
+
+    public function exportToPdf()
+    {
+        $dataBom = Detailbom::select('id', 'id_boms', 'nama_workcenter', 'id_materialbom', 'nama_materialbom', 'uom_material', 'usage_material', 'keterangan')->get(); // Ambil data Mps dari database
+        $id_boms = $dataBom->isNotEmpty() ? $dataBom->first()->id_boms : 'Kode Bom Tidak Ada';
+        $pdf = PDF::loadView('planner.bom.pdf-view', ['dataBom' => $dataBom]);
+        return $pdf->download("Bill of Material $id_boms.pdf");
     }
 }

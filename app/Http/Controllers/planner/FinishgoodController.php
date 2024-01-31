@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\planner;
 
+use App\Exports\FgExport;
 use App\Imports\FinishgoodImport;
 use App\Mail\FinishGoodNotification;
 use App\Models\planner\Stock;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MaterialPendingNotification;
+use App\Models\logistic\Finishedgood;
 use App\Models\planner\Fgoods;
 use App\Models\planner\Kanbanfg;
 use Illuminate\Support\Facades\Cache;
@@ -23,63 +25,19 @@ use Illuminate\Support\Facades\DB;
 
 class FinishgoodController extends Controller
 {
-    // public function indexFg()
-    // {
-    //     $detailFg = Kanbanfg::all();
-    //     $this->emailNotif();
-    //     return view('planner.finishgood.index', compact('detailFg'));
-    // }
-
     public function indexFg()
     {
-        $detailFg = Kanbanfg::all();
-        // dd($detailFg);
+        $detailFg = Kanbanfg::with('finishedGood')->get();
 
-        // $stockonhand = $detailFg='stock_on_hand';
-        // dd($stockonhand);
+        foreach ($detailFg as $item) {
+            $kanbanFg = $item;
+            $kanbanFg->updateStockOnHand();
+            $kanbanFg->updateStatus();
+        }
 
         $this->emailNotif();
-        return view('planner.finishgood.index', compact('detailFg'));
+        return view('planner.finishgood.index', ['detailFg' => $detailFg]);
     }
-
-    // public function indexFg()
-    // {
-    //     $detailFg = Kanbanfg::all();
-
-    //     // Check for changes in fgoods table based on qty and unit
-    //     $updatedFgoodsRecords = Fgoods::all();
-
-    //     foreach ($updatedFgoodsRecords as $updatedFgoodsRecord) {
-    //         // Get previous stock_on_hand value
-    //         $previousStockOnHand = Kanbanfg::where('kode_fg', $updatedFgoodsRecord->kode_fg)->first()->stock_on_hand;
-
-    //         // Check if stock_on_hand has changed
-    //         if ($previousStockOnHand != $updatedFgoodsRecord->qty) {
-    //             // Check if unit has changed
-    //             if ($updatedFgoodsRecord->unit != $previousStockOnHand->unit) {
-    //                 // Update corresponding kanbanfgs record
-    //                 $kanbanfgRecord = Kanbanfg::where('kode_fg', $updatedFgoodsRecord->kode_fg)->first();
-    //                 if ($kanbanfgRecord) {
-    //                     $kanbanfgRecord->stock_on_hand = $updatedFgoodsRecord->qty;
-    //                     $kanbanfgRecord->email_status = 0;
-    //                     $kanbanfgRecord->save();
-    //                 }
-    //             }
-    //         }
-    //     }
-
-    //     // Update lastSyncedAt timestamp
-    //     $this->lastSyncedAt = now();
-
-    //     return view('planner.finishgood.index', compact('detailFg'));
-    // }
-    
-    // private $lastSyncedAt;
-
-    // public function __construct()
-    // {
-    //     $this->lastSyncedAt = now();
-    // }
 
     public function formUpload()
     {
@@ -107,7 +65,10 @@ class FinishgoodController extends Controller
 
     public function emailNotif()
     {
-        $notifFg = Kanbanfg::where('email_status', 0)->where('status', 'Order')->get();
+        $notifFg = Kanbanfg::where('email_status', 0)
+        ->where('status', 'Order')
+        ->get();
+        // $notifFg = Kanbanfg::where('email_status')
 
         if ($notifFg->count() > 0) {
             $subjekEmail = "Finish Good Out Of Limit Kanban";
@@ -120,11 +81,12 @@ class FinishgoodController extends Controller
                     'max_kanban' => $kanbanfg->max_kanban,
                     'unit' => $kanbanfg->unit,
                     'status' => $kanbanfg->status,
-                    'realisasi' => $kanbanfg->realisasi,
+                    'peruntukan_unit' => $kanbanfg->peruntukan_unit,
+                    'stock_akhir' => $kanbanfg->stock_akhir,
                 ];
             });
 
-            $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
+            $alamatEmailPenerima = ['stevenliong83@gmail.com', 'stevenliong15@gmail.com'];
             Mail::to($alamatEmailPenerima)->send(new FinishGoodNotification(
                 $subjekEmail,
                 $dataFg
@@ -134,5 +96,36 @@ class FinishgoodController extends Controller
                 $kanbanfg->update(['email_status' => 1]);
             }
         }
+    }
+    public function edit(string $kode_fg) :View
+    {
+        $dataFg = Kanbanfg::where('kode_fg', $kode_fg)
+            ->first();
+
+        return view('planner.Finishgood.edit-fg', compact('dataFg'));
+    }
+
+    public function updateFg(Request $request, $kode_fg){
+       $this->validate($request, [
+           'peruntukan_unit' => 'required|integer',
+       ]);
+   
+       $editFg = Kanbanfg::where('kode_fg', $kode_fg)->first();
+   
+       $editFg->update([
+           'peruntukan_unit' => $request->peruntukan_unit,
+       ]);
+       $peruntukanunit = $request->get('peruntukan_unit');
+
+       $editFg->stock_akhir = $editFg->stock_on_hand - $peruntukanunit;
+       $editFg->save();
+       
+       return redirect()->route('fg-index');
+   }
+
+   public function exportToExcel()
+    {
+        $dataFg = Kanbanfg::select('id', 'kode_fg', 'nama_item', 'max_kanban', 'stock_on_hand', 'unit', 'status', 'peruntukan_unit', 'stock_akhir')->get();
+        return Excel::download(new FgExport($dataFg), 'KanbanFg.xlsx');
     }
 }

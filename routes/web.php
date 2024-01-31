@@ -178,7 +178,6 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     //Route::post('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@getStatusAndKeterangan');
 
-
     // --EDIT MATERIAL & ADD NEW MATERIAL--
     Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
     Route::post('/bom/storematerial', [DetailbomController::class, 'storematerial'])->name('bom.storematerial');
@@ -190,6 +189,11 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // --EXPORT BOM--
     Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
+
+    // --EXPORT DETAIL BOM--
+    Route::get('/DetailBom/ExportExcel', [DetailbomController::class, 'exportToExcel'])->name('dbom.exportExcel');
+    Route::get('/DetailBom/ExportPdf', [DetailbomController::class, 'exportToPdf'])->name('dbom.exportPdf');
+
 
     //DELETE MATERIAL & RESTORE MATERIAL
     Route::delete('/bommaterial/delete/{id_materialbom}/{id_bom}', [DetailbomController::class, 'deleteMaterial'])->name('bommaterial.delete');
@@ -259,8 +263,11 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
     Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
     Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+    Route::get('/FinishGood/EditFG/{kode_fg}', [FinishgoodController::class, 'edit'])->name('fg.editfg');
+    Route::put('/FinishGood/updatefg/{kode_fg}', [FinishgoodController::class, 'updatefg'])->name('fg.updatefg');
     // --DELETE STOCK--
     Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
+    Route::get('/FinishGood/ExportExcel', [FinishgoodController::class, 'exportToExcel'])->name('fg.exportExcel');
 
     //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
     Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
@@ -272,7 +279,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // routes/web.php
     // Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
 
-
+    Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
 });
 
 // Planner End

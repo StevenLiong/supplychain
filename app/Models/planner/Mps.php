@@ -23,10 +23,10 @@ class Mps extends Model
     ];
     use HasFactory;
 
-    // public function wo(): BelongsTo
-    // {
-    //     return $this->belongsTo(Wo2::class, 'id_wo', 'id');
-    // }
+    public function wo(): BelongsTo
+    {
+        return $this->belongsTo(Wo::class, 'id_wo', 'id');
+    }
 
     public function workcenterDryType()
     {

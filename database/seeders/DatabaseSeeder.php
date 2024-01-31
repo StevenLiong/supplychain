@@ -130,6 +130,7 @@ class DatabaseSeeder extends Seeder
         $this->call(WorkCenterDryTypeSeeder::class);
         $this->call(WorkCenterOilTrafoSeeder::class);
         $this->call(StandardizedWorkSeeder::class);
+        $this->call(KapasitasProduksiSeeder::class);
         // $this->call(MpsSeeder::class);
 
         $this->call(DivisionSeeder::class);

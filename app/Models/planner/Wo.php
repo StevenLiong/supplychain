@@ -28,11 +28,17 @@ class Wo extends Model
         return $this->belongsTo(Bom::class, 'id_boms', 'id_bom');
     }
 
-    public function standardizedWork()
-    {
-        return $this->belongsTo(StandardizeWork::class, 'id_standardize_work', 'kd_manhour');
-    }
+    // public function standardizedWork()
+    // {
+    //     return $this->belongsTo(StandardizeWork::class, 'id_standardize_work', 'kd_manhour');
+    // }
 
+    public function standardize_work()
+    {
+        // return $this->belongsTo(StandardizeWork::class, 'id_standardize_work');
+        return $this->belongsTo(StandardizeWork::class, 'id_standardize_work','id');
+
+    }
     public function finishgood()
     {
         return $this->belongsTo(Bom::class, 'id_fg', 'id_fg');

@@ -40,7 +40,7 @@
                                 @if ($item->jenis === 'Dry Type')
                                     <tr role="row" class="odd">
                                         <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
-                                        <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-dry', $item->id_wo) }}">{{ $item->id_wo }}</a></td>
+                                        <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-dry', $item->id_wo) }}">{{ $item->wo->id_wo }}</a></td>
                                         <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>

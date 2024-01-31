@@ -36,7 +36,7 @@
                         <option>Choose...</option>
                         <option value="PL2">PL2</option>
                         <option value="PL3">PL3</option>
-                        <option value="Dry Type">Dry Type</option>
+                        <option value="Drytype">Dry Type</option>
                         <option value="CTVT">CTVT</option>
                     </select>
                 </div>
@@ -61,6 +61,7 @@
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Deadline</label>
                     <input type="date" class="form-control datepicker" name="deadline" required>
+                    <small id="keteranganDeadline" class="form-text text-muted"></small>
                 </div>
             </div>
             <div class="col text-center">
@@ -71,6 +72,8 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/fullcalendar.min.js"></script>
 <script>
     function getDataByIdWo(idWo) {
         $.ajax({
@@ -96,5 +99,55 @@
             getDataByIdWo(idWo);
         });
     });
+
+    $(document).ready(function () {
+        $('input[name="deadline"]').on('change', function () {
+            var selectedDate = $(this).val();
+            var selectedProductionLine = $('#production_line').val();
+
+            $.ajax({
+                url: '/get-capacity-by-date',
+                method: 'GET',
+                data: {
+                    selected_date: selectedDate,
+                    production_line: selectedProductionLine,
+                    _token: '{{ csrf_token() }}',
+                },
+                success: function (response) {
+                    console.log(response); // Tambahkan log untuk melihat response dari server
+                    var capacity = response.capacity;
+                    console.log(capacity);
+
+                    // Pastikan response memiliki properti 'capacity'
+                    if (capacity !== null && capacity !== undefined) {
+                        // Menampilkan keterangan sesuai dengan kapasitas
+                        if (selectedProductionLine === 'Drytype') {
+                            $('#keteranganDeadline').html('Kapasitas Dry Type yang masih bisa adalah ' + capacity + ' dari 2 unit');
+                        } else if (selectedProductionLine === 'PL2') {
+                            $('#keteranganDeadline').html('Kapasitas Production Line 2 yang masih bisa adalah ' + capacity + ' dari 93 unit');
+                        } else if (selectedProductionLine === 'PL3') {
+                            $('#keteranganDeadline').html('Kapasitas Production Line 3 yang masih bisa adalah ' + capacity + ' dari 6 unit');
+                        } else {
+                            $('#keteranganDeadline').html('Produksi line tidak valid');
+                        }
+                    } else {
+                        // Handle jika capacity null atau undefined
+                        if (selectedProductionLine === 'Drytype') {
+                            $('#keteranganDeadline').html('Kapasitas Dry Type yang masih bisa adalah 0 dari 2 unit');
+                        } else if (selectedProductionLine === 'PL2') {
+                            $('#keteranganDeadline').html('Kapasitas Production Line 2 yang masih bisa adalah 0 dari 93 unit');
+                        } else if (selectedProductionLine === 'PL3') {
+                            $('#keteranganDeadline').html('Kapasitas Production Line 3 yang masih bisa adalah 0 dari 6 unit');
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Error fetching capacity data:', status, error);
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    });
+
 </script>
 @endsection

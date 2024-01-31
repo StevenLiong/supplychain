@@ -42,7 +42,6 @@ return new class extends Migration
             $table->string('jenis');
             $table->string('qty_trafo');
             $table->string('nama_workcenter')->nullable();
-            $table->integer('lead_time');
             $table->date('deadline')->nullable();
             $table->timestamps();
         });

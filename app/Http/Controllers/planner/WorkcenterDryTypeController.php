@@ -22,6 +22,7 @@ class WorkcenterDryTypeController extends Controller
         // Ambil data WorkcenterDryType berdasarkan nama_workcenter yang diberikan
         $dataWorkcenter = WorkcenterDryType::where('nama_workcenter', $nama_workcenter)->first();
         $dataGpa = GPADry::where('nama_workcenter', $nama_workcenter)->get();
+        // dd($dataGpa);
 
         // // Jika nama_workcenter adalah 'Bill of Material', kurangi 8 hari dari deadline
         // if ($nama_workcenter === 'Bill of Material') {

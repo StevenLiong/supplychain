@@ -4,6 +4,7 @@ namespace App\Models\planner;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class GPADry extends Model
 {
@@ -20,4 +21,9 @@ class GPADry extends Model
         'nama_workcenter',
     ];
     use HasFactory;
+
+    public function wo(): BelongsTo
+    {
+        return $this->belongsTo(Wo::class, 'id_wo', 'id');
+    }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('gpaoils', function (Blueprint $table) {
             $table->id();
-            $table->string('id_wo');
+            $table->foreignId('id_wo')->nullable()->constrained('wos');
             $table->string('project');
             $table->string('production_line');
             $table->string('kva');

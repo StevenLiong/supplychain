@@ -14,21 +14,29 @@
                     <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
                         @csrf
                         <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
-                                class="ri-arrow-down-s-line ml-2 mr-0"></i>
-                            <option value="1">Coil Making HV</option>
-                            <option value="2">Coil Making LV</option>
-                            <option value="3">Mould & Casting</option>
-                            <option value="4">Core & Assembly</option>
+                                class="ri-arrow-down-s-line ml-2 mr-0">Hour/Day</i>
+                            <option value="1">8 Hours/1 Day</option>
+                            <option value="2">16 Hours/2 Day</option>
+                            <option value="3">24 Hours/3 Day</option>
                         </select>
                     </form>
-                    <div class="ml-auto mr-3" style="align-items: d-flex right;">
+                    <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
+                        @csrf
+                        <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
+                                class="ri-arrow-down-s-line ml-2 mr-0">shift</i>
+                            <option value="1">Shift 1</option>
+                            <option value="2">Shift 2</option>
+                            <option value="3">Shift 3</option>
+                        </select>
+                    </form>
+                    {{-- <div class="ml-auto mr-3" style="align-items: d-flex right;">
                         <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i
                                 class="mr-2 fa-solid fa-print"></i>Print</a>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="table-responsive">
                     <div id="datatable_wrapper" class="dataTables_wrapper">
-                        <table id="datatable" class="table data-table table-striped dataTable" role="grid"
+                        <table id="datatable" class="table table-striped dataTable" role="grid"
                             aria-describedby="datatable_info">
                             <thead class="text-center">
                                 <tr>
@@ -50,10 +58,10 @@
                                     <td>
                                         {{ $data['kebutuhanMPCoil_Making_LV'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['ketersediaanMPCoil_Making_LV'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['selisihMPCoil_Making_LV'] }}
                                     </td>
                                 </tr>
@@ -67,10 +75,10 @@
                                     <td>
                                         {{ $data['kebutuhanMPCoil_Making_HV'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['ketersediaanMPCoil_Making_HV'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['selisihMPCoil_Making_HV'] }}
                                     </td>
                                 </tr>
@@ -85,10 +93,10 @@
                                     <td>
                                         {{ $data['kebutuhanMPMould_Casting'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['ketersediaanMPMould_Casting'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['selisihMPMould_Casting'] }}
                                     </td>
                                 </tr>
@@ -102,10 +110,10 @@
                                     <td>
                                         {{ $data['kebutuhanMPCore_Assembly'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['ketersediaanMPCore_Assembly'] }}
                                     </td>
-                                    <td> 
+                                    <td>
                                         {{ $data['selisihMPCore_Assembly'] }}
                                     </td>
                                 </tr>
@@ -115,12 +123,12 @@
                                 <tr>
                                     <th>Total</th>
                                     <th>20</th>
-                                     
+
 
                                 </tr>
                                 <tr>
                                     <th>Catatan</th>
-                                    <th>-3</th> 
+                                    <th>-3</th>
 
                                 </tr>
                             </tfoot> --}}

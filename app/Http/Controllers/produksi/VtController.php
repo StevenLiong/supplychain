@@ -15,7 +15,9 @@ class VtController extends Controller
 {
     public function create(): Response
     {
-        return response(view('produksi.standardized_work.formvt', ['manhour' => ManHour::all()]));
+
+        $title = 'Form VT';
+        return response(view('produksi.standardized_work.formvt', ['manhour' => ManHour::all(), 'title' => $title]));
     }
 
     public function createManhour($id)

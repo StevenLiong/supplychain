@@ -44,7 +44,7 @@
                     <div class="col  text-right">
                         <a href="#" class="btn btn-warning m-2" data-target="#new-project-modal" data-toggle="modal"><i class="fa-solid fa-rotate-left mr-2"></i>Reset</a>
                         <a href="#" class="btn btn-primary m-2" data-target="#new-project-modal" data-toggle="modal"><i class="fa-regular fa-floppy-disk mr-2"></i>Save</a>
-                        <a href="/" class="btn btn-primary m-2"><i class="fa-solid fa-circle-xmark mr-2"></i>Cancel</a>
+                        <a href="/standardized_work/home" class="btn btn-primary m-2"><i class="fa-solid fa-circle-xmark mr-2"></i>Cancel</a>
                     </div>
                 </div>
             </div>

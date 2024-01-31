@@ -39,8 +39,12 @@ use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\planner\WorkcenterDryTypeController;
 use App\Http\Controllers\planner\WorkcenterOilTrafoController;
+use App\Http\Controllers\produksi\CtController;
+use App\Http\Controllers\produksi\OilCustomController;
+use App\Http\Controllers\produksi\OilStandardController;
+use App\Http\Controllers\produksi\RepairController;
 use App\Http\Controllers\produksi\ResourceWorkPlanningController;
-
+use App\Http\Controllers\produksi\VtController;
 
 Auth::routes();
 Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
@@ -110,7 +114,7 @@ Route::middleware(['auth', 'logistic'])->group(function () {
     Route::get('services/transaksigudang/picking/cutstock/{id}', [PickingController::class, 'cutStock']);
     Route::put('services/transaksigudang/picking/cutstock/{id}', [PickingController::class, 'updateStock']);
 
-    // cutting 
+    // cutting
     Route::resource('services/transaksigudang/cutting', CuttingController::class);
     Route::get('services/transaksigudang/cutting/{bon_f}', [OrderController::class, 'show']);
 
@@ -320,6 +324,36 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::get('/standardized_work/Edit-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'edit'])->name('dryresin.edit');
     Route::put('/standardized_work/Edit-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'update'])->name('dryresin.update');
     Route::get('/standardized_work/Detail-Data/Dry-Cast-Resin/{id}', [DryCastResinController::class, 'detail'])->name('dryresin.detail');
+
+    Route::get('/standardized_work/Create-Data/Ct', [CtController::class, 'create'])->name('create.ct');
+    Route::get('/standardized_work/Create-Data/Ct/kapasitas/{id}', [CtController::class, 'createManhour'])->name('create.ct.createManhour');
+    Route::post('/standardized_work/Create-Data/Ct/Store', [CtController::class, 'store'])->name('store.ct');
+    Route::get('/standardized_work/Create-Data/Ct/{id}/edit', [CtController::class, 'edit'])->name('ct.edit');
+    Route::put('/standardized_work/Create-Data/Ct/{id}', [CtController::class, 'update'])->name('ct.update');
+
+    Route::get('/standardized_work/Create-Data/Vt', [VtController::class, 'create'])->name('create.vt');
+    Route::get('/standardized_work/Create-Data/Vt/kapasitas/{id}', [VtController::class, 'createManhour'])->name('create.vt.createManhour');
+    Route::post('/standardized_work/Create-Data/Vt/Store', [VtController::class, 'store'])->name('store.vt');
+    Route::get('/standardized_work/Create-Data/Vt/{id}/edit', [VtController::class, 'edit'])->name('vt.edit');
+    Route::put('/standardized_work/Create-Data/Vt/{id}', [VtController::class, 'update'])->name('vt.update');
+
+    Route::get('/standardized_work/Create-Data/Repair', [RepairController::class, 'create'])->name('create.repair');
+    Route::get('/standardized_work/Create-Data/Repair/kapasitas/{id}', [RepairController::class, 'createManhour'])->name('create.repair.createManhour');
+    Route::post('/standardized_work/Create-Data/Repair/Store', [RepairController::class, 'store'])->name('store.repair');
+    Route::get('/standardized_work/Create-Data/Repair/{id}/edit', [RepairController::class, 'edit'])->name('repair.edit');
+    Route::put('/standardized_work/Create-Data/Repair/{id}', [RepairController::class, 'update'])->name('repair.update');
+
+    Route::get('/standardized_work/Create-Data/Oil-Custom', [OilCustomController::class, 'create'])->name('create.oil_custom');
+    Route::get('/standardized_work/Create-Data/Oil-Custom/kapasitas/{id}', [OilCustomController::class, 'createManhour'])->name('create.oil_custom.createManhour');
+    Route::post('/standardized_work/Create-Data/Oil-Custom/Store', [OilCustomController::class, 'store'])->name('store.oil_custom');
+    Route::get('/standardized_work/Create-Data/Oil-Custom/{id}/edit', [OilCustomController::class, 'edit'])->name('oil_custom.edit');
+    Route::put('/standardized_work/Create-Data/Oil-Custom/{id}', [OilCustomController::class, 'update'])->name('oil_custom.update');
+
+    Route::get('/standardized_work/Create-Data/Oil-Standard', [OilStandardController::class, 'create'])->name('create.oil_standard');
+    Route::get('/standardized_work/Create-Data/Oil-Standard/kapasitas/{id}', [OilStandardController::class, 'createManhour'])->name('create.oil_standard.createManhour');
+    Route::post('/standardized_work/Create-Data/Oil-Standard/Store', [OilStandardController::class, 'store'])->name('store.oil_standard');
+    Route::get('/standardized_work/Create-Data/Oil-Standard/{id}/edit', [OilStandardController::class, 'edit'])->name('oil_standard.edit');
+    Route::put('/standardized_work/Create-Data/Oil-Standard/{id}', [OilStandardController::class, 'update'])->name('oil_standard.update');
 
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin', [DryNonResinController::class, 'create'])->name('create.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/{id}', [DryNonResinController::class, 'createManhour'])->name('create.drynonresin.createManhour');

@@ -15,7 +15,9 @@ class OilStandardController extends Controller
 {
     public function create(): Response
     {
-        return response(view('produksi.standardized_work.formoilstandart', ['manhour' => ManHour::all()]));
+
+        $title = 'Form Oil Standard';
+        return response(view('produksi.standardized_work.formoilstandart', ['manhour' => ManHour::all(), 'title' => $title]));
     }
 
     public function createManhour($id)

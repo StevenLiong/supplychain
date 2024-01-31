@@ -4,16 +4,11 @@ namespace App\Http\Controllers\produksi;
 
 use App\Http\Controllers\Controller;
 use App\Models\planner\Mps;
-use App\Models\planner\Wo;
-// use App\Models\produksi\Mps;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManPower;
 use App\Models\produksi\MatriksSkill;
 use App\Models\produksi\ProductionLine;
-use App\Models\produksi\Proses;
-use App\Models\produksi\StandardizeWork;
-use App\Models\produksi\Wo2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Phpml\Classification\KNearestNeighbors;
@@ -84,6 +79,7 @@ class ResourceWorkPlanningController extends Controller
 
         //ambil data mps berdasarkan PL,
         $jumlahtotalHourSumDRY = Mps::where('production_line', 'DRY')
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work'])
             ->whereIn('id_wo', $woDRY)
             ->get()
@@ -91,6 +87,7 @@ class ResourceWorkPlanningController extends Controller
                 return $item->wo->standardize_work->total_hour * $item->qty_trafo;
             });
         $jumlahtotalHourSumPL2 = Mps::where('production_line', 'PL2')
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work'])
             ->whereIn('id_wo', $woPL2)
             ->get()
@@ -98,6 +95,7 @@ class ResourceWorkPlanningController extends Controller
                 return $item->wo->standardize_work->total_hour * $item->qty_trafo;
             });
         $jumlahtotalHourSumPL3 = Mps::where('production_line', 'PL3')
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work'])
             ->whereIn('id_wo', $woPL3)
             ->get()
@@ -105,6 +103,7 @@ class ResourceWorkPlanningController extends Controller
                 return $item->wo->standardize_work->total_hour * $item->qty_trafo;
             });
         $jumlahtotalHourSumCTVT = Mps::where('production_line', 'CTVT')
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work'])
             ->whereIn('id_wo', $woCTVT)
             ->get()
@@ -112,19 +111,13 @@ class ResourceWorkPlanningController extends Controller
                 return $item->wo->standardize_work->total_hour * $item->qty_trafo;
             });
         $jumlahtotalHourSumREPAIR = Mps::where('production_line', 'REPAIR')
+            ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work'])
             ->whereIn('id_wo', $woREPAIR)
             ->get()
             ->sum(function ($item) {
                 return $item->wo->standardize_work->total_hour * $item->qty_trafo;
             });
-
-        // $jumlahtotalHourSumPL2 = Mps::where('production_line', 'PL2')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-        // $jumlahtotalHourSumPL3 = Mps::where('production_line', 'PL3')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-        // $jumlahtotalHourSumCTVT = Mps::where('production_line', 'CTVT')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-        // $jumlahtotalHourSumDRY = Mps::where('production_line', 'DRY')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
-
-        // $jumlahtotalHourSumREPAIR = Mps::where('production_line', 'REPAIR')->with(['wo.standardize_work'])->get()->pluck('wo.standardize_work.total_hour');
 
 
         switch ($periode) {
@@ -791,8 +784,8 @@ class ResourceWorkPlanningController extends Controller
         //QTY PL
         $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         // dd($qtyDRY);
-        $woDRY = Mps2::where('production_line', 'DRY')->pluck('id_wo');
-        $jumlahtotalHourCoil_Making_HV = Mps2::where('production_line', 'DRY')
+        $woDRY = Mps::where('production_line', 'DRY')->pluck('id_wo');
+        $jumlahtotalHourCoil_Making_HV = Mps::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.dry_cast_resin'])
@@ -801,7 +794,7 @@ class ResourceWorkPlanningController extends Controller
             ->sum(function ($item) {
                 return $item->wo->standardize_work->dry_cast_resin->hour_coil_hv * $item->qty_trafo;
             });
-        $jumlahtotalHourCoil_Making_LV = Mps2::where('production_line', 'DRY')
+        $jumlahtotalHourCoil_Making_LV = Mps::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.dry_cast_resin'])
@@ -816,7 +809,7 @@ class ResourceWorkPlanningController extends Controller
                 return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
             });
 
-        $jumlahtotalHourMould_Casting = Mps2::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
+        $jumlahtotalHourMould_Casting = Mps::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
             ->with(['wo.standardize_work.dry_cast_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
@@ -824,7 +817,7 @@ class ResourceWorkPlanningController extends Controller
                 return $item->wo->standardize_work->dry_cast_resin->totalHour_MouldCasting * $item->qty_trafo;
             });
 
-        $jumlahtotalHourCore_Assembly = Mps2::where('production_line', 'DRY')
+        $jumlahtotalHourCore_Assembly = Mps::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.dry_cast_resin'])

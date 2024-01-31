@@ -8,6 +8,15 @@
             <h4 class="card-title">Input MPS</h4>
         </div>
     </div>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div class="card-body">
         <form action="{{ route('mps.store') }}" method="post">
             @csrf

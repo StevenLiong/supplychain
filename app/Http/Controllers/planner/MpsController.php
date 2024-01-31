@@ -86,18 +86,57 @@ class MpsController extends Controller
         $mps->production_line = $request->get('production_line');
         $mps->jenis = $request->get('jenis');
         $mps->deadline = $request->get('deadline');
-        $mps->save();
-        if ($request->get('production_line') === 'Drytype') {
-            $kapasitasProduksi = KapasitasProduksi::where('tanggal', $mps->deadline)->latest()->first();
-
-            if ($kapasitasProduksi) {
-                // $newKapasitasProduksi = new KapasitasProduksi();
-                $kapasitasProduksi->tanggal = $mps->deadline;
-                $kapasitasProduksi->Drytype = $kapasitasProduksi->Drytype - $wo->qty_trafo;
-                $kapasitasProduksi->PL2;
-                $kapasitasProduksi->PL3;
-                $kapasitasProduksi->save();
+        
+        // ! Kondisi untuk kapasitas Produksi Drytype, PL2, PL3
+        $kapasitasProduksi = KapasitasProduksi::where('tanggal', $mps->deadline)->latest()->first();
+        
+        if ($wo->qty_trafo > $kapasitasProduksi->Drytype || $kapasitasProduksi->Drytype == 0){
+            return redirect()->back()->withInput()->withErrors(['error' => 'Kapasitas Produksi Overload']);
+        }
+        else if ($wo->qty_trafo <= $kapasitasProduksi->Drytype){
+            if ($request->get('production_line') === 'Drytype') {
+                
+                if ($kapasitasProduksi) {
+                    $qtyTrafo = $wo->qty_trafo;
+                    $kapasitasProduksi->tanggal = $mps->deadline;
+                    $kapasitasProduksi->Drytype -= $qtyTrafo;
+                    $kapasitasProduksi->PL2;
+                    $kapasitasProduksi->PL3;
+                    $kapasitasProduksi->save();
+                }
             }
+            else if ($request->get('production_line') === 'PL2') {
+                $kapasitasProduksi = KapasitasProduksi::where('tanggal', $mps->deadline)->latest()->first();
+    
+                if ($kapasitasProduksi) {
+                    // $newKapasitasProduksi = new KapasitasProduksi();
+                    $kapasitasProduksi->tanggal = $mps->deadline;
+                    $kapasitasProduksi->Drytype;
+                    $kapasitasProduksi->PL2 = $kapasitasProduksi->PL2 - $wo->qty_trafo;
+                    $kapasitasProduksi->PL3;
+                    $kapasitasProduksi->save();
+                }
+                // return redirect()->route('gpa-indexgpaoil');
+            }
+            elseif ($request->get('production_line') === 'PL3') {
+                $kapasitasProduksi = KapasitasProduksi::where('tanggal', $mps->deadline)->latest()->first();
+    
+                if ($kapasitasProduksi) {
+                    // $newKapasitasProduksi = new KapasitasProduksi();
+                    $kapasitasProduksi->tanggal = $mps->deadline;
+                    $kapasitasProduksi->Drytype;
+                    $kapasitasProduksi->PL2;
+                    $kapasitasProduksi->PL3 = $kapasitasProduksi->PL3 - $wo->qty_trafo;
+                    $kapasitasProduksi->save();
+                }
+                // return redirect()->route('gpa-indexgpaoil');
+            }
+        }
+
+        $mps->save();
+        
+        // ? Breakdown GPA & Work Center
+        if ($request->get('production_line') === 'Drytype') {
             // Ambil data workcenter_dry_types
             $workcenterDryTypes = WorkcenterDryType::all();
             $drycastresins = DryCastResin::where('kd_manhour', $wo->id)->get();
@@ -1073,32 +1112,6 @@ class MpsController extends Controller
                 $gpadrys->save();
             }
             return redirect()->route('gpa-indexgpadry');  
-        }
-        elseif ($request->get('production_line') === 'PL2') {
-            $kapasitasProduksi = KapasitasProduksi::where('tanggal', $mps->deadline)->latest()->first();
-
-            if ($kapasitasProduksi) {
-                // $newKapasitasProduksi = new KapasitasProduksi();
-                $kapasitasProduksi->tanggal = $mps->deadline;
-                $kapasitasProduksi->Drytype;
-                $kapasitasProduksi->PL2 = $kapasitasProduksi->PL2 - $wo->qty_trafo;
-                $kapasitasProduksi->PL3;
-                $kapasitasProduksi->save();
-            }
-            return redirect()->route('gpa-indexgpaoil');
-        }
-        elseif ($request->get('production_line') === 'PL3') {
-            $kapasitasProduksi = KapasitasProduksi::where('tanggal', $mps->deadline)->latest()->first();
-
-            if ($kapasitasProduksi) {
-                // $newKapasitasProduksi = new KapasitasProduksi();
-                $kapasitasProduksi->tanggal = $mps->deadline;
-                $kapasitasProduksi->Drytype;
-                $kapasitasProduksi->PL2;
-                $kapasitasProduksi->PL3 = $kapasitasProduksi->PL3 - $wo->qty_trafo;
-                $kapasitasProduksi->save();
-            }
-            return redirect()->route('gpa-indexgpaoil');
         }
         return redirect()->route('mps-index'); // Jika jenis bukan 'Dry Type', redirect ke halaman mps-index biasa
     }

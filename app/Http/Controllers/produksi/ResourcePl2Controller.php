@@ -31,199 +31,197 @@ class ResourcePl2Controller extends Controller
         $oilStandard = OilStandard::all();
         $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
 
-            $periode = $request->session()->get('periode', 1);
-            switch ($periode) {
-                case 1:
-                    $deadlineDate = [
-                        now()->startOfMonth(),
-                        now()->endOfMonth(),
-                    ];
-                    break;
+        $periode = $request->session()->get('periode', 1);
+        switch ($periode) {
+            case 1:
+                $deadlineDate = [
+                    now()->startOfMonth(),
+                    now()->endOfMonth(),
+                ];
+                break;
 
-                case 2:
-                    $deadlineDate = [
-                        now()->startOfWeek(),
-                        now()->endOfWeek(),
-                    ];
-                    break;
+            case 2:
+                $deadlineDate = [
+                    now()->startOfWeek(),
+                    now()->endOfWeek(),
+                ];
+                break;
 
-                case 3:
-                    $deadlineDate = [
-                        now()->startOfWeek()->addWeek(),
-                        now()->endOfWeek()->addWeek(),
-                    ];
-                    break;
+            case 3:
+                $deadlineDate = [
+                    now()->startOfWeek()->addWeek(),
+                    now()->endOfWeek()->addWeek(),
+                ];
+                break;
 
-                case 4:
-                    $deadlineDate = [
-                        now()->addMonth()->startOfMonth(),
-                        now()->addMonth()->endOfMonth(),
-                    ];
-                    break;
-            }
-            //FILTER PL
-            // $filteredMpsPL2 = $mps->where('production_line', 'PL2');
+            case 4:
+                $deadlineDate = [
+                    now()->addMonth()->startOfMonth(),
+                    now()->addMonth()->endOfMonth(),
+                ];
+                break;
+        }
+        //FILTER PL
+        $filteredMpsPL2 = $mps->where('production_line', 'PL2');
 
-            // //QTY PL
-            // $qtyPL2 =  $filteredMpsPL2->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
-            // dd($qtyPL2);
-            $woPL2 = Mps::where('production_line', 'PL2')->pluck('id_wo');
+        // //QTY PL
+        $qtyPL2 =  $filteredMpsPL2->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        // dd($qtyPL2);
 
-            $jumlahtotalHourCoil_Making_HV = Mps::where('production_line', 'PL2')
+        $woPL2 = Mps::where('production_line', 'PL2')->pluck('id_wo');
+
+        $jumlahtotalHourCoil_Making = Mps::where('production_line', 'PL2')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work.oil_standard'])
             ->whereIn('id_wo', $woPL2)
             ->get()
             ->sum(function ($item) {
-                return $item->wo->standardize_work->oil_standard->hour_coil_hv * $item->qty_trafo;
+                return $item->wo->standardize_work->oil_standard->totalHour_coil_making * $item->qty_trafo;
             });
 
-            $jumlahtotalHourCoil_Making_LV = Mps::where('production_line', 'PL2')
-                // ->where('kva', $ukuran_kapasitas)
-                ->whereBetween('deadline', $deadlineDate)
-                ->with(['wo.standardize_work.oil_standard'])
-                ->whereIn('id_wo', $woPL2)
-                ->get()
-                ->sum(function ($item) {
-                    //ambil hour dulu baru dikali qty
-                    $hourCoilLV = $item->wo->standardize_work->oil_standard->hour_coil_lv;
-                    $hourPotongLeadwire = $item->wo->standardize_work->oil_standard->hour_potong_leadwire;
-                    $hourPotongIsolasi = $item->wo->standardize_work->oil_standard->hour_potong_isolasi;
-                    //dikali qty
-                    return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
-                });
+        // dd($woPL2);
+        $jumlahtotalHour_CoreCoilAssembly = Mps::where('production_line', 'PL2')
+            // ->where('kva', $ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
+            ->with(['wo.standardize_work.oil_standard'])
+            ->whereIn('id_wo', $woPL2)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->oil_standard->totalHour_CoreCoilAssembly * $item->qty_trafo;
+            });
 
-            $jumlahtotalHourMould_Casting = Mps::where('production_line', 'PL2')->where('kva', $ukuran_kapasitas)
-                ->with(['wo.standardize_work.oil_standard'])
-                ->whereIn('id_wo', $woPL2)
-                ->get()
-                ->sum(function ($item) {
-                    return $item->wo->standardize_work->oil_standard->totalHour_MouldCasting * $item->qty_trafo;
-                });
+        $jumlahtotalHour_Conect = Mps::where('production_line', 'PL2')
+            // ->where('kva', $ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
+            ->with(['wo.standardize_work.oil_standard'])
+            ->whereIn('id_wo', $woPL2)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->oil_standard->totalHour_Conect * $item->qty_trafo;
+            });
 
-            $jumlahtotalHourCore_Assembly = Mps::where('production_line', 'PL2')
-                // ->where('kva', $ukuran_kapasitas)
-                ->whereBetween('deadline', $deadlineDate)
-                ->with(['wo.standardize_work.oil_standard'])
-                ->whereIn('id_wo', $woPL2)
-                ->get()
-                ->sum(function ($item) {
-                    return $item->wo->standardize_work->oil_standard->totalHour_CoreCoilAssembly * $item->qty_trafo;
-                });
+        $jumlahtotalHour_FinalAssembly = Mps::where('production_line', 'PL2')
+            // ->where('kva', $ukuran_kapasitas)
+            ->whereBetween('deadline', $deadlineDate)
+            ->with(['wo.standardize_work.oil_standard'])
+            ->whereIn('id_wo', $woPL2)
+            ->get()
+            ->sum(function ($item) {
+                return $item->wo->standardize_work->oil_standard->totalHour_FinalAssembly * $item->qty_trafo;
+            });
 
-
-            switch ($periode) {
-                case 1:
-                    $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
-                    $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
-                    $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
-                    $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
-                    break;
-                case 2:
-                    $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
-                    $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
-                    $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
-                    $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (40  * 0.93);
-                    break;
-                case 3:
-                    $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
-                    $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
-                    $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
-                    $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (40  * 0.93);
-                    break;
-                case 4:
-                    $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
-                    $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
-                    $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
-                    $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
-                    break;
-            }
+        switch ($periode) {
+            case 1:
+                $kebutuhanMPCoil_Making = $jumlahtotalHourCoil_Making / (173  * 0.93);
+                $kebutuhanMPCoreCoilAssembly = $jumlahtotalHour_CoreCoilAssembly / (173  * 0.93);
+                $kebutuhanMPConect = $jumlahtotalHour_Conect / (173  * 0.93);
+                $kebutuhanMPFinal_Assembly = $jumlahtotalHour_FinalAssembly / (173  * 0.93);
+                break;
+            case 2:
+                $kebutuhanMPCoil_Making = $jumlahtotalHourCoil_Making / (40  * 0.93);
+                $kebutuhanMPCoreCoilAssembly = $jumlahtotalHour_CoreCoilAssembly / (40  * 0.93);
+                $kebutuhanMPConect = $jumlahtotalHour_Conect / (40  * 0.93);
+                $kebutuhanMPFinal_Assembly = $jumlahtotalHour_FinalAssembly / (40  * 0.93);
+                break;
+            case 3:
+                $kebutuhanMPCoil_Making = $jumlahtotalHourCoil_Making / (40  * 0.93);
+                $kebutuhanMPCoreCoilAssembly = $jumlahtotalHour_CoreCoilAssembly / (40  * 0.93);
+                $kebutuhanMPConect = $jumlahtotalHour_Conect / (40  * 0.93);
+                $kebutuhanMPFinal_Assembly = $jumlahtotalHour_FinalAssembly / (40  * 0.93);
+                break;
+            case 4:
+                $kebutuhanMPCoil_Making = $jumlahtotalHourCoil_Making / (173  * 0.93);
+                $kebutuhanMPCoreCoilAssembly = $jumlahtotalHour_CoreCoilAssembly / (173  * 0.93);
+                $kebutuhanMPConect = $jumlahtotalHour_Conect / (173  * 0.93);
+                $kebutuhanMPFinal_Assembly = $jumlahtotalHour_FinalAssembly / (173  * 0.93);
+                break;
+        }
 
 
 
-            $selisihMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - $totalManPower;
-            $selisihMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - $totalManPower;
-            $selisihMPMould_Casting = $kebutuhanMPMould_Casting - $totalManPower;
-            $selisihMPCore_Assembly = $kebutuhanMPCore_Assembly - $totalManPower;
+        $selisihMPCoil_Making = $kebutuhanMPCoil_Making - $totalManPower;
+        $selisihMPCoreCoilAssembly = $kebutuhanMPCoreCoilAssembly - $totalManPower;
+        $selisihMPConect = $kebutuhanMPConect - $totalManPower;
+        $selisihMPFinal_Assembly = $kebutuhanMPFinal_Assembly - $totalManPower;
 
-            if ($kebutuhanMPCoil_Making_HV != 0) {
-                $presentaseKurangMPCoil_Making_HV = ($selisihMPCoil_Making_HV / $kebutuhanMPCoil_Making_HV) * 100;
-            } else {
-                $presentaseKurangMPCoil_Making_HV = 0;
-            }
-            if ($kebutuhanMPCoil_Making_LV != 0) {
-                $presentaseKurangMPCoil_Making_LV = ($selisihMPCoil_Making_LV / $kebutuhanMPCoil_Making_LV) * 100;
-            } else {
-                $presentaseKurangMPCoil_Making_LV = 0;
-            }
-            if ($kebutuhanMPMould_Casting != 0) {
-                $presentaseKurangMPMould_Casting = ($selisihMPMould_Casting / $kebutuhanMPMould_Casting) * 100;
-            } else {
-                $presentaseKurangMPMould_Casting = 0;
-            }
-            if ($kebutuhanMPCore_Assembly != 0) {
-                $presentaseKurangMPCore_Assembly = ($selisihMPCore_Assembly / $kebutuhanMPCore_Assembly) * 100;
-            } else {
-                $presentaseKurangMPCore_Assembly = 0;
-            }
+        if ($kebutuhanMPCoil_Making != 0) {
+            $presentaseKurangMPCoil_Making = ($selisihMPCoil_Making / $kebutuhanMPCoil_Making) * 100;
+        } else {
+            $presentaseKurangMPCoil_Making = 0;
+        }
+        if ($kebutuhanMPCoreCoilAssembly != 0) {
+            $presentaseKurangMPCoreCoilAssembly = ($selisihMPCoreCoilAssembly / $kebutuhanMPCoreCoilAssembly) * 100;
+        } else {
+            $presentaseKurangMPCoreCoilAssembly = 0;
+        }
+        if ($kebutuhanMPConect != 0) {
+            $presentaseKurangMPConect = ($selisihMPConect / $kebutuhanMPConect) * 100;
+        } else {
+            $presentaseKurangMPConect = 0;
+        }
+        if ($kebutuhanMPFinal_Assembly != 0) {
+            $presentaseKurangMPFinal_Assembly = ($selisihMPFinal_Assembly / $kebutuhanMPFinal_Assembly) * 100;
+        } else {
+            $presentaseKurangMPFinal_Assembly = 0;
+        }
 
-            $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - ($kebutuhanMPCoil_Making_HV * $presentaseKurangMPCoil_Making_HV) / 100;
-            $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - ($kebutuhanMPCoil_Making_LV * $presentaseKurangMPCoil_Making_LV) / 100;
-            $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting - ($kebutuhanMPMould_Casting * $presentaseKurangMPMould_Casting) / 100;
-            $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly - ($kebutuhanMPCore_Assembly * $presentaseKurangMPCore_Assembly) / 100;
+        $ketersediaanMPCoil_Making = $kebutuhanMPCoil_Making - ($kebutuhanMPCoil_Making * $presentaseKurangMPCoil_Making) / 100;
+        $ketersediaanMPCoreCoilAssembly = $kebutuhanMPCoreCoilAssembly - ($kebutuhanMPCoreCoilAssembly * $presentaseKurangMPCoreCoilAssembly) / 100;
+        $ketersediaanMPConect = $kebutuhanMPConect - ($kebutuhanMPConect * $presentaseKurangMPConect) / 100;
+        $ketersediaanMPFinal_Assembly = $kebutuhanMPFinal_Assembly - ($kebutuhanMPFinal_Assembly * $presentaseKurangMPFinal_Assembly) / 100;
 
-            if ($kebutuhanMPCoil_Making_HV <= $ketersediaanMPCoil_Making_HV) {
-                $selisihMPCoil_Making_HV = 0;
-                $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV;
-            }
-            if ($kebutuhanMPCoil_Making_LV <= $ketersediaanMPCoil_Making_LV) {
-                $selisihMPCoil_Making_LV = 0;
-                $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV;
-            }
-            if ($kebutuhanMPMould_Casting <= $ketersediaanMPMould_Casting) {
-                $selisihMPMould_Casting = 0;
-                $ketersediaanMPMould_Casting = $kebutuhanMPMould_Casting;
-            }
-            if ($kebutuhanMPCore_Assembly <= $ketersediaanMPCore_Assembly) {
-                $selisihMPCore_Assembly = 0;
-                $ketersediaanMPCore_Assembly = $kebutuhanMPCore_Assembly;
-            }
+        if ($kebutuhanMPCoil_Making <= $ketersediaanMPCoil_Making) {
+            $selisihMPCoil_Making = 0;
+            $ketersediaanMPCoil_Making = $kebutuhanMPCoil_Making;
+        }
+        if ($kebutuhanMPCoreCoilAssembly <= $ketersediaanMPCoreCoilAssembly) {
+            $selisihMPCoreCoilAssembly = 0;
+            $ketersediaanMPCoreCoilAssembly = $kebutuhanMPCoreCoilAssembly;
+        }
+        if ($kebutuhanMPConect <= $ketersediaanMPConect) {
+            $selisihMPConect = 0;
+            $ketersediaanMPConect = $kebutuhanMPConect;
+        }
+        if ($kebutuhanMPFinal_Assembly <= $ketersediaanMPFinal_Assembly) {
+            $selisihMPFinal_Assembly = 0;
+            $ketersediaanMPFinal_Assembly = $kebutuhanMPFinal_Assembly;
+        }
 
-            $wc_Coil_Making_HV =  'Coil Making HV';
-            $wc_Coil_Making_LV =  'Coil Making LV';
-            $wc_Mould_Casting =  'Mould & Casting';
-            $wc_Core_Assembly =  'Core & Assembly';
+        $wc_Coil_Making =  'Coil Making ';
+        $wc_CCA =  'CCA';
+        $wc_Conect =  'Conect';
+        $wc_Final_Assembly =  'Final Assembly';
 
-            $data = [
-                'jumlahtotalHourCoil_Making_LV' => $jumlahtotalHourCoil_Making_LV,
-                'jumlahtotalHourCoil_Making_HV' => $jumlahtotalHourCoil_Making_HV,
-                'jumlahtotalHourMould_Casting' => $jumlahtotalHourMould_Casting,
-                'jumlahtotalHourCore_Assembly' => $jumlahtotalHourCore_Assembly,
-                'selisihMPCoil_Making_HV' => $selisihMPCoil_Making_HV,
-                'selisihMPCoil_Making_LV' => $selisihMPCoil_Making_LV,
-                'selisihMPMould_Casting' => $selisihMPMould_Casting,
-                'selisihMPCore_Assembly' => $selisihMPCore_Assembly,
-                'totalManPower;' => $totalManPower,
-                'kebutuhanMPCoil_Making_HV' => $kebutuhanMPCoil_Making_HV,
-                'kebutuhanMPCoil_Making_LV' => $kebutuhanMPCoil_Making_LV,
-                'kebutuhanMPMould_Casting' => $kebutuhanMPMould_Casting,
-                'kebutuhanMPCore_Assembly' => $kebutuhanMPCore_Assembly,
-                'wc_Coil_Making_HV' => $wc_Coil_Making_HV,
-                'wc_Coil_Making_LV' => $wc_Coil_Making_LV,
-                'wc_Mould_Casting' => $wc_Mould_Casting,
-                'wc_Core_Assembly' => $wc_Core_Assembly,
-                'ketersediaanMPCoil_Making_HV' => $ketersediaanMPCoil_Making_HV,
-                'ketersediaanMPCoil_Making_LV' => $ketersediaanMPCoil_Making_LV,
-                'ketersediaanMPMould_Casting' => $ketersediaanMPMould_Casting,
-                'ketersediaanMPCore_Assembly' => $ketersediaanMPCore_Assembly,
-                'title1' => $title1,
-                'mps' => $mps,
-                'kapasitas' => $kapasitas,
-                'PL' => $PL,
-                'deadlineDate' => $deadlineDate,
-                'oilStandard' => $oilStandard,
-            ];
-            return view('produksi.resource_work_planning.PL2.kebutuhan', ['data' => $data]);
+        $data = [
+            'jumlahtotalHourCoil_Making' => $jumlahtotalHourCoil_Making,
+            'jumlahtotalHour_CoreCoilAssembly' => $jumlahtotalHour_CoreCoilAssembly,
+            'jumlahtotalHour_Conect' => $jumlahtotalHour_Conect,
+            'jumlahtotalHour_FinalAssembly' => $jumlahtotalHour_FinalAssembly,
+            'selisihMPCoil_Making' => $selisihMPCoil_Making,
+            'selisihMPCoreCoilAssembly' => $selisihMPCoreCoilAssembly,
+            'selisihMPConect' => $selisihMPConect,
+            'selisihMPFinal_Assembly' => $selisihMPFinal_Assembly,
+            'totalManPower;' => $totalManPower,
+            'kebutuhanMPCoil_Making' => $kebutuhanMPCoil_Making,
+            'kebutuhanMPCoreCoilAssembly' => $kebutuhanMPCoreCoilAssembly,
+            'kebutuhanMPConect' => $kebutuhanMPConect,
+            'kebutuhanMPFinal_Assembly' => $kebutuhanMPFinal_Assembly,
+            'wc_Coil_Making' => $wc_Coil_Making,
+            'wc_CCA' => $wc_CCA,
+            'wc_Conect' => $wc_Conect,
+            'wc_Final_Assembly' => $wc_Final_Assembly,
+            'ketersediaanMPCoil_Making' => $ketersediaanMPCoil_Making,
+            'ketersediaanMPCoreCoilAssembly' => $ketersediaanMPCoreCoilAssembly,
+            'ketersediaanMPConect' => $ketersediaanMPConect,
+            'ketersediaanMPFinal_Assembly' => $ketersediaanMPFinal_Assembly,
+            'title1' => $title1,
+            'mps' => $mps,
+            'kapasitas' => $kapasitas,
+            'PL' => $PL,
+            'deadlineDate' => $deadlineDate,
+            'oilStandard' => $oilStandard,
+        ];
+        return view('produksi.resource_work_planning.PL2.kebutuhan', ['data' => $data]);
     }
 }

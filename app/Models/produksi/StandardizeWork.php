@@ -16,7 +16,7 @@ class StandardizeWork extends Model
         'id_dry_non_resin',
         'id_ct',
         'id_vt',
-        'id_oil_stndard',
+        'id_oil_standard',
         'id_oil_custom',
         'id_repair',
         'total_hour',
@@ -48,7 +48,7 @@ class StandardizeWork extends Model
     }
     public function oil_standard(): BelongsTo
     {
-        return $this->belongsTo(DryCastResin::class, 'id_oil_stndard', 'id');
+        return $this->belongsTo(DryCastResin::class, 'id_oil_standard', 'id');
     }
     public function repair(): BelongsTo
     {

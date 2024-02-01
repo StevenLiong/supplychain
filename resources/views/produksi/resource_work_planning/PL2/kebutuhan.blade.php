@@ -10,7 +10,7 @@
             <div class="card-body">
 
                 <div class="row mb-4 align-items-center">
-                    <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
+                    {{-- <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
                         @csrf
                         <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
                                 class="ri-arrow-down-s-line ml-2 mr-0">Hour/Day</i>
@@ -27,7 +27,7 @@
                             <option value="2">Shift 2</option>
                             <option value="3">Shift 3</option>
                         </select>
-                    </form>
+                    </form> --}}
                     {{-- <div class="dropdown status-dropdown ml-2 dropdown-toggl" id="dropdownMenuButton03"
                         data-toggle="dropdown" aria-expanded="false">
                         <div class="btn btn-primary">Work Center<i class="ri-arrow-down-s-line ml-2 mr-0"></i></div>
@@ -60,71 +60,71 @@
                             <tbody class="text-center">
                                 <tr>
                                     <td>
-                                        {{ $data['wc_Coil_Making_LV'] }}
+                                        {{ $data['wc_Coil_Making'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourCoil_Making_LV']}}
+                                        {{$data['jumlahtotalHourCoil_Making']}}
                                     </td>
                                     <td>
-                                        {{ $data['kebutuhanMPCoil_Making_LV'] }}
+                                        {{ $data['kebutuhanMPCoil_Making'] }}
                                     </td>
                                     <td>
-                                        {{ $data['ketersediaanMPCoil_Making_LV'] }}
+                                        {{ $data['ketersediaanMPCoil_Making'] }}
                                     </td>
                                     <td>
-                                        {{ $data['selisihMPCoil_Making_LV'] }}
+                                        {{ $data['selisihMPCoil_Making'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        {{ $data['wc_Coil_Making_HV'] }}
+                                        {{ $data['wc_CCA'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourCoil_Making_HV']}}
+                                        {{$data['jumlahtotalHour_CoreCoilAssembly']}}
                                     </td>
                                     <td>
-                                        {{ $data['kebutuhanMPCoil_Making_HV'] }}
+                                        {{ $data['kebutuhanMPCoreCoilAssembly'] }}
                                     </td>
                                     <td>
-                                        {{ $data['ketersediaanMPCoil_Making_HV'] }}
+                                        {{ $data['ketersediaanMPCoreCoilAssembly'] }}
                                     </td>
                                     <td>
-                                        {{ $data['selisihMPCoil_Making_HV'] }}
+                                        {{ $data['selisihMPCoreCoilAssembly'] }}
                                     </td>
                                 </tr>
 
                                 <tr>
                                     <td>
-                                        {{ $data['wc_Mould_Casting'] }}
+                                        {{ $data['wc_Conect'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourMould_Casting']}}
+                                        {{$data['jumlahtotalHour_Conect']}}
                                     </td>
                                     <td>
-                                        {{ $data['kebutuhanMPMould_Casting'] }}
+                                        {{ $data['kebutuhanMPConect'] }}
                                     </td>
                                     <td>
-                                        {{ $data['ketersediaanMPMould_Casting'] }}
+                                        {{ $data['ketersediaanMPConect'] }}
                                     </td>
                                     <td>
-                                        {{ $data['selisihMPMould_Casting'] }}
+                                        {{ $data['selisihMPConect'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        {{ $data['wc_Core_Assembly'] }}
+                                        {{ $data['wc_Final_Assembly'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourCore_Assembly']}}
+                                        {{$data['jumlahtotalHour_FinalAssembly']}}
                                     </td>
                                     <td>
-                                        {{ $data['kebutuhanMPCore_Assembly'] }}
+                                        {{ $data['kebutuhanMPFinal_Assembly'] }}
                                     </td>
                                     <td>
-                                        {{ $data['ketersediaanMPCore_Assembly'] }}
+                                        {{ $data['ketersediaanMPFinal_Assembly'] }}
                                     </td>
                                     <td>
-                                        {{ $data['selisihMPCore_Assembly'] }}
+                                        {{ $data['selisihMPFinal_Assembly'] }}
                                     </td>
                                 </tr>
                             </tbody>

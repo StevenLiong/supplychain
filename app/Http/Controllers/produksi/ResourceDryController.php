@@ -65,47 +65,47 @@ class ResourceDryController extends Controller
 
 
 
-    // Buat dan latih model Knn
-    $model = new KNearestNeighbors();
-    $model->train($samples, $targets);
+        // Buat dan latih model Knn
+        $model = new KNearestNeighbors();
+        $model->train($samples, $targets);
 
-    // Contoh ID manpower, Anda dapat menggantinya dengan ID yang sesuai dari request atau data lainnya
-    $manpowerId = 5;
+        // Contoh ID manpower, Anda dapat menggantinya dengan ID yang sesuai dari request atau data lainnya
+        $manpowerId = 5;
 
-    // Ambil data manpower berdasarkan ID
-    $manpower = ManPower::find($manpowerId);
+        // Ambil data manpower berdasarkan ID
+        $manpower = ManPower::find($manpowerId);
 
-    if (!$manpower) {
-        return redirect()->route('home')->with('error', 'Manpower not found');
+        if (!$manpower) {
+            return redirect()->route('home')->with('error', 'Manpower not found');
+        }
+
+        // Prediksi skill menggunakan model PHP-ML
+        $predictedSkill = $model->predict([
+            $manpower->id_production_line,
+            $manpower->id_kategori_produk,
+            $manpower->id_proses,
+            $manpower->id_tipe_proses
+        ]);
+
+        // Mencari semua ID_MP yang sesuai dengan hasil prediksi
+        $matchingManpowers = MatriksSkill::where('skill', '>=', $predictedSkill)->get();
+
+        // Mendapatkan semua ID_MP dari hasil pencarian tanpa duplikasi
+        $idMpsFromPrediction = $matchingManpowers->pluck('id_mp')->unique()->toArray();
+
+        // Mendapatkan nama dari semua ID_MP yang sesuai dengan hasil prediksi tanpa duplikasi
+        $manpowerNames = ManPower::whereIn('id', $idMpsFromPrediction)->pluck('nama')->toArray();
+
+        $data = [
+            'title1' => $title1,
+            'workcenterLabel' => $workcenterLabel,
+            'manpowerNames' => $manpowerNames,
+        ];
+
+
+        // Tampilkan atau lakukan apa pun yang Anda inginkan dengan $data
+        return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
     }
-
-    // Prediksi skill menggunakan model PHP-ML
-    $predictedSkill = $model->predict([
-        $manpower->id_production_line,
-        $manpower->id_kategori_produk,
-        $manpower->id_proses,
-        $manpower->id_tipe_proses
-    ]);
-
-    // Mencari semua ID_MP yang sesuai dengan hasil prediksi
-    $matchingManpowers = MatriksSkill::where('skill', '>=', $predictedSkill)->get();
-
-    // Mendapatkan semua ID_MP dari hasil pencarian tanpa duplikasi
-    $idMpsFromPrediction = $matchingManpowers->pluck('id_mp')->unique()->toArray();
-
-    // Mendapatkan nama dari semua ID_MP yang sesuai dengan hasil prediksi tanpa duplikasi
-    $manpowerNames = ManPower::whereIn('id', $idMpsFromPrediction)->pluck('nama')->toArray();
-
-    $data = [
-        'title1' => $title1,
-        'workcenterLabel' => $workcenterLabel,
-        'manpowerNames' => $manpowerNames,
-    ];
-
-
-    // Tampilkan atau lakukan apa pun yang Anda inginkan dengan $data
-    return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
-}
 
 
     function dryKebutuhan(Request $request)
@@ -115,7 +115,7 @@ class ResourceDryController extends Controller
         $PL = ProductionLine::all();
         $kapasitas = Kapasitas::all();
         $mps = Mps::where('production_line', 'DRY')->get();
-        $drycastresin = DryCastResin::all();
+        // $drycastresin = DryCastResin::all();
         $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
 
 
@@ -150,72 +150,117 @@ class ResourceDryController extends Controller
                 break;
         }
         //FILTER PL
-        // $filteredMpsDRY = $mps->where('production_line', 'DRY');
+        $filteredMpsDRY = $mps->where('production_line', 'DRY');
 
         // //QTY PL
-        // $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         // dd($qtyDRY);
         $woDRY = Mps::where('production_line', 'DRY')->pluck('id_wo');
+
         $jumlahtotalHourCoil_Making_HV = Mps::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work.dry_cast_resin'])
+            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                return $item->wo->standardize_work->dry_cast_resin->hour_coil_hv * $item->qty_trafo;
+                if ($item->wo->standardize_work->dry_cast_resin) {
+                    return $item->wo->standardize_work->dry_cast_resin->hour_coil_hv * $item->qty_trafo;
+                } elseif ($item->wo->standardize_work->dry_non_resin) {
+                    return $item->wo->standardize_work->dry_non_resin->hour_coil_hv * $item->qty_trafo;
+                } else {
+                    // Handle jika tidak ada data yang sesuai
+                    return 0;
+                }
             });
-        $jumlahtotalHourCoil_Making_LV = Mps::where('production_line', 'DRY')
+
+            $jumlahtotalHourCoil_Making_LV = Mps::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work.dry_cast_resin'])
+            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                //ambil hour dulu baru dikali qty
-                $hourCoilLV = $item->wo->standardize_work->dry_cast_resin->hour_coil_lv;
-                $hourPotongLeadwire = $item->wo->standardize_work->dry_cast_resin->hour_potong_leadwire;
-                $hourPotongIsolasi = $item->wo->standardize_work->dry_cast_resin->hour_potong_isolasi;
-                //dikali qty
-                return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
+                // Ambil data berdasarkan jenisnya (dry_cast_resin atau dry_non_resin)
+                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+
+                if ($workData) {
+                    // Ambil nilai hour dan dikali qty
+                    $hourCoilLV = $workData->hour_coil_lv ?? 0;
+                    $hourPotongLeadwire = $workData->hour_potong_leadwire ?? 0;
+                    $hourPotongIsolasi = $workData->hour_potong_isolasi ?? 0;
+
+                    // Hitung total hour berdasarkan jenisnya
+                    return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
+                } else {
+                    // Handle jika tidak ada data yang sesuai
+                    return 0;
+                }
             });
 
-        $jumlahtotalHourMould_Casting = Mps::where('production_line', 'DRY')->where('kva', $ukuran_kapasitas)
-            ->with(['wo.standardize_work.dry_cast_resin'])
+            $jumlahtotalHourMould_Casting = Mps::where('production_line', 'DRY')
+            ->whereBetween('deadline', $deadlineDate)
+            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                return $item->wo->standardize_work->dry_cast_resin->totalHour_MouldCasting * $item->qty_trafo;
+                // Ambil data berdasarkan jenisnya (dry_cast_resin atau dry_non_resin)
+                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+
+                if ($workData) {
+                    // Ambil nilai totalHour_MouldCasting dan dikali qty
+                    $totalHourMouldCasting = $workData->totalHour_MouldCasting ?? 0;
+
+                    // Hitung total hour Mould Casting
+                    return $totalHourMouldCasting * $item->qty_trafo;
+                } else {
+                    // Handle jika tidak ada data yang sesuai
+                    return 0;
+                }
             });
 
-        $jumlahtotalHourCore_Assembly = Mps::where('production_line', 'DRY')
+            // dd($woDRY);
+            $jumlahtotalHourCore_Assembly = Mps::where('production_line', 'DRY')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work.dry_cast_resin'])
+            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                return $item->wo->standardize_work->dry_cast_resin->totalHour_CoreCoilAssembly * $item->qty_trafo;
+                // Ambil data berdasarkan jenisnya (dry_cast_resin atau dry_non_resin)
+                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+
+                if ($workData) {
+                    // Ambil nilai totalHour_CoreCoilAssembly dan dikali qty
+                    $totalHourCoreCoilAssembly = $workData->totalHour_CoreCoilAssembly ?? 0;
+
+                    // Hitung total hour Core Coil Assembly
+                    return $totalHourCoreCoilAssembly * $item->qty_trafo;
+                } else {
+                    // Handle jika tidak ada data yang sesuai
+                    return 0;
+                }
             });
+            // dd($jumlahtotalHourCore_Assembly);
 
 
-        switch ($periode) {
-            case 1:
-                $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
-                $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
-                $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
-                $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
-                break;
-            case 2:
-                $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
-                $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
-                $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
-                $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (40  * 0.93);
-                break;
-            case 3:
-                $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
-                $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
-                $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
+            switch ($periode) {
+                case 1:
+                    $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
+                    $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (173  * 0.93);
+                    $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (173  * 0.93);
+                    $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (173  * 0.93);
+                    break;
+                    case 2:
+                        $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
+                        $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
+                        $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
+                        $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (40  * 0.93);
+                        break;
+                        case 3:
+                            $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
+                            $kebutuhanMPCoil_Making_LV = $jumlahtotalHourCoil_Making_LV / (40  * 0.93);
+                            $kebutuhanMPMould_Casting = $jumlahtotalHourMould_Casting / (40  * 0.93);
                 $kebutuhanMPCore_Assembly = $jumlahtotalHourCore_Assembly / (40  * 0.93);
                 break;
             case 4:
@@ -308,7 +353,7 @@ class ResourceDryController extends Controller
             'kapasitas' => $kapasitas,
             'PL' => $PL,
             'deadlineDate' => $deadlineDate,
-            'drycastresin' => $drycastresin,
+            // 'drycastresin' => $drycastresin,
         ];
         return view('produksi.resource_work_planning.DRY.kebutuhan', ['data' => $data]);
     }

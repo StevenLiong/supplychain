@@ -28,6 +28,19 @@ return new class extends Migration
             $table->string('connect')->nullable();
             $table->string('final_assembly')->nullable();
             $table->string('qc_testing')->nullable();
+            $table->string('totalHour_coil_making')->nullable();
+            $table->string('totalHour_CoreCoilAssembly')->nullable();
+            $table->string('totalHour_Conect')->nullable();
+            $table->string('totalHour_FinalAssembly')->nullable();
+            $table->string('totalHour_QCTest')->nullable();
+            $table->string('hour_coil_lv')->nullable();
+            $table->string('hour_coil_hv')->nullable();
+            $table->string('hour_leadwire')->nullable();
+            $table->string('hour_press_coil')->nullable();
+            $table->string('hour_core_coil_assembly')->nullable();
+            $table->string('hour_connect')->nullable();
+            $table->string('hour_final_assembly')->nullable();
+            $table->string('hour_qc_testing')->nullable();
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ class StandardizeWork extends Model
         'total_hour',
         'id_fg',
         'kd_manhour',
+        'nama_product',
     ];
 
 

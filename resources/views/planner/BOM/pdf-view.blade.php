@@ -11,10 +11,17 @@
 			font-size: 9pt;
 		}
 	</style>
+	<div>
+		<center>	
+			<img src="https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-banner-pic/7b746a35872418f5a9911c749a89bb0f.jpg" width="150px">
+		</center>
+	</div>
+	<br>
 	<center>
         <h5>Bill of Material @if($dataBom->isNotEmpty()) {{ $dataBom->first()->id_boms }} @endif</h5>
 	</center>
- 
+	<!-- <img src="/public/templatetrafindo/assets/images/logotrafindo.png" style="width: 10rem;height:5rem;"> -->
+
 	<table class='table table-bordered'>
 		<thead>
 			<tr>

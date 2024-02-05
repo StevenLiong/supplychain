@@ -36,6 +36,7 @@ class Ct extends Model
         static::created(function ($ct) {
             StandardizeWork::create([
                 'id_ct' => $ct->id,
+                'nama_product' =>'CT',
             ]);
         });
 

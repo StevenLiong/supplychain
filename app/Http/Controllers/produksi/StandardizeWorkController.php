@@ -26,6 +26,26 @@ class StandardizeWorkController extends Controller
         }
         return view('auth.login');
     }
+
+    public function filterData(Request $request)
+    {
+        $category = $request->input('category');
+        // dd($category);
+    
+        // $filteredData = StandardizeWork::where('nama_product', $category)->get();
+        // dd($filteredData);
+    
+        if($category == 'all'){
+            $standardize_works = StandardizeWork::all();
+        }else{
+            $standardize_works = StandardizeWork::where('nama_product', $category)->get();
+        }
+        // $standardize_works = StandardizeWork::where('nama_product', $category)->get();
+        // dd($standardize_works);
+        $title = 'Home';
+        return view('produksi.standardized_work.dashboard', ['standardize_works' => $standardize_works,'title' => $title]);
+    }
+
     // delete data standar manhour
     // public function destroy(string $id): RedirectResponse
     // {

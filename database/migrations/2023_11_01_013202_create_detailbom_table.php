@@ -13,19 +13,19 @@ return new class extends Migration
     {
         Schema::create('detailboms', function (Blueprint $table) {
             $table->id();
-            $table->string('id_boms')->references('id_bom')->on('boms');
-            $table->string('nama_workcenter');
-            $table->string('id_materialbom')->references('kd_barang')->on('materials');
-            $table->string('db_status', 1)->default(0)->comment('0=Pending, 1=Completed');
+            $table->string('id_boms')->references('id_bom')->on('boms')->nullable();
+            $table->string('nama_workcenter')->nullable();
+            $table->string('id_materialbom')->references('kd_barang')->on('materials')->nullable();
+            $table->string('db_status', 1)->default(0)->comment('0=Pending, 1=Completed')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('email_status', 1)->default(0)->comment('0=Belum Kirim, 1=Sudah Dikirim');
-            $table->string('nama_materialbom'); 
-            $table->string('uom_material');
-            $table->integer('qty_trafo');
-            $table->integer('qty_material');
-            $table->string('tolerance');
-            $table->integer('usage_material'); 
-            $table->boolean('submitted')->default(false);
+            $table->string('nama_materialbom')->nullable(); 
+            $table->string('uom_material')->nullable();
+            $table->integer('qty_trafo')->nullable();
+            $table->integer('qty_material')->nullable();
+            $table->string('tolerance')->nullable();
+            $table->integer('usage_material')->nullable(); 
+            $table->boolean('submitted')->default(false)->nullable();
             $table->timestamp('last_kirim_email')->nullable();
             $table->timestamps();
         });

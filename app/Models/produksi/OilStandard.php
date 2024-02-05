@@ -38,6 +38,7 @@ class OilStandard extends Model
         static::created(function ($oil_standard) {
             StandardizeWork::create([
                 'id_oil_standard' => $oil_standard->id,
+                'nama_product' =>'Oil Standart',
             ]);
         });
 

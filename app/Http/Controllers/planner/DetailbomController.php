@@ -28,9 +28,7 @@ class DetailbomController extends Controller
     public function index()
     {
         $detailBom = Detailbom::all();
-        // $statusAndKeterangan = $this->getStatusAndKeterangan($detailbom, $id_bom);
-        // $status = $statusAndKeterangan['status'];
-        // $keterangan = $statusAndKeterangan['keterangan'];
+
 
         return view('planner.bom.index', compact('dataBom', 'detailBom'));
     }
@@ -153,7 +151,6 @@ class DetailbomController extends Controller
             'qty_material' => 'required|integer',
         ]);
     
-        // Cari Detailbom berdasarkan 'id_materialbom' dan 'id_bom'
         $detailbomItem = Detailbom::where('id_materialbom', $id_materialbom)
             ->where('id_boms', $id_bom)
             ->first();

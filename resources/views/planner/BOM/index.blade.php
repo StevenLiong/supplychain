@@ -42,11 +42,11 @@
                         <tbody>
                             @foreach ($dataBom as $key => $item)
                             <tr role="row" class="odd">
-                                @php
+                                <!-- @php
                                     $deleteBom = $detailBom->where('id_boms', $item->id_bom)->first();
-                                @endphp
+                                @endphp -->
                                 <td style="text-align: center;">
-                                    <form method="POST" action="{{ route('bom.delete', ['id_bom' => $item->id_bom, 'id_boms' => $deleteBom->id_boms]) }}">
+                                    <form method="POST" action="{{ route('bom.delete', ['id_bom' => $item->id_bom]) }}">
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                             <a href="{{ route('bom.detailbom', $item->id_bom) }}" class="btn btn-primary"><i class="fa-solid fa-info"></i></a>
                                             <a href="{{ route('bom.editbom', $item->id_bom) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>

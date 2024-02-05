@@ -42,6 +42,7 @@ class OilCustom extends Model
         static::created(function ($oil_custom) {
             StandardizeWork::create([
                 'id_oil_custom' => $oil_custom->id,
+                'nama_product' =>'Oil Custom',
             ]);
         });
 

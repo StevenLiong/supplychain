@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('total_hour');
             $table->string('kd_manhour');
             $table->string('id_fg');
+            $table->string('nama_product')->nullable();
             $table->foreignId('id_dry_cast_resin')->nullable()->constrained('dry_cast_resins')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('id_dry_non_resin')->nullable()->constrained('dry_non_resins')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('id_oil_standard')->nullable()->constrained('oil_standards')->cascadeOnUpdate()->cascadeOnDelete();

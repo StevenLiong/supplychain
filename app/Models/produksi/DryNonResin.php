@@ -72,6 +72,7 @@ class DryNonResin extends Model
                 'total_hour' => $drynonresin->total_hour,
                 'id_fg' => $drynonresin->id_fg,
                 'kd_manhour' => $drynonresin->kd_manhour,
+                'nama_product' =>'Dry Non Cast Resin',
             ]);
         });
 

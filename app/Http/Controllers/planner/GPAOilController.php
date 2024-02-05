@@ -37,15 +37,15 @@ class GPAOilController extends Controller
 
     public function exportToPdf()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'lead_time', 'deadline')->get(); // Ambil data Mps dari database
-        $pdf = PDF::loadView('planner.gpa.view', ['dataMps' => $dataMps]);
-        return $pdf->download('GPA.pdf');
+        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline')->where('jenis', 'Oil Trafo')->get(); // Ambil data Mps dari database
+        $pdf = PDF::loadView('planner.gpa.viewGPAoil', ['dataMps' => $dataMps]);
+        return $pdf->download('GPA Oil Trafo.pdf');
     }
 
     public function exportToPdfDetail()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'lead_time', 'deadline')->get(); // Ambil data Mps dari database
+        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline')->get(); // Ambil data Mps dari database
         $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataMps' => $dataMps]);
-        return $pdf->download('DetailGPADry.pdf');
+        return $pdf->download('Detail GPA Oil Trafo.pdf');
     }
 }

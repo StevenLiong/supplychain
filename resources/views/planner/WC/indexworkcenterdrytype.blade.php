@@ -12,12 +12,6 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row d-flex mb-4">
-                <div class="col text-left">
-                    <a href="{{ route('mps.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="{{ route('mps.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
-                </div>          
-            </div>
             <div class="table-responsive">
                 <div id="datatable_wrapper" class="dataTables_wrapper">
                     <table id="datatable" class="table data-table table-striped dataTable" role="grid" aria-describedby="datatable_info">

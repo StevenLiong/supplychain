@@ -14,8 +14,7 @@
         <div class="card-body">
             <div class="row d-flex mb-4">
                 <div class="col text-left">
-                    <a href="{{ route('mps.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="{{ route('mps.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
+                    <a href="{{ route('gpa.exportPdfoil') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
                 </div>          
             </div>
             <div class="table-responsive">
@@ -39,7 +38,7 @@
                             @foreach ($dataMps as $index => $item)
                                 @if ($item->jenis === 'Oil Trafo') <!-- Menampilkan hanya jenis Oil Trafo -->
                                     <tr role="row" class="odd">
-                                        <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
+                                        <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index }}</td>
                                         <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-oil', $item->id_wo) }}">{{ $item->wo->id_wo }}</a></td>
                                         <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>

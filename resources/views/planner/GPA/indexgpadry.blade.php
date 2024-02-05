@@ -15,7 +15,6 @@
             <div class="row d-flex mb-4">
                 <div class="col text-left">
                     <a href="{{ route('gpa.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="{{ route('gpa.exportExcel') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-excel"></i>Download Excel</a>
                 </div>          
             </div>
             <div class="table-responsive">

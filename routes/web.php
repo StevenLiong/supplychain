@@ -248,6 +248,9 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
     Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
 
+    // --EXPORT GPA OIL--
+    Route::get('/GPA/ExportPdfOil', [GPAOilController::class, 'exportToPdf'])->name('gpa.exportPdfoil');
+
     // MENU STOCK
     Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
     Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
@@ -259,10 +262,16 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
     Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
 
+    // EXPORT WORKCENTER OIL TRAFO
+    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
+
     // MENU WORK CENTER DRY TYPE
     Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
     Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
 
+    // EXPORT WORKCENTER DRY TYPE
+    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
+    
     // MENU FINISH GOOD
     Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
     Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');

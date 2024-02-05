@@ -53,7 +53,7 @@ class ResourceDashboardController extends Controller
         $filteredMpsPL2 = $mps->where('production_line', 'PL2');
         $filteredMpsPL3 = $mps->where('production_line', 'PL3');
         $filteredMpsCTVT = $mps->where('production_line', 'CTVT');
-        $filteredMpsDRY = $mps->where('production_line', 'DRY');
+        $filteredMpsDRY = $mps->where('production_line', 'Drytype');
         $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
 
         //QTY PL
@@ -67,11 +67,11 @@ class ResourceDashboardController extends Controller
         $woPL2 = Mps::where('production_line', 'PL2')->pluck('id_wo');
         $woPL3 = Mps::where('production_line', 'PL3')->pluck('id_wo');
         $woCTVT = Mps::where('production_line', 'CTVT')->pluck('id_wo');
-        $woDRY = Mps::where('production_line', 'DRY')->pluck('id_wo');
+        $woDRY = Mps::where('production_line', 'Drytype')->pluck('id_wo');
         $woREPAIR = Mps::where('production_line', 'REPAIR')->pluck('id_wo');
 
         //ambil data mps berdasarkan PL,
-        $jumlahtotalHourSumDRY = Mps::where('production_line', 'DRY')
+        $jumlahtotalHourSumDRY = Mps::where('production_line', 'Drytype')
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work'])
             ->whereIn('id_wo', $woDRY)

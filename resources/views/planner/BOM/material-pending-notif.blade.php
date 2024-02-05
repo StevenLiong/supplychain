@@ -83,7 +83,7 @@
                         <td style="width: 15rem; border: 1px solid #ddd; text-align: center;">{{ $item['nama_materialbom'] }}</td>
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{ $item['usage_material'] }}</td>
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{ isset($stockInfo['supplier']) ? $stockInfo['supplier'] : 'Data tidak ditemukan' }}</td>
-                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{ $materialInfo['jumlah'] }}</td>
+                        <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{ isset($materialInfo['jumlah']) ? $materialInfo['jumlah'] : 'Data tidak ditemukan' }}</td>
                         <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">{{ isset($pesananInfo['qty_pesanan']) ? $pesananInfo['qty_pesanan'] : '0' }}</td>
                         <td class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #00ff00;">{{ isset($stockInfo['rop_safety']) ? $stockInfo['rop_safety'] : 'Data tidak ditemukan' }}</td>
                         <td class="bolder" style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #00ff00;">{{ isset($stockInfo['max_safety']) ? $stockInfo['max_safety'] : 'Data tidak ditemukan' }}</td>

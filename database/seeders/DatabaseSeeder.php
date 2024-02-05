@@ -115,11 +115,11 @@ class DatabaseSeeder extends Seeder
         $this->call(TipeProsesSeeder::class);
         $this->call(WorkCenterSeeder::class);
         $this->call(JamKerjaSeeder::class);
-        $this->call(StandardizedWorkSeeder::class);
+        // $this->call(StandardizedWorkSeeder::class);
         // $this->call(WoSeeder::class);
-        $this->call(Wo2Seeder::class);
+        // $this->call(Wo2Seeder::class);
         // $this->call(MpsSeeder::class);
-        $this->call(Mps2Seeder::class);
+        // $this->call(Mps2Seeder::class);
         $this->call(ProductionLineSeeder::class);
         $this->call(ManPowerSeeder::class);
         $this->call(MatriksSkillSeeder::class);
@@ -129,7 +129,7 @@ class DatabaseSeeder extends Seeder
         $this->call(KapasitasSeeder::class);
         $this->call(WorkCenterDryTypeSeeder::class);
         $this->call(WorkCenterOilTrafoSeeder::class);
-        $this->call(StandardizedWorkSeeder::class);
+        // $this->call(StandardizedWorkSeeder::class);
         $this->call(KapasitasProduksiSeeder::class);
         // $this->call(MpsSeeder::class);
 

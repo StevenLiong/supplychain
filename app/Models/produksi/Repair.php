@@ -53,6 +53,7 @@ class Repair extends Model
         static::created(function ($repair) {
             StandardizeWork::create([
                 'id_repair' => $repair->id,
+                'nama_product' =>'Repair',
             ]);
         });
 

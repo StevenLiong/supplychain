@@ -185,9 +185,11 @@ class WoController extends Controller
 
     public function exportToExcel()
     {
-        $dataWo = Wo::select('id', 'id_wo', 'id_boms', 'id_standardize_work', 'qty_trafo', 'id_so', 'start_date', 'finish_date')->get(); // Ambil data Wo dari database
-
-        return Excel::download(new WoExport($dataWo), 'WO.xlsx');
+        $dataWo = Wo::select('id_wo', 'id_boms', 'id_fg','kva' ,'qty_trafo', 'id_so', 'start_date', 'finish_date')->get(); // Ambil data Wo dari database
+        // $dataWo = Wo::all();
+        $id_wo = $dataWo->isNotEmpty() ? $dataWo->first()->id_wo : 'Kode Bom Tidak Ada';
+        return Excel::download(new WoExport($dataWo), "File Work Order $id_wo .xlsx");
+        // return Excel::download(new WoExport, 'Work Order.xlsx');
     }
 
     public function exportToPdf()

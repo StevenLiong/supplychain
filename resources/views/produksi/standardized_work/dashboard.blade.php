@@ -42,26 +42,38 @@
                     </div>
                 </div>
 
-                <div class="dropdown ml-3 mb-3 mb-sm-0 ">
-                    <button class="btn btn-primary dropdown-toggle " type="button" data-toggle="dropdown"
-                        aria-expanded="false">
+                <!-- <div class="dropdown ml-3 mb-3 mb-sm-0">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-search mr-2"></i>Filter Data
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Cast-Resin">Dry Cast Resin</a>
-                        <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Non-Resin">Dry Non Resin</a>
-                        <a class="dropdown-item" href="/standardized_work/Create-Data/Ct">CT</a>
-                        <a class="dropdown-item" href="/standardized_work/Create-Data/Vt">Vt</a>
-                        <a class="dropdown-item" href="/standardized_work/Create-Data/Oil-Standard">Oil Standart</a>
-                        <a class="dropdown-item" href="/standardized_work/Create-Data/Oil-Custom">Oil Custom</a>
-                        <a class="dropdown-item" href="/standardized_work/Create-Data/Repair">Repair</a>
+                        <a class="dropdown-item filter-link" data-category="Dry Cast Resin">Dry Cast Resin</a>
+                        <a class="dropdown-item filter-link" data-category="Dry Non Cast Resin">Dry Non Resin</a>
                     </div>
-                </div>
+                </div> -->
+
+                <form id="filterForm" method="GET" action="{{ url('/standardized_work/FilterData') }}">
+                    @csrf
+                    <div class="dropdown ml-3 mb-3 mb-sm-0">
+                        <select class="btn btn-primary dropdown-toggle" name="category" id="filterCategorySelect">
+                            <option value="all">No Filter</option>
+                            <option value="Dry Cast Resin">Dry Cast Resin</option>
+                            <option value="Dry Non Cast Resin">Dry Non Resin</option>
+                            <option value="CT">CT</option>
+                            <option value="VT">VT</option>
+                            <option value="Oil Standart">Oil Standart</option>
+                            <option value="Oil Custom">Oil Custom</option>
+                            <option value="Repair">Repair</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-search mr-2"></i>Filter Data
+                        </button>
+                    </div>
+                </form>
                 <div class="ml-auto mr-3 float-right">
                     {{-- <a href="#" class="ya-deh btn btn-primary ">
                         <i class="mr-2 fa-solid fa-print"></i>Print
                     </a> --}}
-
                 </div>
                 <div class=" mr-3 float-right">
 
@@ -72,8 +84,8 @@
                     </form>
                 </div>
             </div>
-            <div class="table-responsive">
-                <div id="datatable_wrapper" class="dataTables_wrapper">
+            <div id="filteredResults" class="table-responsive">
+                <div id="datatable_wrapper" id="filteredTable" class="dataTables_wrapper">
                     <table id="datatable" class="table data-table table-striped">
                         <thead>
                             <tr>
@@ -275,5 +287,30 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.filter-link').on('click', function () {
+                var selectedCategory = $(this).data('category');
+                console.log('Selected Category:', selectedCategory);
+                $('#filterCategorySelect').val(selectedCategory);
+                var csrfToken = $('meta[name="csrf-token"]').attr('content');
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    }
+                });
+                sendFilterRequest(selectedCategory);
+            });
+        });
+
+        function sendFilterRequest(selectedCategory) {
+            $.ajax({
+                url: '/standardized_work/FilterData',
+                type: 'GET',
+                data: { category: selectedCategory },
+            });
+        }
+    </script>
     <!-- - - - - - - - - - - - end content-- - - - - - - - - - - -->
 @endsection

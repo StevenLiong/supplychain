@@ -180,10 +180,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/bom/EditBOMInfo/{id_bom}', [BomController::class, 'infoBom'])->name('bom.editbom');
     Route::put('/bom/updatebom/{id_bom}', [BomController::class, 'updateBom'])->name('bom.updatebom');
     Route::get('/DetailBom/cek-material/{idBom}', [DetailbomController::class, 'CekMaterial']);
-    // web.php
     Route::get('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@ajaxGetStatusAndKeterangan');
-
-    //Route::post('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@getStatusAndKeterangan');
 
     // --EDIT MATERIAL & ADD NEW MATERIAL--
     Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
@@ -192,7 +189,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::put('/bom/updatematerial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'update'])->name('bom.update');
 
     // --DELETE BOM--
-    Route::delete('/bom/delete/{id_bom}/{id_boms}', [BomController::class, 'destroy'])->name('bom.delete');
+    Route::delete('/bom/delete/{id_bom}', [BomController::class, 'destroy'])->name('bom.delete');
 
     // --EXPORT BOM--
     Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
@@ -281,10 +278,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/getdatawo/{id_fg}', [WoController::class, 'getDataWO']);
 
     //NYOBA EMAIL 2 HARI & 7 HARI
-    // Route::post('/send-email-notif', [DetailbomController::class, 'emailNotif']);
     Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
-    // routes/web.php
-    // Route::get('/manual-email-reminder', 'planner\DetailbomController@manualEmailReminder');
 
     Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
 });
@@ -366,6 +360,10 @@ Route::middleware(['auth', 'standardizedwork'])->group(function () {
     Route::post('/standardized_work/Create-Data/Dry-Non-Resin/Store', [DryNonResinController::class, 'store'])->name('store.drynonresin');
     Route::get('/standardized_work/Create-Data/Dry-Non-Resin/{id}/edit', [DryNonResinController::class, 'edit'])->name('drynonresin.edit');
     Route::put('/standardized_work/Create-Data/Dry-Non-Resin/{id}', [DryNonResinController::class, 'update'])->name('drynonresin.update');
+
+    // Route::get('/standardized_work/FilterData', 'StandardizeWorkController@filterData')->name('filterData');
+
+    Route::get('/standardized_work/FilterData', [StandardizeWorkController::class, 'filterData'])->name('filterData');
 });
 
 //MR & PO

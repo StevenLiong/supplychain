@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Exports\BomDetailExport;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\RedirectResponse;
 
 class BomController extends Controller
@@ -90,9 +89,8 @@ class BomController extends Controller
         return redirect()->route('bom-index');
     }
     
-
     //HAPUS BOM
-    public function destroy($id_bom, $id_boms) : RedirectResponse
+    public function destroy($id_bom) : RedirectResponse
     {
         $dataBom = Bom::where('id_bom', $id_bom)
             ->first();

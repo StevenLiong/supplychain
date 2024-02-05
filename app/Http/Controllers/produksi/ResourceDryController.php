@@ -114,7 +114,7 @@ class ResourceDryController extends Controller
         $title1 = 'Dry - Kebutuhan';
         $PL = ProductionLine::all();
         $kapasitas = Kapasitas::all();
-        $mps = Mps::where('production_line', 'DRY')->get();
+        $mps = Mps::where('production_line', 'Drytype')->get();
         // $drycastresin = DryCastResin::all();
         $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
 
@@ -150,14 +150,14 @@ class ResourceDryController extends Controller
                 break;
         }
         //FILTER PL
-        $filteredMpsDRY = $mps->where('production_line', 'DRY');
+        $filteredMpsDRY = $mps->where('production_line', 'Drytype');
 
         // //QTY PL
         $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         // dd($qtyDRY);
-        $woDRY = Mps::where('production_line', 'DRY')->pluck('id_wo');
+        $woDRY = Mps::where('production_line', 'Drytype')->pluck('id_wo');
 
-        $jumlahtotalHourCoil_Making_HV = Mps::where('production_line', 'DRY')
+        $jumlahtotalHourCoil_Making_HV = Mps::where('production_line', 'Drytype')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
@@ -174,7 +174,7 @@ class ResourceDryController extends Controller
                 }
             });
 
-            $jumlahtotalHourCoil_Making_LV = Mps::where('production_line', 'DRY')
+            $jumlahtotalHourCoil_Making_LV = Mps::where('production_line', 'Drytype')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
@@ -198,7 +198,7 @@ class ResourceDryController extends Controller
                 }
             });
 
-            $jumlahtotalHourMould_Casting = Mps::where('production_line', 'DRY')
+            $jumlahtotalHourMould_Casting = Mps::where('production_line', 'Drytype')
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
@@ -220,7 +220,7 @@ class ResourceDryController extends Controller
             });
 
             // dd($woDRY);
-            $jumlahtotalHourCore_Assembly = Mps::where('production_line', 'DRY')
+            $jumlahtotalHourCore_Assembly = Mps::where('production_line', 'Drytype')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])

@@ -7,14 +7,14 @@ use Excel;
 use App\Exports\WoExport;
 use App\Exports\PdfExport;
 use App\Models\planner\Bom;
-use App\Models\planner\So;
 use App\Models\planner\Wo;
+use App\Models\planner\Mps;
 use Illuminate\Http\Request;
-use App\Models\planner\Detailbom;
+use App\Models\planner\GPADry;
 use Illuminate\Contracts\View\View;
-use App\Models\produksi\DryCastResin;
 use Illuminate\Http\RedirectResponse;
 use App\Models\produksi\StandardizeWork;
+use Illuminate\Support\Facades\DB;
 
 class WoController extends Controller
 {
@@ -37,19 +37,60 @@ class WoController extends Controller
     {
         // NARIK DATA BOM DAN STANDARDIZED PAKE ID_FG
         $databom = Bom::where('id_fg', $idFg)        
-        ->where('status_bom', 3)
-        ->first();
-        // dd($databom);
+            ->where('status_bom', 3)
+            ->first();
+    
         $standardizeWork = StandardizeWork::where('id_fg', $idFg)->first();
-        // dd($standardizeWork);
-
-        //jadiin array
+    
+        if ($standardizeWork) {
+            switch (true) {
+                case !is_null($standardizeWork->id_dry_cast_resin):
+                    $relatedTable = 'dry_cast_resins';
+                    break;
+                case !is_null($standardizeWork->id_dry_non_resin):
+                    $relatedTable = 'dry_non_resins';
+                    break;
+                case !is_null($standardizeWork->id_ct):
+                    $relatedTable = 'cts';
+                    break;
+                case !is_null($standardizeWork->id_vt):
+                    $relatedTable = 'vts';
+                    break;
+                case !is_null($standardizeWork->id_repair):
+                    $relatedTable = 'repairs';
+                    break;
+                default:
+                    $relatedTable = null;
+            }
+        
+            switch ($relatedTable) {
+                case 'dry_cast_resins':
+                    $dataTable = 'dry_cast_resin';
+                    break;
+                case 'dry_non_resins':
+                    $dataTable = 'dry_non_resin';
+                    break;
+                case 'cts':
+                    $dataTable = 'ct';
+                    break;
+                case 'vts':
+                    $dataTable = 'vt';
+                    break;
+                case 'repairs':
+                    $dataTable = 'repair';
+                    break;
+                default:
+                    $dataTable = null;
+            }
+        }
+        
         $data = [
             'kd_manhour' => $standardizeWork->kd_manhour ?? null,
             'id_boms' => $databom->id_bom ?? null,
             'id_so' => $databom->id_so ?? null,
+            'kva' => $standardizeWork->$dataTable->ukuran_kapasitas ?? null,
         ];
-
+    
         return response()->json($data);
     }
 
@@ -67,20 +108,57 @@ class WoController extends Controller
         $bom = Bom::where('id_fg', $id_fg)
         ->where('status_bom', 3)
         ->first();
-        $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
-        // dd($standardizedWork);
+        $standardizeWork = StandardizeWork::where('id_fg', $id_fg)->first();
 
-        if ($bom && $standardizedWork) {
+        if ($bom && $standardizeWork) {
             $wo->id_boms = $bom->id_bom;
             $wo->id_so = $bom->id_so;
-            $wo->id_standardize_work = $standardizedWork->id;
+            $wo->id_standardize_work = $standardizeWork->id;
+
+            switch (true) {
+                case !is_null($standardizeWork->id_dry_cast_resin):
+                    $relatedTable = 'dry_cast_resins';
+                    break;
+                case !is_null($standardizeWork->id_dry_non_resin):
+                    $relatedTable = 'dry_non_resins';
+                    break;
+                case !is_null($standardizeWork->id_ct):
+                    $relatedTable = 'cts';
+                    break;
+                case !is_null($standardizeWork->id_vt):
+                    $relatedTable = 'vts';
+                    break;
+                case !is_null($standardizeWork->id_repair):
+                    $relatedTable = 'repairs';
+                    break;
+                default:
+                    $relatedTable = null;
+            }
+            switch ($relatedTable) {
+                case 'dry_cast_resins':
+                    $dataTable = 'dry_cast_resin';
+                    break;
+                case 'dry_non_resins':
+                    $dataTable = 'dry_non_resin';
+                    break;
+                case 'cts':
+                    $dataTable = 'ct';
+                    break;
+                case 'vts':
+                    $dataTable = 'vt';
+                    break;
+                case 'repairs':
+                    $dataTable = 'repair';
+                    break;
+                default:
+                    $dataTable = null;
+            }
+            $wo->kva = $standardizeWork->$dataTable->ukuran_kapasitas;
+            // dd($wo->kva);
         } else {
             return redirect()->back()->withInput()->withErrors(['error' => 'Terdapat Data yang Kosong']);
         }
-
-        // dd($wo);
         $wo->save();
-
         return redirect()->route('workorder-index');
     }
 
@@ -88,7 +166,6 @@ class WoController extends Controller
     {
         $detailWo = Wo::where('id_wo', $id_wo)->first();
 
-        // Fetch additional data based on the selected id_fg
         $id_fg = $detailWo->id_fg;
         $dataBom = Bom::all();
         $databom = Bom::where('id_fg', $id_fg)
@@ -96,11 +173,54 @@ class WoController extends Controller
         ->first();
         $standardizeWork = StandardizeWork::where('id_fg', $id_fg)->first();
 
+        if ($standardizeWork) {
+            switch (true) {
+                case !is_null($standardizeWork->id_dry_cast_resin):
+                    $relatedTable = 'dry_cast_resins';
+                    break;
+                case !is_null($standardizeWork->id_dry_non_resin):
+                    $relatedTable = 'dry_non_resins';
+                    break;
+                case !is_null($standardizeWork->id_ct):
+                    $relatedTable = 'cts';
+                    break;
+                case !is_null($standardizeWork->id_vt):
+                    $relatedTable = 'vts';
+                    break;
+                case !is_null($standardizeWork->id_repair):
+                    $relatedTable = 'repairs';
+                    break;
+                default:
+                    $relatedTable = null;
+            }
+        
+            switch ($relatedTable) {
+                case 'dry_cast_resins':
+                    $dataTable = 'dry_cast_resin';
+                    break;
+                case 'dry_non_resins':
+                    $dataTable = 'dry_non_resin';
+                    break;
+                case 'cts':
+                    $dataTable = 'ct';
+                    break;
+                case 'vts':
+                    $dataTable = 'vt';
+                    break;
+                case 'repairs':
+                    $dataTable = 'repair';
+                    break;
+                default:
+                    $dataTable = null;
+            }
+        }
+
         $additionalData = [
             // 'id_standardize_work' => $standardizeWork->kd_manhour ?? null,
             'id_standardize_work' => $standardizeWork->id ?? null,
             'bom_code' => $databom->bom_code ?? null,
             'id_so' => $databom->id_so ?? null,
+            'kva' => $standardizeWork->$dataTable->ukuran_kapasitas ?? null,
         ];
 
         return view('planner.wo.edit-wo', compact('detailWo', 'dataBom', 'additionalData'));
@@ -111,12 +231,55 @@ class WoController extends Controller
         $dataBom = Bom::where('id_fg', $id_fg)
         ->where('status_bom', 3)
         ->first();
-        $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
+        $standardizeWork = StandardizeWork::where('id_fg', $id_fg)->first();
+
+        if ($standardizeWork) {
+            switch (true) {
+                case !is_null($standardizeWork->id_dry_cast_resin):
+                    $relatedTable = 'dry_cast_resins';
+                    break;
+                case !is_null($standardizeWork->id_dry_non_resin):
+                    $relatedTable = 'dry_non_resins';
+                    break;
+                case !is_null($standardizeWork->id_ct):
+                    $relatedTable = 'cts';
+                    break;
+                case !is_null($standardizeWork->id_vt):
+                    $relatedTable = 'vts';
+                    break;
+                case !is_null($standardizeWork->id_repair):
+                    $relatedTable = 'repairs';
+                    break;
+                default:
+                    $relatedTable = null;
+            }
+        
+            switch ($relatedTable) {
+                case 'dry_cast_resins':
+                    $dataTable = 'dry_cast_resin';
+                    break;
+                case 'dry_non_resins':
+                    $dataTable = 'dry_non_resin';
+                    break;
+                case 'cts':
+                    $dataTable = 'ct';
+                    break;
+                case 'vts':
+                    $dataTable = 'vt';
+                    break;
+                case 'repairs':
+                    $dataTable = 'repair';
+                    break;
+                default:
+                    $dataTable = null;
+            }
+        }
 
         $data = [
-            'id_boms' => $dataBom->id_bom ?? '',
-            'id_standardize_work' => $standardizedWork->kd_manhour ?? '',
-            'id_so' => $dataBom->id_so ?? '',
+            'id_boms' => $dataBom->id_bom ?? null,
+            'id_standardize_work' => $standardizeWork->kd_manhour ?? null,
+            'id_so' => $dataBom->id_so ?? null,
+            'kva' => $standardizeWork->$dataTable->ukuran_kapasitas ?? null,
         ];
 
         return response()->json($data);
@@ -127,61 +290,91 @@ class WoController extends Controller
         $this->validate($request, [
             'id_fg' => 'required|string',
             'qty_trafo' => 'required|integer',
-            'kva' => 'required|integer',
+            // 'kva' => 'required|integer',
             'start_date' => 'required|date',
             'finish_date' => 'required|date',
-            // 'id_boms' => 'required|string',
-            // 'id_standardize_work' => 'required|string',
-            // 'id_so' => 'required|string',
-
         ]);
 
         $detailWo = Wo::where('id_wo', $id_wo)->first();
 
         $id_fg = $request->id_fg;
-        // dd($id_fg);
         $bom = Bom::where('id_fg', $id_fg)
         ->where('status_bom', 3)
         ->first();
-        $standardizedWork = StandardizeWork::where('id_fg', $id_fg)->first();
-        // dd($bom, $standardizedWork);
+        $standardizeWork = StandardizeWork::where('id_fg', $id_fg)->first();
 
-        // Fetch additional data based on the selected id_fg
-        $databom = Bom::where('id_fg', $id_fg)->first();
-        // dd($databom);
+        if ($standardizeWork) {
+            switch (true) {
+                case !is_null($standardizeWork->id_dry_cast_resin):
+                    $relatedTable = 'dry_cast_resins';
+                    break;
+                case !is_null($standardizeWork->id_dry_non_resin):
+                    $relatedTable = 'dry_non_resins';
+                    break;
+                case !is_null($standardizeWork->id_ct):
+                    $relatedTable = 'cts';
+                    break;
+                case !is_null($standardizeWork->id_vt):
+                    $relatedTable = 'vts';
+                    break;
+                case !is_null($standardizeWork->id_repair):
+                    $relatedTable = 'repairs';
+                    break;
+                default:
+                    $relatedTable = null;
+            }
+        
+            switch ($relatedTable) {
+                case 'dry_cast_resins':
+                    $dataTable = 'dry_cast_resin';
+                    break;
+                case 'dry_non_resins':
+                    $dataTable = 'dry_non_resin';
+                    break;
+                case 'cts':
+                    $dataTable = 'ct';
+                    break;
+                case 'vts':
+                    $dataTable = 'vt';
+                    break;
+                case 'repairs':
+                    $dataTable = 'repair';
+                    break;
+                default:
+                    $dataTable = null;
+            }
+        }
 
-        // Update the Wo data based on the selected id_fg
         $detailWo->update([
             'id_boms' => $bom->id_bom,
-            // 'id_standardize_work' => $standardizedWork->kd_manhour,
-            'id_standardize_work' => $standardizedWork->id,
-            // 'id_boms' => $request->id_boms,
-            // 'id_standardize_work' => $request->id_standardize_work,
-            // 'id_so' => $request->id_so,
+            'id_standardize_work' => $standardizeWork->id,
             'id_fg' => $request->id_fg,
             'qty_trafo' => $request->qty_trafo,
-            'kva' => $request->kva,
+            'kva' => $standardizeWork->$dataTable->ukuran_kapasitas,
             'id_so' => $bom->id_so,
             'start_date' => $request->start_date,
             'finish_date' => $request->finish_date,
         ]);
-        // dd($detailWo);
-
-        // \Log::info('ID to Update:', $id_wo);
-
-
         return redirect()->route('workorder-index')->with('success', 'Data berhasil diupdate');
     }
 
-    public function destroy($id_wo) : RedirectResponse
+    public function destroy($id): RedirectResponse
     {
-        $dataWo = Wo::where('id_wo', $id_wo)
-            ->first();
-        
-        $dataWo->delete();
-
-        return redirect()->route('workorder-index')->with('success', 'Data berhasil dihapus');        
+        $dataWo = Wo::where('id', $id)->first();
+        $dataMps = Mps::where('id_wo', $id)->first();
+        $gpaDry = GPADry::where('id_wo', $id)->get();
+        foreach ($gpaDry as $gpa) {
+            $gpa->delete();
+        }
+        if ($dataMps) {
+            $dataMps->delete();
+        }
+        if ($dataWo) {
+            $dataWo->delete();
+        }
+        return redirect()->route('workorder-index')->with('success', 'Data berhasil dihapus');
     }
+
 
     public function exportToExcel()
     {

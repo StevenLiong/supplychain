@@ -208,7 +208,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // MENU WORK ORDER
     Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
-    Route::delete('/WorkOrder/delete/{id_wo}}', [WoController::class, 'destroy'])->name('wo.delete');
+    Route::delete('/WorkOrder/delete/{id}}', [WoController::class, 'destroy'])->name('wo.delete');
 
     // --CREATE WORK ORDER--
     Route::get('/wo/create', [WoController::class, 'create'])->name('wo-create');

@@ -62,8 +62,17 @@
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">Standardize Work Code</label>
+                    <label for="validationDefault01">Man Hour Code</label>
                     <input type="text" class="form-control" name="id_standardize_work" required disabled>
+                    @error('id_standardize_work')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationDefault01">KVA</label>
+                    <input type="text" class="form-control" name="kva" required disabled>
                     @error('id_standardize_work')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -82,10 +91,10 @@
                     <label for="validationDefault01">Quantity</label>
                     <input type="text" class="form-control" name="qty_trafo" required>
                 </div>
-                <div class="col-md-6 mb-3">
+                <!-- <div class="col-md-6 mb-3">
                     <label for="validationDefault01">KVA</label>
                     <input type="text" class="form-control" name="kva" required>
-                </div>
+                </div> -->
             </div>
             <div class="col text-center">
                 <button type="submit" class="btn btn-md btn-primary">Submit</button>
@@ -101,11 +110,15 @@
             url: '/getdataid-fg/' + idFg,
             method: 'GET',
             success: function (data) {
-                // Isi nilai-nilai formulir berdasarkan data yang diterima dari server
                 $('input[name="id_standardize_work"]').val(data.kd_manhour);
                 $('input[name="id_boms"]').val(data.id_boms);
-                // $('input[name="qty_trafo"]').val(data.qty_trafo);
                 $('input[name="id_so"]').val(data.id_so);
+                $('input[name="kva"]').val(data.kva);
+
+                console.log(data.kd_manhour);
+                console.log(data.id_boms);
+                console.log(data.id_so);
+                console.log(data.kva);
             },
             error: function (xhr, status, error) {
                 console.log('Error fetching data:', status, error);

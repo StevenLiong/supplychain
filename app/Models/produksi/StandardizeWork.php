@@ -2,9 +2,10 @@
 
 namespace App\Models\produksi;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\planner\Wo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class StandardizeWork extends Model
 {

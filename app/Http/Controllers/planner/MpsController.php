@@ -137,7 +137,10 @@ class MpsController extends Controller
         if ($request->get('production_line') === 'Drytype') {
             // Ambil data workcenter_dry_types
             $workcenterDryTypes = WorkcenterDryType::all();
-            $drycastresins = DryCastResin::where('kd_manhour', $wo->id)->get();
+            $drycastresins = DryCastResin::join('standardize_works', 'dry_cast_resins.id', '=', 'standardize_works.id_dry_cast_resin')
+                ->join('wos', 'standardize_works.id_dry_cast_resin', '=', 'wos.id')
+                ->where('wos.id_standardize_work', $wo->id)
+                ->get();
             $leadTimeNoFinishings = LeadtimeNofinishings::all();
             $leadTimeWithFinishings = LeadtimeWithfinishings::all();
             // dd($drycastresins);
@@ -145,16 +148,18 @@ class MpsController extends Controller
             foreach ($workcenterDryTypes as $workcenterDryType) {
                 foreach ($drycastresins as $drycastresin) {
                     $gpadrys = new GPADry();
-                    // $gpadrys->id_wo = $request->get('id_wo');
-                    $gpadrys->id_wo = $wo->id;
+                    $gpadrys->id_wo = $wo->id;  
                     $gpadrys->project = $request->get('project');
                     $gpadrys->production_line = $request->get('production_line');
                     $gpadrys->kva = $mps->kva;
                     $gpadrys->jenis = $request->get('jenis');
                     $gpadrys->qty_trafo = $mps->qty_trafo;
                     $adjustedDeadline = $request->get('deadline');
-                    // dd($adjustedDeadline); 
+                    // dd($adjustedDeadline);
                     $gpadrys->nama_workcenter = $workcenterDryType->nama_workcenter;
+                    
+                    // $gpadrys->id_wo = $request->get('id_wo');
+                    // dd($adjustedDeadline); 
 
                     $lv_windling = $drycastresin->hour_coil_lv + $drycastresin->hour_potong_leadwire + $drycastresin->hour_potong_isolasi;
                     $hv_windling = $drycastresin->hour_coil_hv;
@@ -846,9 +851,10 @@ class MpsController extends Controller
                             }
                         }
                     }
+                    
                 }
-                // dd($gpadrys);
                 $gpadrys->save();
+                // dd($gpadrys);
             }
             return redirect()->route('gpa-indexgpadry');  
         }

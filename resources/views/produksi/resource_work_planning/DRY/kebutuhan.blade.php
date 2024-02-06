@@ -10,7 +10,7 @@
             <div class="card-body">
 
                 <div class="row mb-4 align-items-center">
-
+{{-- 
                     <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
                         @csrf
                         <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
@@ -28,7 +28,7 @@
                             <option value="2">Shift 2</option>
                             <option value="3">Shift 3</option>
                         </select>
-                    </form>
+                    </form> --}}
                     {{-- <div class="ml-auto mr-3" style="align-items: d-flex right;">
                         <a href="#" class="btn btn-primary" data-target="#new-project-modal" data-toggle="modal"><i
                                 class="mr-2 fa-solid fa-print"></i>Print</a>

@@ -37,22 +37,22 @@ class StandardizeWork extends Model
     }
     public function vt(): BelongsTo
     {
-        return $this->belongsTo(DryCastResin::class, 'id_vt', 'id');
+        return $this->belongsTo(Vt::class, 'id_vt', 'id');
     }
     public function ct(): BelongsTo
     {
-        return $this->belongsTo(DryCastResin::class, 'id_ct', 'id');
+        return $this->belongsTo(Ct::class, 'id_ct', 'id');
     }
     public function oil_custom(): BelongsTo
     {
-        return $this->belongsTo(DryCastResin::class, 'id_oil_custom', 'id');
+        return $this->belongsTo(OilCustom::class, 'id_oil_custom', 'id');
     }
     public function oil_standard(): BelongsTo
     {
-        return $this->belongsTo(DryCastResin::class, 'id_oil_standard', 'id');
+        return $this->belongsTo(OilStandard::class, 'id_oil_standard', 'id');
     }
     public function repair(): BelongsTo
     {
-        return $this->belongsTo(DryCastResin::class, 'id_repair', 'id');
+        return $this->belongsTo(Repair::class, 'id_repair', 'id');
     }
 }

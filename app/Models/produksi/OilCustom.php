@@ -28,11 +28,30 @@ class OilCustom extends Model
         'special_assembly',
         'finishing',
         'qc_testing',
+        'totalHour_coil_making',
+        'totalHour_CoreCoilAssembly',
+        'totalHour_Conect',
+        'totalHour_FinalAssembly',
+        'totalHour_SpecialFinalAssembly',
+        'totalHour_Finishing',
+        'totalHour_QCTest',
+        'hour_coil_lv',
+        'hour_coil_lv_plus',
+        'hour_coil_hv',
+        'hour_coil_hv_plus',
+        'hour_core_coil_assembly',
+        'hour_connection',
+        'hour_hv_lv_connection',
+        'hour_final_assy',
+        'hour_final_assy_plus',
+        'hour_special_assembly',
+        'hour_finishing',
+        'hour_qc_testing',
     ];
 
     public function man_hour(): BelongsTo
     {
-        return $this->belongsTo(ManHour::class,'manhour_id','id');
+        return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
     }
 
     public static function boot()
@@ -42,7 +61,7 @@ class OilCustom extends Model
         static::created(function ($oil_custom) {
             StandardizeWork::create([
                 'id_oil_custom' => $oil_custom->id,
-                'nama_product' =>'Oil Custom',
+                'nama_product' => 'Oil Custom',
             ]);
         });
 

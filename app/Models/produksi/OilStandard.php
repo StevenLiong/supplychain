@@ -14,6 +14,7 @@ class OilStandard extends Model
         'nama_product',
         'kategori',
         'nomor_so',
+        'id_fg',
         'ukuran_kapasitas',
         'total_hour',
         'coil_lv',
@@ -24,11 +25,24 @@ class OilStandard extends Model
         'connect',
         'final_assembly',
         'qc_testing',
+        'totalHour_coil_making',
+        'totalHour_CoreCoilAssembly',
+        'totalHour_Conect',
+        'totalHour_FinalAssembly',
+        'totalHour_QCTest',
+        'hour_coil_lv',
+        'hour_coil_hv',
+        'hour_leadwire',
+        'hour_press_coil',
+        'hour_core_coil_assembly',
+        'hour_connect',
+        'hour_final_assembly',
+        'hour_qc_testing'
     ];
 
     public function man_hour(): BelongsTo
     {
-        return $this->belongsTo(ManHour::class,'manhour_id','id');
+        return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
     }
 
     public static function boot()
@@ -38,7 +52,7 @@ class OilStandard extends Model
         static::created(function ($oil_standard) {
             StandardizeWork::create([
                 'id_oil_standard' => $oil_standard->id,
-                'nama_product' =>'Oil Standart',
+                'nama_product' => 'Oil Standard',
             ]);
         });
 
@@ -55,4 +69,3 @@ class OilStandard extends Model
         });
     }
 }
-

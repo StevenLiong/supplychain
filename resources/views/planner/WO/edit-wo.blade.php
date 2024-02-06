@@ -30,8 +30,12 @@
                     <input type="text" class="form-control" name="id_boms" value="{{ $detailWo->id_boms }}"required disabled>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">Standardize Work Code</label>
+                    <label for="validationDefault01">Man Hour Code</label>
                     <input type="text" class="form-control" name="id_standardize_work" value="{{ $detailWo->standardize_work->kd_manhour}}"required disabled>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationDefault01">KVA</label>
+                    <input type="text" class="form-control" name="kva" value="{{ $detailWo->kva }}"required disabled>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Sales Order</label>
@@ -53,10 +57,6 @@
                     <label for="validationDefault01">Kode Finish Good</label>
                     <input type="text" class="form-control" name="id_fg" value="{{ $detailWo->id_fg }}"required>
                 </div> -->
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">KVA</label>
-                    <input type="text" class="form-control" name="kva" value="{{ $detailWo->kva }}"required>
-                </div>
             </div>
             <div class="col text-center">
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
@@ -74,20 +74,23 @@
             url: '/getdatawo/' + idFg,
             method: 'GET',
             success: function (data) {
-                // Isi nilai-nilai formulir berdasarkan data yang diterima dari server
                 $('input[name="id_standardize_work"]').val(data.id_standardize_work);
                 $('input[name="id_boms"]').val(data.id_boms);
                 $('input[name="id_so"]').val(data.id_so);
+                $('input[name="kva"]').val(data.kva);
+
+                console.log(data.kd_manhour);
+                console.log(data.id_boms);
+                console.log(data.id_so);
+                console.log(data.kva);
             },
             error: function (xhr, status, error) {
-                // Handle error jika diperlukan
                 console.log('Error fetching data:', status, error);
-                console.log(xhr.responseText); // Log the response for further inspection
+                console.log(xhr.responseText);
             }
         });
     }
 
-    // Event listener untuk perubahan nilai pada input id_fg
     $(document).ready(function () {
         $('#id_fg').on('change', function () {
             var idFg = $(this).val();

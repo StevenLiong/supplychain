@@ -44,7 +44,7 @@
                             @foreach ($dataWo as $index => $item)
                                 <tr role="row" class="odd">
                                     <td style="text-align: center; width: 1rem">
-                                        <form method="POST" action="{{ route('wo.delete', ['id_wo' => $item->id_wo])}}">
+                                        <form method="POST" action="{{ route('wo.delete', ['id' => $item->id])}}">
                                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                 <a href="{{ route('wo.editwo', $item->id_wo) }}" class="btn btn-primary"><i class="fa-solid fa-edit"></i></a>
                                                 @csrf

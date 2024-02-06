@@ -27,7 +27,7 @@ class ProductionLineSeeder extends Seeder
             'kapasitas_pl' => 172, //kapasitas harian
         ]);
         DB::table('production_line')->insert([
-            'nama_pl' => 'DRY',
+            'nama_pl' => 'Drytype',
             'kapasitas_pl' => 3, //kapasitas harian
         ]);
         DB::table('production_line')->insert([

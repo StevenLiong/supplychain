@@ -82,11 +82,11 @@ class ResourceDashboardController extends Controller
 
         $jumlahtotalHourSumPL2 = Mps::where('production_line', 'PL2')
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work'])
+            ->with(['wo.standardize_work.oil_standard'])
             ->whereIn('id_wo', $woPL2)
             ->get()
             ->sum(function ($item) {
-                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+                return $item->wo->standardize_work->oil_standard->total_hour * $item->qty_trafo;
             });
 
         $jumlahtotalHourSumPL3 = Mps::where('production_line', 'PL3')

@@ -47,6 +47,7 @@
                         <option value="PL3">PL3</option>
                         <option value="Drytype">Dry Type</option>
                         <option value="CTVT">CTVT</option>
+                        <option value="REPAIR">REPAIR</option>
                     </select>
                 </div>
                 <div class="col-md-6 mb-3">

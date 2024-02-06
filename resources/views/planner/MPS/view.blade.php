@@ -18,7 +18,6 @@
                 <th>KVA</th>
                 <th>Jenis Trafo</th>
                 <th>Quantity</th>
-                <th>Lead Time (Hari)</th>
                 <th>Deadline</th>
                 <!-- Add other headers as needed -->
             </tr>
@@ -27,7 +26,7 @@
             @foreach ($dataMps as $index => $item)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->id_wo }}</td>
+                    <td>{{ $item->wo->id_wo }}</td>
                     <td>{{ $item->project }}</td>
                     <td>{{ $item->production_line }}</td>
                     <td>{{ $item->kva }}</td>

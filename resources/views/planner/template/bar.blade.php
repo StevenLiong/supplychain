@@ -128,13 +128,11 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto navbar-list align-items-center">
-
-
                         <li class="nav-item nav-icon dropdown caption-content">
                             <a href="#" class="search-toggle dropdown-toggle  d-flex align-items-center" id="dropdownMenuButton4" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <!-- <img src="/templatetrafindo/assets/images/user/1.jpg" class="img-fluid rounded-circle" alt="user"> -->
+                                <img src="/templatetrafindo/assets/images/user/1.jpg" class="img-fluid rounded-circle" alt="user">
                                 <div class="caption ml-3">
-                                    <h6 class="mb-0 line-height"><i class="las la-angle-down ml-2"></i></h6>
+                                    <h6 class="mb-0 line-height">{{ auth()->user()->name }}<i class="las la-angle-down ml-2"></i></h6>
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right border-none" aria-labelledby="dropdownMenuButton">
@@ -152,7 +150,6 @@
                                         @csrf
                                     </form>
                                 </li>
-                            </ul>
                             </ul>
                         </li>
                     </ul>

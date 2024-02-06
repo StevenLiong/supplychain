@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 
 class Wo extends Model
 {
+    // protected $table = 'wo';
     protected $fillable = [
         'id_boms',
         'id_standardize_work',

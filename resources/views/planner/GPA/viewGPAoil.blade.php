@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Picking Area - Dry Type PDF</title>
+    <title>Global Picking Area - Oil Trafo PDF</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,7 +37,7 @@
     </style>
 </head>
 <body>
-    <h2>Global Picking Area - Dry Type</h2>
+    <h2>Global Picking Area - Oil Trafo</h2>
 
     <table>
         <thead>

@@ -10,6 +10,11 @@
             </div>
         </div>
         <div class="card-body">
+            <div class="row d-flex mb-4">
+                <div class="col text-left">
+                    <a href="{{ route('wc.exportPDFoil', $dataWorkcenter->nama_workcenter) }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
+                </div>          
+            </div>
             <form>
                 <div class="form-row">
                     <div class="col-md-4 mb-2">

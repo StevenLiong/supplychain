@@ -29,24 +29,24 @@ class GPADryController extends Controller
 
     public function exportToExcel()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'project', 'production_line', 'kva', 'jenis', 'qty_trafo', 'lead_time', 'deadline')->get(); // Ambil data Mps dari database
+        $dataMps = Mps::select('id', 'id_wo', 'project', 'production_line', 'kva', 'jenis', 'qty_trafo', 'deadline')->get(); // Ambil data Mps dari database
 
         return Excel::download(new MpsExport($dataMps), 'GPA.xlsx');
     }
 
     public function exportToPdf()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'lead_time', 'deadline')->get(); // Ambil data Mps dari database
+        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline')->where('jenis', 'Dry Type')->get(); // Ambil data Mps dari database
         $pdf = PDF::loadView('planner.gpa.view', ['dataMps' => $dataMps]);
-        return $pdf->download('GPA.pdf');
+        return $pdf->download('GPA Dry Type.pdf');
     }
 
     public function exportToPdfDetail(Request $request, $id_wo)
     {
         $dataGpa = GPADry::where('id_wo', $id_wo)
-        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'lead_time', 'deadline', 'nama_workcenter')
+        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline', 'nama_workcenter')
         ->get();
         $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataGpa' => $dataGpa]);
-        return $pdf->download('DetailGPADry.pdf');
+        return $pdf->download('Detail GPA Dry Type.pdf');
     }
 }

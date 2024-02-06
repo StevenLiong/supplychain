@@ -51,12 +51,12 @@
     </style>
 </head>
 <body>
-    <h2>Detail Global Picking Area - Dry Type ({{ $dataGpa->first()->id_wo }})</h2>
+    <h2>Detail Global Picking Area - Dry Type ({{ $dataGpa->first()->wo->id_wo }})</h2>
     <form>
         <div class="form-row">
             <div class="col-md-4 mb-2">
                 <label for="id_wo">Work Order</label>
-                <input type="text" class="form-control" name="id_wo" value="{{ $dataGpa->first()->id_wo }}"required disabled>
+                <input type="text" class="form-control" name="id_wo" value="{{ $dataGpa->first()->wo->id_wo }}"required disabled>
             </div>
             <div class="col-md-4 mb-2">
                 <label for="production_line">Production Line</label>

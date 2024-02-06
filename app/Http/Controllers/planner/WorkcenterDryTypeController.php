@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\planner;
 
+use PDF;
 use App\Models\planner\Mps;
 use Illuminate\Http\Request;
+use App\Models\planner\GPADry;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
-use App\Models\planner\GPADry;
 use App\Models\planner\WorkcenterDryType;
 
 class WorkcenterDryTypeController extends Controller
@@ -35,5 +36,19 @@ class WorkcenterDryTypeController extends Controller
         return view('planner.WC.detailworkcenterdrytype', compact('dataWorkcenter','dataGpa'));
     }
 
+    public function exportToPDF(String $nama_workcenter)
+    {
+        $dataWorkcenter = WorkcenterDryType::where('nama_workcenter', $nama_workcenter)->first();
+        $dataGpa = GPADry::where('nama_workcenter', $nama_workcenter)->get();
 
+        $filename = 'Detail Workcenter ' . ($nama_workcenter) . ' Dry Type' . '.pdf';
+
+        $pdf = PDF::loadView('planner.WC.exportpdfdry', compact('dataWorkcenter', 'dataGpa'));
+
+        // Jika ingin men-download PDF langsung
+        return $pdf->download($filename);
+        
+        // Jika ingin menampilkan PDF dalam browser
+        // return $pdf->stream('export.pdf');
+    }
 }

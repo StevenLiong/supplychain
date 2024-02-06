@@ -870,9 +870,13 @@ class MpsController extends Controller
 
     public function exportToExcel()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'project', 'production_line', 'kva', 'jenis', 'qty_trafo', 'deadline')->get(); // Ambil data Mps dari database
+        $mps = Mps::with('wo')->get();
 
-        return Excel::download(new MpsExport($dataMps), 'MPS.xlsx');
+        $id_wo = $mps->first()->wo->id_wo;
+
+        $dataMps = Mps::all();
+
+        return Excel::download(new MpsExport($dataMps, $id_wo), 'MPS.xlsx');
     }
 
     public function exportToPdf()

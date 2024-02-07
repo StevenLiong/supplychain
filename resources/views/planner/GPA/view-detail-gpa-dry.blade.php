@@ -72,7 +72,7 @@
             </div>
             <div class="col-md-4 mb-2">
                 <label for="validationDefault07">Dead Line</label>
-                <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataGpa->first()->deadline)->format('d-F-Y') }}"required disabled>
+                <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataMps->first()->deadline)->format('d-F-Y') }}"required disabled>
             </div>
         </div>
     </form>

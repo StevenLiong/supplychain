@@ -754,6 +754,7 @@ class MpsController extends Controller
                                     $adjustedDeadlineHV = $adjustedDeadline;
             
                                     // Simpan ke dalam objek GPADry
+                                    $gpadrys->deadline = $adjustedDeadlineHV;
                                 }
                                 elseif($workcenterDryType->nama_workcenter === 'LV Windling'){
                                     $adjustedDeadlineLV = $request->get('deadline');

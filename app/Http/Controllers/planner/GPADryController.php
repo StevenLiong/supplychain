@@ -43,10 +43,13 @@ class GPADryController extends Controller
 
     public function exportToPdfDetail(Request $request, $id_wo)
     {
+        $dataMps = MPS::where('id_wo', $id_wo)
+        ->select('deadline')
+        ->get();
         $dataGpa = GPADry::where('id_wo', $id_wo)
         ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline', 'nama_workcenter')
         ->get();
-        $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataGpa' => $dataGpa]);
+        $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataGpa' => $dataGpa, 'dataMps' => $dataMps]);
         return $pdf->download('Detail GPA Dry Type.pdf');
     }
 }

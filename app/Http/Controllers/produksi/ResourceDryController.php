@@ -119,7 +119,12 @@ class ResourceDryController extends Controller
         $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
 
 
-        $periode = $request->session()->get('periode', 1);
+        $periode = $request->post('periodeDry', null);
+        if ($periode === null || !in_array($periode, [1, 2, 3, 4])) {
+            // Mengambil nilai dari local storage jika ada
+            $storedValue = $request->session()->get('selectedPeriodeDry');
+            $periode = ($storedValue && in_array($storedValue, [1, 2, 3, 4])) ? $storedValue : 1;
+        }
         switch ($periode) {
             case 1:
                 $deadlineDate = [
@@ -149,6 +154,9 @@ class ResourceDryController extends Controller
                 ];
                 break;
         }
+
+        $request->session()->put('selectedPeriodeDry', $periode);
+
         //FILTER PL
         $filteredMpsDRY = $mps->where('production_line', 'Drytype');
 

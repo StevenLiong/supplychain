@@ -24,15 +24,23 @@ class ResourceCtVtController extends Controller
     {
         $title1 = 'CT VT - Jumlah';
         $totalManPower = ManPower::count();
-        $title1 = 'Dry - Kebutuhan';
+        $title1 = 'CTVT - Kebutuhan';
         $PL = ProductionLine::all();
         $kapasitas = Kapasitas::all();
         $mps = Mps::where('production_line', 'CTVT')->get();
-        // $drycastresin = DryCastResin::all();
+        // $CTVTcastresin = CTVTCastResin::all();
         $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
 
 
-        $periode = $request->session()->get('periode', 1);
+        $periode = $request->post('periodeCTVT', null);
+
+        // Jika nilai periode tidak ada, atau tidak valid, maka gunakan nilai default 1
+        if ($periode === null || !in_array($periode, [1, 2, 3, 4])) {
+            // Mengambil nilai dari local storage jika ada
+            $storedValue = $request->session()->get('selectedPeriodeCTVT');
+            $periode = ($storedValue && in_array($storedValue, [1, 2, 3, 4])) ? $storedValue : 1;
+        }
+
         switch ($periode) {
             case 1:
                 $deadlineDate = [
@@ -62,19 +70,22 @@ class ResourceCtVtController extends Controller
                 ];
                 break;
         }
+
+        // Simpan nilai periode ke session
+        $request->session()->put('selectedPeriodeCTVT', $periode);
         //FILTER PL
-        $filteredMpsDRY = $mps->where('production_line', 'CTVT');
+        $filteredMpsCTVT = $mps->where('production_line', 'CTVT');
 
         // //QTY PL
-        $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
-        // dd($qtyDRY);
-        $woDRY = Mps::where('production_line', 'CTVT')->pluck('id_wo');
+        $qtyCTVT =  $filteredMpsCTVT->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        // dd($qtyCTVT);
+        $woCTVT = Mps::where('production_line', 'CTVT')->pluck('id_wo');
 
         $jumlahtotalHourCoil_Making = Mps::where('production_line', 'CTVT')
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.ct', 'wo.standardize_work.vt'])
-            ->whereIn('id_wo', $woDRY)
+            ->whereIn('id_wo', $woCTVT)
             ->get()
             ->sum(function ($item) {
                 $workData = $item->wo->standardize_work->ct ?? $item->wo->standardize_work->vt;
@@ -96,7 +107,7 @@ class ResourceCtVtController extends Controller
         $jumlahtotalHourMould_Casting = Mps::where('production_line', 'CTVT')
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.ct', 'wo.standardize_work.vt'])
-            ->whereIn('id_wo', $woDRY)
+            ->whereIn('id_wo', $woCTVT)
             ->get()
             ->sum(function ($item) {
                 // Ambil data berdasarkan jenisnya (ct atau vt)
@@ -118,7 +129,7 @@ class ResourceCtVtController extends Controller
             // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.ct', 'wo.standardize_work.vt'])
-            ->whereIn('id_wo', $woDRY)
+            ->whereIn('id_wo', $woCTVT)
             ->get()
             ->sum(function ($item) {
                 // Ambil data berdasarkan jenisnya (ct atau vt)
@@ -227,7 +238,7 @@ class ResourceCtVtController extends Controller
             'kapasitas' => $kapasitas,
             'PL' => $PL,
             'deadlineDate' => $deadlineDate,
-            // 'drycastresin' => $drycastresin,
+            // 'CTVTcastresin' => $CTVTcastresin,
         ];
         return view('produksi.resource_work_planning.CT-VT.kebutuhan', ['data' => $data]);
     }

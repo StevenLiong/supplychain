@@ -16,10 +16,16 @@ class ResourceWorkloadController extends Controller
         $title1 = ' Work Load';
         $mps = Mps::all();
         $kapasitas = Kapasitas::all();
-        $periode = $request->session()->get('periode', 1);
+        $periode = $request->post('periodeWorkload', null);
+
+        if ($periode === null || !in_array($periode, [1, 2, 3, 4])) {
+            // Mengambil nilai dari local storage jika ada
+            $storedValue = $request->session()->get('selectedPeriodeWorkload');
+            $periode = ($storedValue && in_array($storedValue, [1, 2, 3, 4])) ? $storedValue : 1;
+        }
         switch ($periode) {
             case 1:
-                $periodeLabel = 'Bulan Sekarang';
+                // $periodeLabel = 'Bulan Sekarang';
                 $deadlineDate = [
                     now()->startOfMonth(),
                     now()->endOfMonth()
@@ -27,7 +33,7 @@ class ResourceWorkloadController extends Controller
                 break;
 
             case 2:
-                $periodeLabel = 'Minggu Sekarang';
+                // $periodeLabel = 'Minggu Sekarang';
                 $deadlineDate = [
                     now()->startOfWeek(),
                     now()->endOfWeek()
@@ -35,7 +41,7 @@ class ResourceWorkloadController extends Controller
                 break;
 
             case 3:
-                $periodeLabel = 'Minggu Depan';
+                // $periodeLabel = 'Minggu Depan';
                 $deadlineDate = [
                     now()->startOfWeek()->addWeek(),
                     now()->endOfWeek()->addWeek()
@@ -43,13 +49,14 @@ class ResourceWorkloadController extends Controller
                 break;
 
             case 4:
-                $periodeLabel = 'Bulan Depan';
+                // $periodeLabel = 'Bulan Depan';
                 $deadlineDate = [
                     now()->addMonth()->startOfMonth(),
                     now()->addMonth()->endOfMonth()
                 ];
                 break;
         }
+        $request->session()->put('selectedPeriodeWorkload', $periode);
 
 
         $data = [
@@ -60,6 +67,7 @@ class ResourceWorkloadController extends Controller
             'deadlineDate' => $deadlineDate,
         ];
 
-        return view('produksi.resource_work_planning.work-load', compact('periodeLabel'), ['data' => $data]);
+        return view('produksi.resource_work_planning.work-load', ['data' => $data]);
+        // return view('produksi.resource_work_planning.work-load', compact('periodeLabel'), ['data' => $data]);
     }
 }

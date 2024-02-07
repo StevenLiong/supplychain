@@ -2,16 +2,32 @@
 @section('content')
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-center">
                 <div class="header-title">
-                    <h4 class="card-title">Kebutuhan Man Power</h4>
+                    <h4 class="card-title">Kebutuhan Man Power Dry Type</h4>
                 </div>
             </div>
             <div class="card-body">
 
-                <div class="row mb-4 align-items-center">
-{{-- 
-                    <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
+                <div class="row mb-4 align-items-center px-4">
+                    <form action="{{ route('process.periodeDry') }}" method="post" id="periodeDryForm">
+                        @csrf
+                        <div class="row align-items-center">
+                            <div class="col-md-auto">
+                                <label for="periodeDrySelect">Pilih Periode:</label>
+                            </div>
+                            <div class="col-md-auto">
+                                <select class="custom-select" name="periodeDry" id="periodeDrySelect">
+                                    <option value="1">Bulan Sekarang</option>
+                                    <option value="2">Minggu sekarang</option>
+                                    <option value="3">Minggu Depan</option>
+                                    <option value="4">Bulan Depan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                    {{-- <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
                         @csrf
                         <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
                                 class="ri-arrow-down-s-line ml-2 mr-0">Hour/Day</i>
@@ -53,7 +69,7 @@
                                         {{ $data['wc_Coil_Making_LV'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourCoil_Making_LV']}}
+                                        {{ $data['jumlahtotalHourCoil_Making_LV'] }}
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPCoil_Making_LV'] }}
@@ -70,7 +86,7 @@
                                         {{ $data['wc_Coil_Making_HV'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourCoil_Making_HV']}}
+                                        {{ $data['jumlahtotalHourCoil_Making_HV'] }}
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPCoil_Making_HV'] }}
@@ -88,7 +104,7 @@
                                         {{ $data['wc_Mould_Casting'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourMould_Casting']}}
+                                        {{ $data['jumlahtotalHourMould_Casting'] }}
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPMould_Casting'] }}
@@ -105,7 +121,7 @@
                                         {{ $data['wc_Core_Assembly'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourCore_Assembly']}}
+                                        {{ $data['jumlahtotalHourCore_Assembly'] }}
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPCore_Assembly'] }}
@@ -142,22 +158,22 @@
     <script>
         $(document).ready(function() {
             // Mendeteksi perubahan pada dropdown
-            $('#workcenterSelect').change(function() {
+            $('#periodeDrySelect').change(function() {
                 // Mengambil nilai yang dipilih
                 var selectedValue = $(this).val();
 
                 // Menyimpan nilai yang dipilih dalam localStorage
-                localStorage.setItem('selectedWorkcenter', selectedValue);
+                localStorage.setItem('selectedPeriodeDry', selectedValue);
 
                 // Mengirimkan formulir secara otomatis
-                $('#workcenterForm').submit();
+                $('#periodeDryForm').submit();
             });
 
             // Memeriksa apakah ada nilai yang disimpan dalam localStorage
-            var storedValue = localStorage.getItem('selectedWorkcenter');
+            var storedValue = localStorage.getItem('selectedPeriodeDry');
             if (storedValue) {
                 // Menetapkan nilai yang disimpan sebagai nilai awal dropdown
-                $('#workcenterSelect').val(storedValue);
+                $('#periodeDrySelect').val(storedValue);
             }
         });
     </script>

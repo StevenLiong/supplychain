@@ -2,14 +2,31 @@
 @section('content')
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-center">
                 <div class="header-title">
-                    <h4 class="card-title">Jumlah Man Power dan Mesin</h4>
+                    <h4 class="card-title">Jumlah Man Power Production Line 2</h4>
                 </div>
             </div>
             <div class="card-body">
 
-                <div class="row mb-4 align-items-center">
+                <div class="row mb-4 align-items-center px-4">
+                    <form action="{{ route('process.periodePL2') }}" method="post" id="periodePL2Form">
+                        @csrf
+                        <div class="row align-items-center">
+                            <div class="col-md-auto">
+                                <label for="periodePL2Select">Pilih Periode:</label>
+                            </div>
+                            <div class="col-md-auto">
+                                <select class="custom-select" name="periodePL2" id="periodePL2Select">
+                                    <option value="1">Bulan Sekarang</option>
+                                    <option value="2">Minggu sekarang</option>
+                                    <option value="3">Minggu Depan</option>
+                                    <option value="4">Bulan Depan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
                     {{-- <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
                         @csrf
                         <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
@@ -150,4 +167,27 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Mendeteksi perubahan pada dropdown
+            $('#periodePL2Select').change(function() {
+                // Mengambil nilai yang dipilih
+                var selectedValue = $(this).val();
+
+                // Menyimpan nilai yang dipilih dalam localStorage
+                localStorage.setItem('selectedPeriodePL2', selectedValue);
+
+                // Mengirimkan formulir secara otomatis
+                $('#periodePL2Form').submit();
+            });
+
+            // Memeriksa apakah ada nilai yang disimpan dalam localStorage
+            var storedValue = localStorage.getItem('selectedPeriodePL2');
+            if (storedValue) {
+                // Menetapkan nilai yang disimpan sebagai nilai awal dropdown
+                $('#periodePL2Select').val(storedValue);
+            }
+        });
+    </script>
 @endsection

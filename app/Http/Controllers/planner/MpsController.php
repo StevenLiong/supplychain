@@ -18,6 +18,7 @@ use App\Models\planner\WorkcenterDryType;
 use App\Models\planner\WorkcenterOilTrafo;
 use App\Models\planner\LeadtimeNofinishings;
 use App\Models\planner\LeadtimeWithfinishings;
+use App\Models\produksi\StandardizeWork;
 use Database\Seeders\WorkcenterOilTrafoSeeder;
 
 class MpsController extends Controller
@@ -82,7 +83,6 @@ class MpsController extends Controller
             $mps->qty_trafo = $wo->qty_trafo;
             $mps->kva = $wo->kva;
         }
-        
         $mps->kd_manhour = $wo->id_standardize_work;
         $mps->project = $request->get('project');
         $mps->production_line = $request->get('production_line');
@@ -135,18 +135,14 @@ class MpsController extends Controller
         
         // ? Breakdown GPA & Work Center
         if ($request->get('production_line') === 'Drytype') {
-            // Ambil data workcenter_dry_types
             $workcenterDryTypes = WorkcenterDryType::all();
-            $drycastresins = DryCastResin::join('standardize_works', 'dry_cast_resins.id', '=', 'standardize_works.id_dry_cast_resin')
-                ->join('wos', 'standardize_works.id_dry_cast_resin', '=', 'wos.id')
-                ->where('wos.id_standardize_work', $wo->id)
-                ->get();
+            $drycastresin = $wo->standardize_work->dry_cast_resin;
             $leadTimeNoFinishings = LeadtimeNofinishings::all();
             $leadTimeWithFinishings = LeadtimeWithfinishings::all();
-            // dd($drycastresins);
 
             foreach ($workcenterDryTypes as $workcenterDryType) {
-                foreach ($drycastresins as $drycastresin) {
+                foreach ($drycastresin as $drycastresins) {
+                    // dd($drycastresin);
                     $gpadrys = new GPADry();
                     $gpadrys->id_wo = $wo->id;  
                     $gpadrys->project = $request->get('project');
@@ -155,12 +151,7 @@ class MpsController extends Controller
                     $gpadrys->jenis = $request->get('jenis');
                     $gpadrys->qty_trafo = $mps->qty_trafo;
                     $adjustedDeadline = $request->get('deadline');
-                    // dd($adjustedDeadline);
                     $gpadrys->nama_workcenter = $workcenterDryType->nama_workcenter;
-                    
-                    // $gpadrys->id_wo = $request->get('id_wo');
-                    // dd($adjustedDeadline); 
-
                     $lv_windling = $drycastresin->hour_coil_lv + $drycastresin->hour_potong_leadwire + $drycastresin->hour_potong_isolasi;
                     $hv_windling = $drycastresin->hour_coil_hv;
                     $moulding = $drycastresin->hour_hv_moulding + $drycastresin->hour_lv_moulding + $drycastresin->hour_hv_casting + $drycastresin->hour_hv_demoulding + $drycastresin->hour_lv_bobbin + $drycastresin->hour_touch_up;
@@ -852,10 +843,8 @@ class MpsController extends Controller
                             }
                         }
                     }
-                    
                 }
                 $gpadrys->save();
-                // dd($gpadrys);
             }
             return redirect()->route('gpa-indexgpadry');  
         }

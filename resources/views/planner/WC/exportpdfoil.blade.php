@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
+            /* margin: 20px;
+            padding: 20px; */
         }
         h2 {
             color: #333;
@@ -51,7 +51,11 @@
     </style>
 </head>
 <body>
-    <h1>Detail Work Center ({{ $dataWorkcenter->nama_workcenter }})</h1>
+    <div class="p-2">
+        <img src="{{ public_path('assets/LogoTrafoindo.png') }}" width="120" height="50" class="d-inline-block"
+            alt="LOGO">
+    </div>
+    <h1>Detail Work Center</h1>
     <form>
         <div class="form-row">
             <div class="col-md-4 mb-2">

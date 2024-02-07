@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 20px;
+            /* margin: 20px;
+            padding: 20px; */
         }
         h2 {
             color: #333;
@@ -51,6 +51,10 @@
     </style>
 </head>
 <body>
+    <div class="p-2">
+        <img src="{{ public_path('assets/LogoTrafoindo.png') }}" width="120" height="50" class="d-inline-block"
+            alt="LOGO">
+    </div>
     <h2>Detail Global Picking Area - Dry Type ({{ $dataGpa->first()->wo->id_wo }})</h2>
     <form>
         <div class="form-row">

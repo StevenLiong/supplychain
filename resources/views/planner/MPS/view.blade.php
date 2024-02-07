@@ -4,11 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Master Production Schedule PDF</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            /* margin: 20px;
+            padding: 20px; */
+        }
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
+    <div style="margin-bottom: 20px;">
+        <img src="{{ public_path('assets/LogoTrafoindo.png') }}" width="120" height="50" alt="LOGO">
+    </div>
     <h2>Master Production Schedule</h2>
 
-    <table border="1" cellspacing="0" cellpadding="5">
+    <table>
         <thead>
             <tr>
                 <th>No</th>

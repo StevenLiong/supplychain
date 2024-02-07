@@ -10,7 +10,7 @@ use App\Models\produksi\ManPower;
 use App\Models\produksi\MatriksSkill;
 use App\Models\produksi\ProductionLine;
 use Illuminate\Http\Request;
-use Phpml\Classification\KNearestNeighbors;
+// use Phpml\Classification\KNearestNeighbors;
 
 class ResourceDryController extends Controller
 {
@@ -18,92 +18,92 @@ class ResourceDryController extends Controller
     {
         $title1 = 'Dry - Rekomendasi';
 
-        // Ambil data dari tabel matriks_skill
         $matrixSkills = MatriksSkill::all();
-        $selectedWorkcenter_rekomendasi = $request->input('selectedWorkcenter_rekomendasi', 1);
+        $selectedWorkcenter_rekomendasi = $request->input('Workcenter_rekomendasi', null);
+
+        if ($selectedWorkcenter_rekomendasi === null || !in_array($selectedWorkcenter_rekomendasi, [1, 2, 3, 4])) {
+            // Mengambil nilai dari local storage jika ada
+            $storedValue = $request->session()->get('selectedWorkcenter_rekomendasi');
+            $selectedWorkcenter_rekomendasi = ($storedValue && in_array($storedValue, [1, 2, 3, 4])) ? $storedValue : 1;
+        }
 
         switch ($selectedWorkcenter_rekomendasi) {
             case 1:
                 $workcenterLabel = 'Coil Making HV';
-                $targetProses = 2; // Sesuaikan dengan proses yang diinginkan
                 break;
             case 2:
                 $workcenterLabel = 'Coil Making LV';
-                $targetProses = 1; // Sesuaikan dengan proses yang diinginkan
                 break;
             case 3:
                 $workcenterLabel = 'Mould & Casting';
-                // Sesuaikan dengan proses yang diinginkan untuk workcenter ini
                 break;
             case 4:
                 $workcenterLabel = 'Core Coil Assembly';
-                // Sesuaikan dengan proses yang diinginkan untuk workcenter ini
                 break;
         }
 
-        // Siapkan data untuk PHP-ML
-        $samples = [];
-        $targets = [];
+        $request->session()->put('selectedWorkcenter_rekomendasi', $selectedWorkcenter_rekomendasi);
 
-        foreach ($matrixSkills as $matrixSkill) {
-            // Filter berdasarkan workcenter, kategori produk, dan proses yang diinginkan
-            if (
-                $matrixSkill->id_production_line == 5 &&
-                $matrixSkill->id_kategori_produk == 4 &&
-                $matrixSkill->id_proses == $targetProses
-                // Sesuaikan dengan kondisi lainnya jika diperlukan
-            ) {
-                $samples[] = [
-                    $matrixSkill->id_production_line,
-                    $matrixSkill->id_kategori_produk,
-                    $matrixSkill->id_proses,
-                    $matrixSkill->id_tipe_proses
-                ];
-                $targets[] = $matrixSkill->skill;
-            }
-        }
+
+        // Siapkan data untuk PHP-ML
+        // $samples = [];
+        // $targets = [];
+
+        // foreach ($matrixSkills as $matrixSkill) {
+        //     // Filter berdasarkan workcenter, kategori produk, dan proses yang diinginkan
+        //     if (
+        //         $matrixSkill->id_production_line == 5 &&
+        //         $matrixSkill->id_kategori_produk == 4 &&
+        //         $matrixSkill->id_proses == $targetProses
+        //         // Sesuaikan dengan kondisi lainnya jika diperlukan
+        //     ) {
+        //         $samples[] = [
+        //             $matrixSkill->id_production_line,
+        //             $matrixSkill->id_kategori_produk,
+        //             $matrixSkill->id_proses,
+        //             $matrixSkill->id_tipe_proses
+        //         ];
+        //         $targets[] = $matrixSkill->skill;
+        //     }
+        // }
 
 
 
         // Buat dan latih model Knn
-        $model = new KNearestNeighbors();
-        $model->train($samples, $targets);
+        // $model = new KNearestNeighbors();
+        // $model->train($samples, $targets);
 
         // Contoh ID manpower, Anda dapat menggantinya dengan ID yang sesuai dari request atau data lainnya
-        $manpowerId = 5;
+        // $manpowerId = 5;
 
         // Ambil data manpower berdasarkan ID
-        $manpower = ManPower::find($manpowerId);
+        // $manpower = ManPower::find($manpowerId);
 
-        if (!$manpower) {
-            return redirect()->route('home')->with('error', 'Manpower not found');
-        }
+        // if (!$manpower) {
+        //     return redirect()->route('home')->with('error', 'Manpower not found');
+        // }
 
         // Prediksi skill menggunakan model PHP-ML
-        $predictedSkill = $model->predict([
-            $manpower->id_production_line,
-            $manpower->id_kategori_produk,
-            $manpower->id_proses,
-            $manpower->id_tipe_proses
-        ]);
+        // $predictedSkill = $model->predict([
+        //     $manpower->id_production_line,
+        //     $manpower->id_kategori_produk,
+        //     $manpower->id_proses,
+        //     $manpower->id_tipe_proses
+        // ]);
 
         // Mencari semua ID_MP yang sesuai dengan hasil prediksi
-        $matchingManpowers = MatriksSkill::where('skill', '>=', $predictedSkill)->get();
+        // $matchingManpowers = MatriksSkill::where('skill', '>=', $predictedSkill)->get();
 
-        // Mendapatkan semua ID_MP dari hasil pencarian tanpa duplikasi
-        $idMpsFromPrediction = $matchingManpowers->pluck('id_mp')->unique()->toArray();
+        // // Mendapatkan semua ID_MP dari hasil pencarian tanpa duplikasi
+        // $idMpsFromPrediction = $matchingManpowers->pluck('id_mp')->unique()->toArray();
 
-        // Mendapatkan nama dari semua ID_MP yang sesuai dengan hasil prediksi tanpa duplikasi
-        $manpowerNames = ManPower::whereIn('id', $idMpsFromPrediction)->pluck('nama')->toArray();
+        // // Mendapatkan nama dari semua ID_MP yang sesuai dengan hasil prediksi tanpa duplikasi
+        // $manpowerNames = ManPower::whereIn('id', $idMpsFromPrediction)->pluck('nama')->toArray();
 
         $data = [
             'title1' => $title1,
             'workcenterLabel' => $workcenterLabel,
-            'manpowerNames' => $manpowerNames,
         ];
-
-
-        // Tampilkan atau lakukan apa pun yang Anda inginkan dengan $data
         return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
     }
 

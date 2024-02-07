@@ -271,7 +271,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // EXPORT WORKCENTER DRY TYPE
     Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
-    
+
     // MENU FINISH GOOD
     Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
     Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
@@ -299,25 +299,30 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('resource_work_planning/dashboard', [ResourceDashboardController::class, 'dashboard'])->name('dashboard');
     Route::post('resource_work_planning/dashboard/data/process-periode', [ResourceDashboardController::class, 'dashboard'])->name('process.periode');
 
-    Route::get('resource_work_planning/Work-Load', [ResourceWorkloadController::class, 'Workload']);
+    Route::get('resource_work_planning/Work-Load', [ResourceWorkloadController::class, 'Workload'])->name('Workload');
+    Route::post('resource_work_planning/Work-Load/data/process-periodeWorkload', [ResourceWorkloadController::class, 'Workload'])->name('process.periodeWorkload');
 
     Route::get('resource_work_planning/PL2/Rekomendasi', [ResourcePl2Controller::class, 'pl2Rekomendasi']);
-    Route::get('resource_work_planning/PL2/Kebutuhan', [ResourcePl2Controller::class, 'pl2Kebutuhan']);
+    Route::get('resource_work_planning/PL2/Kebutuhan', [ResourcePl2Controller::class, 'pl2Kebutuhan'])->name('pl2Kebutuhan');
+    Route::post('resource_work_planning/PL2/Kebutuhan/data/process-periodePL2', [ResourcePl2Controller::class, 'pl2Kebutuhan'])->name('process.periodePL2');
 
     Route::get('resource_work_planning/PL3/Rekomendasi', [ResourcePl3Controller::class, 'pl3Rekomendasi']);
-    Route::get('resource_work_planning/PL3/Kebutuhan', [ResourcePl3Controller::class, 'pl3Kebutuhan']);
+    Route::get('resource_work_planning/PL3/Kebutuhan', [ResourcePl3Controller::class, 'pl3Kebutuhan'])->name('pl2Kebutuhan');
+    Route::post('resource_work_planning/PL3/Kebutuhan/data/process-periodePL3', [ResourcePl3Controller::class, 'pl3Kebutuhan'])->name('process.periodePL3');
 
     Route::get('resource_work_planning/CT-VT/Rekomendasi', [ResourceCtVtController::class, 'ctvtRekomendasi']);
-    Route::get('resource_work_planning/CT-VT/Kebutuhan', [ResourceCtVtController::class, 'ctvtKebutuhan']);
+    Route::get('resource_work_planning/CT-VT/Kebutuhan', [ResourceCtVtController::class, 'ctvtKebutuhan'])->name('ctvtKebutuhan');
+    Route::post('resource_work_planning/CT-VT/Kebutuhan/data/process.periodeCTVT', [ResourceCtVtController::class, 'ctvtKebutuhan'])->name('process.periodeCTVT');
 
     Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceDryController::class, 'dryRekomendasi']);
     Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceDryController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
     Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceDryController::class, 'dryKebutuhan'])->name('dryKebutuhan');
-    Route::post('resource_work_planning/Dry/Kebutuhan/data/proses-workcenter', [ResourceDryController::class, 'dryKebutuhan'])->name('process.workcenter');
+    Route::post('resource_work_planning/Dry/Kebutuhan/data/process-periodeDry', [ResourceDryController::class, 'dryKebutuhan'])->name('process.periodeDry');
 
     Route::get('resource_work_planning/Repair/Rekomendasi', [ResourceRepairController::class, 'repairRekomendasi']);
-    Route::get('resource_work_planning/Repair/Kebutuhan', [ResourceRepairController::class, 'repairKebutuhan']);
-    
+    Route::get('resource_work_planning/Repair/Kebutuhan', [ResourceRepairController::class, 'repairKebutuhan'])->name('repairKebutuhan');
+    Route::post('resource_work_planning/Repair/Kebutuhan/data/process-periodeRepair', [ResourceRepairController::class, 'repairKebutuhan'])->name('process.periodeRepair');
+
     Route::get('resource_work_planning/Kalkulasi-SDM', [ResourceKalkulasiSDMrController::class, 'kalkulasiSDM']);
 });
 

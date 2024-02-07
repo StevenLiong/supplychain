@@ -31,7 +31,13 @@ class ResourcePl2Controller extends Controller
         $oilStandard = OilStandard::all();
         $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
 
-        $periode = $request->session()->get('periode', 1);
+        $periode = $request->post('periodePL2', null);
+        if ($periode === null || !in_array($periode, [1, 2, 3, 4])) {
+            // Mengambil nilai dari local storage jika ada
+            $storedValue = $request->session()->get('selectedPeriodePL2');
+            $periode = ($storedValue && in_array($storedValue, [1, 2, 3, 4])) ? $storedValue : 1;
+        }
+
         switch ($periode) {
             case 1:
                 $deadlineDate = [
@@ -61,6 +67,9 @@ class ResourcePl2Controller extends Controller
                 ];
                 break;
         }
+
+        $request->session()->put('selectedPeriodePL2', $periode);
+
         //FILTER PL
         $filteredMpsPL2 = $mps->where('production_line', 'PL2');
 

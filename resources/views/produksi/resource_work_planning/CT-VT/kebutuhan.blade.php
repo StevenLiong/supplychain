@@ -2,14 +2,31 @@
 @section('content')
     <div class="col-sm-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between">
+            <div class="card-header d-flex justify-content-center">
                 <div class="header-title">
-                    <h4 class="card-title">Jumlah Man Power dan Mesin</h4>
+                    <h4 class="card-title">Jumlah Man Power Production Line CT/VT</h4>
                 </div>
             </div>
             <div class="card-body">
 
-                <div class="row mb-4 align-items-center">
+                <div class="row mb-4 align-items-center px-4">
+                    <form action="{{ route('process.periodeCTVT') }}" method="post" id="periodeCTVTForm">
+                        @csrf
+                        <div class="row align-items-center">
+                            <div class="col-md-auto">
+                                <label for="periodeCTVTSelect">Pilih Periode:</label>
+                            </div>
+                            <div class="col-md-auto">
+                                <select class="custom-select" name="periodeCTVT" id="periodeCTVTSelect">
+                                    <option value="1">Bulan Sekarang</option>
+                                    <option value="2">Minggu sekarang</option>
+                                    <option value="3">Minggu Depan</option>
+                                    <option value="4">Bulan Depan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
                     {{-- <form action="{{ route('process.workcenter') }}" method="post" class="ml-2" id="workcenterForm">
                         @csrf
                         <select class="custom-select" name="selectedWorkcenter" id="workcenterSelect"><i
@@ -61,7 +78,7 @@
                                         {{ $data['wc_Coil_Making'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourCoil_Making']}}
+                                        {{ $data['jumlahtotalHourCoil_Making'] }}
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPCoil_Making'] }}
@@ -79,7 +96,7 @@
                                         {{ $data['wc_Mould_Casting'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourMould_Casting']}}
+                                        {{ $data['jumlahtotalHourMould_Casting'] }}
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPMould_Casting'] }}
@@ -97,7 +114,7 @@
                                         {{ $data['wc_final_assembly'] }}
                                     </td>
                                     <td>
-                                        {{$data['jumlahtotalHourfinal_assembly']}}
+                                        {{ $data['jumlahtotalHourfinal_assembly'] }}
                                     </td>
                                     <td>
                                         {{ $data['kebutuhanMPfinal_assembly'] }}
@@ -133,4 +150,27 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Memulihkan nilai terakhir dari local storage saat halaman dimuat
+
+            // Mendeteksi perubahan pada dropdown
+            $('#periodeCTVTSelect').change(function() {
+                // Mengambil nilai yang dipilih
+                var selectedValue = $(this).val();
+
+                // Menyimpan nilai yang dipilih dalam localStorage
+                localStorage.setItem('selectedPeriodeCTVT', selectedValue);
+
+                // Mengirimkan formulir secara otomatis
+                $('#periodeCTVTForm').submit();
+            });
+            
+            var storedValue = localStorage.getItem('selectedPeriodeCTVT');
+            if (storedValue) {
+                $('#periodeCTVTSelect').val(storedValue);
+            }
+        });
+    </script>
 @endsection

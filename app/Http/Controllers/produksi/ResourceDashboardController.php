@@ -20,7 +20,15 @@ class ResourceDashboardController extends Controller
         $PL = ProductionLine::all();
         $totalManPower = ManPower::count();
 
-        $periode = $request->input('periode', 1);
+        $periode = $request->post('periode', null);
+
+
+        if ($periode === null || !in_array($periode, [1, 2, 3, 4])) {
+            // Mengambil nilai dari local storage jika ada
+            $storedValue = $request->session()->get('selectedPeriode');
+            $periode = ($storedValue && in_array($storedValue, [1, 2, 3, 4])) ? $storedValue : 1;
+        }
+
         switch ($periode) {
             case 1:
                 $deadlineDate = [
@@ -47,7 +55,7 @@ class ResourceDashboardController extends Controller
                 ];
                 break;
         }
-        $request->session()->put('periode', $periode);
+        $request->session()->put('selectedPeriode', $periode);
 
         //FILTER PL
         $filteredMpsPL2 = $mps->where('production_line', 'PL2');
@@ -168,7 +176,7 @@ class ResourceDashboardController extends Controller
         $kapasitasPL2harian = $PL->firstWhere('nama_pl', 'PL2')->kapasitas_pl ?? null;
         $kapasitasPL3harian = $PL->firstWhere('nama_pl', 'PL3')->kapasitas_pl ?? null;
         $kapasitasCTVTharian = $PL->firstWhere('nama_pl', 'CTVT')->kapasitas_pl ?? null;
-        $kapasitasDRYharian = $PL->firstWhere('nama_pl', 'DRY')->kapasitas_pl ?? null;
+        $kapasitasDRYharian = $PL->firstWhere('nama_pl', 'Drytype')->kapasitas_pl ?? null;
         $kapasitasREPAIRharian = $PL->firstWhere('nama_pl', 'REPAIR')->kapasitas_pl ?? null;
 
 

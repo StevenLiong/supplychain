@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            /* margin: 20px; */
         }
 
         h2 {
@@ -37,6 +37,10 @@
     </style>
 </head>
 <body>
+    <div class="p-2">
+        <img src="{{ public_path('assets/LogoTrafoindo.png') }}" width="120" height="50" class="d-inline-block"
+            alt="LOGO">
+    </div>
     <h2>Global Picking Area - Oil Trafo</h2>
 
     <table>

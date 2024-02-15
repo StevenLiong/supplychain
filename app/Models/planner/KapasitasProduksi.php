@@ -9,9 +9,9 @@ class KapasitasProduksi extends Model
 {
     protected $fillable = [
         'tanggal',
-        'pl2',
-        'pl3',
-        'drytype',
+        'PL2',
+        'PL3',
+        'Drytype',
         'oee_drytype',
         'oee_pl2',
         'oee_pl3',

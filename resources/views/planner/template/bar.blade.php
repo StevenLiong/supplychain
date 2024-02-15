@@ -2,7 +2,7 @@
 @section('sidebar')
 <div class="iq-sidebar  sidebar-default ">
     <div class="iq-sidebar-logo d-flex justify-content-left align-items-center">
-        <a href="/Dashboard" class="header-logo">
+        <a href="{{ route('bom-index') }}" class="header-logo">
             <img src="/templatetrafindo/assets/images/logotrafindo.png" style="width: 10rem;height:5rem;" alt="logo_trafoindo">
         </a>
         <div class="iq-menu-bt-sidebar ml-0">

@@ -35,6 +35,7 @@ use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryNonResinController;
 use App\Http\Controllers\logistic\FinishedgoodController;
 use App\Http\Controllers\logistic\StokProduksiController;
+use App\Http\Controllers\planner\KapasitasProduksiController;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\planner\WorkcenterDryTypeController;
@@ -290,6 +291,15 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
 
     Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
+
+    //MENU KAPASITAS PRODUKSI
+    Route::get('/KapasitasProduksi/Index', [KapasitasProduksiController::class, 'index'])->name('kp-index');
+    ROute::get('/KapasitasProduksi/{nama_pl}', [KapasitasProduksiController::class, 'detailPl'])->name('kp-detail');
+    Route::get('/KapasitasProduksi/EditKp/{id}', [KapasitasProduksiController::class, 'editData'])->name('kp.editkp');
+    Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
+    Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
+    Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
+
 });
 
 // Planner End

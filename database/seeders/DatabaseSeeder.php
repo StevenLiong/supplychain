@@ -54,9 +54,6 @@ class DatabaseSeeder extends Seeder
             'nama_role' => 'purchaser',
         ]);
 
-
-
-
         User::create([
             'name' => 'adminstd',
             'email' => 'adminstd@gmail.com',
@@ -133,6 +130,7 @@ class DatabaseSeeder extends Seeder
         $this->call(KapasitasProduksiSeeder::class);
         $this->call(LeadtimeNoFinishingSeeder::class);
         $this->call(LeadtimeWithFinishingSeeder::class);
+        $this->call(HitungKapasitasSeeder::class);
         $this->call(LeadtimeWithFinishingOltcSeeder::class);
         // $this->call(MpsSeeder::class);
 

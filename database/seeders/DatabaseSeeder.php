@@ -131,6 +131,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LeadtimeNoFinishingSeeder::class);
         $this->call(LeadtimeWithFinishingSeeder::class);
         $this->call(HitungKapasitasSeeder::class);
+        $this->call(LeadtimeWithFinishingOltcSeeder::class);
         // $this->call(MpsSeeder::class);
 
         $this->call(DivisionSeeder::class);

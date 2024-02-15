@@ -18,39 +18,20 @@
                                 <select class="custom-select" name="Workcenter_rekomendasi"
                                     id="workcenterSelect_rekomendasi">
                                     <i class="ri-arrow-down-s-line ml-2 mr-0"></i>
-                                    <option value="1">Coil Making HV</option>
-                                    <option value="2">Coil Making LV</option>
+                                    <option value="1">Coil Making LV</option>
+                                    <option value="2">Coil Making HV</option>
                                     <option value="3">Mould & Casting</option>
                                     <option value="4">Core & Assembly</option>
                                 </select>
                             </div>
                             <div class="col-md-auto">
-                                <label for="prosesSelect">Pilih Proses:</label>
-                                <select class="custom-select" name="proses"
-                                    id="prosesSelect">
-                                    <i class="ri-arrow-down-s-line ml-2 mr-0"></i>
-                                    <option value="1">Coil Making HV</option>
-                                    <option value="2">Coil Making LV</option>
-                                    <option value="3">Mould & Casting</option>
-                                    <option value="4">Core & Assembly</option>
+                                <label for="prosesSelect">Pilih Priode:</label>
+                                <select class="custom-select" name="periodeDry" id="periodeDrySelect">
+                                    <option value="1">Hari ini</option>
+                                    <option value="2">Besok</option>
+                                    <option value="3">Minggu sekarang</option>
+                                    <option value="4">Minggu Depan</option>
                                 </select>
-                            </div>
-                            <div class="col-md-auto">
-                                <label for="tipeprosesSelect">Pilih Tipe Proses:</label>
-                                <select class="custom-select" name="tipeproses"
-                                    id="tipeprosesSelect">
-                                    <i class="ri-arrow-down-s-line ml-2 mr-0"></i>
-                                    <option value="1">Coil Making HV</option>
-                                    <option value="2">Coil Making LV</option>
-                                    <option value="3">Mould & Casting</option>
-                                    <option value="4">Core & Assembly</option>
-                                </select>
-                            </div>
-                            <div class="col-md-auto ">
-                                <label for="dateSelect">Pilih range tanggal :</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control" id="dateSelect" name="date">
-                                </div>
                             </div>
                         </div>
 
@@ -59,7 +40,7 @@
                 <div class="table-responsive">
                     <div id="datatable_wrapper" class="dataTables_wrapper">
                         <table id="datatable" class="table data-table table-striped dataTable" role="grid"
-                            aria-describedby="datatable_info">
+                            aria-describedby="datatable_info" data-ordering="false">
                             <thead class="text-center ">
                                 <tr>
                                     {{-- <th rowspan="2" style="width: 150px; vertical-align: middle;">Tanggal</th> --}}
@@ -68,7 +49,7 @@
                                 </tr>
                                 <tr>
                                     <th>WO</th>
-                                    <th>Mesin</th>
+                                    {{-- <th>Mesin</th> --}}
                                     <th>Operator</th>
                                     {{-- <th>WO</th>
                                     <th>Mesin</th>
@@ -92,14 +73,27 @@
                                 {{-- <th>{{ $manpowerName }}</th> --}}
                                 {{-- </tr> --}}
                                 {{-- @endforeach --}}
+                                <!-- $woDry -->
+                                @foreach ($data['woDry'] as $woDry)
+                                    @foreach ($data['namaMP'] as $namaMP)
+                                        <tr>
+                                            <th>{{ $woDry }}</th>
+                                            <th>{{ $namaMP }}</th>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
 
-                                <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
+
+                                {{-- <tr> --}}
+                                {{-- @foreach ($data['proses'] as $gpaDry)
+                                        <th>{{ $gpaDry->wo->standardize_work->dry_cast_resin->nomor_so }}</th>
+                                    @endforeach --}}
+                                {{-- <th> {{ $data['woDry'] }}</th>
+                                    <th> {{ $data['namaMP'] }}</th>
 
 
-                                </tr>
+
+                                </tr> --}}
                                 {{-- <tr>
                                     <th>W1234567FA</th>
                                     <th>Honghua</th>
@@ -176,23 +170,23 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Mendeteksi perubahan pada dropdown
-            $('#workcenterSelect_rekomendasi').change(function() {
-                // Mengambil nilai yang dipilih
-                var selectedValue = $(this).val();
-
-                // Menyimpan nilai yang dipilih dalam localStorage
-                localStorage.setItem('selectedWorkcenter_rekomendasi', selectedValue);
-
-                // Mengirimkan formulir secara otomatis
+            // Fungsi untuk menangani perubahan pada kedua inputan
+            $('#workcenterSelect_rekomendasi, #periodeDrySelect').change(function() {
+                // Menyimpan nilai kedua inputan ke dalam local storage
+                var selectedWorkcenterValue = $('#workcenterSelect_rekomendasi').val();
+                var selectedPeriodeValue = $('#periodeDrySelect').val();
+                localStorage.setItem('selectedWorkcenter_rekomendasi', selectedWorkcenterValue);
+                localStorage.setItem('selectedPeriodeDry', selectedPeriodeValue);
+                // Mengirimkan form
                 $('#workcenterForm_rekomendasi').submit();
             });
 
-            // Memeriksa apakah ada nilai yang disimpan dalam localStorage
-            var storedValue = localStorage.getItem('selectedWorkcenter_rekomendasi');
-            if (storedValue) {
-                // Menetapkan nilai yang disimpan sebagai nilai awal dropdown
-                $('#workcenterSelect_rekomendasi').val(storedValue);
+            // Memeriksa apakah nilai sudah disimpan sebelumnya dan mengembalikannya
+            var storedWorkcenterValue = localStorage.getItem('selectedWorkcenter_rekomendasi');
+            var storedPeriodeValue = localStorage.getItem('selectedPeriodeDry');
+            if (storedWorkcenterValue && storedPeriodeValue) {
+                $('#workcenterSelect_rekomendasi').val(storedWorkcenterValue);
+                $('#periodeDrySelect').val(storedPeriodeValue);
             }
         });
     </script>

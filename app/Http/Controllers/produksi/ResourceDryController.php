@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\produksi;
 
 use App\Http\Controllers\Controller;
+use App\Models\planner\GPADry;
 use App\Models\planner\Mps;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
@@ -10,7 +11,6 @@ use App\Models\produksi\ManPower;
 use App\Models\produksi\MatriksSkill;
 use App\Models\produksi\ProductionLine;
 use Illuminate\Http\Request;
-// use Phpml\Classification\KNearestNeighbors;
 
 class ResourceDryController extends Controller
 {
@@ -18,91 +18,172 @@ class ResourceDryController extends Controller
     {
         $title1 = 'Dry - Rekomendasi';
 
-        $matrixSkills = MatriksSkill::all();
         $selectedWorkcenter_rekomendasi = $request->input('Workcenter_rekomendasi', null);
+        $selectedPeriode = $request->input('periodeDry', null);
 
+        // Memeriksa nilai Workcenter yang dipilih
         if ($selectedWorkcenter_rekomendasi === null || !in_array($selectedWorkcenter_rekomendasi, [1, 2, 3, 4])) {
             // Mengambil nilai dari local storage jika ada
             $storedValue = $request->session()->get('selectedWorkcenter_rekomendasi');
             $selectedWorkcenter_rekomendasi = ($storedValue && in_array($storedValue, [1, 2, 3, 4])) ? $storedValue : 1;
         }
 
-        switch ($selectedWorkcenter_rekomendasi) {
+        // Memeriksa nilai Periode yang dipilih
+        if ($selectedPeriode === null || !in_array($selectedPeriode, [1, 2, 3, 4])) {
+            // Mengambil nilai dari local storage jika ada
+            $storedPeriodeValue = $request->session()->get('selectedPeriodeDry');
+            $selectedPeriode = ($storedPeriodeValue && in_array($storedPeriodeValue, [1, 2, 3, 4])) ? $storedPeriodeValue : 1;
+        }
+
+        // Logika untuk menentukan label berdasarkan workcenter yang dipilih
+
+        switch ($selectedPeriode) {
             case 1:
-                $workcenterLabel = 'Coil Making HV';
+                // Hari Ini
+                $getDay = [
+                    now()->startOfDay(),
+                    now()->endOfDay(),
+                ];
                 break;
             case 2:
-                $workcenterLabel = 'Coil Making LV';
+                // Besok
+                $getDay = [
+                    now()->startOfDay()->addDay(),
+                    now()->endOfDay()->addDay(),
+                ];
                 break;
             case 3:
-                $workcenterLabel = 'Mould & Casting';
+                // Minggu Sekarang
+                $getDay = [
+                    now()->startOfWeek()->addDay(),
+                    now()->startOfWeek()->addDay(6)->endOfDay(),
+                ];
                 break;
             case 4:
-                $workcenterLabel = 'Core Coil Assembly';
+                // Minggu Depan
+                $getDay = [
+                    now()->startOfWeek()->addWeek()->addDay(),
+                    now()->endOfWeek()->addWeek()->addDay(5),
+                ];
                 break;
         }
 
+        $gpadry = GPADry::where('production_line', 'Drytype');
+
+        // Filter pertama untuk nama_workcenter 'LV Windling'
+        $gpadryfilterLV = clone $gpadry;
+        if ($getDay !== null) {
+            $gpadryfilterLV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
+                ->whereBetween('deadline', $getDay)
+                ->get();
+        } else {
+            $gpadryfilterLV = collect(); // Menghasilkan koleksi kosong jika $getDay adalah null
+        }
+
+        // Filter kedua untuk nama_workcenter 'HV Windling'
+        $gpadryfilterHV = clone $gpadry;
+        if ($getDay !== null) {
+            $gpadryfilterHV = $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
+                ->whereBetween('deadline', $getDay)
+                ->get();
+        } else {
+            $gpadryfilterHV = collect(); // Menghasilkan koleksi kosong jika $getDay adalah null
+        }
+
+
+        $manpower = MatriksSkill::all();
+
+
+        switch ($selectedWorkcenter_rekomendasi) {
+            case 1:
+                $workcenterLabel = 'Coil Making LV';
+                $woDry = $gpadryfilterLV->pluck('wo.id_wo');
+
+                // Manpower untuk potong leadwire
+                $coilLv = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.coil_lv');
+                $namaMP_coil_lv = $manpower->where('production_line', 'DRY')
+                    ->where('nama_workcenter', 'COIL MAKING LV')
+                    ->where('proses', 'COIL LV')
+                    ->whereIn('tipe_proses', $coilLv)
+                    ->where('skill', 4)
+                    ->pluck('nama_mp')->toArray();
+
+                // Manpower untuk potong leadwire
+                // $potongLeadWire = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_leadwire');
+                // $namaMP_leadwire = $manpower->where('production_line', 'DRY')
+                //     ->where('nama_workcenter', 'COIL MAKING LV')
+                //     ->where('proses', 'POTONG LEAD WIRE')
+                //     ->whereIn('tipe_proses', $potongLeadWire)
+                //     ->where('skill', 4)
+                //     ->pluck('nama_mp')->toArray();
+
+                // Manpower untuk potong isolasi
+                // $potongIsolasiArray = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_isolasi');
+                // $namaMP_potongIsolasi = [];
+                // foreach ($potongIsolasiArray as $potongIsolasi) {
+                //     $isolasiValues = explode(',', $potongIsolasi);
+                //     foreach ($isolasiValues as $isolasi) {
+                //         $namaMP_potongIsolasi = array_merge($namaMP_potongIsolasi, $manpower->where('production_line', 'DRY')
+                //             ->where('nama_workcenter', 'COIL MAKING LV')
+                //             ->where('proses', 'POTONG ISOLASI')
+                //             ->where('tipe_proses', $isolasi)
+                //             ->where('skill', 4)
+                //             ->pluck('nama_mp')->toArray());
+                //     }
+                // }
+                // $namaMP_potongIsolasi = array_unique($namaMP_potongIsolasi);
+
+                // $namaMP = array_merge($namaMP_coil_lv, $namaMP_potongIsolasi, namaMP_leadwire);
+                $namaMP = array_merge($namaMP_coil_lv);
+                $namaMP = array_unique($namaMP);
+                break;
+            case 2:
+                $workcenterLabel = 'Coil Making HV';
+                $woDry = $gpadryfilterHV->pluck('wo.id_wo');
+                // Manpower untuk coil hv
+                $coilHv = $gpadryfilterHV->pluck('wo.standardize_work.dry_cast_resin.coil_hv');
+                $namaMP_coil_hv = $manpower->where('production_line', 'DRY')
+                    ->where('nama_workcenter', 'COIL MAKING HV')
+                    ->where('proses', 'COIL HV')
+                    ->whereIn('tipe_proses', $coilHv)
+                    ->where('skill', 4)
+                    ->pluck('nama_mp')->toArray();
+
+                $namaMP = array_unique($namaMP_coil_hv);
+                break;
+            case 3:
+                $workcenterLabel = 'Mould & Casting';
+                $woDry = $gpadry->pluck('wo.id_wo');
+                $coilLvs = $gpadry->pluck('wo.standardize_work.dry_cast_resin.coil_lv');
+                $namaMP = $manpower->whereIn('tipe_proses', $coilLvs)
+                    ->where('skill', 4)
+                    ->pluck('nama_mp');
+                break;
+            case 4:
+                $workcenterLabel = 'Core Coil Assembly';
+                $woDry = $gpadry->pluck('wo.id_wo');
+                $coilLvs = $gpadry->pluck('wo.standardize_work.dry_cast_resin.coil_lv');
+                $namaMP = $manpower->whereIn('tipe_proses', $coilLvs)
+                    ->where('skill', 4)
+                    ->pluck('nama_mp');
+                // dd($namaMP);
+                break;
+        }
+
+
         $request->session()->put('selectedWorkcenter_rekomendasi', $selectedWorkcenter_rekomendasi);
+        $request->session()->put('selectedPeriodeDry', $selectedPeriode);
 
 
-        // Siapkan data untuk PHP-ML
-        // $samples = [];
-        // $targets = [];
-
-        // foreach ($matrixSkills as $matrixSkill) {
-        //     // Filter berdasarkan workcenter, kategori produk, dan proses yang diinginkan
-        //     if (
-        //         $matrixSkill->id_production_line == 5 &&
-        //         $matrixSkill->id_kategori_produk == 4 &&
-        //         $matrixSkill->id_proses == $targetProses
-        //         // Sesuaikan dengan kondisi lainnya jika diperlukan
-        //     ) {
-        //         $samples[] = [
-        //             $matrixSkill->id_production_line,
-        //             $matrixSkill->id_kategori_produk,
-        //             $matrixSkill->id_proses,
-        //             $matrixSkill->id_tipe_proses
-        //         ];
-        //         $targets[] = $matrixSkill->skill;
-        //     }
-        // }
-
-
-
-        // Buat dan latih model Knn
-        // $model = new KNearestNeighbors();
-        // $model->train($samples, $targets);
-
-        // Contoh ID manpower, Anda dapat menggantinya dengan ID yang sesuai dari request atau data lainnya
-        // $manpowerId = 5;
-
-        // Ambil data manpower berdasarkan ID
-        // $manpower = ManPower::find($manpowerId);
-
-        // if (!$manpower) {
-        //     return redirect()->route('home')->with('error', 'Manpower not found');
-        // }
-
-        // Prediksi skill menggunakan model PHP-ML
-        // $predictedSkill = $model->predict([
-        //     $manpower->id_production_line,
-        //     $manpower->id_kategori_produk,
-        //     $manpower->id_proses,
-        //     $manpower->id_tipe_proses
-        // ]);
-
-        // Mencari semua ID_MP yang sesuai dengan hasil prediksi
-        // $matchingManpowers = MatriksSkill::where('skill', '>=', $predictedSkill)->get();
-
-        // // Mendapatkan semua ID_MP dari hasil pencarian tanpa duplikasi
-        // $idMpsFromPrediction = $matchingManpowers->pluck('id_mp')->unique()->toArray();
-
-        // // Mendapatkan nama dari semua ID_MP yang sesuai dengan hasil prediksi tanpa duplikasi
-        // $manpowerNames = ManPower::whereIn('id', $idMpsFromPrediction)->pluck('nama')->toArray();
 
         $data = [
             'title1' => $title1,
             'workcenterLabel' => $workcenterLabel,
+            'getDay' => $getDay,
+            'gpadry' => $gpadry,
+            'manpower' => $manpower,
+            'woDry' => $woDry,
+            'namaMP' => $namaMP,
         ];
         return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
     }
@@ -115,7 +196,6 @@ class ResourceDryController extends Controller
         $PL = ProductionLine::all();
         $kapasitas = Kapasitas::all();
         $mps = Mps::where('production_line', 'Drytype')->get();
-        // $drycastresin = DryCastResin::all();
         $ukuran_kapasitas = Kapasitas::value('ukuran_kapasitas');
 
 
@@ -166,47 +246,35 @@ class ResourceDryController extends Controller
         $woDRY = Mps::where('production_line', 'Drytype')->pluck('id_wo');
 
         $jumlahtotalHourCoil_Making_HV = Mps::where('production_line', 'Drytype')
-            // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                // Ambil data berdasarkan jenisnya (dry_cast_resin atau dry_non_resin)
                 $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
 
                 if ($workData) {
-                    // Ambil nilai totalHour_CoreCoilAssembly dan dikali qty
                     $totalHourCoil_making_HV = $workData->hour_coil_hv ?? 0;
-
-                    // Hitung total hour Core Coil Assembly
                     return $totalHourCoil_making_HV * $item->qty_trafo;
                 } else {
-                    // Handle jika tidak ada data yang sesuai
                     return 0;
                 }
             });
 
         $jumlahtotalHourCoil_Making_LV = Mps::where('production_line', 'Drytype')
-            // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                // Ambil data berdasarkan jenisnya (dry_cast_resin atau dry_non_resin)
                 $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
 
                 if ($workData) {
-                    // Ambil nilai hour dan dikali qty
                     $hourCoilLV = $workData->hour_coil_lv ?? 0;
                     $hourPotongLeadwire = $workData->hour_potong_leadwire ?? 0;
                     $hourPotongIsolasi = $workData->hour_potong_isolasi ?? 0;
-
-                    // Hitung total hour berdasarkan jenisnya
                     return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
                 } else {
-                    // Handle jika tidak ada data yang sesuai
                     return 0;
                 }
             });
@@ -217,7 +285,6 @@ class ResourceDryController extends Controller
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                // Ambil data berdasarkan jenisnya (dry_cast_resin atau dry_non_resin)
                 $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
 
                 if ($workData) {
@@ -227,30 +294,23 @@ class ResourceDryController extends Controller
                     // Hitung total hour Mould Casting
                     return $totalHourMouldCasting * $item->qty_trafo;
                 } else {
-                    // Handle jika tidak ada data yang sesuai
                     return 0;
                 }
             });
 
         // dd($woDRY);
         $jumlahtotalHourCore_Assembly = Mps::where('production_line', 'Drytype')
-            // ->where('kva', $ukuran_kapasitas)
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDRY)
             ->get()
             ->sum(function ($item) {
-                // Ambil data berdasarkan jenisnya (dry_cast_resin atau dry_non_resin)
                 $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
 
                 if ($workData) {
-                    // Ambil nilai totalHour_CoreCoilAssembly dan dikali qty
                     $totalHourCoreCoilAssembly = $workData->totalHour_CoreCoilAssembly ?? 0;
-
-                    // Hitung total hour Core Coil Assembly
                     return $totalHourCoreCoilAssembly * $item->qty_trafo;
                 } else {
-                    // Handle jika tidak ada data yang sesuai
                     return 0;
                 }
             });

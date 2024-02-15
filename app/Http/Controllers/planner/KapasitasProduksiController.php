@@ -100,34 +100,6 @@ class KapasitasProduksiController extends Controller
         return view('planner.kapasitas_produksi.editPl', compact('dataKp'));
     }
 
-    // public function updateData(Request $request, $id)
-    // {
-    //     try {
-    //         $this->validate($request, [
-    //             'kap_produksi_drytype' => 'required|integer',
-    //             'kap_produksi_pl2' => 'required|integer',
-    //             'kap_produksi_pl3' => 'required|integer',
-    //         ]);
-
-    //         $kapProduksiDrytype = $request->kap_produksi_drytype;
-    //         dd($kapProduksiDrytype);
-    //         $kapProduksiPl2 = $request->kap_produksi_pl2;
-    //         $kapProduksiPl3 = $request->kap_produksi_pl3;
-
-    //         $editKp = PlannerKapasitasProduksi::findOrFail($id);
-
-    //         $editKp->update([
-    //             'drytype' => $kapProduksiDrytype,
-    //             'pl2' => $kapProduksiPl2,
-    //             'pl3' => $kapProduksiPl3,
-    //         ]);
-
-    //         return redirect()->route('kp-index')->with('success', 'Data Kapasitas Produksi berhasil diperbarui');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-    //     }
-    // }
-
     public function updateData(Request $request, $id){
         $this->validate($request, [
             //DryType Inputan
@@ -192,6 +164,7 @@ class KapasitasProduksiController extends Controller
         // dd($kapProduksiDryType, $kapProduksiPL2, $kapProduksiPL3);
     
         $editKp = PlannerKapasitasProduksi::findOrFail($id);
+        // dd($kapProduksiDryType);
     
         $editKp->update([
             //DryType Update
@@ -199,21 +172,21 @@ class KapasitasProduksiController extends Controller
             'output_drytype' => $request->output_drytype,
             'shift_kerja_drytype' => $request->shift_kerja_drytype,
             'jam_kerja_drytype' => $request->jam_kerja_drytype,
-            'drytype' => $kapProduksiDryType,
+            'Drytype' => $kapProduksiDryType,
 
             //PL1 & PL2 Update
             'oee_pl2' => $request->oee_pl2,
             'output_pl2' => $request->output_pl2,
             'shift_kerja_pl2' => $request->shift_kerja_pl2,
             'jam_kerja_pl2' => $request->jam_kerja_pl2,
-            'pl2' => $kapProduksiPL2,
+            'PL2' => $kapProduksiPL2,
 
             //PL3 Update
             'oee_pl3' => $request->oee_pl3,
             'output_pl3' => $request->output_pl3,
             'shift_kerja_pl3' => $request->shift_kerja_pl3,
             'jam_kerja_pl3' => $request->jam_kerja_pl3,
-            'pl3' => $kapProduksiPL3,
+            'PL3' => $kapProduksiPL3,
         ]);
     
         return redirect()->route('kp-index');

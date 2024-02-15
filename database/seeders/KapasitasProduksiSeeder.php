@@ -26,9 +26,9 @@ class KapasitasProduksiSeeder extends Seeder
 
             DB::table('kapasitas_produksis')->insert([
                 'tanggal' => $data['Tanggal'], // Sesuaikan dengan nama kolom Anda
-                'pl2' => $data['PL1&Pl2'], // Sesuaikan dengan nama kolom Anda
-                'pl3' => $data['PL3'], // Sesuaikan dengan nama kolom Anda
-                'drytype' => $data['Drytype'],
+                'PL2' => $data['PL1&Pl2'], // Sesuaikan dengan nama kolom Anda
+                'PL3' => $data['PL3'], // Sesuaikan dengan nama kolom Anda
+                'Drytype' => $data['Drytype'],
                 'oee_drytype' => $data['OEE Dry Type'],
                 'oee_pl2' => $data['OEE PL1&PL2'],
                 'oee_pl3' => $data['OEE PL3'],

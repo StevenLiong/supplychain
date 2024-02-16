@@ -24,7 +24,16 @@ class GPADryController extends Controller
     {
         $dataMps = Mps::where('id_wo', $id_wo)->first();
         $dataGpa = GPADry::where('id_wo', $id_wo)->get();
-        return view('planner.gpa.detail-gpa-dry', compact('dataMps', 'dataGpa'));
+        $keterangan = '';
+
+        // Cari keterangan yang sesuai dengan nama_workcenter 'Finishing'
+        foreach ($dataGpa as $gpa) {
+            if ($gpa->nama_workcenter === 'Finishing') {
+                $keterangan = $gpa->keterangan;
+                break;
+            }
+        }
+        return view('planner.gpa.detail-gpa-dry', compact('dataMps', 'dataGpa', 'keterangan'));
     }
 
     public function exportToExcel()
@@ -47,9 +56,11 @@ class GPADryController extends Controller
         ->select('deadline')
         ->get();
         $dataGpa = GPADry::where('id_wo', $id_wo)
-        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline', 'nama_workcenter')
+        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline', 'nama_workcenter', 'keterangan')
         ->get();
-        $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataGpa' => $dataGpa, 'dataMps' => $dataMps]);
+        // Menyimpan keterangan yang sesuai dengan workcenter "Finishing"
+        $keteranganFinishing = $dataGpa->where('nama_workcenter', 'Finishing')->first()->keterangan ?? '';
+        $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataGpa' => $dataGpa, 'dataMps' => $dataMps, 'keteranganFinishing' => $keteranganFinishing,]);
         return $pdf->download('Detail GPA Dry Type.pdf');
     }
 }

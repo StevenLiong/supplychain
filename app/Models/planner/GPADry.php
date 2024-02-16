@@ -19,6 +19,7 @@ class GPADry extends Model
         'lead_time',
         'deadline',
         'nama_workcenter',
+        'keterangan',
     ];
     use HasFactory;
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('qty_trafo');
             $table->date('deadline')->nullable();
             $table->string('nama_workcenter');
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

@@ -848,7 +848,7 @@ class MpsController extends Controller
                         }
                         else if($drycastresin->accesories == 'OLTC'){
                             foreach($leadTimeWithFinishingOltcs as $leadtimewithfinishingoltc){
-                                if($gpadrys->kva >= 800 && $gpadrys->kva <= 4000 && $leadtimewithfinishingoltc->kva == 800){
+                                if($gpadrys->kva >= 250 && $gpadrys->kva <= 4000 && $leadtimewithfinishingoltc->kva == 800){
                                     if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadline);
                                         $daysToSubtract = $leadtimewithfinishingoltc->jeda_QCTransfer; // Jumlah hari yang akan dikurangkan

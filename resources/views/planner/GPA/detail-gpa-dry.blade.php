@@ -22,6 +22,10 @@
                         <input type="text" class="form-control" name="id_wo" value="{{ $dataMps->wo->id_wo }}"required disabled>
                     </div>
                     <div class="col-md-4 mb-2">
+                        <label for="keterangan">Keterangan</label>
+                        <input type="text" class="form-control" name="keterangan" value="{{ $keterangan }}"required disabled>
+                    </div>
+                    <div class="col-md-4 mb-2">
                         <label for="production_line">Production Line</label>
                         <input type="text" class="form-control" name="production_line" value="{{ $dataMps->production_line }}"required disabled>
                     </div>

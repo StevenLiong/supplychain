@@ -159,7 +159,11 @@ class MpsController extends Controller
                     $moulding = $drycastresin->hour_hv_moulding + $drycastresin->hour_lv_moulding + $drycastresin->hour_hv_casting + $drycastresin->hour_hv_demoulding + $drycastresin->hour_lv_bobbin + $drycastresin->hour_touch_up;
                     $susun_core = $drycastresin->hour_type_susun_core + $drycastresin->hour_potong_isolasi_fiber;
                     $connection_finalassembly = $drycastresin->hour_others;
-                    $finishing = $drycastresin->hour_wiring + $drycastresin->hour_instal_housing + $drycastresin->hour_bongkar_housing + $drycastresin->hour_pembuatan_cu_link + $drycastresin->hour_accesories;
+                    $tanpaoltc = 50;
+                    $finishing = $drycastresin->hour_wiring + $drycastresin->hour_instal_housing + $drycastresin->hour_bongkar_housing + $drycastresin->hour_pembuatan_cu_link + $drycastresin->hour_accesories-$tanpaoltc;
+
+                    $finishingOltc = $drycastresin->hour_wiring + $drycastresin->hour_instal_housing + $drycastresin->hour_bongkar_housing + $drycastresin->hour_pembuatan_cu_link + $drycastresin->hour_accesories;
+
                     $hoursInDay = 8;
                     $daysToSubtractLV = $lv_windling / $hoursInDay;
                     $daysToSubtractHV = $hv_windling / $hoursInDay;
@@ -167,6 +171,7 @@ class MpsController extends Controller
                     $daysToSubtractSusunCore = $susun_core / $hoursInDay;
                     $daysToSubtractConnectionFinalassembly = $connection_finalassembly / $hoursInDay;
                     $daysToSubtractFinishing = $finishing / $hoursInDay;
+                    $daysToSubtractFinishingOltc = $finishingOltc / $hoursInDay;
                     
                     // ! Menginisiasi breakdown GPA jika tidak menggunakan finishing
                     if($daysToSubtractFinishing == 0){
@@ -509,7 +514,7 @@ class MpsController extends Controller
                     
                     // ! Menginisiasi breakdown GPA jika menggunakan finishing
                     else if ($daysToSubtractFinishing > 0){
-                        if($drycastresin->accesories != 'OLTC'){
+                        if($drycastresin->accesories != 'FAN,OLTC,LEM SPACER BLOCK/AIR GAP'){
                             foreach($leadTimeWithFinishings as $leadtimewithfinishing){
                                 if ($gpadrys->kva >= 800 && $gpadrys->kva <= 1600 && $leadtimewithfinishing->kva == 800) {
                                     if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
@@ -535,6 +540,9 @@ class MpsController extends Controller
             
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineQCTransfer;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Quality Control'){
                                         $adjustedDeadlineQCTransfer = $request->get('deadline');
@@ -560,11 +568,14 @@ class MpsController extends Controller
             
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineQC;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Finishing'){
                                         $adjustedDeadlineFinishing = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineFinishing);
-                                        $daysToSubtract = $leadtimewithfinishing->jeda_finishing + $daysToSubtractFinishing; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimewithfinishing->jeda_finishing + $daysToSubtractFinishingOltc; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -584,6 +595,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineFinishing;
+
+                                        // Menyimpan kalimat keterangan
+                                        $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Connection & Final Assembly'){
                                         $adjustedDeadlineConnectFinal = $request->get('deadline');
@@ -608,6 +622,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineConnectionFinalassembly;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Connection & Final Assembly'){
                                         $adjustedDeadlineSupplyConnectFinal = $request->get('deadline');
@@ -632,6 +649,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSupplyConnectFinal;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Susun Core'){
                                         $adjustedDeadlineSusunCore = $request->get('deadline');
@@ -656,6 +676,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSusunCore;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Moulding'){
                                         $adjustedDeadlineMoulding = $request->get('deadline');
@@ -680,6 +703,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineMoulding;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Fixing Parts & Core'){
                                         $adjustedDeadlineSupplyFixingCore = $request->get('deadline');
@@ -703,6 +729,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSupplyFixingCore;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Core'){
                                         $adjustedDeadlineCore = $request->get('deadline');
@@ -726,6 +755,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineCore;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'HV Windling'){
                                         $adjustedDeadlineHV = $request->get('deadline');
@@ -749,6 +781,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineHV;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'LV Windling'){
                                         $adjustedDeadlineLV = $request->get('deadline');
@@ -772,6 +807,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry 
                                         $gpadrys->deadline = $adjustedDeadlineLV;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Moulding'){
                                         $adjustedDeadlineSupplyMoulding = $request->get('deadline');
@@ -796,6 +834,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSupplyMoulding;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Insulation & Coil'){
                                         $adjustedDeadlineSupplyInsulationCoil = $request->get('deadline');
@@ -819,6 +860,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry 
                                         $gpadrys->deadline = $adjustedDeadlineSupplyInsulationCoil;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Insulation Paper'){
                                         $adjustedDeadlineInsPaper = $request->get('deadline');
@@ -842,11 +886,14 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry 
                                         $gpadrys->deadline = $adjustedDeadlineSupplyInsPaper;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing tidak menggunakan OLTC';
                                     }
                                 }
                             }
                         }
-                        else if($drycastresin->accesories == 'OLTC'){
+                        else if($drycastresin->accesories == 'FAN,OLTC,LEM SPACER BLOCK/AIR GAP'){
                             foreach($leadTimeWithFinishingOltcs as $leadtimewithfinishingoltc){
                                 if($gpadrys->kva >= 250 && $gpadrys->kva <= 4000 && $leadtimewithfinishingoltc->kva == 800){
                                     if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
@@ -872,6 +919,9 @@ class MpsController extends Controller
             
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineQCTransfer;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Quality Control'){
                                         $adjustedDeadlineQCTransfer = $request->get('deadline');
@@ -897,6 +947,9 @@ class MpsController extends Controller
             
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineQC;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Finishing'){
                                         $adjustedDeadlineFinishing = $request->get('deadline');
@@ -921,6 +974,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineFinishing;
+
+                                        // Menyimpan kalimat keterangan
+                                        $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Connection & Final Assembly'){
                                         $adjustedDeadlineConnectFinal = $request->get('deadline');
@@ -945,6 +1001,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineConnectionFinalassembly;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Connection & Final Assembly'){
                                         $adjustedDeadlineSupplyConnectFinal = $request->get('deadline');
@@ -969,6 +1028,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSupplyConnectFinal;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Susun Core'){
                                         $adjustedDeadlineSusunCore = $request->get('deadline');
@@ -993,6 +1055,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSusunCore;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Moulding'){
                                         $adjustedDeadlineMoulding = $request->get('deadline');
@@ -1017,6 +1082,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineMoulding;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Fixing Parts & Core'){
                                         $adjustedDeadlineSupplyFixingCore = $request->get('deadline');
@@ -1040,6 +1108,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSupplyFixingCore;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Core'){
                                         $adjustedDeadlineCore = $request->get('deadline');
@@ -1063,6 +1134,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineCore;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'HV Windling'){
                                         $adjustedDeadlineHV = $request->get('deadline');
@@ -1086,6 +1160,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineHV;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'LV Windling'){
                                         $adjustedDeadlineLV = $request->get('deadline');
@@ -1109,6 +1186,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry 
                                         $gpadrys->deadline = $adjustedDeadlineLV;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Moulding'){
                                         $adjustedDeadlineSupplyMoulding = $request->get('deadline');
@@ -1133,6 +1213,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry
                                         $gpadrys->deadline = $adjustedDeadlineSupplyMoulding;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Insulation & Coil'){
                                         $adjustedDeadlineSupplyInsulationCoil = $request->get('deadline');
@@ -1156,6 +1239,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry 
                                         $gpadrys->deadline = $adjustedDeadlineSupplyInsulationCoil;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                     elseif($workcenterDryType->nama_workcenter === 'Insulation Paper'){
                                         $adjustedDeadlineInsPaper = $request->get('deadline');
@@ -1179,6 +1265,9 @@ class MpsController extends Controller
                 
                                         // Simpan ke dalam objek GPADry 
                                         $gpadrys->deadline = $adjustedDeadlineSupplyInsPaper;
+
+                                        // Menyimpan kalimat keterangan
+                                        // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
                                     }
                                 }
                             }

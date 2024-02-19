@@ -1266,8 +1266,8 @@
                                     'CORE COIL ASSEMBLY');
                                 fillSelect('#potong_isolasi_fiber', data,
                                     'POTONG ISOLASI FIBER', 'CORE COIL ASSEMBLY');
-                                fillSelect('#qc_testing', data, 'ROUNTINE',
-                                    'QC TESTv');
+                                fillSelect('#qc_testing', data, 'QC TESTING',
+                                    'QC TEST');
                                 $('#coil_lv').on('change', function() {
                                     showSelected('coil_lv');
                                 });

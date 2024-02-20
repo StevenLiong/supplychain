@@ -10,14 +10,14 @@
             <div class="card-body">
 
                 <div class="row mb-4 align-items-center px-4">
-                    <form action="{{ route('process.periodeDry') }}" method="post" id="periodeDryForm">
+                    <form action="{{ route('process.periodeDryKebutuhan') }}" method="post" id="periodeDryKebutuhanForm">
                         @csrf
                         <div class="row align-items-center">
                             <div class="col-md-auto">
-                                <label for="periodeDrySelect">Pilih Periode:</label>
+                                <label for="periodeDryKebutuhanSelect">Pilih Periode:</label>
                             </div>
                             <div class="col-md-auto">
-                                <select class="custom-select" name="periodeDry" id="periodeDrySelect">
+                                <select class="custom-select" name="periodeDryKebutuhan" id="periodeDryKebutuhanSelect">
                                     <option value="1">Bulan Sekarang</option>
                                     <option value="2">Minggu sekarang</option>
                                     <option value="3">Minggu Depan</option>
@@ -158,22 +158,22 @@
     <script>
         $(document).ready(function() {
             // Mendeteksi perubahan pada dropdown
-            $('#periodeDrySelect').change(function() {
+            $('#periodeDryKebutuhanSelect').change(function() {
                 // Mengambil nilai yang dipilih
                 var selectedValue = $(this).val();
 
                 // Menyimpan nilai yang dipilih dalam localStorage
-                localStorage.setItem('selectedPeriodeDry', selectedValue);
+                localStorage.setItem('selectedPeriodeDryKebutuhan', selectedValue);
 
                 // Mengirimkan formulir secara otomatis
-                $('#periodeDryForm').submit();
+                $('#periodeDryKebutuhanForm').submit();
             });
 
             // Memeriksa apakah ada nilai yang disimpan dalam localStorage
-            var storedValue = localStorage.getItem('selectedPeriodeDry');
+            var storedValue = localStorage.getItem('selectedPeriodeDryKebutuhan');
             if (storedValue) {
                 // Menetapkan nilai yang disimpan sebagai nilai awal dropdown
-                $('#periodeDrySelect').val(storedValue);
+                $('#periodeDryKebutuhanSelect').val(storedValue);
             }
         });
     </script>

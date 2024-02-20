@@ -327,7 +327,7 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceDryController::class, 'dryRekomendasi']);
     Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceDryController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
     Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceDryController::class, 'dryKebutuhan'])->name('dryKebutuhan');
-    Route::post('resource_work_planning/Dry/Kebutuhan/data/process-periodeDry', [ResourceDryController::class, 'dryKebutuhan'])->name('process.periodeDry');
+    Route::post('resource_work_planning/Dry/Kebutuhan/data/process-periodeDryKebutuhan', [ResourceDryController::class, 'dryKebutuhan'])->name('process.periodeDryKebutuhan');
 
     Route::get('resource_work_planning/Repair/Rekomendasi', [ResourceRepairController::class, 'repairRekomendasi']);
     Route::get('resource_work_planning/Repair/Kebutuhan', [ResourceRepairController::class, 'repairKebutuhan'])->name('repairKebutuhan');

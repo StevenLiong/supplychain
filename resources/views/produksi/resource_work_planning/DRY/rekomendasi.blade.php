@@ -33,6 +33,14 @@
                                     <option value="4">Minggu Depan</option>
                                 </select>
                             </div>
+                            <div class="col-md-auto">
+                                <label for="shiftSelect">Shift:</label>
+                                <select class="custom-select" name="shiftDry" id="shiftDrySelect">
+                                    <option value="1">1 Shift</option>
+                                    <option value="2">2 Shift</option>
+                                    <option value="3">3 Shift</option>
+                                </select>
+                            </div>
                         </div>
 
                     </form>
@@ -43,7 +51,7 @@
                             aria-describedby="datatable_info" data-ordering="false">
                             <thead class="text-center ">
                                 <tr>
-                                    {{-- <th rowspan="2" style="width: 150px; vertical-align: middle;">Tanggal</th> --}}
+                                    <th rowspan="2" style="width: 150px; vertical-align: middle;">Tanggal</th>
                                     <th colspan="3">{{ $data['workcenterLabel'] }}</th>
                                     {{-- <th colspan="3">Coil HV</th> --}}
                                 </tr>
@@ -75,13 +83,38 @@
                                 {{-- @endforeach --}}
                                 <!-- $woDry -->
                                 @foreach ($data['woDry'] as $woDry)
-                                    @foreach ($data['namaMP'] as $namaMP)
+                                    @php
+                                        // Mendapatkan jam dari hour_coil_lv
+                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
+
+                                        // Inisialisasi variabel untuk menentukan apakah kita harus menambahkan baris baru
+                                        $addNewRow = false;
+
+                                        // Jika jam melebihi 8 jam, set addNewRow menjadi true
+                                        if ($hour > 8) {
+                                            $addNewRow = true;
+                                        }
+                                    @endphp
+
+                                    {{-- Tambahkan baris asli --}}
+                                    <tr>
+                                        <th>{{ $woDry->deadline }}</th>
+                                        <th>{{ $woDry->wo->id_wo }}</th>
+                                        {{-- <th>{{ $hour }}</th> --}}
+                                        <th>{{ $data['namaMP'][0] }}</th> {{-- Gunakan MP pertama --}}
+                                    </tr>
+
+                                    {{-- Tambahkan baris baru jika diperlukan --}}
+                                    @if ($addNewRow)
                                         <tr>
-                                            <th>{{ $woDry }}</th>
-                                            <th>{{ $namaMP }}</th>
+                                            <th>{{ date('Y-m-d', strtotime($woDry->deadline . ' +1 day')) }}</th>
+                                            <th>{{ $woDry->wo->id_wo }}</th>
+                                            {{-- <th>{{ $hour }}</th> --}}
+                                            <th>{{ $data['namaMP'][0] }}</th> {{-- Gunakan MP pertama --}}
                                         </tr>
-                                    @endforeach
+                                    @endif
                                 @endforeach
+
 
 
                                 {{-- <tr> --}}
@@ -171,12 +204,14 @@
     <script>
         $(document).ready(function() {
             // Fungsi untuk menangani perubahan pada kedua inputan
-            $('#workcenterSelect_rekomendasi, #periodeDrySelect').change(function() {
+            $('#workcenterSelect_rekomendasi, #periodeDrySelect, #shiftDrySelect').change(function() {
                 // Menyimpan nilai kedua inputan ke dalam local storage
                 var selectedWorkcenterValue = $('#workcenterSelect_rekomendasi').val();
                 var selectedPeriodeValue = $('#periodeDrySelect').val();
+                var selectedShiftValue = $('#shiftDrySelect').val();
                 localStorage.setItem('selectedWorkcenter_rekomendasi', selectedWorkcenterValue);
                 localStorage.setItem('selectedPeriodeDry', selectedPeriodeValue);
+                localStorage.setItem('selectedShiftDry', selectedShiftValue);
                 // Mengirimkan form
                 $('#workcenterForm_rekomendasi').submit();
             });
@@ -184,9 +219,11 @@
             // Memeriksa apakah nilai sudah disimpan sebelumnya dan mengembalikannya
             var storedWorkcenterValue = localStorage.getItem('selectedWorkcenter_rekomendasi');
             var storedPeriodeValue = localStorage.getItem('selectedPeriodeDry');
-            if (storedWorkcenterValue && storedPeriodeValue) {
+            var selectedShiftValue = localStorage.getItem('selectedShiftDry');
+            if (storedWorkcenterValue && storedPeriodeValue && selectedShiftValue) {
                 $('#workcenterSelect_rekomendasi').val(storedWorkcenterValue);
                 $('#periodeDrySelect').val(storedPeriodeValue);
+                $('#shiftDrySelect').val(selectedShiftValue);
             }
         });
     </script>

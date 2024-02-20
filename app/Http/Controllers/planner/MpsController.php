@@ -159,10 +159,11 @@ class MpsController extends Controller
                     $moulding = $drycastresin->hour_hv_moulding + $drycastresin->hour_lv_moulding + $drycastresin->hour_hv_casting + $drycastresin->hour_hv_demoulding + $drycastresin->hour_lv_bobbin + $drycastresin->hour_touch_up;
                     $susun_core = $drycastresin->hour_type_susun_core + $drycastresin->hour_potong_isolasi_fiber;
                     $connection_finalassembly = $drycastresin->hour_others;
+                    $finishing = $drycastresin->hour_wiring + $drycastresin->hour_instal_housing + $drycastresin->hour_bongkar_housing + $drycastresin->hour_pembuatan_cu_link + $drycastresin->hour_accesories;
                     $tanpaoltc = 50;
-                    $finishing = $drycastresin->hour_wiring + $drycastresin->hour_instal_housing + $drycastresin->hour_bongkar_housing + $drycastresin->hour_pembuatan_cu_link + $drycastresin->hour_accesories-$tanpaoltc;
-
+                    $finishingnooltc = $tanpaoltc - ($drycastresin->hour_wiring + $drycastresin->hour_instal_housing + $drycastresin->hour_bongkar_housing + $drycastresin->hour_pembuatan_cu_link + $drycastresin->hour_accesories);
                     $finishingOltc = $drycastresin->hour_wiring + $drycastresin->hour_instal_housing + $drycastresin->hour_bongkar_housing + $drycastresin->hour_pembuatan_cu_link + $drycastresin->hour_accesories;
+                    $qctest = $drycastresin->hour_qc_testing;
 
                     $hoursInDay = 8;
                     $daysToSubtractLV = $lv_windling / $hoursInDay;
@@ -171,7 +172,11 @@ class MpsController extends Controller
                     $daysToSubtractSusunCore = $susun_core / $hoursInDay;
                     $daysToSubtractConnectionFinalassembly = $connection_finalassembly / $hoursInDay;
                     $daysToSubtractFinishing = $finishing / $hoursInDay;
+                    $daysToSubtractFinishingNoOltc = $finishingnooltc / $hoursInDay;
                     $daysToSubtractFinishingOltc = $finishingOltc / $hoursInDay;
+                    $daysToSubtractQcTesting = $qctest / $hoursInDay;
+                    // dd($daysToSubtractFinishing);
+                    // dd($daysToSubtractFinishingOltc);
                     
                     // ! Menginisiasi breakdown GPA jika tidak menggunakan finishing
                     if($daysToSubtractFinishing == 0){
@@ -229,7 +234,7 @@ class MpsController extends Controller
                                 elseif($workcenterDryType->nama_workcenter === 'Finishing'){
                                     $adjustedDeadlineFinishing = $request->get('deadline');
                                     $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineFinishing);
-                                    $daysToSubtract = $leadtimenofinishing->jeda_finishing; // Jumlah hari yang akan dikurangkan
+                                    $daysToSubtract = $leadtimenofinishing->jeda_finishing + $daysToSubtractFinishing; // Jumlah hari yang akan dikurangkan
                                     $countWorkDays = 0;
                                     while ($daysToSubtract > 0) {
                                         $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -249,6 +254,9 @@ class MpsController extends Controller
             
                                     // Simpan ke dalam objek GPADry
                                     $gpadrys->deadline = $adjustedDeadlineFinishing;
+
+                                    // Menyimpan kalimat keterangan
+                                    $gpadrys->keterangan = 'Tidak Menggunakan Finishing';
                                 }
                                 elseif($workcenterDryType->nama_workcenter === 'Connection & Final Assembly'){
                                     $adjustedDeadlineConnectionFinalassembly = $request->get('deadline');
@@ -512,9 +520,10 @@ class MpsController extends Controller
                         }
                     }
                     
+                    
                     // ! Menginisiasi breakdown GPA jika menggunakan finishing
-                    else if ($daysToSubtractFinishing > 0){
-                        if($drycastresin->accesories != 'FAN,OLTC,LEM SPACER BLOCK/AIR GAP'){
+                    else if ($daysToSubtractFinishingOltc > 0 || $daysToSubtractFinishingNoOltc > 0){
+                        if($drycastresin->accesories === 'FAN'){
                             foreach($leadTimeWithFinishings as $leadtimewithfinishing){
                                 if ($gpadrys->kva >= 800 && $gpadrys->kva <= 1600 && $leadtimewithfinishing->kva == 800) {
                                     if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
@@ -547,7 +556,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Quality Control'){
                                         $adjustedDeadlineQCTransfer = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineQCTransfer);
-                                        $daysToSubtract = $leadtimewithfinishing->jeda_QC; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimewithfinishing->jeda_QC + $daysToSubtractQcTesting; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
     
                                         while ($daysToSubtract > 0) {
@@ -575,7 +584,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Finishing'){
                                         $adjustedDeadlineFinishing = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineFinishing);
-                                        $daysToSubtract = $leadtimewithfinishing->jeda_finishing + $daysToSubtractFinishingOltc; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimewithfinishing->jeda_finishing + $daysToSubtractFinishingNoOltc; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -893,7 +902,7 @@ class MpsController extends Controller
                                 }
                             }
                         }
-                        else if($drycastresin->accesories == 'FAN,OLTC,LEM SPACER BLOCK/AIR GAP'){
+                        else if($drycastresin->accesories === 'FAN,OLTC'){
                             foreach($leadTimeWithFinishingOltcs as $leadtimewithfinishingoltc){
                                 if($gpadrys->kva >= 250 && $gpadrys->kva <= 4000 && $leadtimewithfinishingoltc->kva == 800){
                                     if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
@@ -926,7 +935,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Quality Control'){
                                         $adjustedDeadlineQCTransfer = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineQCTransfer);
-                                        $daysToSubtract = $leadtimewithfinishingoltc->jeda_QC; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimewithfinishingoltc->jeda_QC + $daysToSubtractQcTesting; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
     
                                         while ($daysToSubtract > 0) {
@@ -954,7 +963,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Finishing'){
                                         $adjustedDeadlineFinishing = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineFinishing);
-                                        $daysToSubtract = $leadtimewithfinishingoltc->jeda_finishing + $daysToSubtractFinishing; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimewithfinishingoltc->jeda_finishing + $daysToSubtractFinishingOltc; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari

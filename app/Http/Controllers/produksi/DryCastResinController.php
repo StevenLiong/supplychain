@@ -36,7 +36,7 @@ class DryCastResinController extends Controller
     {
         $params = $request->validated();
 
-        $multipleFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
+        $multipleFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber', 'qc_testing'];
 
         foreach ($multipleFields as $field) {
             $multiple = $request->input($field);

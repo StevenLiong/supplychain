@@ -1356,6 +1356,9 @@
                     $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', false);
                 } else if ($(this).val() === "Tidak Menggunakan Housing") {
                     $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', true);
+                    // Mengatur kembali ke tampilan "pilih" jika sebelumnya dipilih
+                    $('#instal_housing, #bongkar_housing, #wiring').prop('checked', false);
+                    $('#instal_housing, #bongkar_housing, #wiring, #hour_instal_housing, #hour_bongkar_housing, #hour_wiring').val('');
                 }
             });
         });

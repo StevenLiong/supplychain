@@ -63,6 +63,7 @@ return new class extends Migration
             $table->string('hour_accesories')->nullable();
             $table->string('hour_potong_isolasi_fiber')->nullable();
             $table->string('hour_qc_testing')->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

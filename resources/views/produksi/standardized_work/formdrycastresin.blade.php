@@ -141,6 +141,17 @@
                                     <label>Kode Finish Good</label>
                                 </div>
                             </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <label for="Use Housing or Not">Menggunakan Housing?</label>
+                                <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                    <input type="radio" id="customRadio01" name="customRadio-11" class="custom-control-input" value="Menggunakan Housing">
+                                    <label class="custom-control-label" for="customRadio01">Ya</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                    <input type="radio" id="customRadio02" name="customRadio-11" class="custom-control-input" value="Tidak Menggunakan Housing">
+                                    <label class="custom-control-label" for="customRadio02">Tidak</label>
+                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1338,6 +1349,13 @@
                     });
                 } else {
                     resetForm();
+                }
+            });
+            $('input[type="radio"][name="customRadio-11"]').change(function() {
+                if ($(this).val() === "Menggunakan Housing") {
+                    $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', false);
+                } else if ($(this).val() === "Tidak Menggunakan Housing") {
+                    $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', true);
                 }
             });
         });

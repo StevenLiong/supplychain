@@ -34,7 +34,17 @@ class DryCastResinController extends Controller
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
+        // dd($request->input('customRadio-11'));
         $params = $request->validated();
+        
+        // Cek apakah 'customRadio-11' ada dalam permintaan
+        if ($request->has('customRadio-11')) {
+            // Jika ada, set kolom 'keterangan' dengan nilai radio button
+            $params['keterangan'] = $request->input('customRadio-11');
+        } else {
+            // Jika tidak ada, gunakan nilai default
+            $params['keterangan'] = 'Tidak Menggunakan Housing';
+        }
 
         $multipleFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber', 'qc_testing'];
 

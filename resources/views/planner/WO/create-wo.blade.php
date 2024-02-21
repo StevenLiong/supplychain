@@ -80,6 +80,19 @@
                     @enderror
                 </div>
                 <div class="col-md-6 mb-3">
+                    <label for="validationDefault01">Keterangan</label>
+                    <input type="text" class="form-control" name="keterangan" required disabled>
+                    @error('id_standardize_work')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="validationDefault01">Quantity</label>
+                    <input type="text" class="form-control" name="qty_trafo" required>
+                </div>
+                <div class="col-md-6 mb-3">
                     <label for="validationDefault01">Start Date</label>
                     <input type="date" class="form-control datepicker" name="start_date" required>
                 </div>
@@ -87,14 +100,6 @@
                     <label for="validationDefault01">Finish Date</label>
                     <input type="date" class="form-control datepicker" name="finish_date" required>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">Quantity</label>
-                    <input type="text" class="form-control" name="qty_trafo" required>
-                </div>
-                <!-- <div class="col-md-6 mb-3">
-                    <label for="validationDefault01">KVA</label>
-                    <input type="text" class="form-control" name="kva" required>
-                </div> -->
             </div>
             <div class="col text-center">
                 <button type="submit" class="btn btn-md btn-primary">Submit</button>
@@ -114,11 +119,14 @@
                 $('input[name="id_boms"]').val(data.id_boms);
                 $('input[name="id_so"]').val(data.id_so);
                 $('input[name="kva"]').val(data.kva);
+                $('input[name="keterangan"]').val(data.keterangan);
 
                 console.log(data.kd_manhour);
                 console.log(data.id_boms);
                 console.log(data.id_so);
                 console.log(data.kva);
+                console.log(data.keterangan);
+
             },
             error: function (xhr, status, error) {
                 console.log('Error fetching data:', status, error);

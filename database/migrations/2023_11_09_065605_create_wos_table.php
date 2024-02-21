@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('id_boms')->references('id_bom')->on('boms');
             $table->string('id_wo');
             $table->string('id_fg');
+            $table->string('keterangan');
             // $table->unsignedBigInteger('id_standardize_work');
             $table->foreignId('id_standardize_work')->nullable()->constrained('standardize_works');
             $table->integer('qty_trafo');

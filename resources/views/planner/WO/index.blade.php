@@ -31,7 +31,7 @@
                                     <th style="width: 1rem;text-align: center;">No</th>
                                     <th style="width: 6rem; text-align: center">Work Order Code</th>
                                     <th style="width: 6rem; text-align: center">BOM Code</th>
-                                    <th style="width: 6rem; text-align:center">Standardize Work Code</th>
+                                    <th style="width: 6rem; text-align:center">Man Hour Code</th>
                                     <th style="width: 6rem; text-align:center">ID Finish Good</th>
                                     <th style="width: 6rem; text-align:center">Sales Order</th>
                                     <th style="width: 6rem; text-align:center">Start Date</th>
@@ -59,9 +59,9 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->standardize_work->kd_manhour}}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_fg }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->id_so }}</td>
+                                    <td style="width: 3rem; text-align: center">{{ $item->qty_trafo }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->start_date)->format('d-F-Y') }}</td>
                                     <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->finish_date)->format('d-F-Y') }}</td>
-                                    <td style="width: 3rem; text-align: center">{{ $item->qty_trafo }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

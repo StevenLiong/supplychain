@@ -19,7 +19,8 @@ class Wo extends Model
         'finish_date',
         'id_fg',
         'id_wo',
-        'kva'
+        'kva',
+        'keterangan',
     ];
 
     use HasFactory;

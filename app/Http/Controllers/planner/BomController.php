@@ -35,6 +35,7 @@ class BomController extends Controller
 
         $bom = new Bom();
         $bom->id_bom = $request->get('id_bom');
+        $id_bom = $request->get('id_bom');
         $bom->qty_bom = $request->get('qty_bom');
         $bom->bom_status = "Aktif";
         // $bom->bom_status = $request->get('bom_status');
@@ -42,6 +43,11 @@ class BomController extends Controller
         // $bom->id_so = $request->get('id_so');
         $bom->id_so = $id_so;
         $bom->id_fg = $request->get('id_fg');
+
+        $cekBom = Bom::where('id_bom', $id_bom)->exists();
+        if ($cekBom) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'ID Bill of Material sudah terdaftar']);
+        }
 
         $bom->save();
     

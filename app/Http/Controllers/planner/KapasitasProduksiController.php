@@ -20,10 +20,10 @@ class KapasitasProduksiController extends Controller
         // dd($currentDate);
         $periode = $request->post('periode', null);
         // dd($periode);
-        if ($periode === null || !in_array($periode, [1, 2, 3, 4])) {
+        if ($periode === null || !in_array($periode, [1, 2, 3, 4,5,6,7,8,9,10,11,12])) {
             // Mengambil nilai dari local storage jika ada
             $storedValue = $request->session()->get('selectedPeriode');
-            $periode = ($storedValue && in_array($storedValue, [1, 2, 3, 4, 5,6,7,8,9,10,11,12])) ? $storedValue : 1;
+            $periode = ($storedValue && in_array($storedValue, [1, 2, 3, 4,5,6,7,8,9,10,11,12])) ? $storedValue : 1;
         }
 
         switch ($periode) {

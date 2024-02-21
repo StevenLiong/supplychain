@@ -41,8 +41,8 @@
                             <tr class=" justify-content-center" role="row">
                             <tr class="ligth sorting_asc" role="row" tabindex="0" aria-controls="datatable" aria-sort="ascending" aria-label="activate to sort column descending" style="width: auto;">
                                 <th style="width: 22px; text-align: center;" rowspan="2" class="text-center align-middle">Action</th>
-                                <th style="width: 30px;text-align: center;" rowspan="2">No</th>
-                                <th style="width: 30px; text-align: center" rowspan="2">Tanggal</th>
+                                <th style="width: 30px;text-align: center;" rowspan="2" class="text-center align-middle">No</th>
+                                <th style="width: 30px; text-align: center" rowspan="2" class="text-center align-middle">Tanggal</th>
                                 <th style="width: 18rem; text-align:center;" colspan="3" class="text-center align-middle">Kapasitas Produksi</th>
                             </tr>
                             <tr class="ligth" role="row" tabindex="0" aria-controls="datatable" aria-sort="ascending" aria-label="activate to sort column descending" style="width: auto;">

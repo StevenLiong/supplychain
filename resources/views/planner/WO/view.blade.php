@@ -1,33 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Work Order PDF</title>
+	<title>PDF Work Order</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-    <h2>Work Order</h2>
+	<style type="text/css">
+		table tr td,
+		table tr th{
+			font-size: 9pt;
+		}
+	</style>
+	<div>
+		<center>	
+			<img src="https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-banner-pic/7b746a35872418f5a9911c749a89bb0f.jpg" width="150px">
+		</center>
+	</div>
+	<br>
+	<center>
+        <h5>Work Order @if($dataWo->isNotEmpty()) {{ $dataWo->first()->id_wo }} @endif</h5>
+	</center>
 
-    <table border="1" cellspacing="0" cellpadding="5">
-        <thead>
+	<table class='table table-bordered'>
+    <thead>
             <tr>
-                'ID',
-            'Kode BOM',
-            'Kode WO',
-            'Kode Man Hour',
-            'Quantity Trafo',
-            'Kode SO',
-            'Start Date',
-            'Finish Date',
                 <th>No</th>
                 <th>Kode BOM</th>
                 <th>Kode WO</th>
                 <th>Kode Man Hour</th>
-                <th>Quantity Trafo</th>
                 <th>Kode SO</th>
+                <th>Quantity Trafo</th>
+                <th>KVA</th>
+                <th>Keterangan</th>
                 <th>Start Date</th>
                 <th>Finish Date</th>
-                <!-- Add other headers as needed -->
             </tr>
         </thead>
         <tbody>
@@ -36,15 +42,17 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $item->id_boms }}</td>
                     <td>{{ $item->id_wo }}</td>
-                    <td>{{ $item->id_manhour }}</td>
-                    <td>{{ $item->qty_trafo }}</td>
+                    <td>{{ $item->standardize_work->kd_manhour }}</td>
                     <td>{{ $item->id_so }}</td>
+                    <td>{{ $item->qty_trafo }}</td>
+                    <td>{{ $item->kva }}</td>
+                    <td>{{ $item->keterangan }}</td>
                     <td>{{ $item->start_date }}</td>
                     <td>{{ $item->finish_date }}</td>
-                    <!-- Add other columns as needed -->
                 </tr>
             @endforeach
         </tbody>
-    </table>
+	</table>
+
 </body>
 </html>

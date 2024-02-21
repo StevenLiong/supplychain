@@ -14,15 +14,12 @@ use App\Models\planner\GPADry;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Models\produksi\StandardizeWork;
-use Illuminate\Support\Facades\DB;
 
 class WoController extends Controller
 {
     public function index()
     {
-        // $dataWo = Wo::with('standardize_work')->get();
         $dataWo = Wo::all();
-        // $workOrders = ModelWorkOrder::with('id_standardize_work')->get();
         return view('planner.wo.index', compact('dataWo'));
     }
 
@@ -89,6 +86,7 @@ class WoController extends Controller
             'id_boms' => $databom->id_bom ?? null,
             'id_so' => $databom->id_so ?? null,
             'kva' => $standardizeWork->$dataTable->ukuran_kapasitas ?? null,
+            'keterangan' => $standardizeWork->$dataTable->keterangan ?? null,
         ];
     
         return response()->json($data);
@@ -98,12 +96,18 @@ class WoController extends Controller
     {
         $wo = new Wo();
         $wo->id_wo = $request->get('id_wo');
+        $id_wo = $request->get('id_wo');
         $wo->start_date = $request->get('start_date');
         $wo->finish_date = $request->get('finish_date');
         $wo->qty_trafo = $request->get('qty_trafo');
         $wo->kva = $request->get('kva');
         $id_fg = $request->get('id_fg');
         $wo->id_fg = $id_fg;
+
+        $cekWo = Wo::where('id_wo', $id_wo)->exists();
+        if ($cekWo) {
+            return redirect()->back()->withInput()->withErrors(['error' => 'ID WO sudah terdaftar']);
+        }
         
         $bom = Bom::where('id_fg', $id_fg)
         ->where('status_bom', 3)
@@ -154,6 +158,7 @@ class WoController extends Controller
                     $dataTable = null;
             }
             $wo->kva = $standardizeWork->$dataTable->ukuran_kapasitas;
+            $wo->keterangan = $standardizeWork->$dataTable->keterangan;
             // dd($wo->kva);
         } else {
             return redirect()->back()->withInput()->withErrors(['error' => 'Terdapat Data yang Kosong']);
@@ -221,6 +226,7 @@ class WoController extends Controller
             'bom_code' => $databom->bom_code ?? null,
             'id_so' => $databom->id_so ?? null,
             'kva' => $standardizeWork->$dataTable->ukuran_kapasitas ?? null,
+            'keterangan' =>$standardizeWork->$dataTable->keterangan ?? null,
         ];
 
         return view('planner.wo.edit-wo', compact('detailWo', 'dataBom', 'additionalData'));
@@ -280,6 +286,8 @@ class WoController extends Controller
             'id_standardize_work' => $standardizeWork->kd_manhour ?? null,
             'id_so' => $dataBom->id_so ?? null,
             'kva' => $standardizeWork->$dataTable->ukuran_kapasitas ?? null,
+            'keterangan' => $standardizeWork->$dataTable->keterangan ?? null,
+
         ];
 
         return response()->json($data);
@@ -351,6 +359,7 @@ class WoController extends Controller
             'id_fg' => $request->id_fg,
             'qty_trafo' => $request->qty_trafo,
             'kva' => $standardizeWork->$dataTable->ukuran_kapasitas,
+            'keterangan' => $standardizeWork->$dataTable->keterangan,
             'id_so' => $bom->id_so,
             'start_date' => $request->start_date,
             'finish_date' => $request->finish_date,
@@ -378,17 +387,18 @@ class WoController extends Controller
 
     public function exportToExcel()
     {
-        $dataWo = Wo::select('id_wo', 'id_boms', 'id_fg','kva' ,'qty_trafo', 'id_so', 'start_date', 'finish_date')->get(); // Ambil data Wo dari database
-        // $dataWo = Wo::all();
-        $id_wo = $dataWo->isNotEmpty() ? $dataWo->first()->id_wo : 'Kode Bom Tidak Ada';
+        $dataWo = Wo::select('id_wo', 'id_boms', 'id_fg','kva' ,'qty_trafo', 'id_so', 'start_date', 'finish_date', 'keterangan', 'id_standardize_work')->get();
+        // $manhour = $dataWo->standardize_work->kd_manhour;
+        $id_wo = $dataWo->isNotEmpty() ? $dataWo->first()->id_wo : 'Kode WO Tidak Ada';
         return Excel::download(new WoExport($dataWo), "File Work Order $id_wo .xlsx");
         // return Excel::download(new WoExport, 'Work Order.xlsx');
     }
 
     public function exportToPdf()
     {
-        $dataWo = Wo::select('id', 'id_wo', 'id_boms', 'id_standardize_work', 'qty_trafo', 'id_so', 'start_date', 'finish_date')->get(); // Ambil data Mps dari database
+        $dataWo = Wo::select('id', 'id_wo', 'id_boms', 'id_standardize_work', 'qty_trafo', 'id_so', 'start_date', 'finish_date', 'keterangan', 'kva')->get();
+        $id_wo = $dataWo->isNotEmpty() ? $dataWo->first()->id_wo : 'Kode WO Tidak Ada';
         $pdf = PDF::loadView('planner.wo.view', ['dataWo' => $dataWo]);
-        return $pdf->download('WO.pdf');
+        return $pdf->download("Work Order $id_wo .pdf");
     }
 }

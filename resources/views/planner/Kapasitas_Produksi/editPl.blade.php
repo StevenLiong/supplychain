@@ -27,7 +27,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="col-md-12 mb-3">
-                                    <label for="validationDefault01">OEE (Ubah Percentage ke Decimal Contoh 93% => 0.93)</label>
+                                    <!-- <label for="validationDefault01">OEE (Ubah Percentage ke Decimal Contoh 93% => 0.93)</label> -->
+                                    <label for="validationDefault01">OEE (Efektivitas)</label>
+                                    <br>
+                                    <h8>(Ubah Percentage ke Decimal Contoh 93% => 0.93)</h8>
                                     <input type="text" class="form-control" name="oee_drytype" value="{{ $dataKp->oee_drytype }}" required>
                                 </div>
                                 <div class="col-md-12 mb-3">
@@ -37,6 +40,9 @@
                                 <div class="col-md-12 mb-3">
                                     <label for="validationDefault01">Shift Kerja</label>
                                     <input type="text" class="form-control" name="shift_kerja_drytype" value="{{ $dataKp->shift_kerja_drytype }}" required>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <h8 class="text-center align-middle" style="font-size: 10 px;">Notes: Apabila ingin menaikkan kapasitas produksi ubah shift kerja</h8>
                                 </div>
                             </div>
                             <div class="col-md-6">

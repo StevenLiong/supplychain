@@ -118,19 +118,53 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        {{ $data['wc_Core_Assembly'] }}
+                                        {{ $data['wc_CCASusun'] }}
                                     </td>
                                     <td>
-                                        {{ $data['jumlahtotalHourCore_Assembly'] }}
+                                        {{ $data['jumlahtotalHourCCASusun'] }}
                                     </td>
                                     <td>
-                                        {{ $data['kebutuhanMPCore_Assembly'] }}
+                                        {{ $data['kebutuhanMPCCASusun'] }}
                                     </td>
                                     <td>
-                                        {{ $data['ketersediaanMPCore_Assembly'] }}
+                                        {{ $data['ketersediaanMPCCASusun'] }}
                                     </td>
                                     <td>
-                                        {{ $data['selisihMPCore_Assembly'] }}
+                                        {{ $data['selisihMPCCASusun'] }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ $data['wc_CCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['jumlahtotalHourCCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['kebutuhanMPCCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['ketersediaanMPCCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['selisihMPCCAFinishing'] }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ $data['wc_CCAConect'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['jumlahtotalHourCCAConect'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['kebutuhanMPCCAConect'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['ketersediaanMPCCAConect'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['selisihMPCCAConect'] }}
                                     </td>
                                 </tr>
 

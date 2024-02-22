@@ -29,37 +29,6 @@ class Kanbanfg extends Model
         return $this->belongsTo(Finishedgood::class, 'kode_fg', 'kd_finishedgood');
     }
 
-    // public function updateStockOnHand()
-    // {
-    //     $kode_fg = $this->kode_fg;
-
-    //     $finishedGood = Finishedgood::where('kd_finishedgood', $kode_fg)->first();
-
-    //     if ($finishedGood) {
-    //         $qty = $finishedGood->qty;
-    //         $this->stock_on_hand = $qty;
-    //     } else {
-    //         $this->stock_on_hand = 0;
-    //     }
-
-    //     $this->stock_akhir = $this->stock_on_hand - $this->peruntukan_unit;
-
-    //     if ($this->stock_akhir <= $this->max_kanban) {
-    //         $this->unit = $this->max_kanban - $this->stock_akhir;
-    //     } else {
-    //         $this->unit = 0;
-    //     }
-
-    //     if($this->unit > 0){
-    //         $this->status = 'Order';
-    //         $this->email_status = 0;
-    //     }else{
-    //         $this->status = 'Aman';
-    //     }
-
-    //     $this->save();
-    // }
-
     public function updateStockOnHand()
     {
         $kode_fg = $this->kode_fg;
@@ -81,13 +50,11 @@ class Kanbanfg extends Model
             $this->unit = 0;
         }
 
-        // Check if there's a change in the unit value
         $unitChanged = $this->isDirty('unit');
 
         if ($this->unit > 0) {
             $this->status = 'Order';
 
-            // Update email_status only if there's a change in the unit value
             if ($unitChanged) {
                 $this->email_status = 0;
             }

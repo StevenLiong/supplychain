@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MaterialPendingNotification;
+use App\Models\logistic\Material;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
@@ -22,8 +23,16 @@ class StockController extends Controller
 {
     public function indexSt()
     {
-        $detailStock = Stock::all();
+        $detailStock = Stock::with('material')->get();
+        // $stockMaterial = Material::whereIn('kd_material', $detailStock->pluck('item_code')->toArray())
+        //                 ->select('kd_material', 'jumlah')
+        //                 ->get();
+        // dd($stockMaterial);
 
+        foreach ($detailStock as $item) {
+            $stock = $item;
+            $stock->updateStockOnHand();
+        }
         return view('planner.stock.index', compact('detailStock'));
     }
     public function formUpload()

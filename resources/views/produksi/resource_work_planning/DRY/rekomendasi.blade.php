@@ -51,7 +51,7 @@
                             aria-describedby="datatable_info" data-ordering="false">
                             <thead class="text-center ">
                                 <tr>
-                                    <th rowspan="2" style="width: 150px; vertical-align: middle;">Tanggal</th>
+                                    <th rowspan="2" style="width: 200px; vertical-align: middle;">Tanggal / Waktu</th>
                                     <th colspan="3">{{ $data['workcenterLabel'] }}</th>
                                     {{-- <th colspan="3">Coil HV</th> --}}
                                 </tr>
@@ -82,51 +82,185 @@
                                 {{-- </tr> --}}
                                 {{-- @endforeach --}}
                                 <!-- $woDry -->
-                                @foreach ($data['woDry'] as $woDry)
+                                {{-- @foreach ($data['woDry'] as $woDry)
+                                {{-- <tr>
+                                    <th>{{ $woDry->deadline }}</th>
+                                    <th>{{ $woDry->wo->id_wo }}</th>
+                                    <th>{{ $hour }}</th>
+                                    <th>{{ $data['namaMP'][0] }}</th>
+                                </tr> --}}
+
+                                @foreach ($data['woDry'] as $index => $woDry)
                                     @php
-                                        // Mendapatkan jam dari hour_coil_lv
-                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
-
-                                        // Inisialisasi variabel untuk menentukan apakah kita harus menambahkan baris baru
+                                        $hour = $data['hour'][$index];
+                                        $startTime = \Carbon\Carbon::parse($woDry->deadline)
+                                            ->startOfDay()
+                                            ->setHour(8)
+                                            ->setMinute(0);
+                                        $endOfWorkingHours = \Carbon\Carbon::parse($woDry->deadline)
+                                            ->startOfDay()
+                                            ->setHour(17)
+                                            ->setMinute(0);
+                                        $breakStart = \Carbon\Carbon::parse($woDry->deadline)
+                                            ->startOfDay()
+                                            ->setHour(12)
+                                            ->setMinute(0);
+                                        $breakEnd = \Carbon\Carbon::parse($woDry->deadline)
+                                            ->startOfDay()
+                                            ->setHour(13)
+                                            ->setMinute(0);
+                                        $breakDuration = 1;
+                                        $endTime = $startTime->copy()->addHours($hour);
+                                        if ($endTime->greaterThan($endOfWorkingHours)) {
+                                            $endTime = $endOfWorkingHours;
+                                        }
+                                        $timeRange = $startTime->format('d-m-Y H:i') . ' - ' . $endTime->format(' H:i');
                                         $addNewRow = false;
-
-                                        // Jika jam melebihi 8 jam, set addNewRow menjadi true
                                         if ($hour > 8) {
                                             $addNewRow = true;
+                                            $extraHours = $hour - 8;
+                                            $endTime = $startTime->copy()->addHours(8);
+                                        }
+                                    @endphp
+                                    <tr>
+                                        <th>{{ $timeRange }} </th>
+                                        <th>{{ $woDry->wo->id_wo }}</th>
+                                        @isset($data['namaMP'][$index])
+                                            <th>{{ $data['namaMP'][$index] }}</th>
+                                        @endisset
+                                    </tr>
+                                    @if ($addNewRow)
+                                        @php
+                                            $extraHoursWithBreak = $extraHours + 1;
+                                            $additionalRows = ceil($extraHoursWithBreak / 8);
+                                            $nextDayStartTime = $startTime->copy();
+                                            $nextDayStartTime->addDay();
+                                            if ($nextDayStartTime->isWeekend()) {
+                                                $nextDayStartTime->nextWeekday();
+                                            }
+                                            $nextDayStartTime->setHour(8)->setMinute(0)->setSecond(0);
+                                            $nextEndTime = $nextDayStartTime->copy()->addHours(min($extraHoursWithBreak, 8));
+                                            if ($extraHoursWithBreak > 8) {
+                                                $nextEndTime->addHour();
+                                            }
+                                        @endphp
+                                        @for ($i = 0; $i < $additionalRows; $i++)
+                                            <tr>
+                                                <th>{{ $nextDayStartTime->format('d-m-Y H:i') }} -
+                                                    {{ $nextEndTime->format('H:i') }}</th>
+                                                <th>{{ $woDry->wo->id_wo }}</th>
+                                            </tr>
+                                            @php
+                                                $nextDayStartTime = $nextDayStartTime->copy()->addDay();
+                                                if ($nextDayStartTime->isWeekend()) {
+                                                    $nextDayStartTime->nextWeekday();
+                                                }
+                                                $nextEndTime = $nextDayStartTime->copy()->addHours(min($extraHoursWithBreak - ($i + 1) * 8, 9));
+                                            @endphp
+                                        @endfor
+                                    @endif
+                                @endforeach
+                                {{-- @foreach ($data['woDry'] as $woDry)
+                                    @php
+                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
+
+                                    @endphp
+                                    {{-- @foreach ($data['namaMP'] as $namaMP)
+                                        <tr>
+                                            <th>{{ $woDry->deadline->format('d-m-Y H:i H:i') }}</th>
+                                            <th>{{ $woDry->wo->id_wo }}</th>
+                                          <th>{{ $namaMP }}</th>
+                                        </tr>
+                                        @if ($addNewRow)
+                                            <tr>
+                                                <th>{{ $woDry->deadline->format('d-m-Y H:i') }}</th>
+                                                <th>{{ $woDry->wo->id_wo }}</th>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @endforeach --}}
+                                {{-- @foreach ($data['woDry'] as $woDry)
+                                    @php
+                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
+                                        $startTime = \Carbon\Carbon::parse('08:00');
+                                        $endOfWorkingHours = \Carbon\Carbon::parse('17:00');
+                                        $endTime = $startTime->copy()->addHours($hour);
+
+                                        // Jika waktu selesai lebih dari jam kerja, atur waktu selesai menjadi jam 17:00
+                                        if ($endTime->greaterThan($endOfWorkingHours)) {
+                                            $endTime = $endOfWorkingHours;
+                                        }
+
+                                        // Format waktu mulai dan waktu selesai dalam satu string
+                                        $timeRange = $startTime->format('d-m-Y H:i') . ' - ' . $endTime->format(' H:i');
+
+                                        // Jika waktu lebih dari 8 jam, tambahkan tabel tambahan
+                                        $addNewRow = false;
+                                        if ($hour > 8) {
+                                            $addNewRow = true;
+                                            $extraHours = $hour - 8;
+                                            $endTime = $startTime->copy()->addHours(8);
                                         }
                                     @endphp
 
-                                    {{-- Tambahkan baris asli --}}
                                     <tr>
-                                        <th>{{ $woDry->deadline }}</th>
+                                        <th>{{ $timeRange }}</th>
                                         <th>{{ $woDry->wo->id_wo }}</th>
-                                        {{-- <th>{{ $hour }}</th> --}}
-                                        <th>{{ $data['namaMP'][0] }}</th> {{-- Gunakan MP pertama --}}
                                     </tr>
 
-                                    {{-- Tambahkan baris baru jika diperlukan --}}
                                     @if ($addNewRow)
+                                        @php
+                                            // Hitung waktu mulai untuk baris tambahan
+                                            $nextDayStartTime = $startTime->copy()->addDay()->setHour(8)->setMinute(0)->setSecond(0);
+                                            $nextDayEndTime = $nextDayStartTime->copy()->addHours($extraHours);
+                                            // Format waktu mulai dan waktu selesai untuk baris tambahan
+                                            $nextDayTimeRange = $nextDayStartTime->format('d-m-Y H:i') . ' - ' . $nextDayEndTime->format(' H:i');
+                                        @endphp
                                         <tr>
-                                            <th>{{ date('Y-m-d', strtotime($woDry->deadline . ' +1 day')) }}</th>
+                                            <th>{{ $nextDayTimeRange }}</th>
                                             <th>{{ $woDry->wo->id_wo }}</th>
-                                            {{-- <th>{{ $hour }}</th> --}}
-                                            <th>{{ $data['namaMP'][0] }}</th> {{-- Gunakan MP pertama --}}
                                         </tr>
                                     @endif
                                 @endforeach
+                                @foreach ($data['woDry'] as $woDry)
+                                    @php
+                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
+                                        $startTime = \Carbon\Carbon::parse('08:00');
+                                        $endOfWorkingHours = \Carbon\Carbon::parse('17:00');
+                                        $endTime = $startTime->copy()->addHours($hour);
+
+                                        // Jika waktu selesai lebih dari jam kerja, atur waktu selesai menjadi jam 17:00
+                                        if ($endTime->greaterThan($endOfWorkingHours)) {
+                                            $endTime = $endOfWorkingHours;
+                                        }
+
+                                        // Format waktu mulai dan waktu selesai dalam satu string
+                                        $timeRange = $startTime->format('d-m-Y H:i') . ' - ' . $endTime->format(' H:i');
+
+                                        // Hitung jumlah jam tambahan jika melebihi 8 jam
+                                        $extraHours = 0;
+                                        $addNewRow = false;
+                                        if ($hour > 8) {
+                                            $addNewRow = true;
+                                            $extraHours = $hour - 8;
+                                            $endTime = $endOfWorkingHours; // Waktu selesai diset ke akhir jam kerja
+                                        }
+                                    @endphp
+
+                                    <tr>
+                                        <td>{{ $timeRange }}</td>
+                                        <td>{{ $woDry->wo->id_wo }}</td>
+                                    </tr>
+
+
+                                @endforeach --}}
 
 
 
-                                {{-- <tr> --}}
-                                {{-- @foreach ($data['proses'] as $gpaDry)
-                                        <th>{{ $gpaDry->wo->standardize_work->dry_cast_resin->nomor_so }}</th>
-                                    @endforeach --}}
-                                {{-- <th> {{ $data['woDry'] }}</th>
-                                    <th> {{ $data['namaMP'] }}</th>
 
 
 
-                                </tr> --}}
+
                                 {{-- <tr>
                                     <th>W1234567FA</th>
                                     <th>Honghua</th>
@@ -203,20 +337,15 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(document).ready(function() {
-            // Fungsi untuk menangani perubahan pada kedua inputan
             $('#workcenterSelect_rekomendasi, #periodeDrySelect, #shiftDrySelect').change(function() {
-                // Menyimpan nilai kedua inputan ke dalam local storage
                 var selectedWorkcenterValue = $('#workcenterSelect_rekomendasi').val();
                 var selectedPeriodeValue = $('#periodeDrySelect').val();
                 var selectedShiftValue = $('#shiftDrySelect').val();
                 localStorage.setItem('selectedWorkcenter_rekomendasi', selectedWorkcenterValue);
                 localStorage.setItem('selectedPeriodeDry', selectedPeriodeValue);
                 localStorage.setItem('selectedShiftDry', selectedShiftValue);
-                // Mengirimkan form
                 $('#workcenterForm_rekomendasi').submit();
             });
-
-            // Memeriksa apakah nilai sudah disimpan sebelumnya dan mengembalikannya
             var storedWorkcenterValue = localStorage.getItem('selectedWorkcenter_rekomendasi');
             var storedPeriodeValue = localStorage.getItem('selectedPeriodeDry');
             var selectedShiftValue = localStorage.getItem('selectedShiftDry');

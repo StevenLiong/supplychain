@@ -35,8 +35,7 @@
                                     <th style="width: 6rem; text-align: center">Item Name</th>
                                     <th style="width: 6rem; text-align:center">3rd Item Name</th>
                                     <th style="width: 6rem; text-align:center">Supplier</th>
-                                    <!-- <th style="width: 6rem; text-align:center; background-color: #00ff00;">ROP</th>
-                                    <th style="width: 6rem; text-align:center; background-color: #00ff00;">MAX</th> -->
+                                    <th style="width: 6rem; text-align:center">Stock On Hand</th>
                                     <th style="width: 6rem; text-align:center; background-color: #f7f702;">ROP Safety</th>
                                     <th style="width: 6rem; text-align:center; background-color: #f7f702;">MAX Safety</th>
                                     <th style="width: 6rem; text-align:center; background-color: #12b8de;">Safety Stock</th>
@@ -51,6 +50,7 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->item_name }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->tiga_item_name }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->supplier }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $item->stock_on_hand }}</td>
                                     <!-- <td style="width: 6rem; text-align: center; background-color: #00ff00;">{{ $item->rop }}</td>
                                     <td style="width: 6rem; text-align: center; background-color: #00ff00;">{{ $item->max }}</td> -->
                                     <td style="width: 6rem; text-align: center; background-color: #f7f702;">{{ $item->rop_safety }}</td>

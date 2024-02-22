@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('item_code')->references('kd_material')->on('materials');
             $table->string('item_name');
             $table->string('tiga_item_name');
+            $table->integer('stock_on_hand')->default('0');
             $table->string('supplier');
             $table->string('rop');
             $table->string('max');

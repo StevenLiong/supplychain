@@ -88,7 +88,7 @@
         <thead>
             <tr>
                 <th>Work Center</th>
-                <th>Dead Line</th>
+                <th>Start Date</th>
             </tr>
         </thead>
         <tbody>

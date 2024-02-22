@@ -10,6 +10,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\planner\WoController;
 use App\Http\Controllers\planner\BomController;
 use App\Http\Controllers\planner\MpsController;
+use App\Http\Controllers\produksi\CtController;
+use App\Http\Controllers\produksi\VtController;
 use App\Http\Controllers\logistic\RakController;
 use App\Http\Controllers\purchaser\mrController;
 use App\Http\Controllers\purchaser\poController;
@@ -19,9 +21,11 @@ use App\Http\Controllers\planner\StockController;
 use App\Http\Controllers\logistic\OrderController;
 use App\Http\Controllers\planner\GPADryController;
 use App\Http\Controllers\planner\GPAOilController;
+use App\Http\Controllers\produksi\RepairController;
 use App\Http\Controllers\logistic\CuttingController;
 use App\Http\Controllers\logistic\PickingController;
 use App\Http\Controllers\logistic\StorageController;
+use App\Http\Controllers\planner\CalendarController;
 use App\Http\Controllers\logistic\IncomingController;
 use App\Http\Controllers\logistic\MaterialController;
 use App\Http\Controllers\logistic\ServicesController;
@@ -30,29 +34,26 @@ use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\logistic\TransferController;
 use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\planner\FinishgoodController;
+use App\Http\Controllers\produksi\OilCustomController;
 use App\Http\Controllers\logistic\CycleCountController;
 use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryNonResinController;
-use App\Http\Controllers\logistic\FinishedgoodController;
-use App\Http\Controllers\logistic\StokProduksiController;
-use App\Http\Controllers\planner\KapasitasProduksiController;
-use App\Http\Controllers\produksi\DryCastResinController;
-use App\Http\Controllers\produksi\StandardizeWorkController;
-use App\Http\Controllers\planner\WorkcenterDryTypeController;
-use App\Http\Controllers\planner\WorkcenterOilTrafoController;
-use App\Http\Controllers\produksi\CtController;
-use App\Http\Controllers\produksi\OilCustomController;
 use App\Http\Controllers\produksi\OilStandardController;
-use App\Http\Controllers\produksi\RepairController;
-use App\Http\Controllers\produksi\ResourceCtVtController;
-use App\Http\Controllers\produksi\ResourceDashboardController;
 use App\Http\Controllers\produksi\ResourceDryController;
-use App\Http\Controllers\produksi\ResourceKalkulasiSDMrController;
 use App\Http\Controllers\produksi\ResourcePl2Controller;
 use App\Http\Controllers\produksi\ResourcePl3Controller;
+use App\Http\Controllers\logistic\FinishedgoodController;
+use App\Http\Controllers\logistic\StokProduksiController;
+use App\Http\Controllers\produksi\DryCastResinController;
+use App\Http\Controllers\produksi\ResourceCtVtController;
 use App\Http\Controllers\produksi\ResourceRepairController;
+use App\Http\Controllers\produksi\StandardizeWorkController;
+use App\Http\Controllers\planner\KapasitasProduksiController;
+use App\Http\Controllers\planner\WorkcenterDryTypeController;
 use App\Http\Controllers\produksi\ResourceWorkloadController;
-use App\Http\Controllers\produksi\VtController;
+use App\Http\Controllers\planner\WorkcenterOilTrafoController;
+use App\Http\Controllers\produksi\ResourceDashboardController;
+use App\Http\Controllers\produksi\ResourceKalkulasiSDMrController;
 
 Auth::routes();
 Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
@@ -234,8 +235,11 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // --EXPORT MPS--
     Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
     Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+    Route::get('/get-holiday', [CalendarController::class, 'getHolidays'])->name('get-holiday');
 
     // MENU GPA
+    // --CALENDAR--
+
     // --GPA DRY---
     Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
     Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');

@@ -49,7 +49,7 @@
                         <thead>
                             <tr class=" justify-content-center" role="row">
                                 <th style="width: 15rem;text-align: center;">Work Center</th>
-                                <th style="width: 15rem;text-align:center">Dead Line</th>
+                                <th style="width: 15rem;text-align:center">Start Date</th>
                             </tr>
                         </thead>
                         <tbody>

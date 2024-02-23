@@ -9,6 +9,7 @@ use App\Models\planner\Mps;
 use Illuminate\Http\Request;
 use App\Models\planner\GPADry;
 use App\Models\planner\GPAOil;
+use App\Models\planner\Holiday;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\produksi\DryCastResin;
 use Illuminate\Http\RedirectResponse;
@@ -141,6 +142,7 @@ class MpsController extends Controller
             $leadTimeNoFinishings = LeadtimeNofinishings::all();
             $leadTimeWithFinishings = LeadtimeWithfinishings::all();
             $leadTimeWithFinishingOltcs = LeadtimeWithfinishingoltcs::all();
+            $holidays = Holiday::pluck('date')->toArray();
 
             foreach ($workcenterDryTypes as $workcenterDryType) {
                 foreach ($drycastresin as $drycastresins) {
@@ -1044,7 +1046,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Susun Core'){
                                         $adjustedDeadlineSusunCore = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSusunCore);
-                                        $daysToSubtract = $leadtimewithfinishingoltc->jeda_susuncore + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = 20 + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -1061,9 +1063,17 @@ class MpsController extends Controller
                                         
                                         // Simpan deadline yang telah disesuaikan ke dalam variabel
                                         $adjustedDeadlineSusunCore = $adjustedDeadline;
-                
+                                        $isHoliday = Holiday::where('date', $adjustedDeadlineSusunCore)->exists();
+                                        // dd($isHoliday);
+                                        if ($isHoliday) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari lagi jika tanggal adalah hari libur
+                                            
+                                        }
+                                        
+                                        $adjustednewDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
                                         // Simpan ke dalam objek GPADry
-                                        $gpadrys->deadline = $adjustedDeadlineSusunCore;
+                                        $gpadrys->deadline = $adjustednewDeadline;
 
                                         // Menyimpan kalimat keterangan
                                         // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
@@ -1088,9 +1098,17 @@ class MpsController extends Controller
                                         
                                         // Simpan deadline yang telah disesuaikan ke dalam variabel
                                         $adjustedDeadlineMoulding = $adjustedDeadline;
-                
+                                        $isHoliday = Holiday::where('date', $adjustedDeadlineMoulding)->exists();
+                                        // dd($isHoliday);
+                                        if ($isHoliday) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari lagi jika tanggal adalah hari libur
+                                            
+                                        }
+                                        
+                                        $adjustednewDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
                                         // Simpan ke dalam objek GPADry
-                                        $gpadrys->deadline = $adjustedDeadlineMoulding;
+                                        $gpadrys->deadline = $adjustednewDeadline;
 
                                         // Menyimpan kalimat keterangan
                                         // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
@@ -1140,9 +1158,22 @@ class MpsController extends Controller
                                         
                                         // Simpan deadline yang telah disesuaikan ke dalam variabel
                                         $adjustedDeadlineCore = $adjustedDeadline;
-                
+                                        $isHoliday = Holiday::where('date', $adjustedDeadlineCore)->exists();
+                                        // dd($isHoliday);
+                                        if ($isHoliday) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari lagi jika tanggal adalah hari libur
+                                            $adjustednewDeadline1 = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                            $isHoliday1 = Holiday::where('date', $adjustednewDeadline1)->exists();
+                                            if($isHoliday1){
+                                                $adjustedDeadlineTimestamp -= 24 * 60 * 60;
+                                            }
+                                        }
+                                        
+                                        $adjustednewDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        
                                         // Simpan ke dalam objek GPADry
-                                        $gpadrys->deadline = $adjustedDeadlineCore;
+                                        $gpadrys->deadline = $adjustednewDeadline;
 
                                         // Menyimpan kalimat keterangan
                                         // $gpadrys->keterangan = 'Finishing menggunakan OLTC';
@@ -1219,9 +1250,22 @@ class MpsController extends Controller
                                         
                                         // Simpan deadline yang telah disesuaikan ke dalam variabel
                                         $adjustedDeadlineSupplyMoulding = $adjustedDeadline;
-                
+                                        $isHoliday = Holiday::where('date', $adjustedDeadlineSupplyMoulding)->exists();
+                                        // dd($isHoliday);
+                                        if ($isHoliday) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari lagi jika tanggal adalah hari libur
+                                            $adjustednewDeadline1 = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                            $isHoliday1 = Holiday::where('date', $adjustednewDeadline1)->exists();
+                                            if($isHoliday1){
+                                                $adjustedDeadlineTimestamp -= 24 * 60 * 60;
+                                            }
+                                        }
+                                        
+                                        $adjustednewDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        
                                         // Simpan ke dalam objek GPADry
-                                        $gpadrys->deadline = $adjustedDeadlineSupplyMoulding;
+                                        $gpadrys->deadline = $adjustednewDeadline;
 
                                         // Menyimpan kalimat keterangan
                                         // $gpadrys->keterangan = 'Finishing menggunakan OLTC';

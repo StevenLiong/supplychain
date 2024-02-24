@@ -174,7 +174,7 @@ class MpsController extends Controller
                     $daysToSubtractMoulding = $moulding / $hoursInDay;
                     $daysToSubtractSusunCore = $susun_core / $hoursInDay;
                     $daysToSubtractConnectionFinalassembly = $connection_finalassembly / $hoursInDay;
-                    $daysToSubtractConnectionFinallassemblyFan = $connection_finalassembly_fan / $hoursInDay;
+                    $daysToSubtractConnectionFinalassemblyFan = $connection_finalassembly_fan / $hoursInDay;
                     $daysToSubtractFinishing = $finishing / $hoursInDay;
                     $daysToSubtractFinishingNoOltc = $finishingnooltc / $hoursInDay;
                     $daysToSubtractFinishingOltc = $finishingOltc / $hoursInDay;
@@ -186,6 +186,344 @@ class MpsController extends Controller
                     if($daysToSubtractFinishing == 0){
                         foreach ($leadTimeNoFinishings as $leadtimenofinishing){
                             if($drycastresin->accesories === 'FAN'){
+                                if ($gpadrys->kva >= 800 && $gpadrys->kva <= 1600 && $leadtimenofinishing->kva == 800) {
+                                    if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadline);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_QCTransfer; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+            
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+            
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+            
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineQCTransfer = $adjustedDeadline;
+            
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineQCTransfer;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Quality Control'){
+                                        $adjustedDeadlineQCTransfer = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineQCTransfer);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_QC; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+    
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+            
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+            
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineQC = $adjustedDeadline;
+            
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineQC;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Finishing'){
+                                        $adjustedDeadlineFinishing = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineFinishing);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_finishing + $daysToSubtractFinishing; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+                
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineFinishing = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineFinishing;
+    
+                                        // Menyimpan kalimat keterangan
+                                        $gpadrys->keterangan = 'Tidak Menggunakan Finishing';
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Connection & Final Assembly'){
+                                        $adjustedDeadlineConnectionFinalassemblyFan = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineConnectionFinalassemblyFan);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_confa + $daysToSubtractConnectionFinalassemblyFan; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+                
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineConnectionFinalassemblyFan = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineConnectionFinalassemblyFan;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Supply Material Connection & Final Assembly'){
+                                        $adjustedDeadlineSupplyConnectFinal = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyConnectFinal);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_supmatconfa + $daysToSubtractConnectionFinalassembly; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+                
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineConnectFinal = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineConnectFinal;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Susun Core'){
+                                        $adjustedDeadlineSusunCore = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSusunCore);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_susuncore + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+                
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineSusunCore = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineSusunCore;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Moulding'){
+                                        $adjustedDeadlineMoulding = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineMoulding);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_mould + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+                
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineMoulding = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineMoulding;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Supply Fixing Parts & Core'){
+                                        $adjustedDeadlineSupplyFixingCore = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyFixingCore);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_supfixcore + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu) 
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++; 
+                                            }
+                                        }
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineSupplyFixingCore = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineSupplyFixingCore;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Core'){
+                                        $adjustedDeadlineCore = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineCore);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_core + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu) 
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++; 
+                                            }
+                                        }
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineCore = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineCore;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'HV Windling'){
+                                        $adjustedDeadlineHV = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineHV);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_hv + $daysToSubtractHV; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu) 
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++; 
+                                            }
+                                        }
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineHV = $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineHV;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'LV Windling'){
+                                        $adjustedDeadlineLV = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineLV);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_lv + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) { 
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu) 
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu) 
+                                            if ($currentDay < 6) { 
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur 
+                                                $countWorkDays++; 
+                                            } 
+                                        } 
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp); 
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel 
+                                        $adjustedDeadlineLV = $adjustedDeadline; 
+                
+                                        // Simpan ke dalam objek GPADry 
+                                        $gpadrys->deadline = $adjustedDeadlineLV; 
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Supply Material Moulding'){
+                                        $adjustedDeadlineSupplyMoulding = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyMoulding);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_supmatmould + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) {
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu)
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu)
+                                            if ($currentDay < 6) {
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur
+                                                $countWorkDays++;
+                                            }
+                                        }
+                
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp);
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel
+                                        $adjustedDeadlineSupplyMoulding= $adjustedDeadline;
+                
+                                        // Simpan ke dalam objek GPADry
+                                        $gpadrys->deadline = $adjustedDeadlineSupplyMoulding;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Supply Material Insulation & Coil'){
+                                        $adjustedDeadlineSupplyInsulationCoil = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyInsulationCoil);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_supmatinscoil + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) { 
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu) 
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu) 
+                                            if ($currentDay < 6) { 
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur 
+                                                $countWorkDays++; 
+                                            } 
+                                        } 
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp); 
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel 
+                                        $adjustedDeadlineSupplyInsulationCoil = $adjustedDeadline; 
+                
+                                        // Simpan ke dalam objek GPADry 
+                                        $gpadrys->deadline = $adjustedDeadlineSupplyInsulationCoil;
+                                    }
+                                    elseif($workcenterDryType->nama_workcenter === 'Insulation Paper'){
+                                        $adjustedDeadlineInsPaper = $request->get('deadline');
+                                        $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineInsPaper);
+                                        $daysToSubtract = $leadtimenofinishing->jeda_inspaper + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                                        $countWorkDays = 0;
+                                        while ($daysToSubtract > 0) { 
+                                            $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
+                                            $currentDay = date('N', $adjustedDeadlineTimestamp); // Mendapatkan hari dalam format ISO (1 untuk Senin, 7 untuk Minggu) 
+                
+                                            // Cek apakah hari saat ini bukan Sabtu atau Minggu (1 = Senin, 6 = Sabtu, 7 = Minggu) 
+                                            if ($currentDay < 6) { 
+                                                $daysToSubtract--; // Kurangi hari jika bukan hari libur 
+                                                $countWorkDays++; 
+                                            } 
+                                        } 
+                                        $adjustedDeadline = date('Y-m-d', $adjustedDeadlineTimestamp); 
+                                        
+                                        // Simpan deadline yang telah disesuaikan ke dalam variabel 
+                                        $adjustedDeadlineInsPaper = $adjustedDeadline; 
+                
+                                        // Simpan ke dalam objek GPADry 
+                                        $gpadrys->deadline = $adjustedDeadlineInsPaper;
+                                    }
+                                }
+                            }
+                            else{
                                 if ($gpadrys->kva >= 800 && $gpadrys->kva <= 1600 && $leadtimenofinishing->kva == 800) {
                                     if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadline);

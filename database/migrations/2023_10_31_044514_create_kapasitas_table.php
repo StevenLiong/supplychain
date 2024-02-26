@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kapasitas', function (Blueprint $table) {
             $table->id();
-            $table->float('ukuran_kapasitas');
+            $table->string('ukuran_kapasitas');
             $table->timestamps();
         });
     }

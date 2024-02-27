@@ -21,7 +21,9 @@
                                     <option value="1">Coil Making LV</option>
                                     <option value="2">Coil Making HV</option>
                                     <option value="3">Mould & Casting</option>
-                                    <option value="4">Core & Assembly</option>
+                                    <option value="4">Susun Core</option>
+                                    <option value="5">Connection & Final Assembly</option>
+                                    <option value="6">Finishing</option>
                                 </select>
                             </div>
                             <div class="col-md-auto">
@@ -51,46 +53,38 @@
                             aria-describedby="datatable_info" data-ordering="false">
                             <thead class="text-center ">
                                 <tr>
-                                    <th rowspan="2" style="width: 200px; vertical-align: middle;">Tanggal / Waktu</th>
+                                    <th rowspan="2" style="width: 150px; vertical-align: middle;">Tanggal</th>
+                                    <th rowspan="2" style="width: 100px; vertical-align: middle;">Jam</th>
                                     <th colspan="3">{{ $data['workcenterLabel'] }}</th>
                                     {{-- <th colspan="3">Coil HV</th> --}}
                                 </tr>
                                 <tr>
+                                    {{-- <th>Jam</th> --}}
                                     <th>WO</th>
                                     {{-- <th>Mesin</th> --}}
                                     <th>Operator</th>
+                                    {{-- @foreach ($data['newDates'] as $date)
+                                    <th>{{ $date['end'] }}</th>
+                                    <th>{{ $date['hours'] }}</th>
+                                    <th>{{ $date['wo_id'] }}</th>
+                                @endforeach --}}
+
                                     {{-- <th>WO</th>
                                     <th>Mesin</th>
                                     <th>Operator</th> --}}
                                 </tr>
                             </thead>
                             <tbody class="text-center">
-                                {{-- @foreach ($data['manpowerNames'] as $manpowerName) --}}
-                                {{-- <tr> --}}
-                                {{-- Kolom yang ingin di-merge dengan baris sebelumnya --}}
-                                {{-- <th>04/04/2002</th> --}}
-                                {{-- {{-- <th>W1234567FA</th> --}}
-                                {{-- {{-- <th>Honghua</th> --}}
+                                @foreach ($data['hasil'] as $hasil)
+                                    <tr>
+                                        <th>{{ \Carbon\Carbon::parse($hasil->end)->format('d-m-Y') }}</th>
+                                        <th>{{ $hasil->hours }}</th>
+                                        <th>{{ $hasil->wo_id }}</th>
+                                        <th>{{$hasil->nama_mp}}</th>
+                                    </tr>
+                                @endforeach
 
-                                {{-- Kolom dengan nama ManPower --}}
-                                {{-- <th>{{ $manpowerName }}</th> --}}
-
-                                {{-- Kolom tetap --}}
-                                {{-- {{-- <th>W1234567FA</th> --}}
-                                {{-- {{-- <th>Broomfield</th> --}}
-                                {{-- <th>{{ $manpowerName }}</th> --}}
-                                {{-- </tr> --}}
-                                {{-- @endforeach --}}
-                                <!-- $woDry -->
-                                {{-- @foreach ($data['woDry'] as $woDry)
-                                {{-- <tr>
-                                    <th>{{ $woDry->deadline }}</th>
-                                    <th>{{ $woDry->wo->id_wo }}</th>
-                                    <th>{{ $hour }}</th>
-                                    <th>{{ $data['namaMP'][0] }}</th>
-                                </tr> --}}
-
-                                @foreach ($data['woDry'] as $index => $woDry)
+                                {{-- @foreach ($data['woDry'] as $index => $woDry)
                                     @php
                                         $hour = $data['hour'][$index];
                                         $startTime = \Carbon\Carbon::parse($woDry->deadline)
@@ -109,12 +103,12 @@
                                             ->startOfDay()
                                             ->setHour(13)
                                             ->setMinute(0);
-                                        $breakDuration = 1;
                                         $endTime = $startTime->copy()->addHours($hour);
                                         if ($endTime->greaterThan($endOfWorkingHours)) {
                                             $endTime = $endOfWorkingHours;
                                         }
-                                        $timeRange = $startTime->format('d-m-Y H:i') . ' - ' . $endTime->format(' H:i');
+
+                                        $timeRange = $startTime->format('d-m-Y H:i') . ' - ' . $endTime->format('H:i');
                                         $addNewRow = false;
                                         if ($hour > 8) {
                                             $addNewRow = true;
@@ -125,9 +119,6 @@
                                     <tr>
                                         <th>{{ $timeRange }} </th>
                                         <th>{{ $woDry->wo->id_wo }}</th>
-                                        @isset($data['namaMP'][$index])
-                                            <th>{{ $data['namaMP'][$index] }}</th>
-                                        @endisset
                                     </tr>
                                     @if ($addNewRow)
                                         @php
@@ -156,178 +147,12 @@
                                                     $nextDayStartTime->nextWeekday();
                                                 }
                                                 $nextEndTime = $nextDayStartTime->copy()->addHours(min($extraHoursWithBreak - ($i + 1) * 8, 9));
+
                                             @endphp
                                         @endfor
                                     @endif
-                                @endforeach
-                                {{-- @foreach ($data['woDry'] as $woDry)
-                                    @php
-                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
-
-                                    @endphp
-                                    {{-- @foreach ($data['namaMP'] as $namaMP)
-                                        <tr>
-                                            <th>{{ $woDry->deadline->format('d-m-Y H:i H:i') }}</th>
-                                            <th>{{ $woDry->wo->id_wo }}</th>
-                                          <th>{{ $namaMP }}</th>
-                                        </tr>
-                                        @if ($addNewRow)
-                                            <tr>
-                                                <th>{{ $woDry->deadline->format('d-m-Y H:i') }}</th>
-                                                <th>{{ $woDry->wo->id_wo }}</th>
-                                            </tr>
-                                        @endif
-                                    @endforeach
                                 @endforeach --}}
-                                {{-- @foreach ($data['woDry'] as $woDry)
-                                    @php
-                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
-                                        $startTime = \Carbon\Carbon::parse('08:00');
-                                        $endOfWorkingHours = \Carbon\Carbon::parse('17:00');
-                                        $endTime = $startTime->copy()->addHours($hour);
-
-                                        // Jika waktu selesai lebih dari jam kerja, atur waktu selesai menjadi jam 17:00
-                                        if ($endTime->greaterThan($endOfWorkingHours)) {
-                                            $endTime = $endOfWorkingHours;
-                                        }
-
-                                        // Format waktu mulai dan waktu selesai dalam satu string
-                                        $timeRange = $startTime->format('d-m-Y H:i') . ' - ' . $endTime->format(' H:i');
-
-                                        // Jika waktu lebih dari 8 jam, tambahkan tabel tambahan
-                                        $addNewRow = false;
-                                        if ($hour > 8) {
-                                            $addNewRow = true;
-                                            $extraHours = $hour - 8;
-                                            $endTime = $startTime->copy()->addHours(8);
-                                        }
-                                    @endphp
-
-                                    <tr>
-                                        <th>{{ $timeRange }}</th>
-                                        <th>{{ $woDry->wo->id_wo }}</th>
-                                    </tr>
-
-                                    @if ($addNewRow)
-                                        @php
-                                            // Hitung waktu mulai untuk baris tambahan
-                                            $nextDayStartTime = $startTime->copy()->addDay()->setHour(8)->setMinute(0)->setSecond(0);
-                                            $nextDayEndTime = $nextDayStartTime->copy()->addHours($extraHours);
-                                            // Format waktu mulai dan waktu selesai untuk baris tambahan
-                                            $nextDayTimeRange = $nextDayStartTime->format('d-m-Y H:i') . ' - ' . $nextDayEndTime->format(' H:i');
-                                        @endphp
-                                        <tr>
-                                            <th>{{ $nextDayTimeRange }}</th>
-                                            <th>{{ $woDry->wo->id_wo }}</th>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                                @foreach ($data['woDry'] as $woDry)
-                                    @php
-                                        $hour = $woDry->wo->standardize_work->dry_cast_resin->hour_coil_lv;
-                                        $startTime = \Carbon\Carbon::parse('08:00');
-                                        $endOfWorkingHours = \Carbon\Carbon::parse('17:00');
-                                        $endTime = $startTime->copy()->addHours($hour);
-
-                                        // Jika waktu selesai lebih dari jam kerja, atur waktu selesai menjadi jam 17:00
-                                        if ($endTime->greaterThan($endOfWorkingHours)) {
-                                            $endTime = $endOfWorkingHours;
-                                        }
-
-                                        // Format waktu mulai dan waktu selesai dalam satu string
-                                        $timeRange = $startTime->format('d-m-Y H:i') . ' - ' . $endTime->format(' H:i');
-
-                                        // Hitung jumlah jam tambahan jika melebihi 8 jam
-                                        $extraHours = 0;
-                                        $addNewRow = false;
-                                        if ($hour > 8) {
-                                            $addNewRow = true;
-                                            $extraHours = $hour - 8;
-                                            $endTime = $endOfWorkingHours; // Waktu selesai diset ke akhir jam kerja
-                                        }
-                                    @endphp
-
-                                    <tr>
-                                        <td>{{ $timeRange }}</td>
-                                        <td>{{ $woDry->wo->id_wo }}</td>
-                                    </tr>
-
-
-                                @endforeach --}}
-
-
-
-
-
-
-
-                                {{-- <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr> --}}
-                                {{-- <tr>
-                                    <th rowspan="3">04/04/2002</th>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA</th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th rowspan="3">04/04/2002</th>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr>
-                                <tr>
-                                    <th>W1234567FA</th>
-                                    <th>Honghua</th>
-                                    <th>Widia</th>
-                                    <th>W1234567FA
-                                    </th>
-                                    <th>Broomfield</th>
-                                    <th>Nia</th>
-                                </tr> --}}
-
                             </tbody>
-
                         </table>
                     </div>
                 </div>

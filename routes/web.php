@@ -39,7 +39,6 @@ use App\Http\Controllers\logistic\CycleCountController;
 use App\Http\Controllers\logistic\MaterialRakController;
 use App\Http\Controllers\produksi\DryNonResinController;
 use App\Http\Controllers\produksi\OilStandardController;
-use App\Http\Controllers\produksi\ResourceDryController;
 use App\Http\Controllers\produksi\ResourcePl2Controller;
 use App\Http\Controllers\produksi\ResourcePl3Controller;
 use App\Http\Controllers\logistic\FinishedgoodController;
@@ -53,6 +52,8 @@ use App\Http\Controllers\planner\WorkcenterDryTypeController;
 use App\Http\Controllers\produksi\ResourceWorkloadController;
 use App\Http\Controllers\planner\WorkcenterOilTrafoController;
 use App\Http\Controllers\produksi\ResourceDashboardController;
+use App\Http\Controllers\produksi\ResourceDryKebutuhanController;
+use App\Http\Controllers\produksi\ResourceDryRekomendasiController;
 use App\Http\Controllers\produksi\ResourceKalkulasiSDMrController;
 
 Auth::routes();
@@ -328,10 +329,10 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('resource_work_planning/CT-VT/Kebutuhan', [ResourceCtVtController::class, 'ctvtKebutuhan'])->name('ctvtKebutuhan');
     Route::post('resource_work_planning/CT-VT/Kebutuhan/data/process.periodeCTVT', [ResourceCtVtController::class, 'ctvtKebutuhan'])->name('process.periodeCTVT');
 
-    Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceDryController::class, 'dryRekomendasi']);
-    Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceDryController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
-    Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceDryController::class, 'dryKebutuhan'])->name('dryKebutuhan');
-    Route::post('resource_work_planning/Dry/Kebutuhan/data/process-periodeDryKebutuhan', [ResourceDryController::class, 'dryKebutuhan'])->name('process.periodeDryKebutuhan');
+    Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceDryRekomendasiController::class, 'dryRekomendasi']);
+    Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceDryRekomendasiController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
+    Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceDryKebutuhanController::class, 'dryKebutuhan'])->name('dryKebutuhan');
+    Route::post('resource_work_planning/Dry/Kebutuhan/data/process-periodeDryKebutuhan', [ResourceDryKebutuhanController::class, 'dryKebutuhan'])->name('process.periodeDryKebutuhan');
 
     Route::get('resource_work_planning/Repair/Rekomendasi', [ResourceRepairController::class, 'repairRekomendasi']);
     Route::get('resource_work_planning/Repair/Kebutuhan', [ResourceRepairController::class, 'repairKebutuhan'])->name('repairKebutuhan');

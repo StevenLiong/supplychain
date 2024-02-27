@@ -135,23 +135,6 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        {{ $data['wc_CCAFinishing'] }}
-                                    </td>
-                                    <td>
-                                        {{ $data['jumlahtotalHourCCAFinishing'] }}
-                                    </td>
-                                    <td>
-                                        {{ $data['kebutuhanMPCCAFinishing'] }}
-                                    </td>
-                                    <td>
-                                        {{ $data['ketersediaanMPCCAFinishing'] }}
-                                    </td>
-                                    <td>
-                                        {{ $data['selisihMPCCAFinishing'] }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
                                         {{ $data['wc_CCAConect'] }}
                                     </td>
                                     <td>
@@ -165,6 +148,23 @@
                                     </td>
                                     <td>
                                         {{ $data['selisihMPCCAConect'] }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{ $data['wc_CCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['jumlahtotalHourCCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['kebutuhanMPCCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['ketersediaanMPCCAFinishing'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['selisihMPCCAFinishing'] }}
                                     </td>
                                 </tr>
 

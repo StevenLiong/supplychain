@@ -215,7 +215,7 @@ class MpsController extends Controller
                                 elseif($workcenterDryType->nama_workcenter === 'Quality Control'){
                                     $adjustedDeadlineQCTransfer = $request->get('deadline');
                                     $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineQCTransfer);
-                                    $daysToSubtract = 4; // Jumlah hari yang akan dikurangkan
+                                    $daysToSubtract = $leadtimenofinishing->jeda_QC + $daysToSubtractQcTesting; // Jumlah hari yang akan dikurangkan
                                     $countWorkDays = 0;
 
                                     while ($daysToSubtract > 0) {

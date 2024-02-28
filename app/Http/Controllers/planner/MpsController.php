@@ -21,6 +21,7 @@ use App\Models\planner\WorkcenterOilTrafo;
 use App\Models\planner\LeadtimeNofinishings;
 use App\Models\planner\LeadtimeWithfinishings;
 use Database\Seeders\WorkcenterOilTrafoSeeder;
+use App\Models\planner\LeadtimeNofinishingfans;
 use App\Models\planner\LeadtimeWithfinishingoltcs;
 
 class MpsController extends Controller
@@ -140,6 +141,7 @@ class MpsController extends Controller
             $workcenterDryTypes = WorkcenterDryType::all();
             $drycastresin = $wo->standardize_work->dry_cast_resin;
             $leadTimeNoFinishings = LeadtimeNofinishings::all();
+            $leadTimeNoFinishingFans = LeadtimeNofinishingfans::all();
             $leadTimeWithFinishings = LeadtimeWithfinishings::all();
             $leadTimeWithFinishingOltcs = LeadtimeWithfinishingoltcs::all();
             $holidays = Holiday::pluck('date')->toArray();
@@ -528,12 +530,12 @@ class MpsController extends Controller
 
                     // ! Menginisiasi breakdown GPA jika tidak menggunakan finishing tetapi menggunakan FAN
                     else if($daysToSubtractFinishing > 0){
-                        foreach ($leadTimeNoFinishings as $leadtimenofinishing){
+                        foreach ($leadTimeNoFinishingFans as $leadtimenofinishingfan){
                             if($drycastresin->accesories == "FAN"){
-                                if ($gpadrys->kva >= 800 && $gpadrys->kva <= 1600 && $leadtimenofinishing->kva == 800) {
+                                if ($gpadrys->kva >= 800 && $gpadrys->kva <= 1600 && $leadtimenofinishingfan->kva == 800) {
                                     if($workcenterDryType->nama_workcenter === 'Quality Control Transfer Gudang'){
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadline);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_QCTransfer; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_QCTransfer; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
             
                                         while ($daysToSubtract > 0) {
@@ -558,7 +560,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Quality Control'){
                                         $adjustedDeadlineQCTransfer = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineQCTransfer);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_QC; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_QC; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
     
                                         while ($daysToSubtract > 0) {
@@ -583,7 +585,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Finishing'){
                                         $adjustedDeadlineFinishing = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineFinishing);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_finishing + $daysToSubtractFinishing; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_finishing + $daysToSubtractFinishing; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -610,7 +612,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Connection & Final Assembly'){
                                         $adjustedDeadlineConnectionFinalassemblyFan = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineConnectionFinalassemblyFan);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_confa + $daysToSubtractConnectionFinalassemblyFan; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_confa + $daysToSubtractConnectionFinalassemblyFan; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -634,7 +636,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Connection & Final Assembly'){
                                         $adjustedDeadlineSupplyConnectFinal = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyConnectFinal);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_supmatconfa + $daysToSubtractConnectionFinalassembly; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_supmatconfa + $daysToSubtractConnectionFinalassembly; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -658,7 +660,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Susun Core'){
                                         $adjustedDeadlineSusunCore = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSusunCore);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_susuncore + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_susuncore + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -682,7 +684,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Moulding'){
                                         $adjustedDeadlineMoulding = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineMoulding);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_mould + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_mould + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -706,7 +708,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Fixing Parts & Core'){
                                         $adjustedDeadlineSupplyFixingCore = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyFixingCore);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_supfixcore + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_supfixcore + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -729,7 +731,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Core'){
                                         $adjustedDeadlineCore = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineCore);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_core + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_core + $daysToSubtractSusunCore; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -752,7 +754,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'HV Windling'){
                                         $adjustedDeadlineHV = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineHV);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_hv + $daysToSubtractHV; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_hv + $daysToSubtractHV; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -775,7 +777,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'LV Windling'){
                                         $adjustedDeadlineLV = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineLV);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_lv + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_lv + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) { 
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -798,7 +800,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Moulding'){
                                         $adjustedDeadlineSupplyMoulding = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyMoulding);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_supmatmould + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_supmatmould + $daysToSubtractMoulding; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) {
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -822,7 +824,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Supply Material Insulation & Coil'){
                                         $adjustedDeadlineSupplyInsulationCoil = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineSupplyInsulationCoil);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_supmatinscoil + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_supmatinscoil + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) { 
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari
@@ -845,7 +847,7 @@ class MpsController extends Controller
                                     elseif($workcenterDryType->nama_workcenter === 'Insulation Paper'){
                                         $adjustedDeadlineInsPaper = $request->get('deadline');
                                         $adjustedDeadlineTimestamp = strtotime($adjustedDeadlineInsPaper);
-                                        $daysToSubtract = $leadtimenofinishing->jeda_inspaper + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
+                                        $daysToSubtract = $leadtimenofinishingfan->jeda_inspaper + $daysToSubtractLV; // Jumlah hari yang akan dikurangkan
                                         $countWorkDays = 0;
                                         while ($daysToSubtract > 0) { 
                                             $adjustedDeadlineTimestamp -= 24 * 60 * 60; // Kurangi satu hari

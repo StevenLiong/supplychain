@@ -27,40 +27,31 @@ class DetailBomExport implements FromCollection, WithHeadings, ShouldAutoSize, W
 
     public function collection()
     {
-        return $this->dataBom;
-    }
+        // return $this->dataBom;
+        $counter = 1;
 
-    // public function registerEvents(): array
-    // {
-    //     return [
-    //         AfterSheet::class => function(AfterSheet $event) {
-    //             $lastColumn = $event->sheet->getHighestColumn();
-    //             $lastRow = $event->sheet->getHighestRow();
-        
-    //             $range = 'A1:' . $lastColumn . $lastRow;
-        
-    //             $event->sheet->getStyle($range)->applyFromArray([
-    //                 'borders' => [
-    //                     'allBorders' => [
-    //                         'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
-    //                         'color' => ['argb' => '#000000'],
-    //                     ],
-    //                 ],
-    //             ]);
-    //         }
-    //     ];
-    // }
+        return collect($this->dataBom)->map(function ($row) use (&$counter) {
+            return [
+                'Nomor' => $counter++,
+                'nama_workcenter' => $row['nama_workcenter'],
+                'id_materialbom' => $row['id_materialbom'],
+                'nama_material' => $row['nama_materialbom'],
+                'uom' => $row['uom_material'],
+                'usage_material' => $row['usage_material'],
+                'keterangan' => $row['keterangan'],
+            ];
+        });
+    }
 
     public function headings(): array
     {
         return [
-            'No',
-            'Kode Bill of Material',
+            'Nomor',
             'Nama Work Center',
             'Kode Material',
             'Nama Material',
             'UOM',
-            'Quantity',
+            'Usage Material',
             'Keterangan',
         ];
     }

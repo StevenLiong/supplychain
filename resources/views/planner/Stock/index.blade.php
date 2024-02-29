@@ -51,8 +51,6 @@
                                     <td style="width: 6rem; text-align: center">{{ $item->tiga_item_name }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->supplier }}</td>
                                     <td style="width: 6rem; text-align: center">{{ $item->stock_on_hand }}</td>
-                                    <!-- <td style="width: 6rem; text-align: center; background-color: #00ff00;">{{ $item->rop }}</td>
-                                    <td style="width: 6rem; text-align: center; background-color: #00ff00;">{{ $item->max }}</td> -->
                                     <td style="width: 6rem; text-align: center; background-color: #f7f702;">{{ $item->rop_safety }}</td>
                                     <td style="width: 6rem; text-align: center; background-color: #f7f702;">{{ $item->max_safety }}</td>
                                     <td style="width: 6rem; text-align: center; background-color: #12b8de;">{{ $item->safety_stock }}</td>

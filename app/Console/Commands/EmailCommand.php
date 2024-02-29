@@ -1,12 +1,13 @@
 <?php
 namespace App\Console\Commands;
-use App\Models\planner\Detailbom; // Adjust namespace and model accordingly
+use App\Models\planner\Detailbom;
 use App\Models\planner\Stock;
 use App\Models\planner\Material;
 use App\Mail\MaterialPendingNotification;
 use App\Models\purchaser\pesanan;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Console\Command;
+use Carbon\Carbon;
 
 class EmailCommand extends Command
 {
@@ -29,7 +30,8 @@ class EmailCommand extends Command
                     $emailDelay = (strtolower($stockInfo->supplier) == 'lokal') ? 2 : 7;
                 }
     
-                $daysDifference = now()->diffInDays($material->last_kirim_email);
+                $daysDifference = Carbon::now()->diffInDays($material->last_kirim_email);
+                // $daysDifference = now();
                 if($daysDifference > 7)
                 {
                     $daysDifference = 0;
@@ -76,7 +78,7 @@ class EmailCommand extends Command
         ));
 
         $material->update(['email_status' => 1, 'last_kirim_email' => now()]);
-        $this->info('Email reminder task completed111.');
+        $this->info('Email reminder task completed.');
 
     }
 }

@@ -5,23 +5,11 @@ namespace App\Http\Controllers\planner;
 use App\Exports\FgExport;
 use App\Imports\FinishgoodImport;
 use App\Mail\FinishGoodNotification;
-use App\Models\planner\Stock;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\MaterialPendingNotification;
-use App\Models\logistic\Finishedgood;
-use App\Models\planner\Fgoods;
 use App\Models\planner\Kanbanfg;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\DB;
 
 class FinishgoodController extends Controller
 {

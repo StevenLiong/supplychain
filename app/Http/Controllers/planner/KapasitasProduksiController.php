@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers\planner;
 
-use App\Models\planner\Hitung_kapasitas;
 use App\Models\planner\KapasitasProduksi as PlannerKapasitasProduksi;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use Ramsey\Uuid\Type\Integer;
 use Carbon\Carbon;
 
 class KapasitasProduksiController extends Controller
 {
     public function index(Request $request)
     {
-        // $dataKapasitas = PlannerKapasitasProduksi::all();
-        // $dataPerhitungan = Hitung_kapasitas::all();
-        $currentDate = Carbon::now(); // Mendapatkan tanggal saat ini
-        $currentYear = date('Y'); // Mendapatkan tahun saat ini
+
+        $currentDate = Carbon::now();
+        $currentYear = date('Y');
         // dd($currentDate);
         $periode = $request->post('periode', null);
         // dd($periode);

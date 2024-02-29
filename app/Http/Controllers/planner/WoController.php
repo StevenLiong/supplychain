@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\planner;
 
 use PDF;
-use Excel;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\WoExport;
-use App\Exports\PdfExport;
 use App\Models\planner\Bom;
 use App\Models\planner\Wo;
 use App\Models\planner\Mps;

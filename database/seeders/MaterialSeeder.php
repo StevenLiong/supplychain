@@ -110,6 +110,12 @@ class MaterialSeeder extends Seeder
                 'satuan' => 'Pcs',
                 'jumlah' => 546,
             ],
+            [
+                'kd_material' => 'RTBT06021',
+                'nama_material' => 'Tanki Complete Set D3 (A4-4)3Ph 25kVA Yzn-5 Type.4 WCRAL 7023',
+                'satuan' => 'Pcs',
+                'jumlah' => 80,
+            ],
         ];
 
         foreach ($data as $materialData) {

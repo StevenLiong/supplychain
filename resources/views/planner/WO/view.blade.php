@@ -13,7 +13,6 @@
 	</style>
 	<div>
 		<center>	
-			<!-- <img src="https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-banner-pic/7b746a35872418f5a9911c749a89bb0f.jpg" width="150px"> -->
             <img src="{{ public_path('assets/LogoTrafoindo.png') }}" width="200px">
 		</center>
 	</div>

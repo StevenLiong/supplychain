@@ -1,5 +1,5 @@
 <?php
-
+//GANTI KETERANGAN JADI READY STOCK
 namespace App\Http\Controllers\planner;
 
 use PDF;
@@ -12,23 +12,18 @@ use App\Models\planner\Material;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Redirect;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MaterialPendingNotification;
 use App\Models\purchaser\pesanan;
-use Illuminate\Support\Facades\Cache;
-use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class DetailbomController extends Controller
 {
-
     public function index()
     {
         $detailBom = Detailbom::all();
-
+        $dataBom = Bom::all();
 
         return view('planner.bom.index', compact('dataBom', 'detailBom'));
     }
@@ -54,7 +49,7 @@ class DetailbomController extends Controller
             ->where('submitted', true)
             ->get();
 
-        $statusAndKeterangan = $this->getStatusAndKeterangan($detailbom, $id_bom);
+        $statusAndKeterangan = $this->getStatusAndKeterangan($detailbom, $id_bom, $dataBom);
         $status = $statusAndKeterangan['status'];
         $keterangan = $statusAndKeterangan['keterangan'];
 
@@ -73,6 +68,7 @@ class DetailbomController extends Controller
             'submittedDetailBom' => $submittedDetailBom,
         ]);
     }
+    
     public function formUpload($idBom)
     {
         $bom = Bom::find($idBom);
@@ -172,11 +168,6 @@ class DetailbomController extends Controller
             'usage_material' => $usagematerial,
             'email_status' => 0,
         ]);
-
-        // dd([
-        //     'CEKCEK' => $detailbomItem->getAttributes(),
-        // ]);
-
         return redirect()->route('bom.detailbom', ['id_bom' => $idBom]);
     }
 
@@ -200,22 +191,62 @@ class DetailbomController extends Controller
             }
 
             $material = Material::where('kd_material', $detailbom->id_materialbom)->first();
+            // dd($material);
 
-            if (!$material) {
-                $detailbom->db_status = 0;
-                $detailbom->keterangan = "Material tidak ditemukan";
+            if ($material && (Str::startsWith($material->nama_material, 'Fixing Part') || Str::startsWith($material->nama_material, 'Tanki'))) {
+                $detailbom->db_status = 1;
+                $detailbom->keterangan = "Material Ready Stock";
             } else {
-                $usageMaterial = $detailbom->usage_material;
-                $materialQty = $material->jumlah;
-
-                if ($usageMaterial > $materialQty) {
+                if (!$material) {
                     $detailbom->db_status = 0;
-                    $detailbom->keterangan = "Terdapat material kurang";
+                    $detailbom->keterangan = "Material tidak ditemukan";
                 } else {
-                    $detailbom->db_status = 1;
-                    $detailbom->keterangan = "Material BOM Sudah Cukup";
+                    $usageMaterial = $detailbom->usage_material;
+                    $materialQty = $material->jumlah - $material->booked;
+    
+                    if ($usageMaterial > $materialQty) {
+                        $detailbom->db_status = 0;
+                        $detailbom->keterangan = "Terdapat material kurang";
+                    } else {
+                        $detailbom->db_status = 1;
+                        $detailbom->keterangan = "Material Ready Stock";
+                    }
                 }
             }
+
+            // if (!$material) {
+            //     $detailbom->db_status = 0;
+            //     $detailbom->keterangan = "Material tidak ditemukan";
+            // } else {
+            //     $usageMaterial = $detailbom->usage_material;
+            //     $materialQty = $material->booked;
+            //     // $materialQty = $material->jumlah;
+
+            //     if ($usageMaterial > $materialQty) {
+            //         $detailbom->db_status = 0;
+            //         $detailbom->keterangan = "Terdapat material kurang";
+            //     } else {
+            //         $detailbom->db_status = 1;
+            //         $detailbom->keterangan = "Material BOM Sudah Cukup";
+            //     }
+            // }
+            // ===============================================
+            // if (!$material) {
+            //     $detailbom->db_status = 0;
+            //     $detailbom->keterangan = "Material tidak ditemukan";
+            // } else {
+            //     $usageMaterial = $detailbom->usage_material;
+            //     $materialQty = $material->jumlah - $material->booked;
+            //     // dd($materialQty);
+            //     // $materialQty = $material->jumlah;
+            //     if ($usageMaterial > $materialQty) {
+            //         $detailbom->db_status = 0;
+            //         $detailbom->keterangan = "Terdapat material kurang";
+            //     } else {
+            //         $detailbom->db_status = 1;
+            //         $detailbom->keterangan = "Material BOM Sudah Cukup";
+            //     }
+            // }
             $detailbom->save();
         }
 
@@ -266,93 +297,26 @@ class DetailbomController extends Controller
         }
     }
 
-    // public function emailReminder()
-    // {
-    //     $pendingMaterials = Detailbom::where('db_status', 0)->get();
-    //     // dd($pendingMaterials);
-
-    //     if ($pendingMaterials->count() > 0) {
-    //         foreach ($pendingMaterials as $material) {
-    //             $emailDelay = (strtolower($material->supplier) == 'lokal') ? 2 : 7;
-
-    //             if ($material->email_status === 1 && $material->db_status === 0 && optional($material->last_kirim_email)->diffInDays(now()) >= $emailDelay) {
-    //                 $this->sendEmailReminder($material);
-    //                 $material->update(['last_kirim_email' => now()]);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // protected function sendEmailReminder($material)
-    // {
-    //     $subjekEmail = "Reminder: Bill of Material Tertunda {$material->id_boms}";
-    //     $dataMaterial = [
-    //         'id_boms' => $material->id_boms,
-    //         'id_materialbom' => $material->id_materialbom,
-    //         'nama_materialbom' => $material->nama_materialbom,
-    //         'usage_material' => $material->usage_material,
-    //     ];
-
-    //     $stockInfo = Stock::where('item_code', $material->id_materialbom)->first();
-    //     // dd($stockInfo);
-    //     $pesananInfo = pesanan::where('kd_material', $material->first()->id_materialbom)->first();
-
-    //     $materialInfo = Material::where('kd_material', $material->id_materialbom)->first();
-
-    //     $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
-    //     Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
-    //         collect([$dataMaterial]),
-    //         $stockInfo,
-    //         $subjekEmail,
-    //         $material->id_boms,
-    //         $materialInfo,
-    //         $pesananInfo
-    //     ));
-
-    //     $material->update(['email_status' => 1, 'last_kirim_email' => now()]);
-    // }
-
-    // protected function sendEmailReminder($material)
-// {
-//     $subjekEmail = "Reminder: Bill of Material Tertunda {$material->id_boms}";
-//     $dataMaterial = [
-//         'id_boms' => $material->id_boms,
-//         'id_materialbom' => $material->id_materialbom,
-//         'nama_materialbom' => $material->nama_materialbom,
-//         'usage_material' => $material->usage_material,
-//     ];
-
-//     // Ambil informasi Stock berdasarkan item_code
-//     $stockInfo = Stock::where('item_code', $material->id_materialbom)->first();
-//     dd($stockInfo);
-//     $materialInfo = Material::where('kd_material', $material->id_materialbom)->first();
-
-//     // Kirim email ke alamat yang ditentukan
-//     $alamatEmailPenerima = ['stevenliong83@gmail.com', 'steven.naga15@gmail.com'];
-//     Mail::to($alamatEmailPenerima)->send(new MaterialPendingNotification(
-//         collect([$dataMaterial]),
-//         $stockInfo,
-//         $subjekEmail,
-//         $material->id_boms,
-//         $materialInfo
-//     ));
-
-//     // Perbarui status email_status menjadi 1 dan last_kirim_email untuk data yang telah dikirimkan
-//     $material->update(['email_status' => 1, 'last_kirim_email' => now()]);
-// }
-
-    public function getStatusAndKeterangan($detailbom, $id_bom)
+    public function getStatusAndKeterangan($detailbom, $id_bom, $dataBom)
     {
         $status = "Completed";
         $detailbomForIdBom = $detailbom->where('id_boms', $id_bom);
+        $cekdataBom = $dataBom->where('id_bom', $id_bom);
 
         $countDbStatusZero = $detailbomForIdBom->where('db_status', 0)->count();
+        $cekStatusBom = $cekdataBom->where('status_bom', 3)->count();
+        // dd($cekStatusBom);
 
         $keterangan = "Semua Material Terpenuhi untuk Kode BOM $id_bom";
 
         if ($countDbStatusZero > 0) {
             $status = "Pending";
             $keterangan = "Terdapat Material Kurang";
+        }
+
+        if($cekStatusBom > 0){
+            $status = "Approved";
+            $keterangan = "Bill of Material Sudah Tersubmit";
         }
 
         return [
@@ -377,7 +341,6 @@ class DetailbomController extends Controller
         }
 
         $this->emailNotif($idBom);
-        // $this->emailReminder();
 
         Bom::where('id_bom', $id_bom)->update(['status_bom' => $statusBom]);
     }
@@ -424,7 +387,8 @@ class DetailbomController extends Controller
 
     public function exportToExcel()
     {
-        $dataBom = Detailbom::select('id', 'id_boms', 'nama_workcenter', 'id_materialbom', 'nama_materialbom', 'uom_material', 'usage_material', 'keterangan')->get();
+        $dataBom = Detailbom::select('id_boms', 'nama_workcenter', 'id_materialbom', 'nama_materialbom', 'uom_material', 'usage_material', 'keterangan')->get();
+        // $dataBom = Detailbom::all();
         // dd($dataBom);
         $id_boms = $dataBom->isNotEmpty() ? $dataBom->first()->id_boms : 'Kode Bom Tidak Ada';
         return Excel::download(new DetailBomExport($dataBom), "File Bill of Material $id_boms.xlsx");

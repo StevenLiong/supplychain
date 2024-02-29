@@ -4,9 +4,7 @@
 @section('main', 'show')
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <!-- Pastikan library jQuery sudah dimasukkan sebelum Bootstrap -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-  <!-- Tambahkan Bootstrap JS setelah jQuery -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <div class="card">
@@ -138,14 +136,10 @@
               @foreach ($submittedDetailBom as $detailbomItem)
               <tr role="row" class="odd">
                 <td style="text-align: center;">
-                  <!-- Tambahkan tombol Restore -->
-
-
                   <button type="button" class="btn btn-primary restore-button" data-id-materialbom="{{ $detailbomItem->id_materialbom }}" data-toggle="modal" data-target="#restoreModal_{{ $detailbomItem->id_materialbom }}">
                     <i class="fa-solid fa-plus"></i> Restore
                   </button>
 
-                  <!-- Tambahkan satu elemen modal -->
                   <form id="restoreForm{{ $detailbomItem->id_materialbom }}" action="{{ route('bommaterial.restore', ['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $dataBom->id_bom]) }}" method="POST">
                     @csrf
                     <div class="modal fade" id="restoreModal_{{ $detailbomItem->id_materialbom }}" tabindex="-1" role="dialog" aria-labelledby="restoreModalLabel_{{ $detailbomItem->id_materialbom }}" aria-hidden="true">
@@ -321,7 +315,6 @@
     //=================================================================================================
     //JAVASCRIPT RESTORE MATERIAL
 
-  // Function to get CSRF token from the page
   function getCsrfToken() {
     return $('meta[name="csrf-token"]').attr('content');
   }

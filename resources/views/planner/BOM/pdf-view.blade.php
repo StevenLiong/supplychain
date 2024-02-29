@@ -13,7 +13,7 @@
 	</style>
 	<div>
 		<center>	
-			<img src="https://images.glints.com/unsafe/glints-dashboard.s3.amazonaws.com/company-banner-pic/7b746a35872418f5a9911c749a89bb0f.jpg" width="150px">
+			<img src="{{ public_path('assets/LogoTrafoindo.png') }}" width="200px">
 		</center>
 	</div>
 	<br>
@@ -26,7 +26,6 @@
 		<thead>
 			<tr>
 				<th>No</th> 
-				<th>Bom Code</th>
 				<th>Nama Workcenter</th>
 				<th>Kode Material</th>
 				<th>Nama Material</th>
@@ -36,10 +35,9 @@
 			</tr>
 		</thead>
 		<tbody>
-			@foreach($dataBom as $item)
+			@foreach($dataBom as $index => $item)
 			<tr>
-				<td>{{ $item->id }}</td>
-				<td>{{$item->id_boms}}</td>
+				<td>{{ $index + 1 }}</td>
 				<td>{{$item->nama_workcenter}}</td>
 				<td>{{$item->id_materialbom}}</td>
 				<td>{{$item->nama_materialbom}}</td>

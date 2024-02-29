@@ -6,7 +6,6 @@ use App\Models\planner\So;
 use App\Models\planner\Bom;
 use App\Models\planner\Detailbom;
 use Illuminate\Http\Request;
-use App\Exports\BomDetailExport;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;

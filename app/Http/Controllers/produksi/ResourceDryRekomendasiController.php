@@ -562,7 +562,7 @@ class ResourceDryRekomendasiController extends Controller
                     $namaMP_currentSkill = $manpower->where('production_line', 'Dry Resin')
                         ->where('nama_workcenter', 'Mould & Casting')
                         // ->where('proses', 'HV MOULDING')
-                        ->whereIn('tipe_proses', $hvmoulding)
+                        ->whereIn('tipe_proses', [$hvmoulding, $hvcasting, $hvdemoulding, $lvbobbin1, $lvbobbin2, $lvmoulding1, $lvmoulding2, $lvmoulding3, $lvmoulding4, $touch_up1, $touch_up2])
                         ->where('skill', $i)
                         ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
                         ->pluck('nama_mp')->toArray();

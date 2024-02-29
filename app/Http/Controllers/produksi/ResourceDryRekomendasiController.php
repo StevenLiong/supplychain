@@ -327,35 +327,44 @@ class ResourceDryRekomendasiController extends Controller
                 $ketersediaanMPLV = $ketersediaanMPCoil_Making_LV;
                 $namaMP = [];
                 $namaMPAlternatif = [];
-                // $unNamaMP = [];
+
+                // Mendapatkan namaMP
                 for ($i = 4; $i >= 0; $i--) {
-                    $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                        ->where('nama_workcenter', 'COIL MAKING LV')
+                    $namaMP_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                        ->where('nama_workcenter', 'Coil Making')
                         ->where('proses', 'COIL LV')
                         ->whereIn('tipe_proses', $coilLv)
                         ->where('skill', $i)
+                        ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
                         ->pluck('nama_mp')->toArray();
+
                     if (!empty($namaMP_currentSkill)) {
                         $namaMP = array_merge($namaMP, $namaMP_currentSkill);
-                        $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMP_currentSkill);
-                    }
-
-                    $namaMP = array_unique($namaMP);
-                    $namaMPAlternatif = array_unique($namaMPAlternatif);
-
-                    if (count($namaMP) >= ceil($ketersediaanMPLV) && count($namaMPAlternatif) >= ceil($ketersediaanMPLV)) {
-                        break;
+                        break; // Keluar dari loop setelah menemukan namaMP
                     }
                 }
 
-                shuffle($namaMPAlternatif);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, min(count($namaMPAlternatif), count($namaMP)));
+                // Mencari namaMPAlternatif yang memenuhi kriteria tetapi tidak sama dengan namaMP yang sudah didapatkan
+                if (!empty($namaMP)) {
+                    for ($i = 4; $i >= 0; $i--) {
+                        $namaMPAlternatif_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                            ->where('nama_workcenter', 'Coil Making')
+                            ->where('proses', 'COIL LV')
+                            ->whereIn('tipe_proses', $coilLv)
+                            ->where('skill', $i)
+                            ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP
+                            ->whereNotIn('nama_mp', $namaMPAlternatif) // Memastikan nama_mp tidak sama dengan namaMPAlternatif sebelumnya
+                            ->pluck('nama_mp')->toArray();
 
-                $jumlahNamaMP = ceil($ketersediaanMPLV);
-                $namaMP = array_slice($namaMP, 0, $jumlahNamaMP);
+                        if (!empty($namaMPAlternatif_currentSkill)) {
+                            $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMPAlternatif_currentSkill);
+                            break; // Keluar dari loop setelah menemukan namaMPAlternatif
+                        }
+                    }
+                }
 
-                $jumlahNamaMPAlternatif = ceil($ketersediaanMPLV);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, $jumlahNamaMPAlternatif);
+                $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPLV));
+                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, ceil($ketersediaanMPLV));
 
                 $newDates = collect();
 
@@ -386,11 +395,8 @@ class ResourceDryRekomendasiController extends Controller
                         ];
 
                         $existingRecord = ResultRekomendasi::where('end', $currentDate['end'])
-                            // ->where('hours', $currentDate['hours'])
                             // ->where('wo_id', $currentDate['wo_id'])
                             ->where('nama_mp', $currentDate['nama_mp'])
-                            // ->where('nama_workcenter', $currentDate['nama_workcenter'])
-                            // ->where('nama_proses', $currentDate['nama_proses'])
                             ->first();
 
                         if ($existingRecord) {
@@ -422,84 +428,46 @@ class ResourceDryRekomendasiController extends Controller
                 $namaMP = [];
                 $namaMPAlternatif = [];
 
+                // Mendapatkan namaMP
                 for ($i = 4; $i >= 0; $i--) {
-                    $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                        ->where('nama_workcenter', 'COIL MAKING HV')
-                        ->where('proses', 'COIL HV')
+                    $namaMP_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                        ->where('nama_workcenter', 'Coil Making')
+                        ->where('proses', 'COIL LV')
                         ->whereIn('tipe_proses', $coilHv)
                         ->where('skill', $i)
-                        ->pluck('nama_mp')
-                        ->toArray();
+                        ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
+                        ->pluck('nama_mp')->toArray();
 
                     if (!empty($namaMP_currentSkill)) {
                         $namaMP = array_merge($namaMP, $namaMP_currentSkill);
-                        $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMP_currentSkill);
-                    }
-
-                    $namaMP = array_unique($namaMP);
-                    $namaMPAlternatif = array_unique($namaMPAlternatif);
-
-                    if (count($namaMP) >= ceil($ketersediaanMPHV) && count($namaMPAlternatif) >= ceil($ketersediaanMPHV)) {
-                        break;
+                        break; // Keluar dari loop setelah menemukan namaMP
                     }
                 }
 
-                shuffle($namaMPAlternatif);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, min(count($namaMPAlternatif), count($namaMP)));
+                // Mencari namaMPAlternatif yang memenuhi kriteria tetapi tidak sama dengan namaMP yang sudah didapatkan
+                if (!empty($namaMP)) {
+                    for ($i = 4; $i >= 0; $i--) {
+                        $namaMPAlternatif_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                            ->where('nama_workcenter', 'Coil Making')
+                            ->where('proses', 'COIL LV')
+                            ->whereIn('tipe_proses', $coilHv)
+                            ->where('skill', $i)
+                            ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP
+                            ->whereNotIn('nama_mp', $namaMPAlternatif) // Memastikan nama_mp tidak sama dengan namaMPAlternatif sebelumnya
+                            ->pluck('nama_mp')->toArray();
 
-                $jumlahNamaMP = ceil($ketersediaanMPHV);
-                $namaMP = array_slice($namaMP, 0, $jumlahNamaMP);
+                        if (!empty($namaMPAlternatif_currentSkill)) {
+                            $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMPAlternatif_currentSkill);
+                            break; // Keluar dari loop setelah menemukan namaMPAlternatif
+                        }
+                    }
+                }
 
-                $jumlahNamaMPAlternatif = ceil($ketersediaanMPHV);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, $jumlahNamaMPAlternatif);
+                $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPHV));
+                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, ceil($ketersediaanMPHV));
 
-                // dd($namaMP);
+                dd($coilHv);
                 // dd($namaMPAlternatif);
-                // $namaMP = [];
-
-                // for ($i = 4; $i >= 0; $i--) {
-                //     $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                //         ->where('nama_workcenter', 'COIL MAKING HV')
-                //         ->where('proses', 'COIL HV')
-                //         ->whereIn('tipe_proses', $coilHv)
-                //         ->where('skill', $i)
-                //         ->pluck('nama_mp')
-                //         ->toArray();
-                //     if (!empty($namaMP_currentSkill)) {
-                //         $namaMP = array_merge($namaMP, $namaMP_currentSkill);
-                //     }
-                //     $namaMP = array_unique($namaMP);
-                //     if (count($namaMP) >= ceil($ketersediaanMPHV)) {
-                //         break;
-                //     }
-                // }
-                // $jumlahNamaMP = ceil($ketersediaanMPHV);
-                // $namaMP = array_slice($namaMP, 0, $jumlahNamaMP);
-                // function getNamaMP($manpower, $coilHv, $ketersediaanMPHV)
-                // {
-                //     $namaMP = [];
-                //     for ($i = 4; $i >= 0; $i--) {
-                //         $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                //             ->where('nama_workcenter', 'COIL MAKING HV')
-                //             ->where('proses', 'COIL HV')
-                //             ->whereIn('tipe_proses', $coilHv)
-                //             ->where('skill', $i)
-                //             ->pluck('nama_mp')
-                //             ->toArray();
-                //         if (!empty($namaMP_currentSkill)) {
-                //             $namaMP = array_merge($namaMP, $namaMP_currentSkill);
-                //         }
-                //         $namaMP = array_unique($namaMP);
-                //         if (count($namaMP) >= ceil($ketersediaanMPHV)) {
-                //             break;
-                //         }
-                //     }
-                //     $jumlahNamaMP = ceil($ketersediaanMPHV);
-                //     $namaMP = array_slice($namaMP, 0, $jumlahNamaMP);
-                //     return $namaMP;
-                // }
-
-                // $namaMP = getNamaMP($manpower, $coilHv, $ketersediaanMPHV);
 
                 $newDates = collect();
 
@@ -510,6 +478,7 @@ class ResourceDryRekomendasiController extends Controller
                     $woId = $woIds[$time];
                     $nama = $namaMP[$time];
                     $namaAlternatif = $namaMPAlternatif[$time];
+
                     while ($remainingHours > 0) {
                         if ($date->isWeekend()) {
                             $date->nextWeekday();
@@ -535,6 +504,9 @@ class ResourceDryRekomendasiController extends Controller
 
                         if ($existingRecord) {
                             $nama = $namaAlternatif;
+                            continue;
+                        }
+                        if ($existingRecord) {
                             return redirect()->back();
                         }
                         ResultRekomendasi::create($currentDate);
@@ -560,6 +532,7 @@ class ResourceDryRekomendasiController extends Controller
                 $hvcasting = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hv_casting');
                 $hvdemoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hv_demoulding');
                 $lvbobbin = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.lv_bobbin');
+
                 $lvbobbin_values = explode(",", $lvbobbin);
 
                 $lvbobbin1 = isset($lvbobbin_values[0]) ? trim($lvbobbin_values[0], " \t\n\r\0\x0B\"'[]") : null;
@@ -584,37 +557,44 @@ class ResourceDryRekomendasiController extends Controller
                 $ketersediaanMPMould = $ketersediaanMPMould_Casting;
                 $namaMP = [];
                 $namaMPAlternatif = [];
-                // $unNamaMP = [];
+                // Mendapatkan namaMP
                 for ($i = 4; $i >= 0; $i--) {
-                    $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                        ->where('nama_workcenter', 'MOULD & CASTING')
-                        ->whereIn('tipe_proses', [$hvmoulding, $hvcasting, $hvdemoulding, $lvbobbin1, $lvbobbin2, $lvmoulding1, $lvmoulding2, $lvmoulding3, $lvmoulding4, $touch_up1, $touch_up2])
+                    $namaMP_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                        ->where('nama_workcenter', 'Mould & Casting')
+                        // ->where('proses', 'HV MOULDING')
+                        ->whereIn('tipe_proses', $hvmoulding)
                         ->where('skill', $i)
+                        ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
                         ->pluck('nama_mp')->toArray();
 
                     if (!empty($namaMP_currentSkill)) {
                         $namaMP = array_merge($namaMP, $namaMP_currentSkill);
-                        $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMP_currentSkill);
-                    }
-
-                    $namaMP = array_unique($namaMP);
-                    $namaMPAlternatif = array_unique($namaMPAlternatif);
-
-                    if (count($namaMP) >= ceil($ketersediaanMPMould) && count($namaMPAlternatif) >= ceil($ketersediaanMPMould)) {
-                        break;
+                        break; // Keluar dari loop setelah menemukan namaMP
                     }
                 }
 
-                shuffle($namaMPAlternatif);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, min(count($namaMPAlternatif), count($namaMP)));
+                // Mencari namaMPAlternatif yang memenuhi kriteria tetapi tidak sama dengan namaMP yang sudah didapatkan
+                if (!empty($namaMP)) {
+                    for ($i = 4; $i >= 0; $i--) {
+                        $namaMPAlternatif_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                            ->where('nama_workcenter', 'Mould & Casting')
+                            // ->where('proses', 'COIL LV')
+                            ->whereIn('tipe_proses', [$hvmoulding, $hvcasting, $hvdemoulding, $lvbobbin1, $lvbobbin2, $lvmoulding1, $lvmoulding2, $lvmoulding3, $lvmoulding4, $touch_up1, $touch_up2])
+                            ->where('skill', $i)
+                            ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP
+                            ->whereNotIn('nama_mp', $namaMPAlternatif) // Memastikan nama_mp tidak sama dengan namaMPAlternatif sebelumnya
+                            ->pluck('nama_mp')->toArray();
 
-                $jumlahNamaMP = ceil($ketersediaanMPMould);
-                $namaMP = array_slice($namaMP, 0, $jumlahNamaMP);
+                        if (!empty($namaMPAlternatif_currentSkill)) {
+                            $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMPAlternatif_currentSkill);
+                            break; // Keluar dari loop setelah menemukan namaMPAlternatif
+                        }
+                    }
+                }
 
-                $jumlahNamaMPAlternatif = ceil($ketersediaanMPMould);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, $jumlahNamaMPAlternatif);
-
-                // dd($namaMP);
+                $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPMould));
+                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, ceil($ketersediaanMPMould));
+                // dd($hvmoulding);
                 // dd($namaMPAlternatif);
 
                 $newDates = collect();
@@ -654,9 +634,11 @@ class ResourceDryRekomendasiController extends Controller
                             ->where('nama_mp', $currentDate['nama_mp'])
                             ->first();
 
-
                         if ($existingRecord) {
                             $nama = $namaAlternatif;
+                            continue;
+                        }
+                        if ($existingRecord) {
                             return redirect()->back();
                         }
                         ResultRekomendasi::create($currentDate);
@@ -683,36 +665,45 @@ class ResourceDryRekomendasiController extends Controller
                 $ketersediaanMPSusun = $ketersediaanMPCCASusun;
                 $namaMP = [];
                 $namaMPAlternatif = [];
-
-                for ($i = 4; $i > 0; $i--) {
-                    $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                        ->where('nama_workcenter', 'CORE & ASSEMBLY')
+                // Mendapatkan namaMP
+                for ($i = 4; $i >= 0; $i--) {
+                    $namaMP_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                        ->where('nama_workcenter', 'Core Coil Assembly')
                         ->where('proses', 'TYPE SUSUN CORE')
                         ->whereIn('tipe_proses', $susun_core)
                         ->where('skill', $i)
+                        ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
                         ->pluck('nama_mp')->toArray();
+
                     if (!empty($namaMP_currentSkill)) {
                         $namaMP = array_merge($namaMP, $namaMP_currentSkill);
-                        $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMP_currentSkill);
-                    }
-
-                    $namaMP = array_unique($namaMP);
-                    $namaMPAlternatif = array_unique($namaMPAlternatif);
-
-                    if (count($namaMP) >= ceil($ketersediaanMPSusun) && count($namaMPAlternatif) >= ceil($ketersediaanMPSusun)) {
-                        break;
+                        break; // Keluar dari loop setelah menemukan namaMP
                     }
                 }
 
-                shuffle($namaMPAlternatif);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, min(count($namaMPAlternatif), count($namaMP)));
+                // Mencari namaMPAlternatif yang memenuhi kriteria tetapi tidak sama dengan namaMP yang sudah didapatkan
+                if (!empty($namaMP)) {
+                    for ($i = 4; $i >= 0; $i--) {
+                        $namaMPAlternatif_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                            ->where('nama_workcenter', 'Core Coil Assembly')
+                            ->where('proses', 'TYPE SUSUN CORE')
+                            ->whereIn('tipe_proses', $susun_core)
+                            ->where('skill', $i)
+                            ->whereNotIn('nama_mp', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP
+                            ->whereNotIn('nama_mp', $namaMPAlternatif) // Memastikan nama_mp tidak sama dengan namaMPAlternatif sebelumnya
+                            ->pluck('nama_mp')->toArray();
 
-                $jumlahNamaMP = ceil($ketersediaanMPSusun);
-                $namaMP = array_slice($namaMP, 0, $jumlahNamaMP);
+                        if (!empty($namaMPAlternatif_currentSkill)) {
+                            $namaMPAlternatif = array_merge($namaMPAlternatif, $namaMPAlternatif_currentSkill);
+                            break; // Keluar dari loop setelah menemukan namaMPAlternatif
+                        }
+                    }
+                }
 
-                $jumlahNamaMPAlternatif = ceil($ketersediaanMPSusun);
-                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, $jumlahNamaMPAlternatif);
-                
+                $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPSusun));
+                $namaMPAlternatif = array_slice($namaMPAlternatif, 0, ceil($ketersediaanMPSusun));
+
+
                 $newDates = collect();
 
                 $hour->each(function ($hours, $time) use ($dateStrings, $woIds, $namaMP, $namaMPAlternatif) {
@@ -723,6 +714,8 @@ class ResourceDryRekomendasiController extends Controller
                     $nama = $namaMP[$time];
                     $namaAlternatif = $namaMPAlternatif[$time];
 
+
+                    // dd($namaAlternatif);
                     while ($remainingHours > 0) {
                         if ($date->isWeekend()) {
                             $date->nextWeekday();
@@ -748,6 +741,9 @@ class ResourceDryRekomendasiController extends Controller
 
                         if ($existingRecord) {
                             $nama = $namaAlternatif;
+                            continue;
+                        }
+                        if ($existingRecord) {
                             return redirect()->back();
                         }
                         ResultRekomendasi::create($currentDate);
@@ -789,8 +785,8 @@ class ResourceDryRekomendasiController extends Controller
                 $namaMP = [];
                 $namaMPAlternatif = [];
                 for ($i = 4; $i > 0; $i--) {
-                    $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                        ->where('nama_workcenter', 'CORE & ASSEMBLY')
+                    $namaMP_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                        ->where('nama_workcenter', 'Core Coil Assembly')
                         ->whereIn('tipe_proses', [$others1, $others2, $others3, $others4, $others5, $potong_isolasi_fiber1, $potong_isolasi_fiber2])
                         ->where('skill', $i)
                         ->pluck('nama_mp')->toArray();
@@ -852,6 +848,9 @@ class ResourceDryRekomendasiController extends Controller
 
                         if ($existingRecord) {
                             $nama = $namaAlternatif;
+                            continue;
+                        }
+                        if ($existingRecord) {
                             return redirect()->back();
                         }
                         ResultRekomendasi::create($currentDate);
@@ -888,8 +887,8 @@ class ResourceDryRekomendasiController extends Controller
                 $namaMP = [];
                 $namaMPAlternatif = [];
                 for ($i = 4; $i >= 0; $i--) {
-                    $namaMP_currentSkill = $manpower->where('production_line', 'DRY')
-                        ->where('nama_workcenter', 'CORE & ASSEMBLY')
+                    $namaMP_currentSkill = $manpower->where('production_line', 'Dry Resin')
+                        ->where('nama_workcenter', 'Core Coil Assembly')
                         // ->where('proses', 'COIL LV')
                         ->whereIn('tipe_proses', [$wiring, $instal_housing, $bongkar_housing, $pembuatan_cu_link, $accesories1, $accesories2])
                         ->where('skill', $i)
@@ -955,9 +954,11 @@ class ResourceDryRekomendasiController extends Controller
                             ->where('nama_mp', $currentDate['nama_mp'])
                             ->first();
 
-
                         if ($existingRecord) {
                             $nama = $namaAlternatif;
+                            continue;
+                        }
+                        if ($existingRecord) {
                             return redirect()->back();
                         }
                         ResultRekomendasi::create($currentDate);

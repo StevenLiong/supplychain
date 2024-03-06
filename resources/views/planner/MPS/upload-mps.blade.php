@@ -132,7 +132,7 @@
                     if (capacity !== null && capacity !== undefined) {
                         // Menampilkan keterangan sesuai dengan kapasitas
                         if (selectedProductionLine === 'Drytype') {
-                            $('#keteranganDeadline').html('Kapasitas Dry Type yang masih bisa adalah ' + capacity + ' dari 2 unit');
+                            $('#keteranganDeadline').html('Kapasitas Dry Type tersisa ' + capacity + ' unit dari maximum kapasitas 2 unit');
                         } else if (selectedProductionLine === 'PL2') {
                             $('#keteranganDeadline').html('Kapasitas Production Line 2 yang masih bisa adalah ' + capacity + ' dari 93 unit');
                         } else if (selectedProductionLine === 'PL3') {
@@ -157,9 +157,6 @@
                 }
             });
         });
-    });
-
-    $(document).ready(function () {
         $('input[name="deadline"]').on('change', function () {
             var selectedDate = $(this).val();
             // var selectedProductionLine = $('#production_line').val();
@@ -176,9 +173,11 @@
                     // Jika tanggal adalah hari libur, tampilkan pesan dalam bentuk alert
                     if (response.is_holiday) {
                         alert('Tanggal yang dipilih adalah hari libur.');
-                    } else {
-                        $('input[name="deadline"]').prop('disabled', false);
-                        $('#keteranganDeadline').html('');
+                        // Menonaktifkan tombol submit
+                        $('button[type="submit"]').prop('disabled', true);
+                    }else {
+                        // Mengaktifkan kembali tombol submit jika tidak ada hari libur
+                        $('button[type="submit"]').prop('disabled', false);
                     }
                 },
                 error: function (xhr, status, error) {
@@ -189,26 +188,38 @@
         });
     });
 
+    // $(document).ready(function () {
+    //     $('input[name="deadline"]').on('change', function () {
+    //         var selectedDate = $(this).val();
+    //         // var selectedProductionLine = $('#production_line').val();
+
+    //         // Ajax request untuk mendapatkan data hari libur dari server
+    //         $.ajax({
+    //             url: '/get-holiday',
+    //             method: 'GET',
+    //             data: {
+    //                 selected_date: selectedDate,
+    //                 _token: '{{ csrf_token() }}',
+    //             },
+    //             success: function (response) {
+    //                 // Jika tanggal adalah hari libur, tampilkan pesan dalam bentuk alert
+    //                 if (response.is_holiday) {
+    //                     alert('Tanggal yang dipilih adalah hari libur.');
+    //                 } else {
+    //                     $('input[name="deadline"]').prop('disabled', false);
+    //                     $('#keteranganDeadline').html('');
+    //                 }
+    //             },
+    //             error: function (xhr, status, error) {
+    //                 console.log('Error fetching holiday data:', status, error);
+    //                 console.log(xhr.responseText);
+    //             }
+    //         });
+    //     });
+    // });
+
 
 </script>
-<!-- Modal -->
-<div class="modal fade" id="holidayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Holiday Alert</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Tanggal yang Anda pilih adalah hari libur.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 @endsection

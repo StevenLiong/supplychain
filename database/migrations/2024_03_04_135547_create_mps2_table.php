@@ -13,17 +13,13 @@ return new class extends Migration
     {
         Schema::create('mps2s', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_wo'); 
+            $table->string('id_wo');
+            $table->integer('line');
             $table->string('project');
-            $table->string('production_line');
-            $table->string('kva');
-            $table->string('jenis');
             $table->string('qty_trafo');
-            $table->integer('lead_time');
-            $table->date('deadline')->nullable();
-            $table->timestamps(); 
-            
-            $table->foreign('id_wo')->references('id')->on('wo2s')->onDelete('cascade');
+            $table->date('deadline');
+            $table->integer('kva');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mps2');
+        Schema::dropIfExists('mps2s');
     }
 };

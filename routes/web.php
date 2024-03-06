@@ -13,6 +13,7 @@ use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\produksi\CtController;
 use App\Http\Controllers\produksi\VtController;
 use App\Http\Controllers\logistic\RakController;
+use App\Http\Controllers\planner\Mps2Controller;
 use App\Http\Controllers\purchaser\mrController;
 use App\Http\Controllers\purchaser\poController;
 use App\Http\Controllers\logistic\BpnbController;
@@ -53,8 +54,8 @@ use App\Http\Controllers\produksi\ResourceWorkloadController;
 use App\Http\Controllers\planner\WorkcenterOilTrafoController;
 use App\Http\Controllers\produksi\ResourceDashboardController;
 use App\Http\Controllers\produksi\ResourceDryKebutuhanController;
-use App\Http\Controllers\produksi\ResourceDryRekomendasiController;
 use App\Http\Controllers\produksi\ResourceKalkulasiSDMrController;
+use App\Http\Controllers\produksi\ResourceDryRekomendasiController;
 
 Auth::routes();
 Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
@@ -227,6 +228,8 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // MENU MPS
     Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
+    Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');
+    Route::post('/MPS2/UploadMPS', [Mps2Controller::class, 'store'])->name('mps2.store');
     // --UPLOAD MPS--
     Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
     Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');

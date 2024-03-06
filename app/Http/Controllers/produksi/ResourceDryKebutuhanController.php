@@ -71,21 +71,6 @@ class ResourceDryKebutuhanController extends Controller
         $woDryFinishing = $gpadryfilterCCAFinishing->pluck('id_wo');
         $woDryConect = $gpadryfilterCCAConect->pluck('id_wo');
 
-        $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryHV)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
-
-                if ($workData) {
-                    $totalHourCoil_making_HV = $workData->hour_coil_hv ?? 0;
-                    return $totalHourCoil_making_HV * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
         $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
             ->whereBetween('deadline', $deadlineDate)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
@@ -99,6 +84,22 @@ class ResourceDryKebutuhanController extends Controller
                     $hourPotongLeadwire = $workData->hour_potong_leadwire ?? 0;
                     $hourPotongIsolasi = $workData->hour_potong_isolasi ?? 0;
                     return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
+                } else {
+                    return 0;
+                }
+            });
+
+        $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
+            ->whereBetween('deadline', $deadlineDate)
+            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->whereIn('id_wo', $woDryHV)
+            ->get()
+            ->sum(function ($item) {
+                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+
+                if ($workData) {
+                    $totalHourCoil_making_HV = $workData->hour_coil_hv ?? 0;
+                    return $totalHourCoil_making_HV * $item->qty_trafo;
                 } else {
                     return 0;
                 }
@@ -128,32 +129,8 @@ class ResourceDryKebutuhanController extends Controller
                 $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
 
                 if ($workData) {
-                    $hour_type_susun_core = $workData->hour_type_susun_core ?? 0;
+                    $hour_type_susun_core = $workData->totalHour_SusunCore ?? 0;
                     return $hour_type_susun_core * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
-
-        $jumlahtotalHourCCAFinishing = $gpadryfilterCCAFinishing->where('nama_workcenter', 'Finishing')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryFinishing)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
-
-                if ($workData) {
-                    $hour_wiring = $workData->hour_wiring ?? 0;
-                    $hour_instal_housing = $workData->hour_instal_housing ?? 0;
-                    $hour_bongkar_housing = $workData->hour_bongkar_housing ?? 0;
-                    $hour_pembuatan_cu_link = $workData->hour_pembuatan_cu_link ?? 0;
-                    $hour_accesories = $workData->hour_accesories ?? 0;
-                    return ($hour_wiring +
-                        $hour_instal_housing +
-                        $hour_bongkar_housing +
-                        $hour_pembuatan_cu_link +
-                        $hour_accesories) * $item->qty_trafo;
                 } else {
                     return 0;
                 }
@@ -168,14 +145,28 @@ class ResourceDryKebutuhanController extends Controller
                 $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
 
                 if ($workData) {
-                    $hour_others = $workData->hour_others ?? 0;
-                    $hour_potong_isolasi_fiver = $workData->hour_potong_isolasi_fiber ?? 0;
-                    return ($hour_others +
-                        $hour_potong_isolasi_fiver) * $item->qty_trafo;
+                    $totalHour_Connection_Final_Assembly = $workData->totalHour_Connection_Final_Assembly ?? 0;
+                    return $totalHour_Connection_Final_Assembly * $item->qty_trafo;
                 } else {
                     return 0;
                 }
             });
+        $jumlahtotalHourCCAFinishing = $gpadryfilterCCAFinishing->where('nama_workcenter', 'Finishing')
+            ->whereBetween('deadline', $deadlineDate)
+            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->whereIn('id_wo', $woDryFinishing)
+            ->get()
+            ->sum(function ($item) {
+                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+
+                if ($workData) {
+                    $totalHour_Finishing = $workData->totalHour_Finishing ?? 0;
+                    return $totalHour_Finishing * $item->qty_trafo;
+                } else {
+                    return 0;
+                }
+            });
+
         switch ($periode) {
             case 1:
                 $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);

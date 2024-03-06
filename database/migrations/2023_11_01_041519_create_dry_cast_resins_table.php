@@ -43,6 +43,9 @@ return new class extends Migration
             $table->string('totalHour_coil_making')->nullable();
             $table->string('totalHour_MouldCasting')->nullable();
             $table->string('totalHour_CoreCoilAssembly')->nullable();
+            $table->string('totalHour_SusunCore')->nullable();
+            $table->string('totalHour_Finishing')->nullable();
+            $table->string('totalHour_Connection_Final_Assembly')->nullable();
             $table->string('totalHour_QCTest')->nullable();
             $table->string('hour_coil_lv')->nullable();
             $table->string('hour_coil_hv')->nullable();

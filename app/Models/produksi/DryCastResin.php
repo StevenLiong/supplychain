@@ -41,6 +41,9 @@ class DryCastResin extends Model
         'totalHour_coil_making',
         'totalHour_MouldCasting',
         'totalHour_CoreCoilAssembly',
+        'totalHour_SusunCore',
+        'totalHour_Finishing',
+        'totalHour_Connection_Final_Assembly',
         'totalHour_QCTest',
         'hour_coil_lv',
         'hour_coil_hv',
@@ -79,7 +82,7 @@ class DryCastResin extends Model
                 'total_hour' => $dryresin->total_hour,
                 'id_fg' => $dryresin->id_fg,
                 'kd_manhour' => $dryresin->kd_manhour,
-                'nama_product' =>'Dry Cast Resin',
+                'nama_product' => 'Dry Cast Resin',
             ]);
         });
 
@@ -94,5 +97,33 @@ class DryCastResin extends Model
 
             $dryresin->kd_manhour = $kdManhour;
         });
+        self::creating(function ($dryresin) {
+            $hour_potong_isolasi_fiber = $dryresin->hour_potong_isolasi_fiber;
+            $hour_susun_core = $dryresin->hour_type_susun_core;
+
+            // Tambahkan pengecekan jika kedua nilai tersebut tidak null sebelum melakukan perhitungan
+            if ($hour_potong_isolasi_fiber !== null && $hour_susun_core !== null) {
+                $hour = $hour_susun_core + $hour_potong_isolasi_fiber;
+
+                $dryresin->totalHour_SusunCore = $hour;
+            }
+        });
+        self::creating(function ($dryresin) {
+            $hour = $dryresin->hour_others;
+
+            $dryresin->totalHour_Connection_Final_Assembly = $hour;
+        });
+        self::creating(function ($dryresin) {
+            $wiring = $dryresin->hour_wiring ?? 0;
+            $instal_housing = $dryresin->hour_instal_housing ?? 0;
+            $bongkar_housing = $dryresin->hour_bongkar_housing ?? 0;
+            $pembuatan_cu_link = $dryresin->hour_pembuatan_cu_link ?? 0;
+            $accesories = $dryresin->hour_accesories ?? 0;
+
+            $hour = $wiring + $instal_housing + $bongkar_housing + $pembuatan_cu_link + $accesories;
+
+            $dryresin->totalHour_Finishing = ($hour > 0) ? $hour : null;
+        });
+
     }
 }

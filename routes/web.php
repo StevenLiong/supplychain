@@ -9,6 +9,7 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\planner\WoController;
 use App\Http\Controllers\planner\BomController;
+use App\Http\Controllers\planner\BomControllerV2;
 use App\Http\Controllers\planner\MpsController;
 use App\Http\Controllers\produksi\CtController;
 use App\Http\Controllers\produksi\VtController;
@@ -43,6 +44,7 @@ use App\Http\Controllers\produksi\ResourcePl2Controller;
 use App\Http\Controllers\produksi\ResourcePl3Controller;
 use App\Http\Controllers\logistic\FinishedgoodController;
 use App\Http\Controllers\logistic\StokProduksiController;
+use App\Http\Controllers\planner\DetailbomControllerV2;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\ResourceCtVtController;
 use App\Http\Controllers\produksi\ResourceRepairController;
@@ -197,17 +199,47 @@ Route::middleware(['auth', 'planner'])->group(function () {
     // --EXPORT BOM--
     Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
 
+    //=======================================================BOM V2========================================================================
+     // MENU BOM
+    Route::get('/BOM_V2/IndexBom', [BomControllerV2::class, 'index'])->name('bom_v2-index');
+
+    // --CREATE BOM & UPLOAD BOM--
+    Route::get('/bom_V2/create', [BomControllerV2::class, 'create'])->name('bom_v2-create');
+    Route::post('/bom_V2/store', [BomControllerV2::class, 'store'])->name('bom_v2.store');
+    Route::get('/bom_V2/upload-excel', [DetailbomControllerV2::class, 'formUpload'])->name('bom_v2-upload-excel');
+    Route::post('/bom_V2/upload-excel', [DetailbomControllerV2::class, 'upload'])->name('bom_v2-upload-excel-post');
+
+    // --EDIT & DETAIL BOM--
+    Route::get('/BOM_V2/DetailBOM/{id_bom}', [DetailbomControllerV2::class, 'bomDetail'])->name('bom_v2.detailbom');
+    Route::get('/bom_V2/EditBOMInfo/{id_bom}', [BomControllerV2::class, 'infoBom'])->name('bom_v2.editbom');
+    Route::put('/bom_V2/updatebom/{id_bom}', [BomControllerV2::class, 'updateBom'])->name('bom_v2.updatebom');
+    Route::get('/DetailBom_V2/cek-material/{idBom}', [DetailbomControllerV2::class, 'CekMaterial']);
+    Route::get('/DetailBom_V2/get-status-and-keterangan/{id_bom}', 'DetailbomControllerV2@ajaxGetStatusAndKeterangan');
+
+    // --EDIT MATERIAL & ADD NEW MATERIAL--
+    Route::get('/bom_V2/addmaterial/{id_bom}', [DetailbomControllerV2::class, 'addmaterial'])->name('bom_v2-addmaterial');
+    Route::post('/bom_V2/storematerial', [DetailbomControllerV2::class, 'storematerial'])->name('bom_v2.storematerial');
+    Route::get('/bom_V2/editmaterial/{id_materialbom}/{id_bom}', [DetailbomControllerV2::class, 'edit'])->name('bom_v2.edit');
+    Route::put('/bom_V2/updatematerial/{id_materialbom}/{id_bom}', [DetailbomControllerV2::class, 'update'])->name('bom_v2.update');
+
+    // --DELETE BOM--
+    Route::delete('/bom_V2/delete/{id_bom}', [BomControllerV2::class, 'destroy'])->name('bom_v2.delete');
+
+    // --EXPORT BOM--
+    Route::get('/bom_V2/download-excel', [BomControllerV2::class, 'downloadExcel'])->name('download_v2-excel');
+
     // --EXPORT DETAIL BOM--
-    Route::get('/DetailBom/ExportExcel', [DetailbomController::class, 'exportToExcel'])->name('dbom.exportExcel');
-    Route::get('/DetailBom/ExportPdf', [DetailbomController::class, 'exportToPdf'])->name('dbom.exportPdf');
+    Route::get('/DetailBom_V2/ExportExcel', [DetailbomControllerV2::class, 'exportToExcel'])->name('dbom_v2.exportExcel');
+    Route::get('/DetailBom/ExportPdf', [DetailbomControllerV2::class, 'exportToPdf'])->name('dbom_v2.exportPdf');
 
 
     //DELETE MATERIAL & RESTORE MATERIAL
-    Route::delete('/bommaterial/delete/{id_materialbom}/{id_bom}', [DetailbomController::class, 'deleteMaterial'])->name('bommaterial.delete');
-    Route::post('/restore-material/{id_materialbom}/{id_bom}', [DetailbomController::class, 'restoreMaterial'])->name('bommaterial.restore');
+    Route::delete('/bommaterial_V2/delete/{id_materialbom}/{id_bom}', [DetailbomControllerV2::class, 'deleteMaterial'])->name('bommaterial_v2.delete');
+    Route::post('/restore-material_V2/{id_materialbom}/{id_bom}', [DetailbomControllerV2::class, 'restoreMaterial'])->name('bommaterial_v2.restore');
 
     //SUBMIT MATERIAL (USAGE MATERIAL - JUMLAH)
-    Route::post('/bom/submit', [DetailbomController::class, 'submit'])->name('bom.submit');
+    Route::post('/bom_V2/submit', [DetailbomControllerV2::class, 'submit'])->name('bom_v2.submit');
+//======================================================================================================================
 
     // MENU WORK ORDER
     Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');

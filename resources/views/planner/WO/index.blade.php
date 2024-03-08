@@ -34,9 +34,9 @@
                                     <th style="width: 6rem; text-align:center">Man Hour Code</th>
                                     <th style="width: 6rem; text-align:center">ID Finish Good</th>
                                     <th style="width: 6rem; text-align:center">Sales Order</th>
+                                    <th style="width: 3rem; text-align:center">Quantity</th>
                                     <th style="width: 6rem; text-align:center">Start Date</th>
                                     <th style="width: 6rem; text-align:center">Finish Date</th>
-                                    <th style="width: 3rem; text-align:center">Quantity</th>
                                 </tr>
                             </tr>
                         </thead>

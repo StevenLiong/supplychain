@@ -38,28 +38,16 @@ class BomImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
         }
 
         // Ambil id_bom dari request
-        // $idBom = $this->idBom;
+        $idBom = $this->idBom;
 
         // Tambahkan kode debugging di sini
         // print_r($row);
         // dd($row);
 
-        // $calculatedValue = $row['usage_of_material'];
+        $calculatedValue = $row['usage_of_material'];
 
-        // return new Detailbom([
-        //     'id_boms' => $idBom, 
-        //     'nama_workcenter' => $row['nama_workcenter'],
-        //     'id_materialbom' => $row['id_material_bom'],
-        //     'nama_materialbom' => $row['nama_material_bom'],
-        //     'uom_material' => $row['uom'],
-        //     'qty_trafo' => $row['quantity_trafo'],
-        //     'qty_material' => $row['quantity_material'],
-        //     'tolerance' => $row['tolerance'],
-        //     // 'usage_material' => $row['qty_trafo'] * $row['qty_material'],
-        //     'usage_material' => $calculatedValue,
-        // ]);
         return new Detailbom([
-            'id_boms' => $row[''], 
+            'id_boms' => $idBom, 
             'nama_workcenter' => $row['nama_workcenter'],
             'id_materialbom' => $row['id_material_bom'],
             'nama_materialbom' => $row['nama_material_bom'],
@@ -67,6 +55,8 @@ class BomImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
             'qty_trafo' => $row['quantity_trafo'],
             'qty_material' => $row['quantity_material'],
             'tolerance' => $row['tolerance'],
+            // 'usage_material' => $row['qty_trafo'] * $row['qty_material'],
+            'usage_material' => $calculatedValue,
         ]);
     }
 }

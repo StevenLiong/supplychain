@@ -31,17 +31,17 @@ return new class extends Migration
 
         Schema::create('wos', function (Blueprint $table) {
             $table->id();
-            $table->string('id_boms')->references('id_bom')->on('boms');
-            $table->string('id_wo');
-            $table->string('id_fg');
-            $table->string('keterangan');
+            $table->string('id_boms')->references('id_bom')->on('boms')->nullable();
+            $table->string('id_wo')->nullable();
+            $table->string('id_fg')->nullable();
+            $table->string('keterangan')->nullable();
             // $table->unsignedBigInteger('id_standardize_work');
             $table->foreignId('id_standardize_work')->nullable()->constrained('standardize_works');
-            $table->integer('qty_trafo');
-            $table->integer('kva');
-            $table->string('id_so')->references('kode_so')->on('sos');
-            $table->date('start_date')->nullable();
-            $table->date('finish_date')->nullable();
+            $table->integer('qty_trafo')->nullable();
+            $table->integer('kva')->nullable();
+            $table->string('id_so')->references('kode_so')->on('sos')->nullable();
+            $table->string('start_date')->nullable();
+            $table->string('finish_date')->nullable();
             $table->timestamps();
 
         });

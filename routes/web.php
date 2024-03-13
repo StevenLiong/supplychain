@@ -34,7 +34,6 @@ use App\Http\Controllers\logistic\ServicesController;
 use App\Http\Controllers\logistic\ShippingController;
 use App\Http\Controllers\logistic\SupplierController;
 use App\Http\Controllers\logistic\TransferController;
-use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\planner\FinishgoodController;
 use App\Http\Controllers\produksi\OilCustomController;
 use App\Http\Controllers\logistic\CycleCountController;
@@ -45,12 +44,14 @@ use App\Http\Controllers\produksi\ResourcePl2Controller;
 use App\Http\Controllers\produksi\ResourcePl3Controller;
 use App\Http\Controllers\logistic\FinishedgoodController;
 use App\Http\Controllers\logistic\StokProduksiController;
+use App\Http\Controllers\planner\DetailbomController;
 use App\Http\Controllers\planner\DetailbomControllerV2;
 use App\Http\Controllers\produksi\DryCastResinController;
 use App\Http\Controllers\produksi\ResourceCtVtController;
 use App\Http\Controllers\produksi\ResourceRepairController;
 use App\Http\Controllers\produksi\StandardizeWorkController;
 use App\Http\Controllers\planner\KapasitasProduksiController;
+use App\Http\Controllers\planner\WoControllerV2;
 use App\Http\Controllers\planner\WorkcenterDryTypeController;
 use App\Http\Controllers\produksi\ResourceWorkloadController;
 use App\Http\Controllers\planner\WorkcenterOilTrafoController;
@@ -186,6 +187,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/bom/EditBOMInfo/{id_bom}', [BomController::class, 'infoBom'])->name('bom.editbom');
     Route::put('/bom/updatebom/{id_bom}', [BomController::class, 'updateBom'])->name('bom.updatebom');
     Route::get('/DetailBom/cek-material/{idBom}', [DetailbomController::class, 'CekMaterial']);
+    // web.php
     Route::get('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@ajaxGetStatusAndKeterangan');
 
     // --EDIT MATERIAL & ADD NEW MATERIAL--
@@ -199,6 +201,17 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // --EXPORT BOM--
     Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
+
+    // --EXPORT DETAIL BOM--
+    Route::get('/DetailBom/ExportExcel', [DetailbomController::class, 'ExportExcel'])->name('dbom.exportExcel');
+    Route::get('/DetailBom/ExportPdf', [DetailbomController::class, 'ExportPdf'])->name('dbom.exportPdf');
+
+    //DELETE MATERIAL & RESTORE MATERIAL
+    Route::delete('/bommaterial/delete/{id_materialbom}/{id_bom}', [DetailbomController::class, 'deleteMaterial'])->name('bommaterial.delete');
+    Route::post('/restore-material/{id_materialbom}/{id_bom}', [DetailbomController::class, 'restoreMaterial'])->name('bommaterial.restore');
+
+    //SUBMIT MATERIAL (USAGE MATERIAL - JUMLAH)
+    Route::post('/bom/submit', [DetailbomController::class, 'submit'])->name('bom.submit');
 
     //=======================================================BOM V2========================================================================
      // MENU BOM
@@ -231,7 +244,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     // --EXPORT DETAIL BOM--
     Route::get('/DetailBom_V2/ExportExcel', [DetailbomControllerV2::class, 'exportToExcel'])->name('dbom_v2.exportExcel');
-    Route::get('/DetailBom/ExportPdf', [DetailbomControllerV2::class, 'exportToPdf'])->name('dbom_v2.exportPdf');
+    Route::get('/DetailBom_V2/ExportPdf', [DetailbomControllerV2::class, 'exportToPdf'])->name('dbom_v2.exportPdf');
 
 
     //DELETE MATERIAL & RESTORE MATERIAL
@@ -258,6 +271,27 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/WO/ExportExcel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
     Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
 
+
+//=======================================================WO V2========================================================================
+    // MENU WORK ORDER V2
+    Route::get('/WorkOrderV2/IndexWorkOrder', [WoControllerV2::class, 'index'])->name('workorder_v2-index');
+    Route::delete('/WorkOrder/delete/{id}}', [WoControllerV2::class, 'destroy'])->name('wo_v2.delete');
+
+    // --CREATE WORK ORDER--
+    // Route::get('/WorkOrderV2/create', [WoControllerV2::class, 'create'])->name('wo_v2-create');
+    Route::post('/WorkOrderV2/store', [WoControllerV2::class, 'store'])->name('wo_v2.store');
+
+    // --EDIT WORK ORDER--
+    Route::get('/WorkOrderV2/editWO/{id_wo}', [WoControllerV2::class, 'edit'])->name('wo_v2.editwo');
+    Route::put('/WorkOrderV2/updateWO/{id_wo}', [WoControllerV2::class, 'update'])->name('wo_v2.updatewo');
+
+    // --EXPORT WORK ORDER--
+    Route::get('/WO/ExportExcel', [WoControllerV2::class, 'exportToExcel'])->name('wo_v2.exportExcel');
+    Route::get('/WO/ExportPdf', [WoControllerV2::class, 'exportToPdf'])->name('wo_v2.exportPdf');
+
+    Route::get('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'formUpload'])->name('wo_v2-upload-excel');
+    Route::post('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'upload'])->name('wo_v2-upload-excel-post');
+//======================================================================================================================
     // MENU MPS
     Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
     Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');

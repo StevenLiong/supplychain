@@ -41,6 +41,7 @@ return new class extends Migration
             $table->string('potong_isolasi_fiber')->nullable();
             $table->string('qc_testing')->nullable();
             $table->string('totalHour_coil_making')->nullable();
+            $table->string('totalHour_coil_makinglv')->nullable();
             $table->string('totalHour_MouldCasting')->nullable();
             $table->string('totalHour_CoreCoilAssembly')->nullable();
             $table->string('totalHour_SusunCore')->nullable();

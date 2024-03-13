@@ -39,6 +39,7 @@ class DryCastResin extends Model
         'potong_isolasi_fiber',
         'qc_testing',
         'totalHour_coil_making',
+        'totalHour_coil_makinglv',
         'totalHour_MouldCasting',
         'totalHour_CoreCoilAssembly',
         'totalHour_SusunCore',
@@ -123,6 +124,15 @@ class DryCastResin extends Model
             $hour = $wiring + $instal_housing + $bongkar_housing + $pembuatan_cu_link + $accesories;
 
             $dryresin->totalHour_Finishing = ($hour > 0) ? $hour : null;
+        });
+        self::creating(function ($dryresin) {
+            $coillv = $dryresin->hour_coil_lv ?? 0;
+            $potong_leadwire = $dryresin->hour_potong_leadwire ?? 0;
+            $potong_isolasi = $dryresin->hour_potong_isolasi ?? 0;
+
+            $hour = $coillv + $potong_isolasi + $potong_leadwire ;
+
+            $dryresin->totalHour_coil_makinglv = ($hour > 0) ? $hour : null;
         });
 
     }

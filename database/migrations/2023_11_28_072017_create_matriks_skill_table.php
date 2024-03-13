@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('matriks_skill', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_mp')->constrained('man_power');
+            $table->foreignId('id_mp')->nullable()->constrained('man_power');
             $table->string('production_line')->constrained('production_line');
             $table->string('nama_workcenter')->constrained('nama_workcenter');
             $table->string('proses')->constrained('proses');

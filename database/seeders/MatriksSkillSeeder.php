@@ -23,7 +23,7 @@ class MatriksSkillSeeder extends Seeder
             $data = array_combine($header, $row);
 
             DB::table('matriks_skill')->insert([
-                'nama_mp' => $data['nama_mp'],
+                'id_mp' => $data['id_mp'],
                 'production_line' => $data['production_line'],
                 'nama_workcenter' => $data['nama_workcenter'],
                 'proses' => $data['proses'],

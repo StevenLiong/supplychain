@@ -63,6 +63,7 @@
                                     <th>WO</th>
                                     {{-- <th>Mesin</th> --}}
                                     <th>Operator</th>
+                                    <th>Proses</th>
                                     {{-- @foreach ($data['newDates'] as $date)
                                     <th>{{ $date['end'] }}</th>
                                     <th>{{ $date['hours'] }}</th>
@@ -81,6 +82,7 @@
                                         <th>{{ $hasil->hours }}</th>
                                         <th>{{ $hasil->wo_id }}</th>
                                         <th>{{$hasil->nama_mp}}</th>
+                                        <th>{{$hasil->nama_proses}}</th>
                                     </tr>
                                 @endforeach
 

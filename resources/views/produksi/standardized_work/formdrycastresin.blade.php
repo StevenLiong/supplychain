@@ -1232,7 +1232,6 @@
             }
             $('#ukuran_kapasitas').on('change', function() {
                 var ukuran_kapasitas = $(this).val();
-                console.log(ukuran_kapasitas);
                 if (ukuran_kapasitas) {
                     $.ajax({
                         url: '/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/' +
@@ -1243,7 +1242,6 @@
                         },
                         dataType: 'json',
                         success: function(data) {
-                            console.log(data);
                             if (data) {
                                 fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
                                 fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
@@ -1341,7 +1339,6 @@
                             }
                         },
                         error: function(xhr, status, error) {
-                            console.error('AJAX Request Error:', xhr.responseText);
                             alert(
                                 'Terjadi kesalahan saat mengambil data barang. Silakan coba lagi.'
                             );
@@ -1376,7 +1373,6 @@
             let totalHourInput = document.getElementById('total_hour');
             totalHourInput.value = totalManhour;
             let select = document.getElementById(target);
-            console.log('Select Element:', select);
             let selectedOptions = Array.from(select.selectedOptions);
             let totalDurasi = 0;
             selectedOptions.forEach(function(selectedOption) {
@@ -1384,10 +1380,7 @@
                 totalDurasi += parseFloat(selectedDurasi || 0);
             });
             let hour = document.getElementById("hour_" + target);
-            console.log('Selected Info Element:', hour);
             hour.value = totalDurasi;
-            console.log(hour);
-            console.log(totalDurasi);
         }
 
         function displayTotalJamCoilMaking() {
@@ -1409,7 +1402,6 @@
                     }
                 });
             });
-            console.log("Work Center (COIL MAKING):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_coil_making");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;
@@ -1436,7 +1428,6 @@
                     }
                 });
             });
-            console.log("Work Center (MOULD & CASTING):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_MouldCasting");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;
@@ -1462,7 +1453,6 @@
                     }
                 });
             });
-            console.log("Work Center (CORE COIL ASSEMBLY):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;
@@ -1488,7 +1478,6 @@
                     }
                 });
             });
-            console.log("Work Center (QC TEST):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_QCTest");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;

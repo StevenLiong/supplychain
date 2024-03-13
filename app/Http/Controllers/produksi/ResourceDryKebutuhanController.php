@@ -72,22 +72,20 @@ class ResourceDryKebutuhanController extends Controller
         $woDryConect = $gpadryfilterCCAConect->pluck('id_wo');
 
         $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryLV)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+        ->whereBetween('deadline', $deadlineDate)
+        ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDryLV)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
 
-                if ($workData) {
-                    $hourCoilLV = $workData->hour_coil_lv ?? 0;
-                    $hourPotongLeadwire = $workData->hour_potong_leadwire ?? 0;
-                    $hourPotongIsolasi = $workData->hour_potong_isolasi ?? 0;
-                    return ($hourCoilLV + $hourPotongLeadwire + $hourPotongIsolasi) * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
+            if ($workData) {
+                $hourCoilLV = $workData->totalHour_coil_makinglv?? 0;
+                return $hourCoilLV * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
 
         $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
             ->whereBetween('deadline', $deadlineDate)

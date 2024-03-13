@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('resultrekomendasi', function (Blueprint $table) {
             $table->id();
             $table->datetime('end');
-            $table->integer('hours');
+            $table->float('hours');
             $table->string('wo_id');
             $table->string('nama_mp');
             $table->string('nama_workcenter');

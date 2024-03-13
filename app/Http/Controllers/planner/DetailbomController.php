@@ -385,7 +385,7 @@ class DetailbomController extends Controller
         return redirect()->back();
     }
 
-    public function exportToExcel()
+    public function ExportExcel()
     {
         $dataBom = Detailbom::select('id_boms', 'nama_workcenter', 'id_materialbom', 'nama_materialbom', 'uom_material', 'usage_material', 'keterangan')->get();
         // $dataBom = Detailbom::all();
@@ -394,7 +394,7 @@ class DetailbomController extends Controller
         return Excel::download(new DetailBomExport($dataBom), "File Bill of Material $id_boms.xlsx");
     }
 
-    public function exportToPdf()
+    public function ExportPdf()
     {
         $dataBom = Detailbom::select('id', 'id_boms', 'nama_workcenter', 'id_materialbom', 'nama_materialbom', 'uom_material', 'usage_material', 'keterangan')->get(); // Ambil data Mps dari database
         $id_boms = $dataBom->isNotEmpty() ? $dataBom->first()->id_boms : 'Kode Bom Tidak Ada';

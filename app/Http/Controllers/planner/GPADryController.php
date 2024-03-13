@@ -5,24 +5,25 @@ namespace App\Http\Controllers\planner;
 use PDF;
 use App\Exports\MpsExport;
 use App\Models\planner\Mps;
+use App\Models\planner\Mps2;
 use Illuminate\Http\Request;
+use App\Models\planner\GPADry;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
-use App\Models\planner\GPADry;
-use App\Models\planner\WorkcenterDryType;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\planner\WorkcenterDryType;
 
 class GPADryController extends Controller
 {
     public function index()
     {
-        $dataMps = Mps::all();
+        $dataMps = Mps2::all();
         return view('planner.gpa.indexgpadry', compact('dataMps'));
     }
 
     public function gpaDryDetail(String $id_wo):View
     {
-        $dataMps = Mps::where('id_wo', $id_wo)->first();
+        $dataMps = Mps2::where('id_wo', $id_wo)->first();
         $dataGpa = GPADry::where('id_wo', $id_wo)->get();
         $keterangan = '';
 

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('gpadrys', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_wo')->nullable()->constrained('wos');
+            $table->string('id_wo');
             $table->string('project');
             $table->string('production_line');
             $table->string('kva');
-            $table->string('jenis');
+            // $table->string('jenis');
             $table->string('qty_trafo');
             $table->date('start')->nullable();
             $table->date('deadline')->nullable();

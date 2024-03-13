@@ -39,7 +39,7 @@ return new class extends Migration
             $table->string('project');
             $table->string('production_line');
             $table->string('kva');
-            $table->string('jenis');
+            // $table->string('jenis');
             $table->string('qty_trafo');
             $table->string('nama_workcenter')->nullable();
             $table->date('deadline')->nullable();

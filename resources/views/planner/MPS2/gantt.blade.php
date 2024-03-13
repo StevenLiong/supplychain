@@ -44,6 +44,7 @@
             @csrf
             <div class="col text-left">
                 <button type="submit" class="btn btn-md btn-primary" name="s1_planning">S1 Planning: Ex-work (SO due date)</button>
+                <a href="{{ route('gpa-indexgpadry') }}" class="btn btn-primary"><i class="fa-solid fa-car"></i>GPA Dry Type</a>
             </div>
             <div id="tabelmps" class="table-wrapper">
                 <table class="table table-bordered mt-3">
@@ -51,7 +52,7 @@
                         <tr>
                             <th colspan="69" style="text-align: center;">Kapasitas</th>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td colspan="8" style="min-width: 145px; text-align: center;" class="freeze-column">PL 2</td>
                             @foreach ($kapasitasPL2 as $tanggal => $capacityPL2)
                                 <td style="min-width: 57px; text-align: center;">{{ $capacityPL2 }}</td>
@@ -62,7 +63,7 @@
                             @foreach ($kapasitasPL3 as $tanggal => $capacityPL3)
                                 <td style="min-width: 57px; text-align: center;">{{ $capacityPL3 }}</td>
                             @endforeach
-                        </tr>
+                        </tr> --}}
                         <tr>
                             <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">DRYTYPE</td>
                             @foreach ($kapasitasDrytype as $tanggal => $capacityDrytype)
@@ -92,7 +93,7 @@
                             {{-- @dd($mps2->deadline['month']); --}}
                             <tr>
                                 <td class="freeze-column" style="min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_wo" value="{{ $mps2->id_wo }}" disabled></td>
-                                <td class="freeze-column" style="min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_so" value="{{ $mps2->id_so }}" disabled></td>
+                                <td class="" style="min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_so" value="{{ $mps2->id_so }}" disabled></td>
                                 <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="line" value="{{ $mps2->line }}" disabled></td>
                                 <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="project" value="{{ $mps2->project }}" disabled></td>
                                 <td class="" style="width: 200px; padding: 10px; text-align:center;">
@@ -106,9 +107,10 @@
                                     @php
                                         $formattedDeadline = \Carbon\Carbon::createFromFormat('Y-m-d', $mps2->deadline['year'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['day']);
                                         $inputDayMonth = $formattedDeadline->format('dm'); 
-                                        $qty_trafo = $formattedDeadline->isSameDay($tanggal) ? $mps2->qty_trafo : ''; 
+                                        $qty_trafo = $formattedDeadline->isSameDay($tanggal) ? $mps2->qty_trafo : '';
+                                        $background_color = $formattedDeadline->isSameDay($tanggal) && $qty_trafo !== '' ? 'background-color: yellow;' : ''; 
                                     @endphp
-                                    <td><input type="text" class="form-control jan-input" name="jan_{{ $inputDayMonth }}" value="{{ $qty_trafo }}" disabled></td>
+                                    <td><input type="text" class="form-control jan-input" name="jan_{{ $inputDayMonth }}" value="{{ $qty_trafo }}" disabled style="{{ $background_color }}"></td>
                                 @endforeach
                             </tr>
                         @endforeach
@@ -135,7 +137,7 @@
                                 <input type="text" class="form-control" name="qty_trafo" value="">
                             </td>
                             <td class="" style="min-width: 160px; padding: 10px;">
-                                <input type="text" class="form-control" name="manhour_code" value="">
+                                <input type="text" class="form-control" name="manhour_code" value="" disabled>
                             </td>
                             @for ($i = 1; $i <= 61; $i++)
                                 <td><input type="text" class="form-control jan-input" name="jan_{{ $i }}" disabled></td>

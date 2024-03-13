@@ -19,7 +19,7 @@
                 <div class="form-row">
                     <div class="col-md-4 mb-2">
                         <label for="id_wo">Work Order</label>
-                        <input type="text" class="form-control" name="id_wo" value="{{ $dataMps->wo->id_wo }}"required disabled>
+                        <input type="text" class="form-control" name="id_wo" value="{{ $dataMps->id_wo }}"required disabled>
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="keterangan">Keterangan</label>
@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="production_line">Production Line</label>
-                        <input type="text" class="form-control" name="production_line" value="{{ $dataMps->production_line }}"required disabled>
+                        <input type="text" class="form-control" name="production_line" value="{{ $dataMps->line }}"required disabled>
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="kva">KVA</label>
@@ -39,7 +39,7 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="validationDefault07">Dead Line</label>
-                        <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataMps->deadline)->format('d-F-Y') }}"required disabled>
+                        <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $dataMps->deadline['year'] . '-' . $dataMps->deadline['month'] . '-' . $dataMps->deadline['day'])->format('d-M-Y') }}"required disabled>
                     </div>
                 </div>    
             </form>

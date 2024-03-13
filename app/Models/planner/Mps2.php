@@ -21,7 +21,7 @@ class Mps2 extends Model
     {
         // Ambil nilai day, month, dan year dari atribut deadline
         $dayOnly = intval(date('j', strtotime($value)));
-        $monthOnly = intval(date('n', strtotime($value)));
+        $monthOnly = intval(date('m', strtotime($value)));
         $yearOnly = intval(date('Y', strtotime($value)));
 
         // Return array yang berisi day, month, dan year

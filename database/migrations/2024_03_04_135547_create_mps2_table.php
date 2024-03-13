@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('mps2s', function (Blueprint $table) {
             $table->id();
             $table->string('id_wo');
-            $table->integer('line');
+            $table->string('id_so');
+            $table->string('line');
             $table->string('project');
             $table->string('qty_trafo');
             $table->date('deadline');
             $table->integer('kva');
+            $table->string('kd_manhour');
             $table->timestamps();
         });
     }

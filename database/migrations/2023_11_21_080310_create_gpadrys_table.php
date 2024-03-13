@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('kva');
             $table->string('jenis');
             $table->string('qty_trafo');
+            $table->date('start')->nullable();
             $table->date('deadline')->nullable();
             $table->string('nama_workcenter');
             $table->string('keterangan')->nullable();

@@ -49,34 +49,37 @@
                 <table class="table table-bordered mt-3">
                     <div class="fixed-header">
                         <tr>
-                            <th colspan="37" style="text-align: center;">Kapasitas</th>
+                            <th colspan="69" style="text-align: center;">Kapasitas</th>
                         </tr>
                         <tr>
-                            <td colspan="6" style="min-width: 145px; text-align: center;" class="freeze-column">PL 2</td>
+                            <td colspan="8" style="min-width: 145px; text-align: center;" class="freeze-column">PL 2</td>
                             @foreach ($kapasitasPL2 as $tanggal => $capacityPL2)
                                 <td style="min-width: 57px; text-align: center;">{{ $capacityPL2 }}</td>
                             @endforeach
                         </tr>
                         <tr>
-                            <td colspan="6" style="min-width: 145px; text-align:center;" class="freeze-column">PL 3</td>
+                            <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">PL 3</td>
                             @foreach ($kapasitasPL3 as $tanggal => $capacityPL3)
                                 <td style="min-width: 57px; text-align: center;">{{ $capacityPL3 }}</td>
                             @endforeach
                         </tr>
                         <tr>
-                            <td colspan="6" style="min-width: 145px; text-align:center;" class="freeze-column">DRYTYPE</td>
+                            <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">DRYTYPE</td>
                             @foreach ($kapasitasDrytype as $tanggal => $capacityDrytype)
                                 <td style="min-width: 57px; text-align: center;">{{ $capacityDrytype }}</td>
                             @endforeach
                         </tr>
                         <tr>
                             <th rowspan="2" class="freeze-column" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Work Order Code</th>
+                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Kode SO</th>
                             <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Line</th>
                             <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Project Name</th>
                             <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Due Date</th>
                             <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">KVA</th>
                             <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Qty</th>
-                            <th colspan="31" style="text-align: center">Maret</th>
+                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Manhour Code</th>
+                            <th colspan="31" style="text-align: center">{{ $monthName }}</th>
+                            <th colspan="30" style="text-align: center">{{ $monthName2 }}</th>
                         </tr>
                         <tr>
                             @foreach ($tanggalHeaders as $tanggal)
@@ -86,34 +89,40 @@
                     </div>
                     <tbody>
                         @foreach ($mps2s as $mps2)
+                            {{-- @dd($mps2->deadline['month']); --}}
                             <tr>
-                                <td class="freeze-column" style="min-width: 150x; padding: 10px;"><input type="text" class="form-control" name="id_wo" value="{{ $mps2->id_wo }}"></td>
-                                <td class="" style="width: 200px; padding: 10px;"><input type="text" class="form-control" name="line" value="{{ $mps2->line }}"></td>
-                                <td class="" style="width: 200px; padding: 10px;"><input type="text" class="form-control" name="project" value="{{ $mps2->project }}"></td>
-                                <td class="" style="width: 200px; padding: 10px;">
-                                    <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($mps2->deadline['day'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['year'])->format('j-M-Y') }}">
+                                <td class="freeze-column" style="min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_wo" value="{{ $mps2->id_wo }}" disabled></td>
+                                <td class="freeze-column" style="min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_so" value="{{ $mps2->id_so }}" disabled></td>
+                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="line" value="{{ $mps2->line }}" disabled></td>
+                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="project" value="{{ $mps2->project }}" disabled></td>
+                                <td class="" style="width: 200px; padding: 10px; text-align:center;">
+                                    <input type="text" style="text-align:center;" class="form-control" name="deadline" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $mps2->deadline['year'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['day'])->format('d-M-Y') }}" disabled>
                                 </td>                                
-                                <td class="" style="width: 200px; padding: 10px;"><input type="text" class="form-control" name="kva" value="{{ $mps2->kva }}"></td>
-                                <td class="" style="width: 200px; padding: 10px;"><input type="text" class="form-control" name="qty_trafo" value="{{ $mps2->qty_trafo }}"></td>
+                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="kva" value="{{ $mps2->kva }}" disabled></td>
+                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="qty_trafo" value="{{ $mps2->qty_trafo }}" disabled></td>
+                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="manhour_code" value="{{ $mps2->kd_manhour }}" disabled></td>
                                 {{-- <td><input type="text" class="form-control jan-input" name="jan_input" value="{{ $mps2->qty_trafo }}"></td> --}}
-                                @for ($i = 1; $i <= 31; $i++)
-                                    {{-- @dd($mps2->deadline['day'] == $i) --}}
-                                    @if ($mps2->deadline['day'] === $i)
-                                        <td><input type="text" class="form-control jan-input" name="jan_{{ $i }}" value="{{ $mps2->qty_trafo }}" disabled></td>
-                                    @else
-                                    <td><input type="text" class="form-control jan-input" name="jan_{{ $i }}" value="" disabled></td>
-                                    @endif
-                                @endfor
+                                @foreach ($tanggalHeaders as $tanggal)
+                                    @php
+                                        $formattedDeadline = \Carbon\Carbon::createFromFormat('Y-m-d', $mps2->deadline['year'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['day']);
+                                        $inputDayMonth = $formattedDeadline->format('dm'); 
+                                        $qty_trafo = $formattedDeadline->isSameDay($tanggal) ? $mps2->qty_trafo : ''; 
+                                    @endphp
+                                    <td><input type="text" class="form-control jan-input" name="jan_{{ $inputDayMonth }}" value="{{ $qty_trafo }}" disabled></td>
+                                @endforeach
                             </tr>
                         @endforeach
                         <tr>
-                            <td class="freeze-column" style="min-width: 150px; padding: 10px;">
+                            <td class="freeze-column" style="min-width: 167px; padding: 10px;">
                                 <input type="text" class="form-control" name="id_wo" value="">
                             </td>
-                            <td class="" style="min-width: 75px; padding: 10px;">
+                            <td class="freeze-column" style="min-width: 167px; padding: 10px;">
+                                <input type="text" class="form-control" name="id_so_new" value="" disabled>
+                            </td>
+                            <td class="" style="min-width: 85px; padding: 10px;">
                                 <input type="text" class="form-control" name="line" value="">
                             </td>
-                            <td class="" style="min-width: 200px; padding: 10px;">
+                            <td class="" style="min-width: 250px; padding: 10px;">
                                 <input type="text" class="form-control" name="project" value="">
                             </td>
                             <td class="" style="min-width: 150px; padding: 10px;">
@@ -125,10 +134,17 @@
                             <td class="" style="min-width: 78px; padding: 10px;">
                                 <input type="text" class="form-control" name="qty_trafo" value="">
                             </td>
-                            @for ($i = 1; $i <= 31; $i++)
+                            <td class="" style="min-width: 160px; padding: 10px;">
+                                <input type="text" class="form-control" name="manhour_code" value="">
+                            </td>
+                            @for ($i = 1; $i <= 61; $i++)
                                 <td><input type="text" class="form-control jan-input" name="jan_{{ $i }}" disabled></td>
                             @endfor
                         </tr>
+                        {{-- @for ($j = 1; $j <= 3; $j++)
+                            
+                            
+                        @endfor --}}
                     </tbody>
                 </table>   
             </div>
@@ -143,6 +159,39 @@
             var $th = $('.freeze-column');
             var scrollLeft = $('.table-wrapper').scrollLeft();
             $th.css('left', scrollLeft);
+        });
+
+        // Simpan nilai id_so saat halaman dimuat
+        var originalIdSoValue = $('input[name="id_so"]').val();
+        // Event handler untuk input id_wo
+        $('input[name="id_wo"]').on('input', function() {
+            // Ambil nilai dari input id_wo
+            var id_wo_value = $(this).val();
+            
+            // Cek jika id_wo tidak sama dengan nilai yang sudah ada
+            if (id_wo_value.trim() !== originalIdSoValue.replace(/\D/g, '')) {
+                // Buat format untuk id_so
+                var id_so_value = "S" + id_wo_value.replace(/\D/g, '').replace(/(.{1})(.{2})(.*)/, "$1/$2/$3");
+                
+                // Set nilai input id_so hanya jika id_wo yang baru tidak kosong
+                $('input[name="id_so_new"]').val(id_so_value);
+            } else {
+                // Jika id_wo sama dengan nilai yang sudah ada, kembalikan nilai id_so yang asli saat halaman dimuat
+                $('input[name="id_so"]').val(originalIdSoValue);
+            }
+
+            // Lakukan AJAX request untuk mengambil data manhour_code
+            $.ajax({
+                url: '/get-manhour-code/' + id_wo_value,
+                type: 'GET',
+                success: function(response) {
+                    // Mengisi nilai input manhour_code dengan data yang diterima dari server
+                    $('input[name="manhour_code"]').val(response.manhour_code);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // Tampilkan pesan kesalahan jika terjadi kesalahan dalam permintaan
+                }
+            });
         });
     });
 </script>

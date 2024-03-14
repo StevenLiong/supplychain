@@ -24,6 +24,8 @@ class StandardizeWork extends Model
         'id_fg',
         'kd_manhour',
         'nama_product',
+        'nomor_so',
+        'ukuran_kapasitas',
     ];
 
 

@@ -14,6 +14,7 @@ use App\Models\planner\LeadtimeNofinishings;
 use App\Models\planner\LeadtimeWithfinishings;
 use App\Models\planner\LeadtimeNofinishingfans;
 use App\Models\planner\LeadtimeWithfinishingoltcs;
+use App\Models\produksi\StandardizeWork;
 
 class Mps2Controller extends Controller
 {
@@ -50,9 +51,13 @@ class Mps2Controller extends Controller
         $id_so = preg_replace('/(\D)(\d{1})(\d{2})(\d+)/', 'S$2/$3/$4', $id_wo);
         
         // Mencari nilai manhour_code dari tabel dry_cast_resin berdasarkan id_so dan kva
-        $manhour_code = DryCastResin::where('nomor_so', $id_so)
+        $manhour_code = StandardizeWork::where('nomor_so', $id_so)
                                       ->where('ukuran_kapasitas', $request->input('kva'))
                                       ->value('kd_manhour');
+
+        $id_standardizework = StandardizeWork::where('nomor_so', $id_so)
+                                    ->where('ukuran_kapasitas', $request->input('kva'))
+                                    ->value('id');
 
         // Dapatkan nilai qty_trafo dan deadline dari formulir
         $qty_trafo = $request->input('qty_trafo');
@@ -80,6 +85,7 @@ class Mps2Controller extends Controller
         $mps2->kva = $request->get('kva');
         $mps2->qty_trafo = $qty_trafo;
         $mps2->kd_manhour = $manhour_code;
+        $mps2->id_standardize_work = $id_standardizework;
         
         $mps2->save();
 
@@ -104,6 +110,7 @@ class Mps2Controller extends Controller
                     $adjustedStart = $request->get('deadline');
                     $adjustedDeadline = $request->get('deadline');
                     $gpadrys->nama_workcenter = $workcenterDryType->nama_workcenter;
+                    $gpadrys->id_mps = $mps2->id;
                     $lv_windling = $drycastresin->hour_coil_lv + $drycastresin->hour_potong_leadwire + $drycastresin->hour_potong_isolasi;
                     $hv_windling = $drycastresin->hour_coil_hv;
                     $moulding = $drycastresin->hour_hv_moulding + $drycastresin->hour_lv_moulding + $drycastresin->hour_hv_casting + $drycastresin->hour_hv_demoulding + $drycastresin->hour_lv_bobbin + $drycastresin->hour_touch_up;

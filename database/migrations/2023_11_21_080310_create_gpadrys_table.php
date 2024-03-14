@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('deadline')->nullable();
             $table->string('nama_workcenter');
             $table->string('keterangan')->nullable();
+            $table->foreignId('id_mps')->nullable()->constrained('mps2s');
             $table->timestamps();
         });
     }

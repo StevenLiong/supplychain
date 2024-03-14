@@ -57,6 +57,16 @@ class Mps2Controller extends Controller
         // Dapatkan nilai qty_trafo dan deadline dari formulir
         $qty_trafo = $request->input('qty_trafo');
         $deadline = $request->input('deadline');
+        
+        // Periksa apakah kapasitas pada tanggal yang diinput sudah penuh atau tidak
+        $kapasitasPenuh = KapasitasProduksi::where('tanggal', $deadline)
+                                            ->where('Drytype', '<', $qty_trafo)
+                                            ->exists();
+
+        // Jika kapasitas sudah penuh, tampilkan pesan peringatan
+        if ($kapasitasPenuh) {
+            return redirect()->back()->with('error', 'Kapasitas pada tanggal yang diinput sudah penuh. Data tidak dapat disimpan.');
+        }
 
         // Kurangi nilai qty_trafo dari kapasitas Drytype di tabel kapasitas_produksis berdasarkan deadline
         KapasitasProduksi::where('tanggal', $deadline)->decrement('Drytype', $qty_trafo);

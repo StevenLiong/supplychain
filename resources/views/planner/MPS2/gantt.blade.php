@@ -11,10 +11,10 @@
         display: flex;
         height: fit-content;
     }
-    .freeze-column {
+    .freeze-column{
         position: sticky;
         left: 0;
-        z-index: 0;
+        z-index: 2;
         background-color: white; /* jika perlu */
     }
     .jan-input {
@@ -24,7 +24,7 @@
     }
     .freeze-row{
         position: sticky;
-        top : 0px;
+        top : 0;
         background-color: white;
         z-index: 2;
     }
@@ -46,39 +46,100 @@
                 <button type="submit" class="btn btn-md btn-primary" name="s1_planning">S1 Planning: Ex-work (SO due date)</button>
                 <a href="{{ route('gpa-indexgpadry') }}" class="btn btn-primary"><i class="fa-solid fa-car"></i>GPA Dry Type</a>
             </div>
+            <br>
+            <!-- Tambahkan kode untuk menampilkan pesan error -->
+            @if(session('error'))
+                <div class="alert alert-danger" role="alert">
+                    {{ session('error') }}
+                </div>
+            @endif
             <div id="tabelmps" class="table-wrapper">
                 <table class="table table-bordered mt-3">
-                    <div class="fixed-header">
+                    <tbody>
                         <tr>
                             <th colspan="69" style="text-align: center;">Kapasitas</th>
                         </tr>
-                        {{-- <tr>
+                        <tr>
                             <td colspan="8" style="min-width: 145px; text-align: center;" class="freeze-column">PL 2</td>
                             @foreach ($kapasitasPL2 as $tanggal => $capacityPL2)
-                                <td style="min-width: 57px; text-align: center;">{{ $capacityPL2 }}</td>
+                                @php
+                                    // Tentukan warna latar belakang berdasarkan nilai kapasitas
+                                    $background_color = '';
+                                    switch ($capacityPL2) {
+                                        case 93:
+                                            $background_color = 'background-color: #00FF00;';
+                                            break;
+                                        case 1:
+                                            $background_color = 'background-color: #FFFF00;';
+                                            break;
+                                        case 0:
+                                            $background_color = 'background-color: #FF0000;';
+                                            break;
+                                        default:
+                                            $background_color = ''; // Tidak ada warna latar belakang
+                                            break;
+                                    }
+                                @endphp
+                                <td style="min-width: 57px; text-align: center; {{ $background_color }}">{{ $capacityPL2 }}</td>
                             @endforeach
                         </tr>
                         <tr>
                             <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">PL 3</td>
                             @foreach ($kapasitasPL3 as $tanggal => $capacityPL3)
-                                <td style="min-width: 57px; text-align: center;">{{ $capacityPL3 }}</td>
-                            @endforeach
-                        </tr> --}}
-                        <tr>
-                            <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">DRYTYPE</td>
-                            @foreach ($kapasitasDrytype as $tanggal => $capacityDrytype)
-                                <td style="min-width: 57px; text-align: center;">{{ $capacityDrytype }}</td>
+                                @php
+                                    // Tentukan warna latar belakang berdasarkan nilai kapasitas
+                                    $background_color = '';
+                                    switch ($capacityPL3) {
+                                        case 6:
+                                            $background_color = 'background-color: #00FF00;';
+                                            break;
+                                        case 1:
+                                            $background_color = 'background-color: #FFFF00;';
+                                            break;
+                                        case 0:
+                                            $background_color = 'background-color: #FF0000;';
+                                            break;
+                                        default:
+                                            $background_color = ''; // Tidak ada warna latar belakang
+                                            break;
+                                    }
+                                @endphp
+                                <td style="min-width: 57px; text-align: center; {{ $background_color }}">{{ $capacityPL3 }}</td>
                             @endforeach
                         </tr>
                         <tr>
-                            <th rowspan="2" class="freeze-column" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Work Order Code</th>
-                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Kode SO</th>
-                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Line</th>
-                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Project Name</th>
-                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Due Date</th>
-                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">KVA</th>
-                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Qty</th>
-                            <th rowspan="2" class="" style="text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Manhour Code</th>
+                            <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">DRYTYPE</td>
+                            @foreach ($kapasitasDrytype as $tanggal => $capacityDrytype)
+                                @php
+                                    // Tentukan warna latar belakang berdasarkan nilai kapasitas
+                                    $background_color = '';
+                                    switch ($capacityDrytype) {
+                                        case 2:
+                                            $background_color = 'background-color: #00FF00;';
+                                            break;
+                                        case 1:
+                                            $background_color = 'background-color: #FFFF00;';
+                                            break;
+                                        case 0:
+                                            $background_color = 'background-color: #FF0000;';
+                                            break;
+                                        default:
+                                            $background_color = ''; // Tidak ada warna latar belakang
+                                            break;
+                                    }
+                                @endphp
+                                <td style="min-width: 57px; text-align: center; {{ $background_color }}">{{ $capacityDrytype }}</td>
+                            @endforeach
+                        </tr>
+                        <tr>
+                            <th rowspan="2" class="freeze-column work-order-code" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Work Order Code</th>
+                            <th rowspan="2" class="freeze-column kode-so" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Kode SO</th>
+                            <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Line</th>
+                            <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Project Name</th>
+                            <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Due Date</th>
+                            <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">KVA</th>
+                            <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Qty</th>
+                            <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Manhour Code</th>
                             <th colspan="31" style="text-align: center">{{ $monthName }}</th>
                             <th colspan="30" style="text-align: center">{{ $monthName2 }}</th>
                         </tr>
@@ -87,56 +148,54 @@
                                 <th style="text-align: center">{{ \Carbon\Carbon::parse($tanggal)->format('d') }}</th>
                             @endforeach
                         </tr>
-                    </div>
-                    <tbody>
                         @foreach ($mps2s as $mps2)
                             {{-- @dd($mps2->deadline['month']); --}}
                             <tr>
-                                <td class="freeze-column" style="min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_wo" value="{{ $mps2->id_wo }}" disabled></td>
-                                <td class="" style="min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_so" value="{{ $mps2->id_so }}" disabled></td>
-                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="line" value="{{ $mps2->line }}" disabled></td>
-                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="project" value="{{ $mps2->project }}" disabled></td>
-                                <td class="" style="width: 200px; padding: 10px; text-align:center;">
+                                <td class="freeze-column" style="position: relative; min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_wo" value="{{ $mps2->id_wo }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_so" value="{{ $mps2->id_so }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="line" value="{{ $mps2->line }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="project" value="{{ $mps2->project }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;">
                                     <input type="text" style="text-align:center;" class="form-control" name="deadline" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $mps2->deadline['year'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['day'])->format('d-M-Y') }}" disabled>
                                 </td>                                
-                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="kva" value="{{ $mps2->kva }}" disabled></td>
-                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="qty_trafo" value="{{ $mps2->qty_trafo }}" disabled></td>
-                                <td class="" style="width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="manhour_code" value="{{ $mps2->kd_manhour }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="kva" value="{{ $mps2->kva }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="qty_trafo" value="{{ $mps2->qty_trafo }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="manhour_code" value="{{ $mps2->kd_manhour }}" disabled></td>
                                 {{-- <td><input type="text" class="form-control jan-input" name="jan_input" value="{{ $mps2->qty_trafo }}"></td> --}}
                                 @foreach ($tanggalHeaders as $tanggal)
                                     @php
                                         $formattedDeadline = \Carbon\Carbon::createFromFormat('Y-m-d', $mps2->deadline['year'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['day']);
                                         $inputDayMonth = $formattedDeadline->format('dm'); 
                                         $qty_trafo = $formattedDeadline->isSameDay($tanggal) ? $mps2->qty_trafo : '';
-                                        $background_color = $formattedDeadline->isSameDay($tanggal) && $qty_trafo !== '' ? 'background-color: yellow;' : ''; 
+                                        $background_color = $formattedDeadline->isSameDay($tanggal) && $qty_trafo !== '' ? 'background-color: #FFA500;' : ''; 
                                     @endphp
                                     <td><input type="text" class="form-control jan-input" name="jan_{{ $inputDayMonth }}" value="{{ $qty_trafo }}" disabled style="{{ $background_color }}"></td>
                                 @endforeach
                             </tr>
                         @endforeach
                         <tr>
-                            <td class="freeze-column" style="min-width: 167px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
                                 <input type="text" class="form-control" name="id_wo" value="">
                             </td>
-                            <td class="freeze-column" style="min-width: 167px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
                                 <input type="text" class="form-control" name="id_so_new" value="" disabled>
                             </td>
-                            <td class="" style="min-width: 85px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 85px; padding: 10px;">
                                 <input type="text" class="form-control" name="line" value="">
                             </td>
-                            <td class="" style="min-width: 250px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 250px; padding: 10px;">
                                 <input type="text" class="form-control" name="project" value="">
                             </td>
-                            <td class="" style="min-width: 150px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 150px; padding: 10px;">
                                 <input type="text" class="form-control" name="deadline" id="deadline_input" value="">
                             </td>
-                            <td class="" style="min-width: 100px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 100px; padding: 10px;">
                                 <input type="text" class="form-control" name="kva" value="">
                             </td>
-                            <td class="" style="min-width: 78px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 78px; padding: 10px;">
                                 <input type="text" class="form-control" name="qty_trafo" value="">
                             </td>
-                            <td class="" style="min-width: 160px; padding: 10px;">
+                            <td class="freeze-column" style="position: relative; min-width: 160px; padding: 10px;">
                                 <input type="text" class="form-control" name="manhour_code" value="" disabled>
                             </td>
                             @for ($i = 1; $i <= 61; $i++)

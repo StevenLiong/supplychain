@@ -14,6 +14,7 @@ class Mps2 extends Model
         'qty_trafo',
         'deadline',
         'kva',
+        'id_standardize_work',
     ];
     use HasFactory;
 

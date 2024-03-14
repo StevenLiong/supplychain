@@ -20,6 +20,7 @@ class GPADry extends Model
         'deadline',
         'nama_workcenter',
         'keterangan',
+        'id_mps',
     ];
     use HasFactory;
 

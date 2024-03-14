@@ -83,6 +83,8 @@ class DryCastResin extends Model
                 'total_hour' => $dryresin->total_hour,
                 'id_fg' => $dryresin->id_fg,
                 'kd_manhour' => $dryresin->kd_manhour,
+                'nomor_so' => $dryresin->nomor_so,
+                'ukuran_kapasitas' => $dryresin->ukuran_kapasitas,
                 'nama_product' => 'Dry Cast Resin',
             ]);
         });

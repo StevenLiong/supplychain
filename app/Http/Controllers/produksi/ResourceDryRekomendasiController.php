@@ -101,7 +101,7 @@ class ResourceDryRekomendasiController extends Controller
                 break;
         }
 
-        $gpadry = GPADry::where('production_line', 'Drytype');
+        $gpadry = GPADry::where('production_line', 'Dry');
 
         $gpadryfilterLV = clone $gpadry;
         $gpadryfilterHV = clone $gpadry;
@@ -118,7 +118,7 @@ class ResourceDryRekomendasiController extends Controller
         $woDryConect = $gpadryfilterCCAConect->pluck('id_wo');
 
         $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
-            ->whereBetween('deadline', $getDay)
+        ->whereBetween('deadline', $getDay)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryLV)
             ->get()
@@ -131,6 +131,7 @@ class ResourceDryRekomendasiController extends Controller
                     return 0;
                 }
             });
+            dd($woDryLV);
         $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
             ->whereBetween('deadline', $getDay)
             ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
@@ -285,46 +286,91 @@ class ResourceDryRekomendasiController extends Controller
             case 2:
                 $shift = 16;
                 break;
-            case 3:
-                $shift = 24;
-                break;
+                case 3:
+                    $shift = 24;
+                    break;
         }
         // proses pengambilan data nama MP pada workcenter coil making LV melalui gpa
 
         $gpadryfilterLV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
-            ->whereBetween('deadline', $getDay)
-            ->get();
+        ->whereBetween('deadline', $getDay)
+        ->get();
+        // dd($gpadryfilterLV);
 
         $dateStrings = $gpadryfilterLV->pluck('deadline');
+
         $woIds = $gpadryfilterLV->pluck('wo.id_wo');
         $coilLv = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.coil_lv');
-        // $potong_leadwire = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_leadwire');
-        // $potong_isolasi = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_isolasi');
+        $potong_leadwire = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_leadwire');
+        $potong_isolasi = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_isolasi');
 
         $ketersediaanMPLV = $ketersediaanMPCoil_Making_LV;
         $namaMP = [];
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
-            $namaMP_currentSkill = $matrixSkil->where('production_line', 'Dry Resin')
+            $namaMP_currentSkillLV = $matrixSkil->where('production_line', 'Dry Resin')
                 ->where('nama_workcenter', 'Coil Making')
                 ->where('proses', 'COIL LV')
                 ->whereIn('tipe_proses', $coilLv)
                 ->where('skill', $i)
                 ->whereNotIn('man_power.nama', $namaMP)
                 ->pluck('man_power.nama')->toArray();
-            // Array untuk menyimpan data nama MP dan tanggal lahirnya
-            $namaMP_withDOB = [];
-            foreach ($namaMP_currentSkill as $nama_mp) {
+            $namaMP_withDOBlv = [];
+            foreach ($namaMP_currentSkillLV as $nama_mp) {
                 if (!in_array($nama_mp, $namaMP)) {
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter',  ['LV Windling'])
                         ->first();
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     if (!$existingMP) {
-                        // Ambil tanggal lahir dari database untuk nama_mp yang sesuai
                         $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
-                        // Jika tanggal lahir ditemukan
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOBlv[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_leadwire = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Coil Making')
+                ->where('proses', 'POTONG LEAD WIRE')
+                ->whereIn('tipe_proses', $potong_leadwire)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_leadwire = [];
+            foreach ($namaMP_currentSkill_leadwire as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter',  ['LV Windling'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_leadwire[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_isolasi = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Coil Making')
+                ->where('proses', 'POTONG ISOLASI')
+                ->whereIn('tipe_proses', $potong_isolasi)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB = [];
+            foreach ($namaMP_currentSkill_isolasi as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter',  ['LV Windling'])
+                        ->first();
+                    if (!$existingMP) {
                         if ($tanggal_lahir) {
                             $namaMP_withDOB[] = [
                                 'nama_mp' => $nama_mp,
@@ -334,78 +380,164 @@ class ResourceDryRekomendasiController extends Controller
                     }
                 }
             }
-
-            // Jika ada nama MP dengan tanggal lahir paling muda
-            if (!empty($namaMP_withDOB)) {
-                // Urutkan array berdasarkan tanggal lahir, yang paling muda akan berada di awal
-                usort($namaMP_withDOB, function ($a, $b) {
+            if (!empty($namaMP_withDOBlv)) {
+                usort($namaMP_withDOBlv, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                // Tambahkan nama MP dengan tanggal lahir paling muda ke dalam $namaMP
-                $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
+                $namaMP[] = $namaMP_withDOBlv[0]['nama_mp'];
             }
-
-            // Jika jumlah namaMP sudah mencukupi
+            if (!empty($namaMP_withDOB_leadwire)) {
+                usort($namaMP_withDOB_leadwire, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_leadwire[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_isolasi)) {
+                usort($namaMP_withDOB_isolasi, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_isolasi[0]['nama_mp'];
+            }
+            $namaMP = array_unique($namaMP);
             if (count($namaMP) >= $ketersediaanMPLV) {
-                break; // Keluar dari loop setelah mencapai jumlah yang sesuai
+                break;
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPLV));
-
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourLV = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.totalHour_coil_makinglv', $wo)->sum();
-            $qty = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
-            $remainingHours = $hourLV * $qty;
-            $nama = $namaMP[$time];
-            $currentDate = [];
 
-            while ($remainingHours > 0) {
+            // Proses COIL LV
+            $hourLV = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.hour_coil_lv', $wo)->sum();
+            $qtyLV = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
+            $remainingHoursLV = $hourLV * $qtyLV;
+            $namaLV = $namaMP[$time];
+            $currentDateLV = [];
+
+            while ($remainingHoursLV > 0) {
                 if ($start->isWeekend() || $holidayDates->contains($start)) {
                     $start->nextWeekday();
                     continue;
                 }
-                $endTime = $start->copy()->addHours(min(8, $remainingHours));
-                $minhourday = min(8, $remainingHours);
-                $existingData = ResultRekomendasi::where([
-                    'end' => $endTime->format('Y-m-d'),
+                $endTimeLV = $start->copy()->addHours(min(8, $remainingHoursLV));
+                $minhourdayLV = min(8, $remainingHoursLV);
+                $existingDataLV = ResultRekomendasi::where([
+                    'end' => $endTimeLV->format('Y-m-d'),
                     'wo_id' => $wo,
-                    'nama_mp' => $nama,
+                    'nama_mp' => $namaLV,
                     'nama_workcenter' => 'LV Windling',
                     'nama_proses' => 'COIL LV',
-                ])->exists();
+                    ])->exists();
 
-                if (!$existingData) {
-                    $currentDate[] = [
-                        'end' => $endTime->format('Y-m-d'),
-                        'hours' => $minhourday,
+                if (!$existingDataLV) {
+                    $currentDateLV[] = [
+                        'end' => $endTimeLV->format('Y-m-d'),
+                        'hours' => $minhourdayLV,
                         'wo_id' => $wo,
-                        'nama_mp' => $nama,
+                        'nama_mp' => $namaLV,
                         'nama_workcenter' => 'LV Windling',
                         'nama_proses' => 'COIL LV',
                     ];
                 }
-                $start = $endTime->copy()->addSeconds(1);
-                $remainingHours -= $minhourday;
+                $start = $endTimeLV->copy()->addSeconds(1);
+                $remainingHoursLV -= $minhourdayLV;
                 $start->addDay();
             }
-            if (!empty($currentDate)) {
-                ResultRekomendasi::insert($currentDate);
+            if (!empty($currentDateLV)) {
+                ResultRekomendasi::insert($currentDateLV);
             }
-            $currentDate = [];
+
+            // Proses POTONG LEAD WIRE
+            $hourLeadWire = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.hour_potong_leadwire', $wo)->sum();
+            $qtyLeadWire = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
+            $remainingHoursLeadWire = $hourLeadWire * $qtyLeadWire;
+            $namaLeadWire = $namaMP[$time];
+            $currentDateLeadWire = [];
+
+            while ($remainingHoursLeadWire > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTimeLeadWire = $start->copy()->addHours(min(8, $remainingHoursLeadWire));
+                $minhourdayLeadWire = min(8, $remainingHoursLeadWire);
+                $existingDataLeadWire = ResultRekomendasi::where([
+                    'end' => $endTimeLeadWire->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $namaLeadWire,
+                    'nama_workcenter' => 'LV Windling',
+                    'nama_proses' => 'POTONG LEAD WIRE',
+                ])->exists();
+
+                if (!$existingDataLeadWire) {
+                    $currentDateLeadWire[] = [
+                        'end' => $endTimeLeadWire->format('Y-m-d'),
+                        'hours' => $minhourdayLeadWire,
+                        'wo_id' => $wo,
+                        'nama_mp' => $namaLeadWire,
+                        'nama_workcenter' => 'LV Windling',
+                        'nama_proses' => 'POTONG LEAD WIRE',
+                    ];
+                }
+                $start = $endTimeLeadWire->copy()->addSeconds(1);
+                $remainingHoursLeadWire -= $minhourdayLeadWire;
+                $start->addDay();
+            }
+            if (!empty($currentDateLeadWire)) {
+                ResultRekomendasi::insert($currentDateLeadWire);
+            }
+
+            // Proses POTONG ISOLASI
+            $hourIsolasi = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi', $wo)->sum();
+            $qtyIsolasi = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
+            $remainingHoursIsolasi = $hourIsolasi * $qtyIsolasi;
+            $namaIsolasi = isset($namaMP[$time]) && !empty($namaMP[$time]) ? $namaMP[$time] : "tidak ada nama MP";
+            $currentDateIsolasi = [];
+
+            while ($remainingHoursIsolasi > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTimeIsolasi = $start->copy()->addHours(min(8, $remainingHoursIsolasi));
+                $minhourdayIsolasi = min(8, $remainingHoursIsolasi);
+                $existingDataIsolasi = ResultRekomendasi::where([
+                    'end' => $endTimeIsolasi->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $namaIsolasi,
+                    'nama_workcenter' => 'LV Windling',
+                    'nama_proses' => 'POTONG ISOLASI',
+                ])->exists();
+
+                if (!$existingDataIsolasi) {
+                    $currentDateIsolasi[] = [
+                        'end' => $endTimeIsolasi->format('Y-m-d'),
+                        'hours' => $minhourdayIsolasi,
+                        'wo_id' => $wo,
+                        'nama_mp' => $namaIsolasi,
+                        'nama_workcenter' => 'LV Windling',
+                        'nama_proses' => 'POTONG ISOLASI',
+                    ];
+                }
+                $start = $endTimeIsolasi->copy()->addSeconds(1);
+                $remainingHoursIsolasi -= $minhourdayIsolasi;
+                $start->addDay();
+            }
+            if (!empty($currentDateIsolasi)) {
+                ResultRekomendasi::insert($currentDateIsolasi);
+            }
         }
 
         // proses pengambilan data nama MP pada workcenter coil making HV melalui gpa
         $gpadryfilterHV = $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
-            ->whereBetween('deadline', $getDay)
-            ->get();
+        ->whereBetween('deadline', $getDay)
+        ->get();
 
         $dateStrings = $gpadryfilterHV->pluck('deadline');
         $woIds = $gpadryfilterHV->pluck('wo.id_wo');
         $coilHv = $gpadryfilterHV->pluck('wo.standardize_work.dry_cast_resin.coil_hv');
         $ketersediaanMPHV = $ketersediaanMPCoil_Making_HV;
         $namaMP = [];
-
 
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
@@ -414,23 +546,16 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'COIL HV')
                 ->whereIn('tipe_proses', $coilHv)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
+                ->whereNotIn('man_power.nama', $namaMP)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB = [];
             foreach ($namaMP_currentSkill as $nama_mp) {
-                // Cek apakah nama_mp sudah ada sebelumnya
                 if (!in_array($nama_mp, $namaMP)) {
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter',  ['HV Windling'])
                         ->first();
-
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     if (!$existingMP) {
-                        // Ambil tanggal lahir dari database untuk nama_mp yang sesuai
                         $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
-
-                        // Jika tanggal lahir ditemukan
                         if ($tanggal_lahir) {
                             $namaMP_withDOB[] = [
                                 'nama_mp' => $nama_mp,
@@ -440,25 +565,17 @@ class ResourceDryRekomendasiController extends Controller
                     }
                 }
             }
-
-            // Jika ada nama MP dengan tanggal lahir paling muda
             if (!empty($namaMP_withDOB)) {
-                // Urutkan array berdasarkan tanggal lahir, yang paling muda akan berada di awal
                 usort($namaMP_withDOB, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-
-                // Tambahkan nama MP dengan tanggal lahir paling muda ke dalam $namaMP
                 $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
             }
-
-            // Jika jumlah namaMP sudah mencukupi
             if (count($namaMP) >= $ketersediaanMPHV) {
-                break; // Keluar dari loop setelah mencapai jumlah yang sesuai
+                break;
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPHV));
-        // dd($namaMP);
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
             $hourHV = $gpadryfilterHV->pluck('wo.standardize_work.dry_cast_resin.hour_coil_hv', $wo)->sum();
@@ -469,7 +586,7 @@ class ResourceDryRekomendasiController extends Controller
             } else {
                 $nama = "tidak ada nama MP";
             }
-            $currentDate = [];
+            $currentDateHv = [];
 
             while ($remainingHours > 0) {
                 if ($start->isWeekend() || $holidayDates->contains($start)) {
@@ -487,7 +604,7 @@ class ResourceDryRekomendasiController extends Controller
                 ])->exists();
 
                 if (!$existingData) {
-                    $currentDate[] = [
+                    $currentDateHv[] = [
                         'end' => $endTime->format('Y-m-d'),
                         'hours' => $minhourday,
                         'wo_id' => $wo,
@@ -500,10 +617,10 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate)) {
-                ResultRekomendasi::insert($currentDate);
+            if (!empty($currentDateHv)) {
+                ResultRekomendasi::insert($currentDateHv);
             }
-            $currentDate = [];
+            // $currentDate = [];
         }
 
         // proses pengambilan data nama MP pada workcenter Mould & Casting melalui gpa
@@ -519,54 +636,148 @@ class ResourceDryRekomendasiController extends Controller
         $hvcasting = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hv_casting');
         $hvdemoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hv_demoulding');
         $lvbobbin = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.lv_bobbin');
-
-        $lvbobbin_values = explode(",", $lvbobbin);
-
-        $lvbobbin1 = isset($lvbobbin_values[0]) ? trim($lvbobbin_values[0], " \t\n\r\0\x0B\"'[]") : null;
-        $lvbobbin2 = isset($lvbobbin_values[1]) ? trim($lvbobbin_values[1], " \t\n\r\0\x0B\"'[]") : null;
-
         $lv_moulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.lv_moulding');
-        $lvmoulding_values = explode(",", $lv_moulding);
-
-        $lvmoulding1 = isset($lvmoulding_values[0]) ? trim($lvmoulding_values[0], " \t\n\r\0\x0B\"'[]") : null;
-        $lvmoulding2 = isset($lvmoulding_values[1]) ? trim($lvmoulding_values[1], " \t\n\r\0\x0B\"'[]") : null;
-        $lvmoulding3 = isset($lvmoulding_values[2]) ? trim($lvmoulding_values[2], " \t\n\r\0\x0B\"'[]") : null;
-        $lvmoulding4 = isset($lvmoulding_values[3]) ? trim($lvmoulding_values[3], " \t\n\r\0\x0B\"'[]") : null;
-
         $touch_up = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.touch_up');
-        $touch_up_values = explode(",", $touch_up);
-
-        $touch_up1 = isset($touch_up_values[0]) ? trim($touch_up_values[0], " \t\n\r\0\x0B\"'[]") : null;
-        $touch_up2 = isset($touch_up_values[1]) ? trim($touch_up_values[1], " \t\n\r\0\x0B\"'[]") : null;
-
         $ketersediaanMPMould = $ketersediaanMPMould_Casting;
         $namaMP = [];
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
-            $namaMP_currentSkill = $matrixSkil->where('production_line', 'Dry Resin')
+            $namaMP_currentSkill_hvmoulding = $matrixSkil->where('production_line', 'Dry Resin')
                 ->where('nama_workcenter', 'Mould & Casting')
-                // ->where('proses', 'HV MOULDING')
-                ->whereIn('tipe_proses', [$hvmoulding, $hvcasting, $hvdemoulding, $lvbobbin1, $lvbobbin2, $lvmoulding1, $lvmoulding2, $lvmoulding3, $lvmoulding4, $touch_up1, $touch_up2])
-                ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
+                ->where('proses', 'HV MOULDING')
+                ->whereIn('tipe_proses', $hvmoulding)
+                ->whereNotIn('man_power.nama', $namaMP)
                 ->pluck('man_power.nama')->toArray();
-            $namaMP_withDOB = [];
-            foreach ($namaMP_currentSkill as $nama_mp) {
-                // Cek apakah nama_mp sudah ada sebelumnya
+            $namaMP_withDOB_hvmoulding = [];
+            foreach ($namaMP_currentSkill_hvmoulding as $nama_mp) {
                 if (!in_array($nama_mp, $namaMP)) {
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
-
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     if (!$existingMP) {
-                        // Ambil tanggal lahir dari database untuk nama_mp yang sesuai
                         $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
-
-                        // Jika tanggal lahir ditemukan
                         if ($tanggal_lahir) {
-                            $namaMP_withDOB[] = [
+                            $namaMP_withDOB_hvmoulding[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_casting = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Mould & Casting')
+                ->where('proses', 'HV CASTING')
+                ->whereIn('tipe_proses',  $hvcasting)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_casting = [];
+            foreach ($namaMP_currentSkill_casting as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Moulding'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_casting[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_demoulding = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Mould & Casting')
+                ->where('proses', 'HV DEMOULDING')
+                ->whereIn('tipe_proses',  $hvdemoulding)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_demoulding = [];
+            foreach ($namaMP_currentSkill_demoulding as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Moulding'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_demoulding[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_bobbin = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Mould & Casting')
+                ->where('proses', 'LV BOBBIN')
+                ->whereIn('tipe_proses',  $lvbobbin)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_bobbin = [];
+            foreach ($namaMP_currentSkill_bobbin as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Moulding'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_bobbin[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_lvmoulding = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Mould & Casting')
+                ->where('proses', 'LV MOULDING')
+                ->whereIn('tipe_proses', $lv_moulding)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_lvmoulding = [];
+            foreach ($namaMP_currentSkill_lvmoulding as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Moulding'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_lvmoulding[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_touchup = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Mould & Casting')
+                ->where('proses', 'TOUCH UP')
+                ->whereIn('tipe_proses', $touch_up)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_touchup = [];
+            foreach ($namaMP_currentSkill_touchup as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Moulding'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_touchup[] = [
                                 'nama_mp' => $nama_mp,
                                 'tanggal_lahir' => $tanggal_lahir
                             ];
@@ -575,27 +786,52 @@ class ResourceDryRekomendasiController extends Controller
                 }
             }
 
-            // Jika ada nama MP dengan tanggal lahir paling muda
-            if (!empty($namaMP_withDOB)) {
-                // Urutkan array berdasarkan tanggal lahir, yang paling muda akan berada di awal
-                usort($namaMP_withDOB, function ($a, $b) {
+            if (!empty($namaMP_withDOB_hvmoulding)) {
+                usort($namaMP_withDOB_hvmoulding, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-
-                // Tambahkan nama MP dengan tanggal lahir paling muda ke dalam $namaMP
-                $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
+                $namaMP[] = $namaMP_withDOB_hvmoulding[0]['nama_mp'];
             }
-
-            // Jika jumlah namaMP sudah mencukupi
+            if (!empty($namaMP_withDOB_casting)) {
+                usort($namaMP_withDOB_casting, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_casting[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_demoulding)) {
+                usort($namaMP_withDOB_demoulding, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_demoulding[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_bobbin)) {
+                usort($namaMP_withDOB_bobbin, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_bobbin[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_hvmoulding)) {
+                usort($namaMP_withDOB_hvmoulding, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_hvmoulding[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_touchup)) {
+                usort($namaMP_withDOB_touchup, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_touchup[0]['nama_mp'];
+            }
             if (count($namaMP) >= $ketersediaanMPMould) {
-                break; // Keluar dari loop setelah mencapai jumlah yang sesuai
+                break;
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPMould));
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourMould = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.totalHour_MouldCasting', $wo)->sum();
+            // proses HV MOULDING
+            $hourMould = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_hv_moulding', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourMould * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -603,7 +839,7 @@ class ResourceDryRekomendasiController extends Controller
             } else {
                 $nama = "tidak ada nama MP";
             }
-            $currentDate = [];
+            $currentDate_HvDemoulding = [];
 
             while ($remainingHours > 0) {
                 if ($start->isWeekend() || $holidayDates->contains($start)) {
@@ -617,27 +853,237 @@ class ResourceDryRekomendasiController extends Controller
                     'wo_id' => $wo,
                     'nama_mp' => $nama,
                     'nama_workcenter' => 'Moulding',
-                    'nama_proses' => 'Moulding & casting',
+                    'nama_proses' => 'HV MOULDING',
                 ])->exists();
 
                 if (!$existingData) {
-                    $currentDate[] = [
+                    $currentDate_HvDemoulding[] = [
                         'end' => $endTime->format('Y-m-d'),
                         'hours' => $minhourday,
                         'wo_id' => $wo,
                         'nama_mp' => $nama,
                         'nama_workcenter' => 'Moulding',
-                        'nama_proses' => 'Moulding & casting',
+                        'nama_proses' => 'HV MOULDING',
                     ];
                 }
                 $start = $endTime->copy()->addSeconds(1);
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate)) {
-                ResultRekomendasi::insert($currentDate);
+            if (!empty($currentDate_HvDemoulding)) {
+                ResultRekomendasi::insert($currentDate_HvDemoulding);
             }
-            $currentDate = [];
+            // proses HV MOULDING
+            $hourCasting = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_hv_casting', $wo)->sum();
+            $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
+            $remainingHours = $hourCasting * $qty;
+            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
+                $nama = $namaMP[$time];
+            } else {
+                $nama = "tidak ada nama MP";
+            }
+            $currentDate_HvCasting = [];
+
+            while ($remainingHours > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTime = $start->copy()->addHours(min(8, $remainingHours));
+                $minhourday = min(8, $remainingHours);
+                $existingData = ResultRekomendasi::where([
+                    'end' => $endTime->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $nama,
+                    'nama_workcenter' => 'Moulding',
+                    'nama_proses' => 'HV CASTING',
+                ])->exists();
+
+                if (!$existingData) {
+                    $currentDate_HvCasting[] = [
+                        'end' => $endTime->format('Y-m-d'),
+                        'hours' => $minhourday,
+                        'wo_id' => $wo,
+                        'nama_mp' => $nama,
+                        'nama_workcenter' => 'Moulding',
+                        'nama_proses' => 'HV CASTING',
+                    ];
+                }
+                $start = $endTime->copy()->addSeconds(1);
+                $remainingHours -= $minhourday;
+                $start->addDay();
+            }
+            if (!empty($currentDate_HvCasting)) {
+                ResultRekomendasi::insert($currentDate_HvCasting);
+            }
+            $hourDemoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_hv_demoulding', $wo)->sum();
+            $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
+            $remainingHours = $hourDemoulding * $qty;
+            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
+                $nama = $namaMP[$time];
+            } else {
+                $nama = "tidak ada nama MP";
+            }
+            $currentDate_hvDemoudling = [];
+
+            while ($remainingHours > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTime = $start->copy()->addHours(min(8, $remainingHours));
+                $minhourday = min(8, $remainingHours);
+                $existingData = ResultRekomendasi::where([
+                    'end' => $endTime->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $nama,
+                    'nama_workcenter' => 'Moulding',
+                    'nama_proses' => 'HV DEMOULDING',
+                ])->exists();
+
+                if (!$existingData) {
+                    $currentDate_hvDemoudling[] = [
+                        'end' => $endTime->format('Y-m-d'),
+                        'hours' => $minhourday,
+                        'wo_id' => $wo,
+                        'nama_mp' => $nama,
+                        'nama_workcenter' => 'Moulding',
+                        'nama_proses' => 'HV DEMOULDING',
+                    ];
+                }
+                $start = $endTime->copy()->addSeconds(1);
+                $remainingHours -= $minhourday;
+                $start->addDay();
+            }
+            if (!empty($currentDate_hvDemoudling)) {
+                ResultRekomendasi::insert($currentDate_hvDemoudling);
+            }
+            $hourLvbobbin = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_lv_bobbin', $wo)->sum();
+            $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
+            $remainingHours = $hourLvbobbin * $qty;
+            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
+                $nama = $namaMP[$time];
+            } else {
+                $nama = "tidak ada nama MP";
+            }
+            $currentDate_Lvbobin = [];
+
+            while ($remainingHours > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTime = $start->copy()->addHours(min(8, $remainingHours));
+                $minhourday = min(8, $remainingHours);
+                $existingData = ResultRekomendasi::where([
+                    'end' => $endTime->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $nama,
+                    'nama_workcenter' => 'Moulding',
+                    'nama_proses' => 'LV BOBBIN',
+                ])->exists();
+
+                if (!$existingData) {
+                    $currentDate_Lvbobin[] = [
+                        'end' => $endTime->format('Y-m-d'),
+                        'hours' => $minhourday,
+                        'wo_id' => $wo,
+                        'nama_mp' => $nama,
+                        'nama_workcenter' => 'Moulding',
+                        'nama_proses' => 'LV BOBBIN',
+                    ];
+                }
+                $start = $endTime->copy()->addSeconds(1);
+                $remainingHours -= $minhourday;
+                $start->addDay();
+            }
+            if (!empty($currentDate_Lvbobin)) {
+                ResultRekomendasi::insert($currentDate_Lvbobin);
+            }
+            $hourLvmoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_lv_moulding', $wo)->sum();
+            $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
+            $remainingHours = $hourLvmoulding * $qty;
+            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
+                $nama = $namaMP[$time];
+            } else {
+                $nama = "tidak ada nama MP";
+            }
+            $currentDate_lvMoulding = [];
+
+            while ($remainingHours > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTime = $start->copy()->addHours(min(8, $remainingHours));
+                $minhourday = min(8, $remainingHours);
+                $existingData = ResultRekomendasi::where([
+                    'end' => $endTime->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $nama,
+                    'nama_workcenter' => 'Moulding',
+                    'nama_proses' => 'LV MOULDING',
+                ])->exists();
+
+                if (!$existingData) {
+                    $currentDate_lvMoulding[] = [
+                        'end' => $endTime->format('Y-m-d'),
+                        'hours' => $minhourday,
+                        'wo_id' => $wo,
+                        'nama_mp' => $nama,
+                        'nama_workcenter' => 'Moulding',
+                        'nama_proses' => 'LV MOULDING',
+                    ];
+                }
+                $start = $endTime->copy()->addSeconds(1);
+                $remainingHours -= $minhourday;
+                $start->addDay();
+            }
+            if (!empty($currentDate_lvMoulding)) {
+                ResultRekomendasi::insert($currentDate_lvMoulding);
+            }
+            $hourTouchup = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_touch_up', $wo)->sum();
+            $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
+            $remainingHours = $hourTouchup * $qty;
+            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
+                $nama = $namaMP[$time];
+            } else {
+                $nama = "tidak ada nama MP";
+            }
+            $currentDate_touch_up = [];
+
+            while ($remainingHours > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTime = $start->copy()->addHours(min(8, $remainingHours));
+                $minhourday = min(8, $remainingHours);
+                $existingData = ResultRekomendasi::where([
+                    'end' => $endTime->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $nama,
+                    'nama_workcenter' => 'Moulding',
+                    'nama_proses' => 'TOUCH UP',
+                ])->exists();
+
+                if (!$existingData) {
+                    $currentDate_touch_up[] = [
+                        'end' => $endTime->format('Y-m-d'),
+                        'hours' => $minhourday,
+                        'wo_id' => $wo,
+                        'nama_mp' => $nama,
+                        'nama_workcenter' => 'Moulding',
+                        'nama_proses' => 'TOUCH UP',
+                    ];
+                }
+                $start = $endTime->copy()->addSeconds(1);
+                $remainingHours -= $minhourday;
+                $start->addDay();
+            }
+            if (!empty($currentDate_touch_up)) {
+                ResultRekomendasi::insert($currentDate_touch_up);
+            }
         }
 
         // proses pengambilan data nama MP pada workcenter Susun Core melalui gpa
@@ -651,38 +1097,56 @@ class ResourceDryRekomendasiController extends Controller
 
         $susun_core = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.type_susun_core');
         $potong_isolasi_fiber = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.potong_isolasi_fiber');
-        $potong_isolasi_fiber_values = explode(",", $potong_isolasi_fiber);
-        $potong_isolasi_fiber1 = isset($potong_isolasi_fiber_values[0]) ? trim($potong_isolasi_fiber_values[0], " \t\n\r\0\x0B\"'[]") : null;
-        $potong_isolasi_fiber2 = isset($potong_isolasi_fiber_values[1]) ? trim($potong_isolasi_fiber_values[1], " \t\n\r\0\x0B\"'[]") : null;
 
         $ketersediaanMPSusun = $ketersediaanMPCCASusun;
         $namaMP = [];
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
-            $namaMP_currentSkill = $matrixSkil->where('production_line', 'Dry Resin')
+            $namaMP_currentSkill_susun = $matrixSkil->where('production_line', 'Dry Resin')
                 ->where('nama_workcenter', 'Core Coil Assembly')
-                // ->where('proses', 'TYPE SUSUN CORE')
-                ->whereIn('tipe_proses', [$susun_core, $potong_isolasi_fiber1, $potong_isolasi_fiber2])
+                ->where('proses', 'TYPE SUSUN CORE')
+                ->whereIn('tipe_proses', $susun_core)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
+                ->whereNotIn('man_power.nama', $namaMP)
                 ->pluck('man_power.nama')->toArray();
-            $namaMP_withDOB = [];
-            foreach ($namaMP_currentSkill as $nama_mp) {
-                // Cek apakah nama_mp sudah ada sebelumnya
+            $namaMP_withDOB_susun = [];
+            foreach ($namaMP_currentSkill_susun as $nama_mp) {
                 if (!in_array($nama_mp, $namaMP)) {
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Susun Core'])
                         ->first();
 
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     if (!$existingMP) {
-                        // Ambil tanggal lahir dari database untuk nama_mp yang sesuai
                         $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
 
-                        // Jika tanggal lahir ditemukan
                         if ($tanggal_lahir) {
-                            $namaMP_withDOB[] = [
+                            $namaMP_withDOB_susun[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_potongFiber = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Core Coil Assembly')
+                ->where('proses', 'POTONG ISOLASI FIBER')
+                ->whereIn('tipe_proses', $potong_isolasi_fiber)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_potongFiber = [];
+            foreach ($namaMP_currentSkill_potongFiber as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Susun Core'])
+                        ->first();
+
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_potongFiber[] = [
                                 'nama_mp' => $nama_mp,
                                 'tanggal_lahir' => $tanggal_lahir
                             ];
@@ -691,27 +1155,29 @@ class ResourceDryRekomendasiController extends Controller
                 }
             }
 
-            // Jika ada nama MP dengan tanggal lahir paling muda
-            if (!empty($namaMP_withDOB)) {
-                // Urutkan array berdasarkan tanggal lahir, yang paling muda akan berada di awal
-                usort($namaMP_withDOB, function ($a, $b) {
+            if (!empty($namaMP_withDOB_susun)) {
+                usort($namaMP_withDOB_susun, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-
-                // Tambahkan nama MP dengan tanggal lahir paling muda ke dalam $namaMP
-                $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
+                $namaMP[] = $namaMP_withDOB_susun[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_potongFiber)) {
+                usort($namaMP_withDOB_potongFiber, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_potongFiber[0]['nama_mp'];
             }
 
-            // Jika jumlah namaMP sudah mencukupi
             if (count($namaMP) >= $ketersediaanMPSusun) {
-                break; // Keluar dari loop setelah mencapai jumlah yang sesuai
+                break;
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPSusun));
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourSusun = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.totalHour_SusunCore', $wo)->sum();
+            // proses susun core
+            $hourSusun = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.hour_type_susun_core', $wo)->sum();
             $qty = $gpadryfilterCCASusun->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourSusun * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -719,8 +1185,7 @@ class ResourceDryRekomendasiController extends Controller
             } else {
                 $nama = "tidak ada nama MP";
             }
-            $currentDate = [];
-
+            $currentDate_susun = [];
             while ($remainingHours > 0) {
                 if ($start->isWeekend() || $holidayDates->contains($start)) {
                     $start->nextWeekday();
@@ -737,7 +1202,7 @@ class ResourceDryRekomendasiController extends Controller
                 ])->exists();
 
                 if (!$existingData) {
-                    $currentDate[] = [
+                    $currentDate_susun[] = [
                         'end' => $endTime->format('Y-m-d'),
                         'hours' => $minhourday,
                         'wo_id' => $wo,
@@ -750,10 +1215,53 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate)) {
-                ResultRekomendasi::insert($currentDate);
+            if (!empty($currentDate_susun)) {
+                ResultRekomendasi::insert($currentDate_susun);
             }
-            $currentDate = [];
+
+            // proses potong isolasi fiber
+            $hourIsolasiFiber = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi_fiber', $wo)->sum();
+            $qty = $gpadryfilterCCASusun->pluck('qty_trafo', $wo)->sum();
+            $remainingHours = $hourIsolasiFiber * $qty;
+            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
+                $nama = $namaMP[$time];
+            } else {
+                $nama = "tidak ada nama MP";
+            }
+            $currentDate_isolasi_fiber = [];
+
+            while ($remainingHours > 0) {
+                if ($start->isWeekend() || $holidayDates->contains($start)) {
+                    $start->nextWeekday();
+                    continue;
+                }
+                $endTime = $start->copy()->addHours(min(8, $remainingHours));
+                $minhourday = min(8, $remainingHours);
+                $existingData = ResultRekomendasi::where([
+                    'end' => $endTime->format('Y-m-d'),
+                    'wo_id' => $wo,
+                    'nama_mp' => $nama,
+                    'nama_workcenter' => 'Susun Core',
+                    'nama_proses' => 'POTONG ISOLASI FIBER',
+                ])->exists();
+
+                if (!$existingData) {
+                    $currentDate_isolasi_fiber[] = [
+                        'end' => $endTime->format('Y-m-d'),
+                        'hours' => $minhourday,
+                        'wo_id' => $wo,
+                        'nama_mp' => $nama,
+                        'nama_workcenter' => 'Susun Core',
+                        'nama_proses' => 'POTONG ISOLASI FIBER',
+                    ];
+                }
+                $start = $endTime->copy()->addSeconds(1);
+                $remainingHours -= $minhourday;
+                $start->addDay();
+            }
+            if (!empty($currentDate_isolasi_fiber)) {
+                ResultRekomendasi::insert($currentDate_isolasi_fiber);
+            }
         }
         // proses pengambilan data nama MP pada workcenter Connect & Final Assembly melalui gpa
 
@@ -764,44 +1272,31 @@ class ResourceDryRekomendasiController extends Controller
         $woIds = $gpadryfilterCCAConect->pluck('wo.id_wo');
 
         $others = $gpadryfilterCCAConect->pluck('wo.standardize_work.dry_cast_resin.others');
-        $others_values = explode(",", $others);
-
-        $others1 = isset($others_values[0]) ? trim($others_values[0], " \t\n\r\0\x0B\"'[]") : null;
-        $others2 = isset($others_values[1]) ? trim($others_values[1], " \t\n\r\0\x0B\"'[]") : null;
-        $others3 = isset($others_values[2]) ? trim($others_values[2], " \t\n\r\0\x0B\"'[]") : null;
-        $others4 = isset($others_values[3]) ? trim($others_values[3], " \t\n\r\0\x0B\"'[]") : null;
-        $others5 = isset($others_values[4]) ? trim($others_values[4], " \t\n\r\0\x0B\"'[]") : null;
-
         $ketersediaanMPConect = $ketersediaanMPCCAConect;
         $namaMP = [];
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
-            $namaMP_currentSkill = $matrixSkil->where('production_line', 'Dry Resin')
+            $namaMP_currentSkill_others = $matrixSkil->where('production_line', 'Dry Resin')
                 ->where('nama_workcenter', 'Core Coil Assembly')
                 ->where('proses', 'OTHERS')
-                ->whereIn('tipe_proses', [$others1, $others2, $others3, $others4, $others5])
+                ->whereIn('tipe_proses', $others)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
+                ->whereNotIn('man_power.nama', $namaMP)
                 ->pluck('man_power.nama')->toArray();
 
 
-            $namaMP_withDOB = [];
-            foreach ($namaMP_currentSkill as $nama_mp) {
-                // Cek apakah nama_mp sudah ada sebelumnya
+            $namaMP_withDOB_others = [];
+            foreach ($namaMP_currentSkill_others as $nama_mp) {
                 if (!in_array($nama_mp, $namaMP)) {
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Connection & Final Assembly'])
                         ->first();
 
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     if (!$existingMP) {
-                        // Ambil tanggal lahir dari database untuk nama_mp yang sesuai
                         $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
 
-                        // Jika tanggal lahir ditemukan
                         if ($tanggal_lahir) {
-                            $namaMP_withDOB[] = [
+                            $namaMP_withDOB_others[] = [
                                 'nama_mp' => $nama_mp,
                                 'tanggal_lahir' => $tanggal_lahir
                             ];
@@ -810,27 +1305,25 @@ class ResourceDryRekomendasiController extends Controller
                 }
             }
 
-            // Jika ada nama MP dengan tanggal lahir paling muda
-            if (!empty($namaMP_withDOB)) {
-                // Urutkan array berdasarkan tanggal lahir, yang paling muda akan berada di awal
-                usort($namaMP_withDOB, function ($a, $b) {
+            if (!empty($namaMP_withDOB_others)) {
+                usort($namaMP_withDOB_others, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
 
-                // Tambahkan nama MP dengan tanggal lahir paling muda ke dalam $namaMP
-                $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
+                $namaMP[] = $namaMP_withDOB_others[0]['nama_mp'];
             }
+            $namaMP = array_unique($namaMP);
 
-            // Jika jumlah namaMP sudah mencukupi
             if (count($namaMP) >= $ketersediaanMPConect) {
-                break; // Keluar dari loop setelah mencapai jumlah yang sesuai
+                break;
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPConect));
+        // dd($ketersediaanMPCCAConect);
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourConect = $gpadryfilterCCAConect->pluck('wo.standardize_work.dry_cast_resin.totalHour_Connection_Final_Assembly', $wo)->sum();
+            $hourConect = $gpadryfilterCCAConect->pluck('wo.standardize_work.dry_cast_resin.hour_hour_others', $wo)->sum();
             $qty = $gpadryfilterCCAConect->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourConect * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -838,7 +1331,7 @@ class ResourceDryRekomendasiController extends Controller
             } else {
                 $nama = "tidak ada nama MP";
             }
-            $currentDate = [];
+            $currentDateConnect = [];
 
             while ($remainingHours > 0) {
                 if ($start->isWeekend() || $holidayDates->contains($start)) {
@@ -856,7 +1349,7 @@ class ResourceDryRekomendasiController extends Controller
                 ])->exists();
 
                 if (!$existingData) {
-                    $currentDate[] = [
+                    $currentDateConnect[] = [
                         'end' => $endTime->format('Y-m-d'),
                         'hours' => $minhourday,
                         'wo_id' => $wo,
@@ -869,8 +1362,8 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate)) {
-                ResultRekomendasi::insert($currentDate);
+            if (!empty($currentDateConnect)) {
+                ResultRekomendasi::insert($currentDateConnect);
             }
             $currentDate = [];
         }
@@ -889,37 +1382,27 @@ class ResourceDryRekomendasiController extends Controller
         $pembuatan_cu_link = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.pembuatan_cu_link');
         $accesories = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.accesories');
 
-        $accesories_values = explode(",", $accesories);
-
-        $accesories1 = isset($accesories_values[0]) ? trim($accesories_values[0], " \t\n\r\0\x0B\"'[]") : null;
-        $accesories2 = isset($accesories_values[1]) ? trim($accesories_values[1], " \t\n\r\0\x0B\"'[]") : null;
-
         $ketersediaanMPFinishing = $ketersediaanMPCCAFinishing;
         $namaMP = [];
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
-            $namaMP_currentSkill = $matrixSkil->where('production_line', 'Dry Resin')
+            $namaMP_currentSkill_wiring = $matrixSkil->where('production_line', 'Dry Resin')
                 ->where('nama_workcenter', 'Core Coil Assembly')
-                // ->where('proses', 'TYPE SUSUN CORE')
-                ->whereIn('tipe_proses', [$wiring, $instal_housing, $bongkar_housing, $pembuatan_cu_link, $accesories1, $accesories2])
+                ->where('proses', 'WIRING')
+                ->whereIn('tipe_proses', $wiring)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP) // Memastikan nama_mp tidak sama dengan namaMP sebelumnya
+                ->whereNotIn('man_power.nama', $namaMP)
                 ->pluck('man_power.nama')->toArray();
-            $namaMP_withDOB = [];
-            foreach ($namaMP_currentSkill as $nama_mp) {
-                // Cek apakah nama_mp sudah ada sebelumnya
+            $namaMP_withDOB_wiring = [];
+            foreach ($namaMP_currentSkill_wiring as $nama_mp) {
                 if (!in_array($nama_mp, $namaMP)) {
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Finishing'])
                         ->first();
-
-                    // Cek apakah nama_mp sudah ada di ResultRekomendasi
                     if (!$existingMP) {
-                        // Ambil tanggal lahir dari database untuk nama_mp yang sesuai
                         $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
                         if ($tanggal_lahir) {
-                            $namaMP_withDOB[] = [
+                            $namaMP_withDOB_wiring[] = [
                                 'nama_mp' => $nama_mp,
                                 'tanggal_lahir' => $tanggal_lahir
                             ];
@@ -927,16 +1410,136 @@ class ResourceDryRekomendasiController extends Controller
                     }
                 }
             }
-            if (!empty($namaMP_withDOB)) {
-                usort($namaMP_withDOB, function ($a, $b) {
+            $namaMP_currentSkill_instalHousing = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Core Coil Assembly')
+                ->where('proses', 'INSTAL HOUSING')
+                ->whereIn('tipe_proses', $instal_housing)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_instalHosing = [];
+            foreach ($namaMP_currentSkill_instalHousing as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Finishing'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_instalHosing[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_bongkarHousing = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Core Coil Assembly')
+                ->where('proses', 'BONGKAR HOUSING')
+                ->whereIn('tipe_proses', $bongkar_housing)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_bongkarHosing = [];
+            foreach ($namaMP_currentSkill_bongkarHousing as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Finishing'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_bongkarHosing[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_pembuatanCU = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Core Coil Assembly')
+                ->where('proses', 'PEMBUATAN CU LINK')
+                ->whereIn('tipe_proses', $pembuatan_cu_link)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_pembuatanCU = [];
+            foreach ($namaMP_currentSkill_pembuatanCU as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Finishing'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_pembuatanCU[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            $namaMP_currentSkill_accesoris = $matrixSkil->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Core Coil Assembly')
+                ->where('proses', 'ACCESORIES')
+                ->whereIn('tipe_proses', $accesories)
+                ->where('skill', $i)
+                ->whereNotIn('man_power.nama', $namaMP)
+                ->pluck('man_power.nama')->toArray();
+            $namaMP_withDOB_accesoris = [];
+            foreach ($namaMP_currentSkill_accesoris as $nama_mp) {
+                if (!in_array($nama_mp, $namaMP)) {
+                    $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
+                        ->whereNotIn('nama_workcenter', ['Finishing'])
+                        ->first();
+                    if (!$existingMP) {
+                        $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
+                        if ($tanggal_lahir) {
+                            $namaMP_withDOB_accesoris[] = [
+                                'nama_mp' => $nama_mp,
+                                'tanggal_lahir' => $tanggal_lahir
+                            ];
+                        }
+                    }
+                }
+            }
+            if (!empty($namaMP_withDOB_wiring)) {
+                usort($namaMP_withDOB_wiring, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
+                $namaMP[] = $namaMP_withDOB_wiring[0]['nama_mp'];
             }
+            if (!empty($namaMP_withDOB_instalHosing)) {
+                usort($namaMP_withDOB_instalHosing, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_instalHosing[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_bongkarHosing)) {
+                usort($namaMP_withDOB_bongkarHosing, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_bongkarHosing[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_pembuatanCU)) {
+                usort($namaMP_withDOB_pembuatanCU, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_pembuatanCU[0]['nama_mp'];
+            }
+            if (!empty($namaMP_withDOB_accesoris)) {
+                usort($namaMP_withDOB_accesoris, function ($a, $b) {
+                    return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
+                });
+                $namaMP[] = $namaMP_withDOB_accesoris[0]['nama_mp'];
+            }
+            $namaMP = array_unique($namaMP);
 
-            // Jika jumlah namaMP sudah mencukupi
             if (count($namaMP) >= $ketersediaanMPFinishing) {
-                break; // Keluar dari loop setelah mencapai jumlah yang sesuai
+                break;
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPFinishing));

@@ -50,7 +50,6 @@
                             <tr class=" justify-content-center" role="row">
                                 <th style="width: 15rem;text-align: center;">Work Center</th>
                                 <th style="width: 15rem;text-align:center">Start Date</th>
-                                <th style="width: 15rem;text-align:center">Deadline</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,7 +57,6 @@
                                 <tr role="row" class="odd">
                                     <td style="text-align: center;" class="sorting_1">{{ $detailGpa->nama_workcenter }}</td>
                                     <td style="text-align: center">{{ \Carbon\Carbon::parse($detailGpa->start)->format('d-F-Y') }}</td>
-                                    <td style="text-align: center">{{ \Carbon\Carbon::parse($detailGpa->deadline)->format('d-F-Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

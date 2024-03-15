@@ -2,8 +2,10 @@
 
 namespace App\Models\planner;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\produksi\StandardizeWork;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Mps2 extends Model
 {
@@ -32,5 +34,10 @@ class Mps2 extends Model
             'year' => $yearOnly,
             'qty_trafo' => $this->qty_trafo,
         ];
+    }
+
+    public function standardize_work(): BelongsTo
+    {
+        return $this->belongsTo(StandardizeWork::class, 'id_standardize_work', 'id');
     }
 }

@@ -24,8 +24,13 @@ class GPADry extends Model
     ];
     use HasFactory;
 
-    public function wo(): BelongsTo
+    // public function wo(): BelongsTo
+    // {
+    //     return $this->belongsTo(Wo::class, 'id_wo', 'id');
+    // }
+
+    public function mps2(): BelongsTo
     {
-        return $this->belongsTo(Wo::class, 'id_wo', 'id');
+        return $this->belongsTo(Mps2::class, 'id_mps', 'id');
     }
 }

@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="production_line">Production Line</label>
-                        <input type="text" class="form-control" name="production_line" value="{{ $dataMps->line }}"required disabled>
+                        <input type="text" class="form-control" name="production_line" value="{{ $dataMps->production_line }}"required disabled>
                     </div>
                     <div class="col-md-4 mb-2">
                         <label for="kva">KVA</label>

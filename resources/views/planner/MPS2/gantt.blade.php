@@ -153,7 +153,7 @@
                             <tr>
                                 <td class="freeze-column" style="position: relative; min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_wo" value="{{ $mps2->id_wo }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_so" value="{{ $mps2->id_so }}" disabled></td>
-                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="line" value="{{ $mps2->line }}" disabled></td>
+                                <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="production_line" value="{{ $mps2->production_line }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="project" value="{{ $mps2->project }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;">
                                     <input type="text" style="text-align:center;" class="form-control" name="deadline" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $mps2->deadline['year'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['day'])->format('d-M-Y') }}" disabled>
@@ -181,7 +181,7 @@
                                 <input type="text" class="form-control" name="id_so_new" value="" disabled>
                             </td>
                             <td class="freeze-column" style="position: relative; min-width: 85px; padding: 10px;">
-                                <input type="text" class="form-control" name="line" value="">
+                                <input type="text" class="form-control" name="production_line" value="">
                             </td>
                             <td class="freeze-column" style="position: relative; min-width: 250px; padding: 10px;">
                                 <input type="text" class="form-control" name="project" value="">

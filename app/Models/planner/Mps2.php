@@ -9,7 +9,7 @@ class Mps2 extends Model
 {
     protected $fillable = [
         'id_wo',
-        'line',
+        'production_line',
         'project',
         'qty_trafo',
         'deadline',

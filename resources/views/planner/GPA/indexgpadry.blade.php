@@ -35,12 +35,12 @@
                         </thead>
                         <tbody>
                             @foreach ($dataMps as $index => $item)
-                                @if ($item->line === 'Dry')
+                                @if ($item->production_line === 'Dry')
                                     <tr role="row" class="odd">
                                         <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
                                         <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-dry', $item->id_wo) }}">{{ $item->id_wo }}</a></td>
                                         <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->line }}</td>
+                                        <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
                                         <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $item->deadline['year'] . '-' . $item->deadline['month'] . '-' . $item->deadline['day'])->format('d-M-Y') }}</td>

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('id_wo');
             $table->string('id_so');
-            $table->string('line');
+            $table->string('production_line');
             $table->string('project');
             $table->string('qty_trafo');
             $table->date('deadline');

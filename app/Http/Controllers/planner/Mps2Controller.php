@@ -79,7 +79,7 @@ class Mps2Controller extends Controller
         $mps2 = new Mps2();
         $mps2->id_wo = $id_wo;
         $mps2->id_so = $id_so;
-        $mps2->line = $request->get('line');
+        $mps2->production_line = $request->get('production_line');
         $mps2->project = $request->get('project');
         $mps2->deadline = $deadline;
         $mps2->kva = $request->get('kva');
@@ -92,7 +92,7 @@ class Mps2Controller extends Controller
         $drycastresins = DryCastResin::where('kd_manhour', $manhour_code)->get();
         
         // ? Breakdown GPA & Work Center
-        if($request->get('line') === 'Dry'){
+        if($request->get('production_line') === 'Dry'){
             $workcenterDryTypes = WorkcenterDryType::all();
             $leadTimeNoFinishings = LeadtimeNofinishings::all();
             $leadTimeNoFinishingFans = LeadtimeNofinishingfans::all();
@@ -104,7 +104,7 @@ class Mps2Controller extends Controller
                     $gpadrys = new GPADry();
                     $gpadrys->id_wo = $mps2->id_wo;  
                     $gpadrys->project = $mps2->project;
-                    $gpadrys->production_line = $mps2->line;
+                    $gpadrys->production_line = $mps2->production_line;
                     $gpadrys->kva = $mps2->kva;
                     $gpadrys->qty_trafo = $mps2->qty_trafo;
                     $adjustedStart = $request->get('deadline');

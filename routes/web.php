@@ -214,7 +214,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::post('/bom/submit', [DetailbomController::class, 'submit'])->name('bom.submit');
 
     //=======================================================BOM V2========================================================================
-     // MENU BOM
+    // MENU BOM
     Route::get('/BOM_V2/IndexBom', [BomControllerV2::class, 'index'])->name('bom_v2-index');
 
     // --CREATE BOM & UPLOAD BOM--
@@ -253,7 +253,7 @@ Route::middleware(['auth', 'planner'])->group(function () {
 
     //SUBMIT MATERIAL (USAGE MATERIAL - JUMLAH)
     Route::post('/bom_V2/submit', [DetailbomControllerV2::class, 'submit'])->name('bom_v2.submit');
-//======================================================================================================================
+    //======================================================================================================================
 
     // MENU WORK ORDER
     Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
@@ -272,10 +272,10 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
 
 
-//=======================================================WO V2========================================================================
+    //=======================================================WO V2========================================================================
     // MENU WORK ORDER V2
     Route::get('/WorkOrderV2/IndexWorkOrder', [WoControllerV2::class, 'index'])->name('workorder_v2-index');
-    Route::delete('/WorkOrder/delete/{id}}', [WoControllerV2::class, 'destroy'])->name('wo_v2.delete');
+    Route::delete('/WorkOrderV2/delete/{id}}', [WoControllerV2::class, 'destroy'])->name('wo_v2.delete');
 
     // --CREATE WORK ORDER--
     // Route::get('/WorkOrderV2/create', [WoControllerV2::class, 'create'])->name('wo_v2-create');
@@ -286,12 +286,12 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::put('/WorkOrderV2/updateWO/{id_wo}', [WoControllerV2::class, 'update'])->name('wo_v2.updatewo');
 
     // --EXPORT WORK ORDER--
-    Route::get('/WO/ExportExcel', [WoControllerV2::class, 'exportToExcel'])->name('wo_v2.exportExcel');
-    Route::get('/WO/ExportPdf', [WoControllerV2::class, 'exportToPdf'])->name('wo_v2.exportPdf');
+    Route::get('/WorkOrderV2/ExportExcel', [WoControllerV2::class, 'exportToExcel'])->name('wo_v2.exportExcel');
+    Route::get('/WorkOrderV2/ExportPdf', [WoControllerV2::class, 'exportToPdf'])->name('wo_v2.exportPdf');
 
     Route::get('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'formUpload'])->name('wo_v2-upload-excel');
     Route::post('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'upload'])->name('wo_v2-upload-excel-post');
-//======================================================================================================================
+    //======================================================================================================================
     // MENU MPS
     Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
     Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');
@@ -373,7 +373,6 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
     Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
     Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
-
 });
 
 // Planner End
@@ -400,6 +399,8 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
 
     Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceDryRekomendasiController::class, 'dryRekomendasi']);
     Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceDryRekomendasiController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
+    Route::get('resource_work_planning/Dry/Rekomendasi/nama_mp/{id}}/edit', [ResourceDryRekomendasiController::class, 'edit'])->name('nama_mp.edit');
+    Route::put('resource_work_planning/Dry/Rekomendasi/nama_mp/{id}', [ResourceDryRekomendasiController::class, 'update'])->name('nama_mp.update');
     Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceDryKebutuhanController::class, 'dryKebutuhan'])->name('dryKebutuhan');
     Route::post('resource_work_planning/Dry/Kebutuhan/data/process-periodeDryKebutuhan', [ResourceDryKebutuhanController::class, 'dryKebutuhan'])->name('process.periodeDryKebutuhan');
 
@@ -489,5 +490,4 @@ Route::middleware(['auth', 'purchaseorder'])->group(function () {
     Route::post('/purchaseorder/editPo/{id_po}', [poController::class, 'storeEditpo']);
 
     Route::get('/reportpo', [poController::class, 'reportPo']);
-
 });

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\produksi;
 
 use App\Http\Controllers\Controller;
 use App\Models\planner\Mps;
+use App\Models\planner\Mps2;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ProductionLine;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class ResourceWorkloadController extends Controller
     {
         $PL = ProductionLine::all();
         $title1 = ' Work Load';
-        $mps = Mps::all();
+        $mps = Mps2::all();
         $kapasitas = Kapasitas::all();
         $periode = $request->post('periodeWorkload', null);
 
@@ -57,7 +58,6 @@ class ResourceWorkloadController extends Controller
                 break;
         }
         $request->session()->put('selectedPeriodeWorkload', $periode);
-
 
         $data = [
             'title1' => $title1,

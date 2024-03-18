@@ -35,14 +35,14 @@
                                     <option value="4">Minggu Depan</option>
                                 </select>
                             </div>
-                            <div class="col-md-auto">
+                            {{-- <div class="col-md-auto">
                                 <label for="shiftSelect">Shift:</label>
                                 <select class="custom-select" name="shiftDry" id="shiftDrySelect">
                                     <option value="1">1 Shift</option>
                                     <option value="2">2 Shift</option>
                                     <option value="3">3 Shift</option>
                                 </select>
-                            </div>
+                            </div> --}}
                         </div>
 
                     </form>
@@ -64,6 +64,8 @@
                                     {{-- <th>Mesin</th> --}}
                                     <th>Operator</th>
                                     <th>Proses</th>
+                                    <th>mesin</th>
+                                    {{-- <th></th> --}}
                                     {{-- @foreach ($data['newDates'] as $date)
                                     <th>{{ $date['end'] }}</th>
                                     <th>{{ $date['hours'] }}</th>
@@ -81,10 +83,106 @@
                                         <th>{{ \Carbon\Carbon::parse($hasil->end)->format('d-m-Y') }}</th>
                                         <th>{{ $hasil->hours }}</th>
                                         <th>{{ $hasil->wo_id }}</th>
-                                        <th>{{$hasil->nama_mp}}</th>
-                                        <th>{{$hasil->nama_proses}}</th>
+                                        <th>{{ $hasil->nama_mp }}</th>
+                                        <th>{{ $hasil->nama_proses }}</th>
+                                        <th>{{ $hasil->mesin }}</th>
+                                        {{-- <th>
+                                            <button class="btn btn-sm btn-primary edit-mp"
+                                                data-id="{{ $hasil->id }}">Edit</button>
+                                        </th> --}}
                                     </tr>
                                 @endforeach
+                                {{-- <div class="modal fade" id="editMpModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="editMpModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editMpModalLabel">Edit Nama MP</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="hidden" id="mpId">
+                                                <div class="form-group">
+                                                    <label for="newMpName">Nama MP Baru:</label>
+                                                    <select class="form-control" id="newMpName">
+                                                        <option value="mp1">Nama MP 1</option>
+                                                        <option value="mp2">Nama MP 2</option>
+                                                        <option value="mp3">Nama MP 3</option>
+                                                        <!--Tambahkan opsi sesuai dengan data yang Anda miliki-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="confirmUpdateMpBtn">Save
+                                                    changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Konfirmasi -->
+                                <div class="modal fade" id="confirmationModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="confirmationModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="confirmationModalLabel">Konfirmasi</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Apakah Anda yakin akan menyimpan perubahan?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    id="cancelConfirmationBtn" data-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-primary"
+                                                    id="confirmConfirmationBtn">Confirm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+                                <!-- Modal -->
+                                {{-- <div class="modal fade" id="editMpModal" tabindex="-1"
+                                    aria-labelledby="editNamaMpModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="editNamaMpModalLabel">Edit Nama MP</h5>
+                                            </div>
+                                            <form action="{{ route('nama_mp.update', $hasil->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="modal-body">
+                                                    <div class="form-group">
+                                                        <label for="nama_mp">Nama MP</label>
+                                                        <input type="text" id="nama_mp" name="nama_mp" value="{{$hasil->nama_mp}}"></input>
+                                                        <select class="form-select" id="nama_mp" name="nama_mp">
+                                                            {{-- @foreach ($dataUntukSelectBox as $item)
+                                                                <option value="{{ $item->id }}"
+                                                                    {{ $nama_mp->nama_mp == $item->nama_mp ? 'selected' : '' }}>
+                                                                    {{ $item->nama_mp }}</option>
+                                                            @endforeach
+                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" id="close">Close</button>
+                                                    <button type="submit" class="btn btn-primary" id="save">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> --}}
+
 
                                 {{-- @foreach ($data['woDry'] as $index => $woDry)
                                     @php
@@ -183,4 +281,60 @@
             }
         });
     </script>
+        {{-- <script>
+            $(document).ready(function() {
+                $('.edit-mp').click(function() {
+                    var id = $(this).data('id');
+                    var nama_mp = $(this).closest('tr').find('.nama-mp').text();
+                    $('#mpId').val(id);
+                    $('#newMpName').val(nama_mp);
+                    $('#editMpModal').modal('show');
+                });
+
+                $('#updateMpBtn').click(function() {
+                    var id = $('#mpId').val();
+                    var newMpName = $('#newMpName').val();
+
+                    $.ajax({
+                        url: 'resource_work_planning/Dry/Rekomendasi/update-mp',
+                        method: 'POST',
+                        data: {
+                            id: id,
+                            new_mp_name: newMpName,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            $('#editMpModal').modal('hide');
+                            $('th[data-id="' + id + '"] .nama-mp').text(newMpName);
+                        }
+                    });
+                });
+
+                $('#confirmUpdateMpBtn').click(function() {
+                    $('#confirmationModal').modal('show');
+                    $('#editMpModal').modal('hide');
+                });
+
+                $('#cancelConfirmationBtn').click(function() {
+                    $('#editMpModal').modal('show');
+                    $('#confirmationModal').modal('hide');
+                });
+
+                $('#confirmConfirmationBtn').click(function() {
+                    $('#updateMpBtn').trigger(
+                    'click'); // Memanggil fungsi yang sudah ada untuk melakukan update
+                    $('#confirmationModal').modal('hide');
+                });
+            });
+        </script> --}}
+    {{-- <script>
+        $(document).ready(function() {
+            $('.edit-mp').click(function() {
+                    $('#editMpModal').modal('show');
+                });
+                $('#close').click(function() {
+                    $('#editMpModal').modal('hide');
+                });
+        });
+    </script> --}}
 @endsection

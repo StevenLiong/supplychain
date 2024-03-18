@@ -40,10 +40,18 @@
                                     <tr>
                                         @foreach ($data['kapasitas'] as $kap)
                                             @php
+                                                $deadlineDate = $data['deadlineDate'];
                                                 $qtyTrafo = $data['mps']
                                                     ->where('kva', $kap->ukuran_kapasitas)
                                                     ->where('production_line', $PL->nama_pl)
-                                                    ->whereBetween('deadline', $data['deadlineDate'])
+                                                    ->filter(function ($item) use ($deadlineDate) {
+                                                        $deadline = \Carbon\Carbon::create(
+                                                            $item['deadline']['year'],
+                                                            $item['deadline']['month'],
+                                                            $item['deadline']['day'],
+                                                        );
+                                                        return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+                                                    })
                                                     ->sum('qty_trafo');
                                             @endphp
                                         @endforeach
@@ -58,10 +66,18 @@
                                         </th>
                                         @foreach ($data['kapasitas'] as $kap)
                                             @php
+                                                $deadlineDate = $data['deadlineDate'];
                                                 $qtyTrafo = $data['mps']
                                                     ->where('kva', $kap->ukuran_kapasitas)
                                                     ->where('production_line', $PL->nama_pl)
-                                                    ->whereBetween('deadline', $data['deadlineDate'])
+                                                    ->filter(function ($item) use ($deadlineDate) {
+                                                        $deadline = \Carbon\Carbon::create(
+                                                            $item['deadline']['year'],
+                                                            $item['deadline']['month'],
+                                                            $item['deadline']['day'],
+                                                        );
+                                                        return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+                                                    })
                                                     ->sum('qty_trafo');
                                             @endphp
                                             @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)
@@ -77,10 +93,18 @@
                                         <th class="text-left bg-light">Total pada {{ $PL->nama_pl }}</th>
                                         @foreach ($data['kapasitas'] as $kap)
                                             @php
+                                                $deadlineDate = $data['deadlineDate'];
                                                 $qtyTrafo = $data['mps']
                                                     ->where('kva', $kap->ukuran_kapasitas)
                                                     ->where('production_line', $PL->nama_pl)
-                                                    ->whereBetween('deadline', $data['deadlineDate'])
+                                                    ->filter(function ($item) use ($deadlineDate) {
+                                                        $deadline = \Carbon\Carbon::create(
+                                                            $item['deadline']['year'],
+                                                            $item['deadline']['month'],
+                                                            $item['deadline']['day'],
+                                                        );
+                                                        return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+                                                    })
                                                     ->sum('qty_trafo');
                                             @endphp
                                             @if ($kap->ukuran_kapasitas && $qtyTrafo != 0)

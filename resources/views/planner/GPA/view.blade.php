@@ -59,11 +59,11 @@
             @foreach ($dataMps as $index => $item)
                 <tr>
                     <td>{{ $index + 1 }}</td>
-                    <td>{{ $item->wo->id_wo }}</td>
+                    <td>{{ $item->id_wo }}</td>
                     <td>{{ $item->production_line }}</td>
                     <td>{{ $item->kva }}</td>
                     <td>{{ $item->qty_trafo }}</td>
-                    <td style="width: 9rem">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
+                    <td style="width: 9rem">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $item->deadline['year'] . '-' . $item->deadline['month'] . '-' . $item->deadline['day'])->format('d-M-Y') }}</td>
                     <!-- Add other columns as needed -->
                 </tr>
             @endforeach

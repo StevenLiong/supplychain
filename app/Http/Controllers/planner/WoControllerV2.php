@@ -65,64 +65,6 @@ class WoControllerV2 extends Controller
         return redirect('/WorkOrderV2/IndexWorkOrder');
     }
 
-    // public function upload(Request $request)
-    // {
-    //     $request->validate([
-    //         'file' => 'required|mimes:xls,xlsx'
-    //     ]);
-
-    //     $file = $request->file('file');
-    //     $spreadsheet = IOFactory::load($file);
-    //     $worksheet = $spreadsheet->getActiveSheet();
-
-    //     $duplicateIdWo = [];
-
-    //     for ($row = 4; $row <= 1000; $row++) {
-    //         $id_wo = $worksheet->getCell("B$row")->getValue();
-
-    //         // Check if id_wo already exists in the database
-    //         if (Wo::where('id_wo', $id_wo)->exists()) {
-    //             $duplicateIdWo[] = $id_wo;
-    //         } else {
-    //             $wo_begin = $worksheet->getCell("C$row")->getFormattedValue();
-    //             $wo_end = $worksheet->getCell("D$row")->getFormattedValue();
-    //             $bom = $worksheet->getCell("N$row")->getValue();
-    //             $id_fg = $worksheet->getCell("O$row")->getValue();
-    //             $qty = $worksheet->getCell("P$row")->getValue();
-
-    //             $wo = new Wo();
-    //             $wo->id_wo = $id_wo;
-    //             $wo->start_date = $wo_begin;
-    //             $wo->finish_date = $wo_end;
-    //             $wo->id_fg = $id_fg;
-    //             $wo->qty_trafo = $qty;
-    //             $wo->id_boms = $bom;
-    //             $wo->save();
-    //         }
-    //     }
-
-    //     if (!empty($duplicateIdWo)) {
-    //         // Redirect back with error message
-    //         return redirect()->back()->withErrors([
-    //             'duplicate_id_wo' => 'The following id_wo already exists in the database'
-    //         ]);
-    //     }
-
-    //     return redirect('/WorkOrderV2/IndexWorkOrder');
-    // }
-
-    // public function upload(Request $request){
-
-    //     $this->validate($request, [
-    //         'file' => 'required|mimes:xls,xlsx',
-    //     ]);
-
-    //     $file = $request->file('file');
-    //     $import = new WoImport();
-    //     Excel::import($import, $file);
-    //         return redirect('/WorkOrderV2/IndexWorkOrder');
-    // }
-
     public function store(Request $request): RedirectResponse
     {
         $wo = new Wo();

@@ -20,5 +20,6 @@ class Bomv2 extends Model
         'bom_status',
         'uom_bom',
         'id_fg',
+        'status_bom',
     ];
 }

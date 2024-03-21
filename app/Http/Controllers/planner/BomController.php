@@ -8,6 +8,8 @@ use App\Models\planner\Detailbom;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use App\Models\planner\Bomv2;
+use App\Models\planner\Detailbomv2;
 use Illuminate\Http\RedirectResponse;
 
 class BomController extends Controller
@@ -97,16 +99,16 @@ class BomController extends Controller
     //HAPUS BOM
     public function destroy($id_bom) : RedirectResponse
     {
-        $dataBom = Bom::where('id_bom', $id_bom)
+        $dataBom = Bomv2::where('id_bom', $id_bom)
             ->first();
         
         $id_bom = $dataBom->id_bom;
 
-        Detailbom::where('id_boms', $id_bom)->delete();
+        Detailbomv2::where('id_boms', $id_bom)->delete();
 
         $dataBom->delete();
 
-        return redirect()->route('bom-index')->with('success', 'Data berhasil dihapus');        
+        return redirect()->route('bom_v2-index')->with('success', 'Data berhasil dihapus');        
     }
 
 }

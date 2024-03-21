@@ -33,11 +33,10 @@ class BomImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
     public function model(array $row)
     {
         if ($this->startRow === 1) {
-            $this->startRow = 0; // Set baris pertama sebagai baris saat ini
-            return null; // Kembalikan null untuk mengabaikan baris kedua
+            $this->startRow = 0;
+            return null;
         }
 
-        // Ambil id_bom dari request
         $idBom = $this->idBom;
 
         // Tambahkan kode debugging di sini

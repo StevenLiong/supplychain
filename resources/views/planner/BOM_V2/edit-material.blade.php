@@ -9,7 +9,7 @@
        </div>
     </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('bom.update', ['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $id_bom]) }}">
+            <form method="POST" action="{{ route('bom_v2.update', ['id_materialbom' => $detailbomItem->id_materialbom, 'id_bom' => $id_bom]) }}">
                 @method('PUT')
                 @csrf
                 <input type="hidden" name="id_bom" value="{{ $id_bom }}">
@@ -31,12 +31,12 @@
                         <input type="text" class="form-control" name="uom_material" value="{{ old('uom_material',$detailbomItem->uom_material )}}">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="validationDefault01">Quantity Trafo</label>
-                        <input type="text" class="form-control" name="qty_trafo" value="{{ old('qty_trafo',$detailbomItem->qty_trafo )}}">
+                        <label for="validationDefault01">Comparison</label>
+                        <input type="text" class="form-control" name="comparison" value="{{ old('comparison',$detailbomItem->comparison )}}">
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="validationDefault01">Quantity Material</label>
-                        <input type="text" class="form-control" name="qty_material" value="{{ old('qty_material',$detailbomItem->qty_material )}}">
+                        <label for="validationDefault01">Composite</label>
+                        <input type="text" class="form-control" name="composite" value="{{ old('composite',$detailbomItem->composite )}}">
                     </div>
 
                 </div>

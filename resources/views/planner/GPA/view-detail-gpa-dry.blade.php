@@ -55,12 +55,12 @@
         <img src="{{ public_path('assets/LogoTrafoindo.png') }}" width="120" height="50" class="d-inline-block"
             alt="LOGO">
     </div>
-    <h2>Detail Global Picking Area - Dry Type ({{ $dataGpa->first()->wo->id_wo }})</h2>
+    <h2>Detail Global Picking Area - Dry Type ({{ $dataGpa->first()->id_wo }})</h2>
     <form>
         <div class="form-row">
             <div class="col-md-4 mb-2">
                 <label for="id_wo">Work Order</label>
-                <input type="text" class="form-control" name="id_wo" value="{{ $dataGpa->first()->wo->id_wo }}"required disabled>
+                <input type="text" class="form-control" name="id_wo" value="{{ $dataGpa->first()->id_wo }}"required disabled>
             </div>
             <div class="col-md-4 mb-2">
                 <label for="keterangan">Keterangan</label>
@@ -80,7 +80,7 @@
             </div>
             <div class="col-md-4 mb-2">
                 <label for="validationDefault07">Dead Line</label>
-                <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::parse($dataMps->first()->deadline)->format('d-F-Y') }}"required disabled>
+                <input type="text" class="form-control" name="deadline" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $dataMps->first()->deadline['year'] . '-' . $dataMps->first()->deadline['month'] . '-' . $dataMps->first()->deadline['day'])->format('d-M-Y') }}"required disabled>
             </div>
         </div>
     </form>
@@ -95,7 +95,7 @@
             @foreach ($dataGpa as $item)
                 <tr>
                     <td>{{ $item->nama_workcenter }}</td>
-                    <td>{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->start)->format('d-F-Y') }}</td>
                 </tr>
             @endforeach
         </tbody>

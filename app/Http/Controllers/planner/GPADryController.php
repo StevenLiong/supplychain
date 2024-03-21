@@ -46,18 +46,19 @@ class GPADryController extends Controller
 
     public function exportToPdf()
     {
-        $dataMps = Mps::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline')->where('jenis', 'Dry Type')->get(); // Ambil data Mps dari database
+        $dataMps = Mps2::select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline')->where('production_line', 'Dry')->get(); // Ambil data Mps dari database
         $pdf = PDF::loadView('planner.gpa.view', ['dataMps' => $dataMps]);
         return $pdf->download('GPA Dry Type.pdf');
     }
 
     public function exportToPdfDetail(Request $request, $id_wo)
     {
-        $dataMps = MPS::where('id_wo', $id_wo)
+        $dataMps = Mps2::where('id_wo', $id_wo)
         ->select('deadline')
         ->get();
+        // dd($dataMps);
         $dataGpa = GPADry::where('id_wo', $id_wo)
-        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'deadline', 'nama_workcenter', 'keterangan')
+        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'start', 'nama_workcenter', 'keterangan')
         ->get();
         // Menyimpan keterangan yang sesuai dengan workcenter "Finishing"
         $keteranganFinishing = $dataGpa->where('nama_workcenter', 'Finishing')->first()->keterangan ?? '';

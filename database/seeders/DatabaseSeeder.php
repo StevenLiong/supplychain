@@ -6,10 +6,12 @@ namespace Database\Seeders;
 
 use App\Models\logistic\Gudang;
 use App\Models\logistic\Material;
+use App\Models\produksi\CompatibilityMesin;
 use App\Models\produksi\Mps2;
 use App\Models\produksi\Wo2;
 use App\Models\Role;
 use App\Models\User;
+use Faker\Provider\ar_EG\Company;
 use Illuminate\Database\Seeder;
 use Matrix\Operators\Division;
 use PhpOffice\PhpSpreadsheet\Calculation\Statistical\Standardize;
@@ -137,6 +139,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(MpsSeeder::class);
 
         $this->call(DivisionSeeder::class);
+        $this->call(Compatibility_Mesin::class);
         $this->call(ManHourSeeder::class);
 
     }

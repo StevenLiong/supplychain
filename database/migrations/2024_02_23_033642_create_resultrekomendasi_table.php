@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nama_mp');
             $table->string('nama_workcenter');
             $table->string('nama_proses');
+            $table->string('mesin');
             $table->timestamps();
         });
     }

@@ -52,7 +52,7 @@ class ResourceDryKebutuhanController extends Controller
                 break;
         }
 
-        $gpadry = GPADry::where('production_line', 'Drytype');
+        $gpadry = GPADry::where('production_line', 'Dry');
 
         $gpadryfilterLV = clone $gpadry;
         $gpadryfilterHV = clone $gpadry;
@@ -72,28 +72,28 @@ class ResourceDryKebutuhanController extends Controller
         $woDryConect = $gpadryfilterCCAConect->pluck('id_wo');
 
         $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
-        ->whereBetween('deadline', $deadlineDate)
-        ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
-        ->whereIn('id_wo', $woDryLV)
-        ->get()
-        ->sum(function ($item) {
-            $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+            ->whereBetween('deadline', $deadlineDate)
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+            ->whereIn('id_wo', $woDryLV)
+            ->get()
+            ->sum(function ($item) {
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
-            if ($workData) {
-                $hourCoilLV = $workData->totalHour_coil_makinglv?? 0;
-                return $hourCoilLV * $item->qty_trafo;
-            } else {
-                return 0;
-            }
-        });
+                if ($workData) {
+                    $hourCoilLV = $workData->totalHour_coil_makinglv ?? 0;
+                    return $hourCoilLV * $item->qty_trafo;
+                } else {
+                    return 0;
+                }
+            });
 
         $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryHV)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
                 if ($workData) {
                     $totalHourCoil_making_HV = $workData->hour_coil_hv ?? 0;
@@ -105,11 +105,11 @@ class ResourceDryKebutuhanController extends Controller
 
         $jumlahtotalHourMould_Casting = $gpadryfilterMoulding->where('nama_workcenter', 'Moulding')
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryMould)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
                 if ($workData) {
                     $totalHourMouldCasting = $workData->totalHour_MouldCasting ?? 0;
@@ -120,11 +120,11 @@ class ResourceDryKebutuhanController extends Controller
             });
         $jumlahtotalHourCCASusun = $gpadryfilterCCASusun->where('nama_workcenter', 'Susun Core')
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDrySusun)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
                 if ($workData) {
                     $hour_type_susun_core = $workData->totalHour_SusunCore ?? 0;
@@ -136,11 +136,11 @@ class ResourceDryKebutuhanController extends Controller
 
         $jumlahtotalHourCCAConect = $gpadryfilterCCAConect->where('nama_workcenter', 'Connection & Final Assembly')
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryConect)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
                 if ($workData) {
                     $totalHour_Connection_Final_Assembly = $workData->totalHour_Connection_Final_Assembly ?? 0;
@@ -151,11 +151,11 @@ class ResourceDryKebutuhanController extends Controller
             });
         $jumlahtotalHourCCAFinishing = $gpadryfilterCCAFinishing->where('nama_workcenter', 'Finishing')
             ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryFinishing)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
                 if ($workData) {
                     $totalHour_Finishing = $workData->totalHour_Finishing ?? 0;

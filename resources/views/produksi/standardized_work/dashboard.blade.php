@@ -66,7 +66,7 @@
                             <option value="Repair">Repair</option>
                         </select>
                         <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-search mr-2"></i>Filter Data
+                            Filter <i class="fa-solid fa-refresh"></i>
                         </button>
                     </div>
                 </form>
@@ -108,19 +108,19 @@
 
                                         @if ($std->dry_cast_resin)
                                             {{-- @dd($std->dry_cast_resin) --}}
-                                            {{ $std->dry_cast_resin->nama_product }}
+                                            {{ $std->nama_product }}
                                         @elseif ($std->dry_non_resin)
-                                            {{ $std->dry_non_resin->nama_product }}
+                                            {{ $std->nama_product }}
                                         @elseif ($std->repair)
-                                            {{ $std->repair->nama_product }}
+                                            {{ $std->nama_product }}
                                         @elseif ($std->oil_custom)
-                                            {{ $std->oil_custom->nama_product }}
+                                            {{ $std->nama_product }}
                                         @elseif ($std->oil_standard)
-                                            {{ $std->oil_standard->nama_product }}
+                                            {{ $std->nama_product }}
                                         @elseif ($std->vt)
-                                            {{ $std->vt->nama_product }}
+                                            {{ $std->nama_product }}
                                         @elseif ($std->ct)
-                                            {{ $std->ct->nama_product }}
+                                            {{ $std->nama_product }}
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -142,70 +142,70 @@
                                     </td>
                                     <td class="text-center">
                                         @if ($std->dry_cast_resin)
-                                            {{ $std->dry_cast_resin->nomor_so }}
+                                            {{ $std->nomor_so }}
                                         @elseif ($std->dry_non_resin)
-                                            {{ $std->dry_non_resin->nomor_so }}
+                                            {{ $std->nomor_so }}
                                         @elseif ($std->repair)
-                                            {{ $std->repair->nomor_so }}
+                                            {{ $std->nomor_so }}
                                         @elseif ($std->oil_custom)
-                                            {{ $std->oil_custom->nomor_so }}
+                                            {{ $std->nomor_so }}
                                         @elseif ($std->oil_standard)
-                                            {{ $std->oil_standard->nomor_so }}
+                                            {{ $std->nomor_so }}
                                         @elseif ($std->vt)
-                                            {{ $std->vt->nomor_so }}
+                                            {{ $std->nomor_so }}
                                         @elseif ($std->ct)
-                                            {{ $std->ct->nomor_so }}
+                                            {{ $std->nomor_so }}
                                         @endif
                                     </td>
                                     <td class="text-center">
                                         @if ($std->dry_cast_resin)
-                                            {{ $std->dry_cast_resin->total_hour }}
+                                            {{ $std->total_hour }}
                                         @elseif ($std->dry_non_resin)
-                                            {{ $std->dry_non_resin->total_hour }}
+                                            {{ $std->total_hour }}
                                         @elseif ($std->repair)
-                                            {{ $std->repair->total_hour }}
+                                            {{ $std->total_hour }}
                                         @elseif ($std->oil_custom)
-                                            {{ $std->oil_custom->total_hour }}
+                                            {{ $std->total_hour }}
                                         @elseif ($std->oil_standard)
-                                            {{ $std->oil_standard->total_hour }}
+                                            {{ $std->total_hour }}
                                         @elseif ($std->vt)
-                                            {{ $std->vt->total_hour }}
+                                            {{ $std->total_hour }}
                                         @elseif ($std->ct)
-                                            {{ $std->ct->total_hour }}
+                                            {{ $std->total_hour }}
                                         @endif
                                     </td>
                                     <td class="text-center">
                                         @if ($std->dry_cast_resin)
-                                            {{ $std->dry_cast_resin->ukuran_kapasitas }}
+                                            {{ $std->ukuran_kapasitas }}
                                         @elseif ($std->dry_non_resin)
-                                            {{ $std->dry_non_resin->ukuran_kapasitas }}
+                                            {{ $std->ukuran_kapasitas }}
                                         @elseif ($std->repair)
-                                            {{ $std->repair->ukuran_kapasitas }}
+                                            {{ $std->ukuran_kapasitas }}
                                         @elseif ($std->oil_custom)
-                                            {{ $std->oil_custom->ukuran_kapasitas }}
+                                            {{ $std->ukuran_kapasitas }}
                                         @elseif ($std->oil_standard)
-                                            {{ $std->oil_standard->ukuran_kapasitas }}
+                                            {{ $std->ukuran_kapasitas }}
                                         @elseif ($std->vt)
-                                            {{ $std->vt->ukuran_kapasitas }}
+                                            {{ $std->ukuran_kapasitas }}
                                         @elseif ($std->ct)
-                                            {{ $std->ct->ukuran_kapasitas }}
+                                            {{ $std->ukuran_kapasitas }}
                                         @endif
                                     </td>
                                     <td class="text-center">
                                         @if ($std->dry_cast_resin)
-                                            {{ $std->dry_cast_resin->kd_manhour }}
+                                            {{ $std->kd_manhour }}
                                         @elseif ($std->dry_non_resin)
-                                            {{ $std->dry_non_resin->kd_manhour }}
+                                            {{ $std->kd_manhour }}
                                         @elseif ($std->repair)
-                                            {{ $std->repair->kd_manhour }}
+                                            {{ $std->kd_manhour }}
                                         @elseif ($std->oil_custom)
-                                            {{ $std->oil_custom->kd_manhour }}
+                                            {{ $std->kd_manhour }}
                                         @elseif ($std->oil_standard)
-                                            {{ $std->oil_standard->kd_manhour }}
+                                            {{ $std->kd_manhour }}
                                         @elseif ($std->vt)
-                                            {{ $std->vt->kd_manhour }}
+                                            {{ $std->kd_manhour }}
                                         @elseif ($std->ct)
-                                            {{ $std->ct->kd_manhour }}
+                                            {{ $std->kd_manhour }}
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -269,7 +269,7 @@
                                             action="{{ route('delete', ['id' => $std->id]) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             @csrf
-                                             
+
                                         </form>
 
                                     </td>

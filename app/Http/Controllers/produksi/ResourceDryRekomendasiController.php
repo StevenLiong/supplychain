@@ -5,6 +5,7 @@ namespace App\Http\Controllers\produksi;
 use App\Http\Controllers\Controller;
 use App\Models\planner\GPADry;
 use App\Models\planner\Holiday;
+use App\Models\produksi\CompatibilityMesin;
 use App\Models\produksi\ManPower;
 use App\Models\produksi\MatriksSkill;
 use App\Models\produksi\ResultRekomendasi;
@@ -17,6 +18,7 @@ class ResourceDryRekomendasiController extends Controller
     {
         $title1 = 'Dry - Rekomendasi';
         $matrixSkil = MatriksSkill::all();
+        $mesins = CompatibilityMesin::all();
         $totalManPower = ManPower::count();
         $resultRekomendasi = ResultRekomendasi::all();
 
@@ -117,13 +119,14 @@ class ResourceDryRekomendasiController extends Controller
         $woDryFinishing = $gpadryfilterCCAFinishing->pluck('id_wo');
         $woDryConect = $gpadryfilterCCAConect->pluck('id_wo');
 
+
         $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
-        ->whereBetween('deadline', $getDay)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->whereBetween('deadline', $getDay)
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryLV)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
                 if ($workData) {
                     $hourCoilmakingLV = $workData->totalHour_coil_makinglv ?? 0;
                     return $hourCoilmakingLV  * $item->qty_trafo;
@@ -131,14 +134,14 @@ class ResourceDryRekomendasiController extends Controller
                     return 0;
                 }
             });
-            dd($woDryLV);
+        // dd($jumlahtotalHourCoil_Making_LV);
         $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
             ->whereBetween('deadline', $getDay)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryHV)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
                 if ($workData) {
                     $totalHourCoil_making_HV = $workData->hour_coil_hv ?? 0;
                     return $totalHourCoil_making_HV * $item->qty_trafo;
@@ -148,11 +151,11 @@ class ResourceDryRekomendasiController extends Controller
             });
         $jumlahtotalHourMould_Casting = $gpadryfilterMoulding->where('nama_workcenter', 'Moulding')
             ->whereBetween('deadline', $getDay)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryMould)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
                 if ($workData) {
                     $totalHourMouldCasting = $workData->totalHour_MouldCasting ?? 0;
                     return $totalHourMouldCasting * $item->qty_trafo;
@@ -162,11 +165,11 @@ class ResourceDryRekomendasiController extends Controller
             });
         $jumlahtotalHourCCASusun = $gpadryfilterCCASusun->where('nama_workcenter', 'Susun Core')
             ->whereBetween('deadline', $getDay)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDrySusun)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
                 if ($workData) {
                     $hour_type_susun_core = $workData->totalHour_SusunCore ?? 0;
                     return $hour_type_susun_core * $item->qty_trafo;
@@ -176,11 +179,11 @@ class ResourceDryRekomendasiController extends Controller
             });
         $jumlahtotalHourCCAConect = $gpadryfilterCCAConect->where('nama_workcenter', 'Connection & Final Assembly')
             ->whereBetween('deadline', $getDay)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryConect)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
                 if ($workData) {
                     $totalHour_Connection_Final_Assembly = $workData->totalHour_Connection_Final_Assembly ?? 0;
                     return $totalHour_Connection_Final_Assembly * $item->qty_trafo;
@@ -190,11 +193,11 @@ class ResourceDryRekomendasiController extends Controller
             });
         $jumlahtotalHourCCAFinishing = $gpadryfilterCCAFinishing->where('nama_workcenter', 'Finishing')
             ->whereBetween('deadline', $getDay)
-            ->with(['wo.standardize_work', 'wo.standardize_work.dry_cast_resin', 'wo.standardize_work.dry_non_resin'])
+            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
             ->whereIn('id_wo', $woDryFinishing)
             ->get()
             ->sum(function ($item) {
-                $workData = $item->wo->standardize_work->dry_cast_resin ?? $item->wo->standardize_work->dry_non_resin;
+                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
                 if ($workData) {
                     $totalHourFinishing = $workData->totalHour_Finishing ?? 0;
                     return $totalHourFinishing  * $item->qty_trafo;
@@ -286,26 +289,28 @@ class ResourceDryRekomendasiController extends Controller
             case 2:
                 $shift = 16;
                 break;
-                case 3:
-                    $shift = 24;
-                    break;
+            case 3:
+                $shift = 24;
+                break;
         }
         // proses pengambilan data nama MP pada workcenter coil making LV melalui gpa
 
         $gpadryfilterLV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
-        ->whereBetween('deadline', $getDay)
-        ->get();
+            ->whereBetween('deadline', $getDay)
+            ->get();
         // dd($gpadryfilterLV);
 
         $dateStrings = $gpadryfilterLV->pluck('deadline');
 
-        $woIds = $gpadryfilterLV->pluck('wo.id_wo');
-        $coilLv = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.coil_lv');
-        $potong_leadwire = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_leadwire');
-        $potong_isolasi = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.potong_isolasi');
+        $woIds = $gpadryfilterLV->pluck('mps2.id_wo');
+        $coilLv = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.coil_lv');
+        $potong_leadwire = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.potong_leadwire');
+        $potong_isolasi = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.potong_isolasi');
 
         $ketersediaanMPLV = $ketersediaanMPCoil_Making_LV;
         $namaMP = [];
+        $nama_ms = [];
+
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
             $namaMP_currentSkillLV = $matrixSkil->where('production_line', 'Dry Resin')
@@ -404,14 +409,32 @@ class ResourceDryRekomendasiController extends Controller
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPLV));
+        for ($i = 2; $i >= 0; $i--) {
+            if ($i > 0) {
+                $getMesin = $mesins->where('production_line', 'Dry Resin')
+                    ->where('nama_workcenter', 'Coil Making')
+                    ->where('proses', 'COIL LV')
+                    ->whereIn('tipe_proses', $coilLv)
+                    ->where('skill', $i)
+                    ->pluck('nama_ms')->toArray();
+                $nama_ms = array_merge($nama_ms, $getMesin);
+                if (count($nama_ms) >= $ketersediaanMPLV) {
+                    break;
+                }
+            }
+        }
+        $nama_ms = array_slice($nama_ms, 0, ceil($ketersediaanMPLV));
+        // dd($nama_ms);
+
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
 
             // Proses COIL LV
-            $hourLV = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.hour_coil_lv', $wo)->sum();
+            $hourLV = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.hour_coil_lv', $wo)->sum();
             $qtyLV = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
             $remainingHoursLV = $hourLV * $qtyLV;
             $namaLV = $namaMP[$time];
+            $mesin = $nama_ms[$time];
             $currentDateLV = [];
 
             while ($remainingHoursLV > 0) {
@@ -427,7 +450,8 @@ class ResourceDryRekomendasiController extends Controller
                     'nama_mp' => $namaLV,
                     'nama_workcenter' => 'LV Windling',
                     'nama_proses' => 'COIL LV',
-                    ])->exists();
+                    'mesin' => $mesin
+                ])->exists();
 
                 if (!$existingDataLV) {
                     $currentDateLV[] = [
@@ -437,6 +461,7 @@ class ResourceDryRekomendasiController extends Controller
                         'nama_mp' => $namaLV,
                         'nama_workcenter' => 'LV Windling',
                         'nama_proses' => 'COIL LV',
+                        'mesin' => $mesin
                     ];
                 }
                 $start = $endTimeLV->copy()->addSeconds(1);
@@ -448,7 +473,7 @@ class ResourceDryRekomendasiController extends Controller
             }
 
             // Proses POTONG LEAD WIRE
-            $hourLeadWire = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.hour_potong_leadwire', $wo)->sum();
+            $hourLeadWire = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.hour_potong_leadwire', $wo)->sum();
             $qtyLeadWire = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
             $remainingHoursLeadWire = $hourLeadWire * $qtyLeadWire;
             $namaLeadWire = $namaMP[$time];
@@ -483,12 +508,12 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHoursLeadWire -= $minhourdayLeadWire;
                 $start->addDay();
             }
-            if (!empty($currentDateLeadWire)) {
-                ResultRekomendasi::insert($currentDateLeadWire);
-            }
+            // if (!empty($currentDateLeadWire)) {
+            //     ResultRekomendasi::insert($currentDateLeadWire);
+            // }
 
             // Proses POTONG ISOLASI
-            $hourIsolasi = $gpadryfilterLV->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi', $wo)->sum();
+            $hourIsolasi = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.hour_potong_isolasi', $wo)->sum();
             $qtyIsolasi = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
             $remainingHoursIsolasi = $hourIsolasi * $qtyIsolasi;
             $namaIsolasi = isset($namaMP[$time]) && !empty($namaMP[$time]) ? $namaMP[$time] : "tidak ada nama MP";
@@ -523,21 +548,22 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHoursIsolasi -= $minhourdayIsolasi;
                 $start->addDay();
             }
-            if (!empty($currentDateIsolasi)) {
-                ResultRekomendasi::insert($currentDateIsolasi);
-            }
+            // if (!empty($currentDateIsolasi)) {
+            //     ResultRekomendasi::insert($currentDateIsolasi);
+            // }
         }
 
         // proses pengambilan data nama MP pada workcenter coil making HV melalui gpa
         $gpadryfilterHV = $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
-        ->whereBetween('deadline', $getDay)
-        ->get();
+            ->whereBetween('deadline', $getDay)
+            ->get();
 
         $dateStrings = $gpadryfilterHV->pluck('deadline');
-        $woIds = $gpadryfilterHV->pluck('wo.id_wo');
-        $coilHv = $gpadryfilterHV->pluck('wo.standardize_work.dry_cast_resin.coil_hv');
+        $woIds = $gpadryfilterHV->pluck('mps2.id_wo');
+        $coilHv = $gpadryfilterHV->pluck('mps2.standardize_work.dry_cast_resin.coil_hv');
         $ketersediaanMPHV = $ketersediaanMPCoil_Making_HV;
         $namaMP = [];
+        $nama_ms = [];
 
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
@@ -576,9 +602,24 @@ class ResourceDryRekomendasiController extends Controller
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPHV));
+        for ($i = 2; $i >= 0; $i--) {
+            if ($i > 0) {
+                $getMesin = $mesins->where('production_line', 'Dry Resin')
+                    ->where('nama_workcenter', 'Coil Making')
+                    ->where('proses', 'COIL HV')
+                    ->whereIn('tipe_proses', $coilHv)
+                    ->where('skill', $i)
+                    ->pluck('nama_ms')->toArray();
+                $nama_ms = array_merge($nama_ms, $getMesin);
+                if (count($nama_ms) >= $ketersediaanMPHV) {
+                    break;
+                }
+            }
+        }
+        $nama_ms = array_slice($nama_ms, 0, ceil($ketersediaanMPHV));
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourHV = $gpadryfilterHV->pluck('wo.standardize_work.dry_cast_resin.hour_coil_hv', $wo)->sum();
+            $hourHV = $gpadryfilterHV->pluck('mps2.standardize_work.dry_cast_resin.hour_coil_hv', $wo)->sum();
             $qty = $gpadryfilterHV->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourHV * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -586,6 +627,9 @@ class ResourceDryRekomendasiController extends Controller
             } else {
                 $nama = "tidak ada nama MP";
             }
+            $mesin = $nama_ms[$time];
+            // dd($mesin);
+
             $currentDateHv = [];
 
             while ($remainingHours > 0) {
@@ -601,6 +645,7 @@ class ResourceDryRekomendasiController extends Controller
                     'nama_mp' => $nama,
                     'nama_workcenter' => 'HV Windling',
                     'nama_proses' => 'COIL HV',
+                    'mesin' => $mesin,
                 ])->exists();
 
                 if (!$existingData) {
@@ -611,6 +656,7 @@ class ResourceDryRekomendasiController extends Controller
                         'nama_mp' => $nama,
                         'nama_workcenter' => 'HV Windling',
                         'nama_proses' => 'COIL HV',
+                        'mesin' => $mesin,
                     ];
                 }
                 $start = $endTime->copy()->addSeconds(1);
@@ -630,14 +676,14 @@ class ResourceDryRekomendasiController extends Controller
             ->get();
 
         $dateStrings = $gpadryfilterMoulding->pluck('deadline');
-        $woIds = $gpadryfilterMoulding->pluck('wo.id_wo');
+        $woIds = $gpadryfilterMoulding->pluck('mps2.id_wo');
 
-        $hvmoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hv_moulding');
-        $hvcasting = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hv_casting');
-        $hvdemoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hv_demoulding');
-        $lvbobbin = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.lv_bobbin');
-        $lv_moulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.lv_moulding');
-        $touch_up = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.touch_up');
+        $hvmoulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hv_moulding');
+        $hvcasting = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hv_casting');
+        $hvdemoulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hv_demoulding');
+        $lvbobbin = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.lv_bobbin');
+        $lv_moulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.lv_moulding');
+        $touch_up = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.touch_up');
         $ketersediaanMPMould = $ketersediaanMPMould_Casting;
         $namaMP = [];
         // Mendapatkan namaMP
@@ -646,6 +692,7 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('nama_workcenter', 'Mould & Casting')
                 ->where('proses', 'HV MOULDING')
                 ->whereIn('tipe_proses', $hvmoulding)
+                ->where('skill', $i)
                 ->whereNotIn('man_power.nama', $namaMP)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_hvmoulding = [];
@@ -827,11 +874,27 @@ class ResourceDryRekomendasiController extends Controller
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPMould));
+        for ($i = 2; $i >= 0; $i--) {
+            if ($i > 0) {
+                $getMesin = $mesins->where('production_line', 'Dry Resin')
+                    ->where('nama_workcenter', 'Mould & Casting')
+                    ->where('proses', 'HV MOULDING')
+                    ->whereIn('tipe_proses', $hvmoulding)
+                    ->where('skill', $i)
+                    ->pluck('nama_ms')->toArray();
+                $nama_ms = array_merge($nama_ms, $getMesin);
+                if (count($nama_ms) >= $ketersediaanMPMould) {
+                    break;
+                }
+            }
+        }
+        $nama_ms = array_slice($nama_ms, 0, ceil($ketersediaanMPMould));
+        // dd($nama_ms);
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
             // proses HV MOULDING
-            $hourMould = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_hv_moulding', $wo)->sum();
+            $hourMould = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_hv_moulding', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourMould * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -839,6 +902,12 @@ class ResourceDryRekomendasiController extends Controller
             } else {
                 $nama = "tidak ada nama MP";
             }
+            if (isset($nama_ms[$time]) && !empty($nama_ms[$time])) {
+                $mesin = $nama_ms[$time];
+            } else {
+                $mesin = "tidak Memakai Mesin";
+            }
+            // $mesin = $nama_ms[$time];
             $currentDate_HvDemoulding = [];
 
             while ($remainingHours > 0) {
@@ -854,6 +923,7 @@ class ResourceDryRekomendasiController extends Controller
                     'nama_mp' => $nama,
                     'nama_workcenter' => 'Moulding',
                     'nama_proses' => 'HV MOULDING',
+                    'mesin' => $mesin
                 ])->exists();
 
                 if (!$existingData) {
@@ -864,6 +934,7 @@ class ResourceDryRekomendasiController extends Controller
                         'nama_mp' => $nama,
                         'nama_workcenter' => 'Moulding',
                         'nama_proses' => 'HV MOULDING',
+                        'mesin' => $mesin
                     ];
                 }
                 $start = $endTime->copy()->addSeconds(1);
@@ -874,7 +945,7 @@ class ResourceDryRekomendasiController extends Controller
                 ResultRekomendasi::insert($currentDate_HvDemoulding);
             }
             // proses HV MOULDING
-            $hourCasting = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_hv_casting', $wo)->sum();
+            $hourCasting = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_hv_casting', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourCasting * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -913,10 +984,10 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate_HvCasting)) {
-                ResultRekomendasi::insert($currentDate_HvCasting);
-            }
-            $hourDemoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_hv_demoulding', $wo)->sum();
+            // if (!empty($currentDate_HvCasting)) {
+            //     ResultRekomendasi::insert($currentDate_HvCasting);
+            // }
+            $hourDemoulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_hv_demoulding', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourDemoulding * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -955,10 +1026,10 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate_hvDemoudling)) {
-                ResultRekomendasi::insert($currentDate_hvDemoudling);
-            }
-            $hourLvbobbin = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_lv_bobbin', $wo)->sum();
+            // if (!empty($currentDate_hvDemoudling)) {
+            //     ResultRekomendasi::insert($currentDate_hvDemoudling);
+            // }
+            $hourLvbobbin = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_lv_bobbin', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourLvbobbin * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -997,10 +1068,10 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate_Lvbobin)) {
-                ResultRekomendasi::insert($currentDate_Lvbobin);
-            }
-            $hourLvmoulding = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_lv_moulding', $wo)->sum();
+            // if (!empty($currentDate_Lvbobin)) {
+            //     ResultRekomendasi::insert($currentDate_Lvbobin);
+            // }
+            $hourLvmoulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_lv_moulding', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourLvmoulding * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -1039,10 +1110,10 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate_lvMoulding)) {
-                ResultRekomendasi::insert($currentDate_lvMoulding);
-            }
-            $hourTouchup = $gpadryfilterMoulding->pluck('wo.standardize_work.dry_cast_resin.hour_touch_up', $wo)->sum();
+            // if (!empty($currentDate_lvMoulding)) {
+            //     ResultRekomendasi::insert($currentDate_lvMoulding);
+            // }
+            $hourTouchup = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_touch_up', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourTouchup * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -1081,9 +1152,9 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate_touch_up)) {
-                ResultRekomendasi::insert($currentDate_touch_up);
-            }
+            // if (!empty($currentDate_touch_up)) {
+            //     ResultRekomendasi::insert($currentDate_touch_up);
+            // }
         }
 
         // proses pengambilan data nama MP pada workcenter Susun Core melalui gpa
@@ -1093,10 +1164,10 @@ class ResourceDryRekomendasiController extends Controller
             ->get();
 
         $dateStrings = $gpadryfilterCCASusun->pluck('deadline');
-        $woIds = $gpadryfilterCCASusun->pluck('wo.id_wo');
+        $woIds = $gpadryfilterCCASusun->pluck('mps2.id_wo');
 
-        $susun_core = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.type_susun_core');
-        $potong_isolasi_fiber = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.potong_isolasi_fiber');
+        $susun_core = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.type_susun_core');
+        $potong_isolasi_fiber = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.potong_isolasi_fiber');
 
         $ketersediaanMPSusun = $ketersediaanMPCCASusun;
         $namaMP = [];
@@ -1173,17 +1244,38 @@ class ResourceDryRekomendasiController extends Controller
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPSusun));
+        for ($i = 2; $i >= 0; $i--) {
+            if ($i > 0) {
+                $getMesin = $mesins->where('production_line', 'Dry Resin')
+                    ->where('nama_workcenter', 'Core Coil Assembly')
+                    ->where('proses', 'TYPE SUSUN CORE')
+                    ->whereIn('tipe_proses', $susun_core)
+                    ->where('skill', $i)
+                    ->pluck('nama_ms')->toArray();
+                $nama_ms = array_merge($nama_ms, $getMesin);
+                if (count($nama_ms) >= $ketersediaanMPSusun) {
+                    break;
+                }
+            }
+        }
+        $nama_ms = array_slice($nama_ms, 0, ceil($ketersediaanMPSusun));
+        // dd($nama_ms);
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
             // proses susun core
-            $hourSusun = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.hour_type_susun_core', $wo)->sum();
+            $hourSusun = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.hour_type_susun_core', $wo)->sum();
             $qty = $gpadryfilterCCASusun->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourSusun * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
                 $nama = $namaMP[$time];
             } else {
                 $nama = "tidak ada nama MP";
+            }
+            if (isset($nama_ms[$time]) && !empty($nama_ms[$time])) {
+                $mesin = $nama_ms[$time];
+            } else {
+                $mesin = "tidak ada mesin";
             }
             $currentDate_susun = [];
             while ($remainingHours > 0) {
@@ -1199,6 +1291,7 @@ class ResourceDryRekomendasiController extends Controller
                     'nama_mp' => $nama,
                     'nama_workcenter' => 'Susun Core',
                     'nama_proses' => 'TYPE SUSUN CORE',
+                    'mesin' => $mesin,
                 ])->exists();
 
                 if (!$existingData) {
@@ -1209,6 +1302,8 @@ class ResourceDryRekomendasiController extends Controller
                         'nama_mp' => $nama,
                         'nama_workcenter' => 'Susun Core',
                         'nama_proses' => 'TYPE SUSUN CORE',
+                        'mesin' => $mesin,
+
                     ];
                 }
                 $start = $endTime->copy()->addSeconds(1);
@@ -1220,7 +1315,7 @@ class ResourceDryRekomendasiController extends Controller
             }
 
             // proses potong isolasi fiber
-            $hourIsolasiFiber = $gpadryfilterCCASusun->pluck('wo.standardize_work.dry_cast_resin.hour_potong_isolasi_fiber', $wo)->sum();
+            $hourIsolasiFiber = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.hour_potong_isolasi_fiber', $wo)->sum();
             $qty = $gpadryfilterCCASusun->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourIsolasiFiber * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -1259,9 +1354,9 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate_isolasi_fiber)) {
-                ResultRekomendasi::insert($currentDate_isolasi_fiber);
-            }
+            // if (!empty($currentDate_isolasi_fiber)) {
+            //     ResultRekomendasi::insert($currentDate_isolasi_fiber);
+            // }
         }
         // proses pengambilan data nama MP pada workcenter Connect & Final Assembly melalui gpa
 
@@ -1269,28 +1364,28 @@ class ResourceDryRekomendasiController extends Controller
             ->whereBetween('deadline', $getDay)
             ->get();
         $dateStrings = $gpadryfilterCCAConect->pluck('deadline');
-        $woIds = $gpadryfilterCCAConect->pluck('wo.id_wo');
+        $woIds = $gpadryfilterCCAConect->pluck('mps2.id_wo');
 
-        $others = $gpadryfilterCCAConect->pluck('wo.standardize_work.dry_cast_resin.others');
+        $others = $gpadryfilterCCAConect->pluck('mps2.standardize_work.dry_cast_resin.others');
         $ketersediaanMPConect = $ketersediaanMPCCAConect;
         $namaMP = [];
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
             $namaMP_currentSkill_others = $matrixSkil->where('production_line', 'Dry Resin')
-                ->where('nama_workcenter', 'Core Coil Assembly')
-                ->where('proses', 'OTHERS')
-                ->whereIn('tipe_proses', $others)
-                ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
-                ->pluck('man_power.nama')->toArray();
+            ->where('nama_workcenter', 'Core Coil Assembly')
+            ->where('proses', 'OTHERS')
+            ->whereIn('tipe_proses', [$others])
+            ->where('skill', $i)
+            ->whereNotIn('man_power.nama', $namaMP)
+            ->pluck('man_power.nama')->toArray();
 
 
             $namaMP_withDOB_others = [];
             foreach ($namaMP_currentSkill_others as $nama_mp) {
                 if (!in_array($nama_mp, $namaMP)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
-                        ->whereNotIn('nama_workcenter', ['Connection & Final Assembly'])
-                        ->first();
+                    ->whereNotIn('nama_workcenter', ['Connection & Final Assembly'])
+                    ->first();
 
                     if (!$existingMP) {
                         $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
@@ -1319,17 +1414,39 @@ class ResourceDryRekomendasiController extends Controller
             }
         }
         $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPConect));
-        // dd($ketersediaanMPCCAConect);
+
+        // dd($namaMP);
+        for ($i = 2; $i >= 0; $i--) {
+            if ($i > 0) {
+                $getMesin = $mesins->where('production_line', 'Dry Resin')
+                ->where('nama_workcenter', 'Core Coil Assembly')
+                    ->where('proses', 'OTHERS')
+                    ->whereIn('tipe_proses', $others)
+                    ->where('skill', $i)
+                    ->pluck('nama_ms')->toArray();
+                    $nama_ms = array_merge($nama_ms, $getMesin);
+                    if (count($nama_ms) >= $ketersediaanMPConect) {
+                        break;
+                    }
+                }
+            }
+            $nama_ms = array_slice($nama_ms, 0, ceil($ketersediaanMPConect));
+            // dd($ketersediaanMPCCAConect);
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourConect = $gpadryfilterCCAConect->pluck('wo.standardize_work.dry_cast_resin.hour_hour_others', $wo)->sum();
+            $hourConect = $gpadryfilterCCAConect->pluck('mps2.standardize_work.dry_cast_resin.hour_hour_others', $wo)->sum();
             $qty = $gpadryfilterCCAConect->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourConect * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
                 $nama = $namaMP[$time];
             } else {
                 $nama = "tidak ada nama MP";
+            }
+            if (isset($nama_ms[$time]) && !empty($nama_ms[$time])) {
+                $mesin = $nama_ms[$time];
+            } else {
+                $mesin = "tidak ada mesin";
             }
             $currentDateConnect = [];
 
@@ -1362,9 +1479,9 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDateConnect)) {
-                ResultRekomendasi::insert($currentDateConnect);
-            }
+            // if (!empty($currentDateConnect)) {
+            //     ResultRekomendasi::insert($currentDateConnect);
+            // }
             $currentDate = [];
         }
         // proses pengambilan data nama MP pada workcenter Finishing melalui gpa
@@ -1374,13 +1491,13 @@ class ResourceDryRekomendasiController extends Controller
             ->get();
 
         $dateStrings = $gpadryfilterCCAFinishing->pluck('deadline');
-        $woIds = $gpadryfilterCCAFinishing->pluck('wo.id_wo');
+        $woIds = $gpadryfilterCCAFinishing->pluck('mps2.id_wo');
 
-        $wiring = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.wiring');
-        $instal_housing = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.instal_housing');
-        $bongkar_housing = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.bongkar_housing');
-        $pembuatan_cu_link = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.pembuatan_cu_link');
-        $accesories = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.accesories');
+        $wiring = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.wiring');
+        $instal_housing = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.instal_housing');
+        $bongkar_housing = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.bongkar_housing');
+        $pembuatan_cu_link = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.pembuatan_cu_link');
+        $accesories = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.accesories');
 
         $ketersediaanMPFinishing = $ketersediaanMPCCAFinishing;
         $namaMP = [];
@@ -1546,7 +1663,7 @@ class ResourceDryRekomendasiController extends Controller
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourFinishing = $gpadryfilterCCAFinishing->pluck('wo.standardize_work.dry_cast_resin.totalHour_Finishing', $wo)->sum();
+            $hourFinishing = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.totalHour_Finishing', $wo)->sum();
             $qty = $gpadryfilterCCAFinishing->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourFinishing * $qty;
             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
@@ -1585,9 +1702,9 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            if (!empty($currentDate)) {
-                ResultRekomendasi::insert($currentDate);
-            }
+            // if (!empty($currentDate)) {
+            //     ResultRekomendasi::insert($currentDate);
+            // }
             $currentDate = [];
         }
         switch ($selectedWorkcenter_rekomendasi) {
@@ -1647,4 +1764,20 @@ class ResourceDryRekomendasiController extends Controller
         ];
         return view('produksi.resource_work_planning.DRY.rekomendasi', ['data' => $data]);
     }
+    public function edit(string $id)
+    {
+        $namaMp = ResultRekomendasi::findOrFail($id);
+        // $dataUntukSelectBox = [];
+        return response(view('produksi.resource_work_planning.rekomendasi', compact(['namaMp' => $namaMp])));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $namaMp = ResultRekomendasi::findOrFail($id);
+        $namaMp->update([
+            'nama_mp' => $request->nama_mp,
+        ]);
+        return redirect()->route('dashboard')->with('success', 'Nama MP berhasil diupdate.');
+    }
 }
+

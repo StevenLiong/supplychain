@@ -16,18 +16,26 @@ return new class extends Migration
             $table->integer('kva');
             $table->integer('jeda_QCTransfer');
             $table->integer('jeda_QC');
+            $table->integer('jeda_QC_deadline');
             $table->integer('jeda_finishing');
+            $table->integer('jeda_finishing_deadline');
             $table->integer('jeda_confa');
+            $table->integer('jeda_confa_deadline');
             $table->integer('jeda_supmatconfa');
             $table->integer('jeda_susuncore');
+            $table->integer('jeda_susuncore_deadline');
             $table->integer('jeda_mould');
+            $table->integer('jeda_mould_deadline');
             $table->integer('jeda_supfixcore');
             $table->integer('jeda_core');
             $table->integer('jeda_hv');
+            $table->integer('jeda_hv_deadline');
             $table->integer('jeda_lv');
+            $table->integer('jeda_lv_deadline');
             $table->integer('jeda_supmatmould');
             $table->integer('jeda_supmatinscoil');
             $table->integer('jeda_inspaper');
+            $table->integer('jeda_inspaper_deadline');
             $table->timestamps();
         });
     }

@@ -171,8 +171,8 @@
                                     </div>
                                     <div class="input-group-append">
                                         <input type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                        id="totalHour_coil_making" name="totalHour_coil_making"
-                                        value="{{ old('totalHour_coil_making') }}" readonly>
+                                            id="totalHour_coil_making" name="totalHour_coil_making"
+                                            value="{{ old('totalHour_coil_making') }}" readonly>
                                     </div>
                                     <div class="input-group-append">
                                         <span class="input-group-text">HOUR</span>
@@ -192,9 +192,7 @@
                                         <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
                                     </td>
                                     <td class="w-50">
-                                        <select
-                                            class="form-control form-select input border border-dark rounded text-center"
-                                            style="height: 33px;" name="coil_lv" id="coil_lv">
+                                        <select class="form-control single_select" name="coil_lv" id="coil_lv">
                                         </select>
                                     </td>
                                 </tr>
@@ -208,9 +206,7 @@
                                         <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
                                     </td>
                                     <td>
-                                        <select class=" form-control border border-dark rounded text-center"
-                                            style="height: 33px;"name="coil_hv" id="coil_hv">
-
+                                        <select class=" form-control single_select" name="coil_hv" id="coil_hv">
                                         </select>
                                     </td>
                                 </tr>
@@ -225,8 +221,8 @@
                                         </h6>
                                     </td>
                                     <td>
-                                        <select class=" form-control border border-dark rounded text-center"
-                                            style="height: 33px;" name="potong_leadwire" id="potong_leadwire">
+                                        <select class=" form-control single_select" name="potong_leadwire"
+                                            id="potong_leadwire">
 
                                         </select>
 
@@ -243,7 +239,7 @@
                                         </h6>
                                     </td>
                                     <td>
-                                        <select class="form-control  multiple1" style="margin-bottom: 0rem"
+                                        <select class="form-control  multiple1"
                                             name="potong_isolasi[]" id="potong_isolasi" multiple>
                                         </select>
                                     </td>
@@ -284,8 +280,8 @@
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;"name="hv_moulding" id="hv_moulding">
+                                            <select class=" form-control single_select" name="hv_moulding"
+                                                id="hv_moulding">
 
                                             </select>
                                         </td>
@@ -301,8 +297,8 @@
                                             <h6 class=" border border-dark rounded p-1 text-center">HV Casting</h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="hv_casting" id="hv_casting">
+                                            <select class=" form-control single_select" name="hv_casting"
+                                                id="hv_casting">
 
                                             </select>
                                         </td>
@@ -319,8 +315,8 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="hv_demoulding" id="hv_demoulding">
+                                            <select class=" form-control single_select" name="hv_demoulding"
+                                                id="hv_demoulding">
 
                                             </select>
                                         </td>
@@ -385,7 +381,7 @@
                                             <h6 class=" border border-dark rounded p-1 text-center">Oven</h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control multiple2" style="width:100%;" name="oven[]"
+                                            <select class=" form-control multiple2" name="oven[]"
                                                 id="oven" multiple>
 
                                             </select>
@@ -429,8 +425,8 @@
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="type_susun_core" id="type_susun_core">
+                                            <select class=" form-control single_select" name="type_susun_core"
+                                                id="type_susun_core">
 
                                             </select>
                                         </td>
@@ -445,8 +441,10 @@
                                             <h6 class="border border-dark rounded p-1 text-center">Wiring</h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="wiring" id="wiring">
+                                            <select
+                                                class=" form-control single_select
+                                                 name="wiring"
+                                                id="wiring">
                                             </select>
                                         </td>
                                     </tr>
@@ -461,8 +459,8 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="instal_housing" id="instal_housing">
+                                            <select class=" form-control single_select" name="instal_housing"
+                                                id="instal_housing">
 
                                             </select>
                                         </td>
@@ -480,8 +478,8 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="bongkar_housing" id="bongkar_housing">
+                                            <select class=" form-control single_select" name="bongkar_housing"
+                                                id="bongkar_housing">
 
                                             </select>
                                         </td>
@@ -499,8 +497,8 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="pembuatan_cu_link" id="pembuatan_cu_link">
+                                            <select class=" form-control single_select" name="pembuatan_cu_link"
+                                                id="pembuatan_cu_link">
 
                                             </select>
                                         </td>
@@ -592,7 +590,7 @@
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control  multiple4" style="margin-bottom: 0rem"
+                                            <select class=" form-control  multiple4"
                                                 name="qc_testing[]" id="qc_testing" multiple>
                                             </select>
                                         </td>
@@ -1112,7 +1110,7 @@
                                 fillSelect('#pembuatan_cu_link', data, 'PEMBUATAN CU LINK',
                                     'CORE & ASSEMBLY');
                                 fillSelect('#others', data, 'OTHERS', 'CORE & ASSEMBLY');
-                                fillSelect('#accesories', data, 'ACCESORIES',
+                                fillSelect('#accesories', data, 'ACCESSORIES',
                                     'CORE & ASSEMBLY');
                                 fillSelect('#potong_isolasi_fiber', data,
                                     'POTONG ISOLASI FIBER', 'CORE & ASSEMBLY');
@@ -1444,27 +1442,24 @@
             $(".multiple1").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
             }).on('change', displayTotalJamCoilMaking);
             $(".multiple2").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
             }).on('change', displayTotalJamMouldCasting);
             $(".multiple3").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
             }).on('change', displayTotalJamCoreCoilAssembly);
             $(".multiple4").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
             }).on('change', displayTotalJamQCTest);
+            $(".single_select").select2({
+                placeholder: 'Pilih',
+                width: '100%',
+                minimumResultsForSearch: Infinity
+            });
         });
     </script>
 @endsection

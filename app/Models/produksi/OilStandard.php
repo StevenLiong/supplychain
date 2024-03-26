@@ -52,19 +52,29 @@ class OilStandard extends Model
         static::created(function ($oil_standard) {
             StandardizeWork::create([
                 'id_oil_standard' => $oil_standard->id,
+                'total_hour' => $oil_standard->total_hour,
+                'id_fg' => $oil_standard->id_fg,
+                'kd_manhour' => $oil_standard->kd_manhour,
+                'nomor_so' => $oil_standard->nomor_so,
+                'ukuran_kapasitas' => $oil_standard->ukuran_kapasitas,
                 'nama_product' => 'Oil Standard',
             ]);
         });
 
         self::creating(function ($oil_standard) {
-            $nomorSo = $oil_standard->nomor_so;
+            $nomorSo = strtoupper($oil_standard->nomor_so);
             $kategori = $oil_standard->kategori;
-            $ukuranKapasitas = $oil_standard->ukuran_kapasitas;
+            $kapasitas = Kapasitas::where('ukuran_kapasitas', $oil_standard->ukuran_kapasitas)->first();
+            if ($kapasitas) {
+                $id_kapasitas = $kapasitas->id;
+            } else {
+                $id_kapasitas = '0';
+            }
 
             $nomorSo = str_replace(['/', '-'], '', $nomorSo);
 
-            $kdManhour = $kategori . '' .  $ukuranKapasitas . '' . $nomorSo;
-
+            $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
+            $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
             $oil_standard->kd_manhour = $kdManhour;
         });
     }

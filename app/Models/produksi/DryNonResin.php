@@ -72,21 +72,63 @@ class DryNonResin extends Model
                 'total_hour' => $drynonresin->total_hour,
                 'id_fg' => $drynonresin->id_fg,
                 'kd_manhour' => $drynonresin->kd_manhour,
+                'nomor_so' => $drynonresin->nomor_so,
+                'ukuran_kapasitas' => $drynonresin->ukuran_kapasitas,
                 'nama_product' =>'Dry Non Cast Resin',
             ]);
         });
-
         self::creating(function ($drynonresin) {
-            $nomorSo = $drynonresin->nomor_so;
+            $nomorSo = strtoupper($drynonresin->nomor_so);
             $kategori = $drynonresin->kategori;
-            $ukuranKapasitas = $drynonresin->ukuran_kapasitas;
+            $kapasitas = Kapasitas::where('ukuran_kapasitas', $drynonresin->ukuran_kapasitas)->first();
+            if ($kapasitas) {
+                $id_kapasitas = $kapasitas->id;
+            } else {
+                $id_kapasitas = '0';
+            }
 
             $nomorSo = str_replace(['/', '-'], '', $nomorSo);
 
-            $kdManhour = $kategori . '' .  $ukuranKapasitas . '' . $nomorSo;
-
+            $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
+            $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
             $drynonresin->kd_manhour = $kdManhour;
         });
+        // self::creating(function ($drynonresin) {
+        //     $hour_potong_isolasi_fiber = $drynonresin->hour_potong_isolasi_fiber;
+        //     $hour_susun_core = $drynonresin->hour_type_susun_core;
+
+        //     // Tambahkan pengecekan jika kedua nilai tersebut tidak null sebelum melakukan perhitungan
+        //     if ($hour_potong_isolasi_fiber !== null && $hour_susun_core !== null) {
+        //         $hour = $hour_susun_core + $hour_potong_isolasi_fiber;
+
+        //         $drynonresin->totalHour_SusunCore = $hour;
+        //     }
+        // });
+        // self::creating(function ($drynonresin) {
+        //     $hour = $drynonresin->hour_others;
+
+        //     $drynonresin->totalHour_Connection_Final_Assembly = $hour;
+        // });
+        // self::creating(function ($drynonresin) {
+        //     $wiring = $drynonresin->hour_wiring ?? 0;
+        //     $instal_housing = $drynonresin->hour_instal_housing ?? 0;
+        //     $bongkar_housing = $drynonresin->hour_bongkar_housing ?? 0;
+        //     $pembuatan_cu_link = $drynonresin->hour_pembuatan_cu_link ?? 0;
+        //     $accesories = $drynonresin->hour_accesories ?? 0;
+
+        //     $hour = $wiring + $instal_housing + $bongkar_housing + $pembuatan_cu_link + $accesories;
+
+        //     $drynonresin->totalHour_Finishing = ($hour > 0) ? $hour : null;
+        // });
+        // self::creating(function ($drynonresin) {
+        //     $coillv = $drynonresin->hour_coil_lv ?? 0;
+        //     $potong_leadwire = $drynonresin->hour_potong_leadwire ?? 0;
+        //     $potong_isolasi = $drynonresin->hour_potong_isolasi ?? 0;
+
+        //     $hour = $coillv + $potong_isolasi + $potong_leadwire ;
+
+        //     $drynonresin->totalHour_coil_makinglv = ($hour > 0) ? $hour : null;
+        // });
     }
 
 

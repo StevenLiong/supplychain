@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers\produksi\ResourceWorkPlanning;
 
 use App\Http\Controllers\Controller;
 use App\Models\planner\GPADry;

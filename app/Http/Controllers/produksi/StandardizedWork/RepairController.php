@@ -1,23 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers\produksi\StandardizedWork;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\produksi\ManHour;
-use App\Models\produksi\OilCustom;
+use App\Models\produksi\Kapasitas;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use App\Models\produksi\ManHour;
+use App\Models\produksi\Repair;
 use Illuminate\Http\Request;
 
-class OilCustomController extends Controller
+class RepairController extends Controller
 {
     public function create(): Response
     {
 
-        $title = 'Form Oil Custom';
-        return response(view('produksi.standardized_work.formoilcustom', ['manhour' => ManHour::all(), 'title' => $title]));
+        $title = 'Form Repair';
+        $manhour = Manhour::all();
+        $kapasitas = Kapasitas::all();
+
+        // dd($kapasitas);
+        return response(view('produksi.standardized_work.form.formrepair', ['manhour' => $manhour, 'kapasitas' => $kapasitas, 'title' => $title]));
+
     }
 
     public function createManhour($id)
@@ -32,9 +38,10 @@ class OilCustomController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $params = $request->validated();
+        // dd($request->input('customRadio-11'));
+        $params = $request->all();
 
         $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
 
@@ -43,14 +50,14 @@ class OilCustomController extends Controller
             $params[$field] = implode(',', $checkbox);
         }
 
-        OilCustom::create($params);
+        Repair::create($params);
 
         return redirect(route('home'))->with('success', 'Added!');
     }
 
     public function edit(string $id): Response
     {
-        $product = OilCustom::findOrFail($id);
+        $product = Repair::findOrFail($id);
         $manhour = ManHour::orderBy('id')->get();
 
 
@@ -63,7 +70,7 @@ class OilCustomController extends Controller
      */
     public function update(UpdateProductRequest $request, string $id): RedirectResponse
     {
-        $product = OilCustom::findOrFail($id);
+        $product = Repair::findOrFail($id);
         $params = $request->validated();
 
         if ($product->update($params)) {

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('id_fg');
             $table->string('ukuran_kapasitas');
             $table->integer('total_hour');
-            $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
+            // $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('coil_lv')->nullable();
             $table->string('coil_hv')->nullable();
             $table->string('potong_leadwire')->nullable();
@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('lv_bobbin')->nullable();
             $table->string('lv_moulding')->nullable();
             $table->string('touch_up')->nullable();
+            $table->string('oven')->nullable();
             $table->string('type_susun_core')->nullable();
             $table->string('wiring')->nullable();
             $table->string('instal_housing')->nullable();
@@ -58,6 +59,7 @@ return new class extends Migration
             $table->string('hour_lv_bobbin')->nullable();
             $table->string('hour_lv_moulding')->nullable();
             $table->string('hour_touch_up')->nullable();
+            $table->string('hour_oven')->nullable();
             $table->string('hour_type_susun_core')->nullable();
             $table->string('hour_wiring')->nullable();
             $table->string('hour_instal_housing')->nullable();

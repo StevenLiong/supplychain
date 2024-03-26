@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('nomor_so');
             $table->string('id_fg');
             $table->integer('total_hour');
-            $table->string('kategori')->default('5');
+            $table->string('kategori')->default('7');
             $table->string('ukuran_kapasitas');
-            $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
+            // $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('on_cover_standard')->nullable();
             $table->string('sidewall')->nullable();
             $table->string('conservator_cabelbox')->nullable();

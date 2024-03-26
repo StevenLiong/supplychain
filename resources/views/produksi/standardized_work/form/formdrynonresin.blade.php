@@ -25,15 +25,14 @@
     <h5 class="text-center text-sm-center text-xs-center my-1 header-title card-title" style="font-size: 30px;color:#d02424;">
         <b>PERHITUNGAN MAN HOUR</b>
     </h5>
-    <form class="login-content floating-label " method="post" action="{{ route('store.ct') }}">
+    <form class="login-content floating-label " method="post" action="{{ route('store.drynonresin') }}">
         @csrf
         <div class="row px-2">
             <div class="col-lg-12">
-                <!-- Total Hour -->
                 <div class="card card-body my-1 py-1">
                     @if ($errors->any())
                         <div class="alert alert-danger">
-                            <div class="alert-title">`````````````````
+                            <div class="alert-title">
                                 <h4>Whoops!</h4>
                             </div>
                             There are some problems with your input.
@@ -50,13 +49,6 @@
                     @if (session('error'))
                         <div class="alert alert-danger">{{ session('error') }}</div>
                     @endif
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
-                    <!-- tampilan total hour pada tiap work center -->
                     <div class="row align-items-center justify-content-center px-3 ">
                         <div class="col-lg-6 col-md-6 col-sm-12 text-left input-group">
                             <div class="input-group-prepend">
@@ -72,11 +64,12 @@
                             <button type="reset" class="btn btn-warning m-2">
                                 <i class="fa-solid fa-rotate-left mr-2"> </i>Reset
                             </button>
-                            <button type="submit" class="btn btn-primary m-2" > <i class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
-                            <a href="#" class="btn btn-info m-2" data-target=".preview" onclick="previewForm()"
+                            <button type="submit" class="btn btn-primary m-2"> <i
+                                    class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
+                            {{-- <a href="#" class="btn btn-info m-2" data-target=".preview" onclick="previewForm()"
                                 data-toggle="modal">
                                 <i class="fa-solid fa-circle-check"></i>Preview
-                            </a>
+                            </a> --}}
                             <a href="/standardized_work/home" class="btn btn-primary m-2">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i>Cancel
                             </a>
@@ -90,12 +83,11 @@
         <div class="row px-2">
             <div class="col-lg-12">
                 <div class="card card-body my-1 pt-3 pb-0">
-                    <!-- head input  -->
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
-                                    value="CT" id="category" disabled>
+                                    value="Dry Cast Non Resin" id="category" disabled>
                                 <label>Category</label>
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" name="kategori" id="kategori"
@@ -103,30 +95,56 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
                                     id="ukuran_kapasitas">
+                                    {{-- @php
+                                        $selectedValue = old('ukuran_kapasitas');
+                                        // fungsi apabila didalam kapasitas terdapat kategori produk yang sesuai
+                                        $kapasitasData = $kapasitas->pluck('ukuran_kapasitas');
+                                        $manhourData = $manhour
+                                            ->where('id_kategori_produk', 4)
+                                            ->whereIn('id_kapasitas', $kapasitas->pluck('id'));
+
+                                    @endphp
+
+                                    <option value="">Pilih</option>
+                                    @foreach ($kapasitasData as $index => $kapasitas)
+                                        <option value="{{ $kapasitas }}"
+                                            {{ $selectedValue == $kapasitas ? 'selected' : '' }}>
+                                            {{ $kapasitas }}
+                                        </option>
+                                    @endforeach --}}
                                     @php
                                         $selectedValue = old('ukuran_kapasitas');
-                                        $manhourData = $manhour->where('id_kategori_produk', '3')->unique('ukuran_kapasitas');
+                                        $manhourData = $manhour
+                                            ->where('id_kategori_produk', '5')
+                                            ->unique('id_kapasitas');
                                     @endphp
                                     <option value="">Pilih</option>
                                     @foreach ($manhourData as $data)
-                                        <option value="{{ $data->ukuran_kapasitas }}"
-                                            {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
-                                            {{ $data->ukuran_kapasitas }}
+                                        <option value="{{ $data->kapasitas->ukuran_kapasitas }}"
+                                            {{ $selectedValue == $data->kapasitas->ukuran_kapasitas ? 'selected' : '' }}>
+                                            {{ $data->kapasitas->ukuran_kapasitas }}
                                         </option>
                                     @endforeach
                                 </select>
                                 <label>Capacity</label>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
+                        <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
                                     value="{{ old('nomor_so') }}" id="so">
                                 <label>SO / No. Prospek</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
+                                    value="{{ old('id_fg') }}" id="fg">
+                                <label>Kode Finish Good</label>
                             </div>
                         </div>
                     </div>
@@ -137,210 +155,184 @@
         <div class="row px-2">
             <div class="col-lg-12  mb-0">
                 <div class="row">
-                    <!-- kiri  -->
                     <div class="col-lg-6" style="padding-right: 5px">
-                        <!--Coil Making  -->
                         <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
-                                <!-- tampilan total hour pada tiap work center  -->
                                 <div class="row align-items-center ">
                                     <div class="input-group input-group-md justify-content-center">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">COIL MAKING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalJam_value"></span>
+                                            <input type="text" class="input-group-text bg-warning"
+                                            style="width: 3rem" id="totalHour_coil_making"
+                                            name="totalHour_coil_making" value="{{ old('totalHour_coil_making') }}"
+                                            readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- kolom isi  -->
                                 <div class="align-items-center justify-content-left pt-1 px-1">
                                     <table class="w-100">
                                         <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_balutcore_ct">0</p>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_coil_lv" name="hour_coil_lv" value="{{ old('hour_coil_lv') }}"  readonly>
                                             </td>
-                                            <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Balut Core CT</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
                                             </td>
-                                            <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select
                                                     class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="balutcore_ct" id="balutcore_ct">
+                                                    style="height: 33px;" name="coil_lv" id="coil_lv">
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_cca_balutvt">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Core Coil Assembly & Balut VT</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="cca_balutvt" id="cca_balutvt">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_buat_pasangshelding">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Buat & Pasang Shielding</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="buat_pasangshelding" id="buat_pasangshelding">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_gulungcoil_sekunderct">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Gulung Coil Sekunder CT</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="gulungcoil_sekunderct" id="gulungcoil_sekunderct">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_buatcoilprimer_ctmanual">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Buat Coil Primer CT Manual</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="buatcoilprimer_ctmanual" id="buatcoilprimer_ctmanual">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_buat_coilprimerct_menggunakanmesin">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Buat Coil Primer CT Menggunakan Mesin</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="buat_coilprimerct_menggunakanmesin" id="buat_coilprimerct_menggunakanmesin">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_koneksi_ctvt">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Koneksi CT Dan VT</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="koneksi_ctvt" id="koneksi_ctvt">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_solder">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Solder</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="solder" id="solder">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_gulungcoilprimer_cutcore">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Gulung Coil Primer Cut Core</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="gulungcoilprimer_cutcore" id="gulungcoilprimer_cutcore">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="selectedInfo_gulungcoilprimer_nocutcore">0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Gulung Coil Primer No Cut Core</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center"
-                                                    style="height: 33px;" name="gulungcoilprimer_nocutcore" id="gulungcoilprimer_nocutcore">
-                                                </select>
-                                            </td>
-                                        </tr>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_coil_hv" name="hour_coil_hv" value="{{ old('hour_coil_hv') }}"  readonly>
 
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;"name="coil_hv" id="coil_hv">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_potong_leadwire" name="hour_potong_leadwire" value="{{ old('hour_potong_leadwire') }}"  readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Potong Lead Wire
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="potong_leadwire" id="potong_leadwire">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_potong_isolasi" name="hour_potong_isolasi" value="{{ old('hour_potong_isolasi') }}"  readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi</h6>
+                                            </td>
+                                            <td>
+                                                <select class="form-control border border-dark rounded text-center multiple1"
+                                                    style="margin-bottom: 0rem" name="potong_isolasi[]"
+                                                    id="potong_isolasi" multiple>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card card-body my-1 py-1">
+                            <div style="padding: 5px;">
+                                <div class="row align-items-center">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">MOULD & CASTING</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_MouldCasting" name="totalHour_MouldCasting" value="{{ old('totalHour_MouldCasting') }}"  readonly>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td class="w-20">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_moulding_casting" name="hour_moulding_casting" value="{{ old('hour_moulding_casting') }}"  readonly>
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting
+                                                </h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;"name="moulding_casting" id="moulding_casting">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_oven" name="hour_oven"
+                                                    value="{{ old('hour_oven') }}" readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Oven</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control multiple2" style="width:100%;"
+                                                    name="oven[]" id="oven" multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-body my-1 py-1">
+                            <div style="padding: 5px;">
+                                <div class="row align-items-center ">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">QC TESTING</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_QCTest" name="totalHour_QCTest" value="{{ old('totalHour_QCTest') }}"  readonly>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td class="w-20">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_qc_testing" name="hour_qc_testing" value="{{ old('hour_qc_testing') }}"  readonly>
+
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class="border border-dark rounded p-1 text-center">Routine Test</h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select class=" form-control border border-dark rounded text-center multiple4"
+                                                    style="margin-bottom: 0rem" name="qc_testing[]" id="qc_testing"
+                                                    multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
 
@@ -348,222 +340,188 @@
                         </div>
 
                     </div>
-                    <!-- kanan  -->
                     <div class="col-lg-6" style="padding-left: 5px">
-                        <!-- Mould & Casting  -->
+                        {{-- core & Assembly  --}}
                         <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
-                                <!-- tampilan total hour pada tiap work center  -->
-                                <div class="row align-items-center">
-                                    <div class="input-group input-group-md justify-content-center">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">MOULD & CASTING</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalMouldCasting_value"></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- kolom isi  -->
-                                <div class="align-items-center justify-content-left pt-1 px-1">
-                                    <table class="w-100">
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_prosesmouldassembly_typect"> 0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Mould Assembly Type CT</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="prosesmouldassembly_typect" id="prosesmouldassembly_typect">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_prosesmouldassembly_typerct"> 0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Mould Assembly Type RCT</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="prosesmouldassembly_typerct" id="prosesmouldassembly_typerct">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_proses_pengovenan"> 0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Pengovenan</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="proses_pengovenan" id="proses_pengovenan">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_proses_pembuatanmaterial"> 0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Pembuatan Material</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="proses_pembuatanmaterial" id="proses_pembuatanmaterial">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_proses_casting"> 0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Proses Casting</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="proses_casting" id="proses_casting">
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
-                                            <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_proses_demoulding"> 0</p>
-                                            </td>
-                                            <!-- nama proses-->
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Proses demoulding</h6>
-                                            </td>
-                                            <!-- inputan spek -->
-                                            <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="proses_demoulding" id="proses_demoulding">
-                                                </select>
-                                            </td>
-                                        </tr>
-
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        {{-- Final Assembly  --}}
-                        <div class="card card-body my-1 py-1">
-                            <div style="padding: 5px;">
-                                <!-- tampilan total hour pada tiap work center  -->
                                 <div class="row align-items-center ">
                                     <div class="input-group input-group-md justify-content-center">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">FINAL ASSEMBLY</span>
+                                            <span class="input-group-text">CORE & ASSEMBLY</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalfinalassembly_value"></span>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_CoreCoilAssembly" name="totalHour_CoreCoilAssembly" value="{{ old('totalHour_CoreCoilAssembly') }}"  readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- kolom isi  -->
                                 <div class="align-items-center justify-content-left pt-1 px-1">
                                     <table class="w-100">
                                         <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_proses_gerindra">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_type_susun_core" name="hour_type_susun_core" value="{{ old('hour_type_susun_core') }}"  readonly>
+
                                             </td>
-                                            <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">Proses Gerindra</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">Type Susun Core</h6>
                                             </td>
-                                            <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="proses_gerindra" id="proses_gerindra">
+                                                    style="height: 33px;" name="type_susun_core" id="type_susun_core">
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_proses_cat">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_hv_connection" name="hour_hv_connection" value="{{ old('hour_hv_connection') }}"  readonly>
+
                                             </td>
-                                            <!-- nama proses-->
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">Proses Cat</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">HV Connection</h6>
                                             </td>
-                                            <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" id="proses_cat" name="proses_cat">
+                                                    style="height: 33px;" id="hv_connection" name="hv_connection">
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
                                             <td class="w-20">
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_proses_accessories">0</p>
-                                            </td>
-                                            <!-- nama proses-->
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_lv_connection" name="hour_lv_connection" value="{{ old('hour_lv_connection') }}"  readonly>
+                                                </td>
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">Proses Accessories</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">LV Connection</h6>
                                             </td>
-                                            <!-- inputan spek -->
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" id="proses_accessories" name="proses_accessories">
+                                                    style="height: 33px;" id="lv_connection" name="lv_connection">
+
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr !important>
-                                            <!-- tampilan hour dari inputan  -->
                                             <td>
-                                                <p type="text" class="border border-dark rounded p-1 text-center"
-                                                    style="width:100%;" id="selectedInfo_testqc">0</p>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_wiring" name="hour_wiring" value="{{ old('hour_wiring') }}"  readonly>
+
+
                                             </td>
-                                            <!-- nama proses-->
                                             <td>
-                                                <h6 class="border border-dark rounded p-1 text-center">Test QC</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">Wiring</h6>
                                             </td>
-                                            <!-- inputan spek -->
                                             <td>
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="testqc" id="testqc">
+                                                    style="height: 33px;" name="wiring" id="wiring">
+
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_instal_housing" name="hour_instal_housing" value="{{ old('hour_instal_housing') }}"  readonly>
+
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Instal Housing</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="instal_housing" id="instal_housing">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_bongkar_housing" name="hour_bongkar_housing" value="{{ old('hour_bongkar_housing') }}"  readonly>
+
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Bongkar Housing</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="bongkar_housing" id="bongkar_housing">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_pembuatan_cu_link" name="hour_pembuatan_cu_link" value="{{ old('hour_pembuatan_cu_link') }}"  readonly>
+
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Pembuatan CU Link
+                                                </h6>
+                                            </td>
+                                            <td>
+
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="pembuatan_cu_link"
+                                                    id="pembuatan_cu_link">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_others" name="hour_others" value="{{ old('hour_others') }}"  readonly>
+
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Others</h6>
+                                            </td>
+                                            <td style="width:500px ">
+                                                <select class=" form-control border border-dark rounded text-center multiple3"
+                                                    name="others[]" id="others" multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_accesories" name="hour_accesories" value="{{ old('hour_accesories') }}"  readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Accessories</h6>
+                                            </td>
+                                            <td style="width:500px ">
+                                                <select class=" form-control border border-dark rounded text-center multiple3"
+                                                    name="accesories[]" id="accesories" multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                id="hour_potong_isolasi_fiber" name="hour_potong_isolasi_fiber" value="{{ old('hour_potong_isolasi_fiber') }}"  readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi Fiber
+                                                </h6>
+                                            </td>
+                                            <td style="width:500px ">
+                                                <select class=" form-control border border-dark rounded text-center multiple3"
+                                                    name="potong_isolasi_fiber[]" id="potong_isolasi_fiber" multiple>
+
                                                 </select>
                                             </td>
                                         </tr>
@@ -578,7 +536,8 @@
     </form>
 
     {{-- modal preview  --}}
-    <div class="modal fade preview" tabindex="-1" style="display: none;" aria-hidden="true">
+    {{-- @include('standardized_work.modaldrynonresin') --}}
+    {{-- <div class="modal fade preview" tabindex="-1" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -619,12 +578,9 @@
                     <div class="row px-2">
                         <div class="col-lg-12  mb-0">
                             <div class="row">
-                                <!-- kiri  -->
                                 <div class="col-lg-6" style="padding-right: 5px">
-                                    <!--modal Coil Making  -->
                                     <div class="card card-body my-1 py-1">
                                         <div style="padding: 5px;">
-                                            <!-- tampilan total hour pada tiap work center  -->
                                             <div class="row align-items-center ">
                                                 <div class="input-group input-group-md justify-content-center">
                                                     <div class="input-group-prepend">
@@ -632,47 +588,40 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span type="text" class="input-group-text bg-warning"
-                                                            style="width: 3rem" id="preview-totalJam_value"></span>
+                                                            style="width: 3rem" id="preview-totalHour_coil_making"></span>
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">HOUR</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- kolom isi  -->
                                             <div class="align-items-center justify-content-left pt-1 px-1">
                                                 <table class="w-100">
                                                     <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_coil_lv">
+                                                                id="preview-hour_coil_lv">
                                                             </h6>
                                                         </td>
-                                                        <!-- nama proses-->
                                                         <td class="w-30">
                                                             <h6 class=" border border-dark rounded p-1 text-center">Coil LV
                                                             </h6>
                                                         </td>
-                                                        <!-- inputan spek -->
                                                         <td class="w-50">
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
                                                                 id="preview-coil_lv"></h6>
                                                         </td>
                                                     </tr>
                                                     <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_coil_hv">
+                                                                id="preview-hour_coil_hv">
                                                             </h6>
                                                         </td>
-                                                        <!-- nama proses-->
                                                         <td>
                                                             <h6 class=" border border-dark rounded p-1 text-center">Coil HV
                                                             </h6>
                                                         </td>
-                                                        <!-- inputan spek -->
                                                         <td>
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
                                                                 id="preview-coil_hv"></h6>
@@ -680,34 +629,28 @@
                                                         </td>
                                                     </tr>
                                                     <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_potong_leadwire"></h6>
+                                                                id="preview-hour_potong_leadwire"></h6>
                                                         </td>
-                                                        <!-- nama proses-->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center">Potong
                                                                 Lead Wire</h6>
                                                         </td>
-                                                        <!-- inputan spek -->
                                                         <td>
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
                                                                 id="preview-potong_leadwire"></h6>
                                                         </td>
                                                     </tr>
                                                     <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_potong_isolasi"></h6>
+                                                                id="preview-hour_potong_isolasi"></h6>
                                                         </td>
-                                                        <!-- nama proses-->
                                                         <td>
                                                             <h6 class="border border-dark rounded p-1 text-center">Potong
                                                                 Isolasi</h6>
                                                         </td>
-                                                        <!-- inputan spek -->
                                                         <td>
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
                                                                 id="preview-potong_isolasi"></h6>
@@ -718,10 +661,8 @@
                                         </div>
                                     </div>
 
-                                    <!-- modal Mould & Casting  -->
                                     <div class="card card-body my-1 py-1">
                                         <div style="padding: 5px;">
-                                            <!-- tampilan total hour pada tiap work center  -->
                                             <div class="row align-items-center">
                                                 <div class="input-group input-group-md justify-content-center">
                                                     <div class="input-group-prepend">
@@ -729,306 +670,35 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text bg-warning"
-                                                            id="preview-totalMouldCasting_value">
+                                                            id="preview-totalHour_MouldCasting">
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">HOUR</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- kolom isi  -->
                                             <div class="align-items-center justify-content-left pt-1 px-1">
                                                 <table class="w-100">
                                                     <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_hv_moulding"></h6>
+                                                                id="preview-hour_mouldingcasting"></h6>
                                                         </td>
-                                                        <!-- nama proses-->
                                                         <td class="w-30">
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Moulding</h6>
+                                                            <h6 class=" border border-dark rounded p-1 text-center">
+                                                                Moulding Casting</h6>
                                                         </td>
-                                                        <!-- inputan spek -->
                                                         <td class="w-50">
                                                             <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_moulding"></h6>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_hv_casting">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Casting</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td class="w-50">
-                                                            <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_casting"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_hv_demoulding"></h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Demoulding</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_demoulding"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_lv_bobbin">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">LV
-                                                                Bobbin</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-lv_bobbin"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_lv_moulding">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">LV
-                                                                Moulding</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-lv_moulding"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_touch_up">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">Touch
-                                                                Up</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-touch_up"></h6>
+                                                                id="preview-mouldingcasting"></h6>
                                                         </td>
                                                     </tr>
                                                 </table>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- kanan  -->
-                                <div class="col-lg-6" style="padding-left: 5px">
-                                    {{-- core and Assembly  --}}
                                     <div class="card card-body my-1 py-1">
                                         <div style="padding: 5px;">
-                                            <!-- tampilan total hour pada tiap work center  -->
-                                            <div class="row align-items-center ">
-                                                <div class="input-group input-group-md justify-content-center">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">CORE & ASSEMBLY</span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text bg-warning"
-                                                            id="preview-totalCoreCoilAssembly_value"></span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">HOUR</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- kolom isi  -->
-                                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                                <table class="w-100">
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td class="w-20">
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_type_susun_core">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td class="w-30">
-                                                            <h6 class="border border-dark rounded p-1 text-center">Type
-                                                                Susun Core</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td class="w-50">
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-type_susun_core"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_wiring">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">Wiring
-                                                            </h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-wiring"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_instal_housing">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">Instal
-                                                                Housing</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-instal_housing"></h6>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_bongkar_housing">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">Bongkar
-                                                                Housing</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-bongkar_housing"></h6>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_pembuatan_cu_link">
-                                                            </h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Pembuatan CU Link
-                                                            </h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-pembuatan_cu_link"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_others"></h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">Others
-                                                            </h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-others"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_accesories"></h6>
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Accessories</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-accesories"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_potong_isolasi_fiber">
-                                                            </h6>
-
-                                                        </td>
-                                                        <!-- nama proses-->
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">Potong
-                                                                Isolasi Fiber</h6>
-                                                        </td>
-                                                        <!-- inputan spek -->
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-potong_isolasi_fiber"></h6>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{-- qc testing  --}}
-                                    <div class="card card-body my-1 py-1">
-                                        <div style="padding: 5px;">
-                                            <!-- tampilan total hour pada tiap work center  -->
                                             <div class="row align-items-center ">
                                                 <div class="input-group input-group-md justify-content-center">
                                                     <div class="input-group-prepend">
@@ -1036,29 +706,25 @@
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text bg-warning"
-                                                            id="preview-selectedInfo_qctesting"></span>
+                                                            id="preview-hour_qctesting"></span>
                                                     </div>
                                                     <div class="input-group-append">
                                                         <span class="input-group-text">HOUR</span>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- kolom isi  -->
                                             <div class="align-items-center justify-content-left pt-1 px-1">
                                                 <table class="w-100">
                                                     <tr !important>
-                                                        <!-- tampilan hour dari inputan  -->
                                                         <td class="w-20">
                                                             <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-selectedInfo_qc_testing">
+                                                                id="preview-hour_qc_testing">
                                                             </h6>
                                                         </td>
-                                                        <!-- nama proses-->
                                                         <td class="w-30">
                                                             <h6 class="border border-dark rounded p-1 text-center">Routine
                                                                 Test</h6>
                                                         </td>
-                                                        <!-- inputan spek -->
                                                         <td>
                                                             <h6 class=" border bg-warning rounded p-1 text-center"
                                                                 id="preview-qc_testing"></h6>
@@ -1069,25 +735,200 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6" style="padding-left: 5px">
+                                    {{-- core and Assembly  --}}
+                                    {{-- <div class="card card-body my-1 py-1">
+                                        <div style="padding: 5px;">
+                                            <div class="row align-items-center ">
+                                                <div class="input-group input-group-md justify-content-center">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">CORE & ASSEMBLY</span>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text bg-warning"
+                                                            id="preview-totalHour_QCTest"></span>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">HOUR</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="align-items-center justify-content-left pt-1 px-1">
+                                                <table class="w-100">
+                                                    <tr !important>
+                                                        <td class="w-20">
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_type_susun_core">
+                                                            </h6>
+                                                        </td>
+                                                        <td class="w-30">
+                                                            <h6 class="border border-dark rounded p-1 text-center">Type
+                                                                Susun Core</h6>
+                                                        </td>
+                                                        <td class="w-50">
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-type_susun_core"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td class="w-20">
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_hvconnection">
+                                                            </h6>
+                                                        </td>
+                                                        <td class="w-30">
+                                                            <h6 class="border border-dark rounded p-1 text-center">HV Connection</h6>
+                                                        </td>
+                                                        <td class="w-50">
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-hvconnection"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td class="w-20">
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_lvconnection">
+                                                            </h6>
+                                                        </td>
+                                                        <td class="w-30">
+                                                            <h6 class="border border-dark rounded p-1 text-center">LV Connection</h6>
+                                                        </td>
+                                                        <td class="w-50">
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-lvconnection"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_wiring">
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center">Wiring
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-wiring"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_instal_housing">
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center">Instal
+                                                                Housing</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-instal_housing"></h6>
 
-                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_bongkar_housing">
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center">Bongkar
+                                                                Housing</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-bongkar_housing"></h6>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_pembuatan_cu_link">
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center">
+                                                                Pembuatan CU Link
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-pembuatan_cu_link"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_others"></h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center">Others
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-others"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_accesories"></h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center">
+                                                                Accessories</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-accesories"></h6>
+                                                        </td>
+                                                    </tr>
+                                                    <tr !important>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center"
+                                                                id="preview-hour_potong_isolasi_fiber">
+                                                            </h6>
+
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="border border-dark rounded p-1 text-center">Potong
+                                                                Isolasi Fiber</h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class=" border bg-warning rounded p-1 text-center"
+                                                                id="preview-potong_isolasi_fiber"></h6>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                {{-- </div> --}}
+
+                            {{-- </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                </div> --}}
+            {{-- </div>
+        </div> --}}
+    {{-- </div> --}}
     <script>
         $(document).ready(function() {
             function fillSelect(elementId, data, selectedProses, selectedWorkcenter) {
                 var filteredData = data.filter(function(item) {
                     return (
-                        item.nama_kategoriproduk === 'DRY TYPE NON RESIN' &&
+                        item.id_kategori_produk === 5 &&
                         item.nama_workcenter === selectedWorkcenter &&
                         item.nama_proses === selectedProses
                     );
@@ -1109,7 +950,8 @@
                 console.log(ukuran_kapasitas);
                 if (ukuran_kapasitas) {
                     $.ajax({
-                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' + ukuran_kapasitas,
+                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' +
+                            ukuran_kapasitas,
                         type: 'GET',
                         data: {
                             '_token': '{{ csrf_token() }}'
@@ -1126,11 +968,13 @@
                                     'COIL MAKING');
                                 fillSelect('#moulding_casting', data, 'MOULD & CASTING',
                                     'MOULD & CASTING');
+                                    fillSelect('#oven', data, 'OVEN',
+                                    'MOULD & CASTING');
                                 fillSelect('#type_susun_core', data, 'TYPE SUSUN CORE',
                                     'CORE COIL ASSEMBLY');
                                 fillSelect('#hv_connection', data, 'HV CONNECTION',
                                     'CORE COIL ASSEMBLY');
-                                fillSelect('#lv_connection', data, 'lV CONNECTION',
+                                fillSelect('#lv_connection', data, 'LV CONNECTION',
                                     'CORE COIL ASSEMBLY');
                                 fillSelect('#wiring', data, 'WIRING', 'CORE COIL ASSEMBLY');
                                 fillSelect('#instal_housing', data, 'INSTAL HOUSING',
@@ -1144,8 +988,8 @@
                                     'CORE COIL ASSEMBLY');
                                 fillSelect('#potong_isolasi_fiber', data,
                                     'POTONG ISOLASI FIBER', 'CORE COIL ASSEMBLY');
-                                fillSelect('#qc_testing', data, 'ROUNTINE',
-                                    'QC TESTv');
+                                fillSelect('#qc_testing', data, 'QC TESTING',
+                                    'QC TEST');
                                 $('#coil_lv').on('change', function() {
                                     showSelected('coil_lv');
                                 });
@@ -1161,15 +1005,9 @@
                                 $('#moulding_casting').on('change', function() {
                                     showSelected('moulding_casting');
                                 });
-                                // $('#lv_bobbin').on('change', function() {
-                                //     showSelected('lv_bobbin');
-                                // });
-                                // $('#lv_moulding').on('change', function() {
-                                //     showSelected('lv_moulding');
-                                // });
-                                // $('#touch_up').on('change', function() {
-                                //     showSelected('touch_up');
-                                // });
+                                $('#oven').on('change', function() {
+                                    showSelected('oven');
+                                });
                                 $('#type_susun_core').on('change', function() {
                                     showSelected('type_susun_core');
                                 });
@@ -1240,10 +1078,10 @@
                 let selectedDurasi = selectedOption.getAttribute('data-durasi');
                 totalDurasi += parseFloat(selectedDurasi || 0);
             });
-            let selectedInfo = document.getElementById("selectedInfo_" + target);
-            console.log('Selected Info Element:', selectedInfo);
-            selectedInfo.textContent = " " + totalDurasi;
-            console.log(selectedInfo);
+            let hour = document.getElementById("hour_" + target);
+            console.log('Selected Info Element:', hour);
+            hour.value =  totalDurasi;
+            console.log(hour);
             console.log(totalDurasi);
         }
 
@@ -1267,9 +1105,9 @@
                 });
             });
             console.log("Work Center (COIL MAKING):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalJam_value");
+            let totalJamElement = document.getElementById("totalHour_coil_making");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
 
@@ -1293,9 +1131,9 @@
                 });
             });
             console.log("Work Center (MOULD & CASTING):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalMouldCasting_value");
+            let totalJamElement = document.getElementById("totalHour_MouldCasting");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
 
@@ -1319,9 +1157,9 @@
                 });
             });
             console.log("Work Center (CORE COIL ASSEMBLY):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalCoreCoilAssembly_value");
+            let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
 
@@ -1345,9 +1183,9 @@
                 });
             });
             console.log("Work Center (QC TEST):", workcenterInfo);
-            let totalJamElement = document.getElementById("totalQCTest_value");
+            let totalJamElement = document.getElementById("totalHour_QCTest");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
         document.querySelectorAll('select').forEach(function(select) {
@@ -1366,63 +1204,81 @@
             });
         });
     </script>
-     <script>
+    <script>
+        $(document).ready(function() {
+            $(".multiple1").select2({
+                placeholder: 'Pilih',
+                width: '100%',
+                dropdownAutoWidth: true,
+                allowClear: true
+            }).on('change', displayTotalJamCoilMaking);
+            $(".multiple2").select2({
+                placeholder: 'Pilih',
+                width: '100%',
+                dropdownAutoWidth: true,
+                allowClear: true
+            }).on('change', displayTotalJamMouldCasting);
+            $(".multiple3").select2({
+                placeholder: 'Pilih',
+                width: '100%',
+                dropdownAutoWidth: true,
+                allowClear: true
+            }).on('change', displayTotalJamCoreCoilAssembly);
+            $(".multiple4").select2({
+                placeholder: 'Pilih',
+                width: '100%',
+                dropdownAutoWidth: true,
+                allowClear: true
+            }).on('change', displayTotalJamQCTest);
+        });
+    </script>
+    {{-- <script>
         function previewForm() {
             //tampilan hour
-            document.getElementById("preview-totalJam_value").innerHTML = document.getElementById("totalJam_value")
+            document.getElementById("preview-totalHour_coil_making").innerHTML = document.getElementById("totalHour_coil_making")
                 .innerHTML;
-            document.getElementById("preview-selectedInfo_coil_lv").innerHTML = document.getElementById(
-                "selectedInfo_coil_lv").innerHTML;
-            document.getElementById("preview-selectedInfo_coil_hv").innerHTML = document.getElementById(
-                "selectedInfo_coil_hv").innerHTML;
-            document.getElementById("preview-selectedInfo_potong_leadwire").innerHTML = document.getElementById(
-                "selectedInfo_potong_leadwire").innerHTML;
-            document.getElementById("preview-selectedInfo_potong_isolasi").innerHTML = document.getElementById(
-                "selectedInfo_potong_isolasi").innerHTML;
-            document.getElementById("preview-selectedInfo_hv_moulding").innerHTML = document.getElementById(
-                "selectedInfo_hv_moulding").innerHTML;
-            document.getElementById("preview-selectedInfo_hv_casting").innerHTML = document.getElementById(
-                "selectedInfo_hv_casting").innerHTML;
-            document.getElementById("preview-selectedInfo_hv_demoulding").innerHTML = document.getElementById(
-                "selectedInfo_hv_demoulding").innerHTML;
-            document.getElementById("preview-selectedInfo_lv_bobbin").innerHTML = document.getElementById(
-                "selectedInfo_lv_bobbin").innerHTML;
-            document.getElementById("preview-selectedInfo_lv_moulding").innerHTML = document.getElementById(
-                "selectedInfo_lv_moulding").innerHTML;
-            document.getElementById("preview-selectedInfo_touch_up").innerHTML = document.getElementById(
-                "selectedInfo_touch_up").innerHTML;
-            document.getElementById("preview-selectedInfo_type_susun_core").innerHTML = document.getElementById(
-                "selectedInfo_type_susun_core").innerHTML;
-            document.getElementById("preview-selectedInfo_wiring").innerHTML = document.getElementById(
-                "selectedInfo_wiring").innerHTML;
-            document.getElementById("preview-selectedInfo_instal_housing").innerHTML = document.getElementById(
-                "selectedInfo_instal_housing").innerHTML;
-            document.getElementById("preview-selectedInfo_bongkar_housing").innerHTML = document.getElementById(
-                "selectedInfo_bongkar_housing").innerHTML;
-            document.getElementById("preview-selectedInfo_pembuatan_cu_link").innerHTML = document.getElementById(
-                "selectedInfo_pembuatan_cu_link").innerHTML;
-            document.getElementById("preview-selectedInfo_others").innerHTML = document.getElementById(
-                "selectedInfo_others").innerHTML;
-            document.getElementById("preview-selectedInfo_accesories").innerHTML = document.getElementById(
-                "selectedInfo_accesories").innerHTML;
-            document.getElementById("preview-selectedInfo_potong_isolasi_fiber").innerHTML = document.getElementById(
-                "selectedInfo_potong_isolasi_fiber").innerHTML;
-            document.getElementById("preview-totalMouldCasting_value").innerHTML = document.getElementById(
-                "totalMouldCasting_value").innerHTML;
-            document.getElementById("preview-totalCoreCoilAssembly_value").innerHTML = document.getElementById(
-                "totalCoreCoilAssembly_value").innerHTML;
+            document.getElementById("preview-hour_coil_lv").innerHTML = document.getElementById(
+                "hour_coil_lv").innerHTML;
+            document.getElementById("preview-hour_coil_hv").innerHTML = document.getElementById(
+                "hour_coil_hv").innerHTML;
+            document.getElementById("preview-hour_potong_leadwire").innerHTML = document.getElementById(
+                "hour_potong_leadwire").innerHTML;
+            document.getElementById("preview-hour_potong_isolasi").innerHTML = document.getElementById(
+                "hour_potong_isolasi").innerHTML;
+            document.getElementById("preview-hour_mouldingcasting").innerHTML = document.getElementById(
+                "hour_mouldingcasting").innerHTML;
+            document.getElementById("preview-hour_type_susun_core").innerHTML = document.getElementById(
+                "hour_type_susun_core").innerHTML;
+            document.getElementById("preview-hour_lvconnection").innerHTML = document.getElementById(
+                "hour_lvconnection").innerHTML;
+            document.getElementById("preview-hour_hvconnection").innerHTML = document.getElementById(
+                "hour_hvconnection").innerHTML;
+            document.getElementById("preview-hour_wiring").innerHTML = document.getElementById(
+                "hour_wiring").innerHTML;
+            document.getElementById("preview-hour_instal_housing").innerHTML = document.getElementById(
+                "hour_instal_housing").innerHTML;
+            document.getElementById("preview-hour_bongkar_housing").innerHTML = document.getElementById(
+                "hour_bongkar_housing").innerHTML;
+            document.getElementById("preview-hour_pembuatan_cu_link").innerHTML = document.getElementById(
+                "hour_pembuatan_cu_link").innerHTML;
+            document.getElementById("preview-hour_others").innerHTML = document.getElementById(
+                "hour_others").innerHTML;
+            document.getElementById("preview-hour_accesories").innerHTML = document.getElementById(
+                "hour_accesories").innerHTML;
+            document.getElementById("preview-hour_potong_isolasi_fiber").innerHTML = document.getElementById(
+                "hour_potong_isolasi_fiber").innerHTML;
+            document.getElementById("preview-hour_qc_testing").innerHTML = document.getElementById(
+                "hour_qc_testing").innerHTML;
+            document.getElementById("preview-totalHour_MouldCasting").innerHTML = document.getElementById(
+                "totalHour_MouldCasting").innerHTML;
+            document.getElementById("preview-totalHour_QCTest").innerHTML = document.getElementById(
+                "totalHour_QCTest").innerHTML;
 
             //tampilan khusus yang checkbox
             document.getElementById('preview-potong_isolasi').innerHTML = '' + [...document.getElementById('potong_isolasi')
                 .selectedOptions
             ].map(option => option.value).join(', ');
-            document.getElementById('preview-lv_bobbin').innerHTML = '' + [...document.getElementById('lv_bobbin')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-lv_moulding').innerHTML = '' + [...document.getElementById('lv_moulding')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-touch_up').innerHTML = '' + [...document.getElementById('touch_up')
+            document.getElementById('preview-qc_testing').innerHTML = '' + [...document.getElementById('preview-qc_testing')
                 .selectedOptions
             ].map(option => option.value).join(', ');
             document.getElementById('preview-others').innerHTML = '' + [...document.getElementById('others')
@@ -1443,11 +1299,11 @@
             document.getElementById("preview-coil_hv").textContent = document.getElementById("coil_hv").value;
             document.getElementById("preview-potong_leadwire").textContent = document.getElementById("potong_leadwire")
                 .value;
-            document.getElementById("preview-hv_moulding").textContent = document.getElementById("hv_moulding").value;
-            document.getElementById("preview-hv_casting").textContent = document.getElementById("hv_casting").value;
-            document.getElementById("preview-hv_demoulding").textContent = document.getElementById("hv_demoulding").value;
+            document.getElementById("preview-mouldingcasting").textContent = document.getElementById("mouldingcasting").value;
             document.getElementById("preview-type_susun_core").textContent = document.getElementById("type_susun_core")
                 .value;
+            document.getElementById("preview-lvconnection").textContent = document.getElementById("lvconnection").value;
+            document.getElementById("preview-hvconnection").textContent = document.getElementById("hvconnection").value;
             document.getElementById("preview-wiring").textContent = document.getElementById("wiring").value;
             document.getElementById("preview-instal_housing").textContent = document.getElementById("instal_housing").value;
             document.getElementById("preview-bongkar_housing").textContent = document.getElementById("bongkar_housing")
@@ -1459,5 +1315,5 @@
             // Tampilkan area pratinjau
             document.getElementById("preview").style.display = "block";
         }
-    </script>
+    </script> --}}
 @endsection

@@ -14,6 +14,7 @@ class Vt extends Model
         'nama_product',
         'kategori',
         'nomor_so',
+        'id_fg',
         'ukuran_kapasitas',
         'total_hour',
         'coil_vt',
@@ -35,18 +36,29 @@ class Vt extends Model
         static::created(function ($vt) {
             StandardizeWork::create([
                 'id_vt' => $vt->id,
+                'total_hour' => $vt->total_hour,
+                'id_fg' => $vt->id_fg,
+                'kd_manhour' => $vt->kd_manhour,
+                'nomor_so' => $vt->nomor_so,
+                'ukuran_kapasitas' => $vt->ukuran_kapasitas,
+                'nama_product' =>'VT',
             ]);
         });
 
         self::creating(function ($vt) {
-            $nomorSo = $vt->nomor_so;
+            $nomorSo = strtoupper($vt->nomor_so);
             $kategori = $vt->kategori;
-            $ukuranKapasitas = $vt->ukuran_kapasitas;
+            $kapasitas = Kapasitas::where('ukuran_kapasitas', $vt->ukuran_kapasitas)->first();
+            if ($kapasitas) {
+                $id_kapasitas = $kapasitas->id;
+            } else {
+                $id_kapasitas = '0';
+            }
 
             $nomorSo = str_replace(['/', '-'], '', $nomorSo);
 
-            $kdManhour = $kategori . '' .  $ukuranKapasitas . '' . $nomorSo;
-
+            $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
+            $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
             $vt->kd_manhour = $kdManhour;
         });
     }

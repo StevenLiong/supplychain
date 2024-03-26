@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('vts', function (Blueprint $table) {
             $table->id();
             $table->string('kd_manhour', 14)->unique();
-            $table->string('kategori')->default('5');
+            $table->string('kategori')->default('4');
             $table->string('ukuran_kapasitas');
             $table->string('nama_product')->default('VT')->index();
             $table->string('nomor_so');
             $table->string('id_fg');
             $table->integer('total_hour');
-            $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
+            // $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('cca_balut_vt')->nullable();
             $table->string('buat_pasang_shelding')->nullable();
             $table->string('conect_ct_vt')->nullable();

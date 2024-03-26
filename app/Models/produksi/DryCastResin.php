@@ -29,6 +29,7 @@ class DryCastResin extends Model
         'lv_bobbin',
         'lv_moulding',
         'touch_up',
+        'oven',
         'type_susun_core',
         'wiring',
         'instal_housing',
@@ -56,6 +57,7 @@ class DryCastResin extends Model
         'hour_lv_bobbin',
         'hour_lv_moulding',
         'hour_touch_up',
+        'hour_oven',
         'hour_type_susun_core',
         'hour_wiring',
         'hour_instal_housing',
@@ -68,10 +70,10 @@ class DryCastResin extends Model
         'keterangan',
     ];
 
-    public function man_hour(): BelongsTo
-    {
-        return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
-    }
+    // public function man_hour(): BelongsTo
+    // {
+    //     return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
+    // }
 
     public static function boot()
     {
@@ -90,14 +92,19 @@ class DryCastResin extends Model
         });
 
         self::creating(function ($dryresin) {
-            $nomorSo = $dryresin->nomor_so;
+            $nomorSo = strtoupper($dryresin->nomor_so);
             $kategori = $dryresin->kategori;
-            $ukuranKapasitas = $dryresin->ukuran_kapasitas;
+            $kapasitas = Kapasitas::where('ukuran_kapasitas', $dryresin->ukuran_kapasitas)->first();
+            if ($kapasitas) {
+                $id_kapasitas = $kapasitas->id;
+            } else {
+                $id_kapasitas = '0';
+            }
 
             $nomorSo = str_replace(['/', '-'], '', $nomorSo);
 
-            $kdManhour = $kategori . '' .  $ukuranKapasitas . '' . $nomorSo;
-
+            $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
+            $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
             $dryresin->kd_manhour = $kdManhour;
         });
         self::creating(function ($dryresin) {

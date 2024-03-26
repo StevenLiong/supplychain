@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers\produksi\StandardizedWork;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\produksi\DryCastResin;
+use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
@@ -17,7 +18,10 @@ class DryCastResinController extends Controller
     {
         $title = 'Form Dry Cast Resin';
         $manhour = Manhour::all();
-        return response(view('produksi.standardized_work.formdrycastresin', ['manhour' => $manhour, 'title' => $title]));
+        $kapasitas = Kapasitas::all();
+
+        // dd($kapasitas->where(''));
+        return response(view('produksi.standardized_work.form.formdrycastresin', ['manhour' => $manhour, 'kapasitas' => $kapasitas, 'title' => $title]));
     }
 
     public function createManhour($id)
@@ -32,11 +36,11 @@ class DryCastResinController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store(Request $request)
     {
         // dd($request->input('customRadio-11'));
-        $params = $request->validated();
-        
+        $params = $request->all();
+
         // Cek apakah 'customRadio-11' ada dalam permintaan
         if ($request->has('customRadio-11')) {
             // Jika ada, set kolom 'keterangan' dengan nilai radio button
@@ -46,7 +50,7 @@ class DryCastResinController extends Controller
             $params['keterangan'] = 'Tidak Menggunakan Housing';
         }
 
-        $multipleFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber', 'qc_testing'];
+        $multipleFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'oven', 'potong_isolasi_fiber', 'qc_testing'];
 
         foreach ($multipleFields as $field) {
             $multiple = $request->input($field);
@@ -82,10 +86,10 @@ class DryCastResinController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, string $id): RedirectResponse
+    public function update(Request $request, string $id)
     {
         $product = DryCastResin::findOrFail($id);
-        $params = $request->validated();
+        $params = $request->all();
 
         if ($product->update($params)) {
 

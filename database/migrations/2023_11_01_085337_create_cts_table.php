@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('cts', function (Blueprint $table) {
             $table->id();
             $table->string('kd_manhour', 14)->unique();
-            $table->string('kategori')->default('5');
+            $table->string('kategori')->default('3');
             $table->string('ukuran_kapasitas');
             $table->string('nama_product')->default('CT')->index();
             $table->string('id_fg');
             $table->string('nomor_so');
             $table->integer('total_hour');
-            $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
+            // $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('balut_core_ct')->nullable();
             $table->string('cca_balut_ct')->nullable();
             $table->string('buat_pasang_shelding')->nullable();

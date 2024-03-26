@@ -86,13 +86,13 @@
             </div>
             <div id="filteredResults" class="table-responsive">
                 <div id="datatable_wrapper" id="filteredTable" class="dataTables_wrapper">
-                    <table id="datatable" class="table data-table table-striped">
+                    <table id="datatable" class="table data-table table-striped" data-ordering="false">
                         <thead>
                             <tr>
                             <tr class="ligth" style="text-align: center;">
                                 <th>Category</th>
                                 <th>Date</th>
-                                <th>Kode SO</th>
+                                <th>Nomor SO</th>
                                 <th>Hours</th>
                                 <th>Capacity</th>
                                 <th>kode Man Hour</th>
@@ -240,37 +240,30 @@
                                             <i class="fa-solid fa-trash m-1"></i>
                                         </a>
                                         <!-- delete modal -->
-                                        <div class="modal fade delete-modal" tabindex="-1" role="dialog"
-                                            aria-hidden="true">
-                                            <div class="modal-dialog modal-sm">
+                                        <div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <p>Yakin ingin menghapus data ini?</p>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal" >Batal</button>
-                                                        <button type="button" class="btn btn-primary" onclick="
-                                                        event.preventDefault();
-                                                        if (confirm('Do you want to remove this?')) {
-                                                        document.getElementById('delete-row-{{ $std->id }}').submit();
-                                                        }" >Hapus</button>
+                                                    <div class="modal-footer justify-content-center">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                                        <button type="button" class="btn btn-danger" onclick="document.getElementById('delete-row-{{ $std->kd_manhour }}').submit();">Hapus</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <form id="delete-row-{{ $std->id }}"
-                                            action="{{ route('delete', ['id' => $std->id]) }}" method="POST">
+
+                                        <form id="delete-row-{{ $std->kd_manhour }}" action="{{ route('delete', ['kd_manhour' => $std->kd_manhour]) }}" method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             @csrf
-
                                         </form>
+
 
                                     </td>
                                 </tr>
@@ -312,5 +305,4 @@
             });
         }
     </script>
-    <!-- - - - - - - - - - - - end content-- - - - - - - - - - - -->
 @endsection

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('total_hour');
             $table->string('kategori')->default('6');
             $table->string('ukuran_kapasitas');
-            $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
+            // $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('coil_lv')->nullable();
             $table->string('coil_hv')->nullable();
             $table->string('potong_leadwire')->nullable();

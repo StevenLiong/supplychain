@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers\produksi\StandardizedWork;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\produksi\DryNonResin;
+use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -17,7 +18,12 @@ class DryNonResinController extends Controller
     {
         // $standardize_works = StandardizeWork::all();
         $title = 'Form Dry Non Resin';
-        return response(view('produksi.standardized_work.formdrynonresin',['manhour' => ManHour::all(),'title' => $title]));
+        $manhour = Manhour::all();
+        $kapasitas = Kapasitas::all();
+
+        // dd($kapasitas);
+        return response(view('produksi.standardized_work.form.formdrynonresin', ['manhour' => $manhour, 'kapasitas' => $kapasitas, 'title' => $title]));
+
     }
 
 
@@ -33,11 +39,11 @@ class DryNonResinController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $params = $request->validated();
+        $params = $request->all();
 
-        $multipleFields = ['potong_isolasi', 'others', 'accesories', 'potong_isolasi_fiber'];
+        $multipleFields = ['oven','potong_isolasi', 'others', 'accesories', 'potong_isolasi_fiber','qc_testing'];
 
         foreach ($multipleFields as $field) {
             $multiple = $request->input($field);

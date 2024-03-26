@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers\produksi\StandardizedWork;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
@@ -17,7 +17,7 @@ class VtController extends Controller
     {
 
         $title = 'Form VT';
-        return response(view('produksi.standardized_work.formvt', ['manhour' => ManHour::all(), 'title' => $title]));
+        return response(view('produksi.standardized_work.form.formvt', ['manhour' => ManHour::all(), 'title' => $title]));
     }
 
     public function createManhour($id)
@@ -32,16 +32,17 @@ class VtController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request): RedirectResponse
+    public function store(Request $request)
     {
-        $params = $request->validated();
+        // dd($request->input('customRadio-11'));
+        $params = $request->all();
 
-        $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
+        // $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
 
-        foreach ($checkboxFields as $field) {
-            $checkbox = $request->input($field);
-            $params[$field] = implode(',', $checkbox);
-        }
+        // foreach ($checkboxFields as $field) {
+        //     $checkbox = $request->input($field);
+        //     $params[$field] = implode(',', $checkbox);
+        // }
 
         Vt::create($params);
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\produksi;
+namespace App\Http\Controllers\produksi\ResourceWorkPlanning;
 
 use App\Http\Controllers\Controller;
 // use App\Models\planner\Mps;
@@ -71,7 +71,7 @@ class ResourceDashboardController extends Controller
             $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
             return $deadline->between($deadlineDate[0], $deadlineDate[1]);
         })->sum('qty_trafo');
-        
+
         //get total hour new
         $jumlahtotalHourSumDRY = $filteredMpsDRY->filter(function ($item) use ($deadlineDate) {
             $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);

@@ -51,6 +51,7 @@ use App\Http\Controllers\produksi\ResourceWorkPlanning\ResourceCtVtController;
 use App\Http\Controllers\produksi\ResourceWorkPlanning\ResourceRepairController;
 use App\Http\Controllers\produksi\StandardizedWork\StandardizeWorkController;
 use App\Http\Controllers\planner\KapasitasProduksiController;
+use App\Http\Controllers\planner\MaterialController as PlannerMaterialController;
 use App\Http\Controllers\planner\WoControllerV2;
 use App\Http\Controllers\planner\WorkcenterDryTypeController;
 use App\Http\Controllers\produksi\ResourceWorkPlanning\ResourceWorkloadController;
@@ -373,6 +374,12 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
     Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
     Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
+
+    //MENU MATERIAL
+    Route::get('/Material/IndexMaterial', [PlannerMaterialController::class, 'index'])->name('material-index');
+    Route::get('/Material/upload-excel', [PlannerMaterialController::class, 'formUpload'])->name('material-upload-excel');
+    Route::post('/Material/upload-excel-post', [PlannerMaterialController::class, 'upload'])->name('material-upload-excel-post');
+    Route::delete('/Material/delete', [PlannerMaterialController::class, 'destroy'])->name('material.delete');
 });
 
 // Planner End

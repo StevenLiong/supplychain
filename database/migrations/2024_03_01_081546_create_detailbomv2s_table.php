@@ -26,6 +26,14 @@ return new class extends Migration
             $table->integer('comparison')->nullable();
             $table->integer('composite')->nullable();
             $table->string('tolerance')->nullable();
+            $table->string('usage_material')->nullable();
+
+            $table->boolean('submitted')->default(false)->nullable();
+            $table->timestamp('last_kirim_email')->nullable();
+            $table->string('db_status', 1)->default(0)->comment('0=Pending, 1=Completed')->nullable();
+            $table->string('keterangan')->nullable();
+            $table->string('email_status', 1)->default(0)->comment('0=Belum Kirim, 1=Sudah Dikirim');
+            
             $table->timestamps();
         });
     }

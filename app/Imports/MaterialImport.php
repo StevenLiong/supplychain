@@ -11,15 +11,15 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithCalculatedFormulas;
 
-class StockImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
+class MaterialImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
 {
     use Importable;
 
-    public $startRow = 2;
+    public $startRow = 1;
     public function model(array $row)
     {
-        if ($this->startRow === 1) {
-            $this->startRow = 0;
+        if ($this->startRow === 2) {
+            $this->startRow = 1;
             return null;
         }
 
@@ -27,8 +27,8 @@ class StockImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
           return null;
       }
 
-        // print_r($row);
-        // dd($row);
+        print_r($row);
+        dd($row);
 
         // $calculatedValue = $row['usage_of_material'];
 

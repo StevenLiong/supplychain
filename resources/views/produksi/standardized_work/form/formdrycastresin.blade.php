@@ -175,6 +175,7 @@
                                         <input type="text" class="input-group-text bg-warning" style="width: 3rem"
                                             id="totalHour_coil_making" name="totalHour_coil_making"
                                             value="{{ old('totalHour_coil_making') }}" readonly>
+
                                     </div>
                                     <div class="input-group-append">
                                         <span class="input-group-text">HOUR</span>
@@ -285,6 +286,7 @@
                                             <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_moulding"
                                                 id="hv_moulding">
 
+
                                             </select>
                                         </td>
                                     </tr>
@@ -301,6 +303,7 @@
                                         <td>
                                             <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_casting"
                                                 id="hv_casting">
+
 
                                             </select>
                                         </td>
@@ -429,6 +432,7 @@
                                         <td class="w-50">
                                             <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="type_susun_core"
                                                 id="type_susun_core">
+
 
                                             </select>
                                         </td>
@@ -1604,14 +1608,17 @@
             $(".multiple1").select2({
                 placeholder: 'Pilih',
                 width: '100%',
+
             }).on('change', displayTotalJamCoilMaking);
             $(".multiple2").select2({
                 placeholder: 'Pilih',
                 width: '100%',
+
             }).on('change', displayTotalJamMouldCasting);
             $(".multiple3").select2({
                 placeholder: 'Pilih',
                 width: '100%',
+
             }).on('change', displayTotalJamCoreCoilAssembly);
             $(".multiple4").select2({
                 placeholder: 'Pilih',

@@ -13,7 +13,7 @@ class ManHourSeeder extends Seeder
      */
     public function run()
     {
-        $csvFile = database_path('seeders\csv\man_hour_dry.csv'); // Tentukan jalur ke file CSV Anda
+        $csvFile = database_path('seeders\csv\man_hour_dryresin.csv'); // Tentukan jalur ke file CSV Anda
 
         $csvData = array_map('str_getcsv', file($csvFile));
 

@@ -92,22 +92,6 @@ class DryCastResin extends Model
         });
 
         self::creating(function ($dryresin) {
-            $nomorSo = strtoupper($dryresin->nomor_so);
-            $kategori = $dryresin->kategori;
-            $kapasitas = Kapasitas::where('ukuran_kapasitas', $dryresin->ukuran_kapasitas)->first();
-            if ($kapasitas) {
-                $id_kapasitas = $kapasitas->id;
-            } else {
-                $id_kapasitas = '0';
-            }
-
-            $nomorSo = str_replace(['/', '-'], '', $nomorSo);
-
-            $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
-            $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
-            $dryresin->kd_manhour = $kdManhour;
-        });
-        self::creating(function ($dryresin) {
             $hour_potong_isolasi_fiber = $dryresin->hour_potong_isolasi_fiber;
             $hour_susun_core = $dryresin->hour_type_susun_core;
 

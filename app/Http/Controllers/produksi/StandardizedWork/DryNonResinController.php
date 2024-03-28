@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\produksi\DryNonResin;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
+use App\Models\produksi\ManhourDrynonresin;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,7 +19,7 @@ class DryNonResinController extends Controller
     {
         // $standardize_works = StandardizeWork::all();
         $title = 'Form Dry Non Resin';
-        $manhour = Manhour::all();
+        $manhour = ManhourDrynonresin::all();
         $kapasitas = Kapasitas::all();
 
         // dd($kapasitas);
@@ -29,7 +30,7 @@ class DryNonResinController extends Controller
 
     public function createManhour($id)
     {
-        $manhour = ManHour::where('ukuran_kapasitas', $id)->get();
+        $manhour = ManhourDrynonresin::where('ukuran_kapasitas', $id)->get();
 
         return response()->json($manhour);
     }
@@ -41,7 +42,28 @@ class DryNonResinController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'total_hour' => 'required',
+            'ukuran_kapasitas' => 'required',
+            'id_fg' => 'required',
+            'nomor_so' => 'required',
+        ], [
+            'total_hour.required' => 'Total hour is required.',
+            'ukuran_kapasitas.required' => 'Ukuran kapasitas is required.',
+            'id_fg.required' => 'ID FG is required.',
+            'nomor_so.required' => 'Nomor SO is required.',
+        ]);
+
         $params = $request->all();
+
+        // Cek apakah 'customRadio-11' ada dalam permintaan
+        if ($request->has('customRadio-11')) {
+            // Jika ada, set kolom 'keterangan' dengan nilai radio button
+            $params['keterangan'] = $request->input('customRadio-11');
+        } else {
+            // Jika tidak ada, gunakan nilai default
+            $params['keterangan'] = 'Tidak Menggunakan Housing';
+        }
 
         $multipleFields = ['oven','potong_isolasi', 'others', 'accesories', 'potong_isolasi_fiber','qc_testing'];
 
@@ -57,6 +79,12 @@ class DryNonResinController extends Controller
             }
         }
 
+        // Check if kd_manhour already exists
+        $existingDryNonResin = DryNonResin::where('kd_manhour', $params['kd_manhour'])->first();
+
+        if ($existingDryNonResin) {
+            return redirect()->back()->withInput()->with('error', 'Nomor SO yang anda input sudah ada coba periksa kembali  !');
+        }
         DryNonResin::create($params);
 
         return redirect(route('home'))->with('success', 'Added!');
@@ -65,7 +93,7 @@ class DryNonResinController extends Controller
     public function edit(string $id): Response
     {
         $product = DryNonResin::findOrFail($id);
-        $manhour = ManHour::orderBy('id')->get();
+        $manhour = ManhourDrynonresin::orderBy('id')->get();
 
 
 

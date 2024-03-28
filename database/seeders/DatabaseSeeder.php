@@ -130,6 +130,7 @@ class DatabaseSeeder extends Seeder
         $this->call(DivisionSeeder::class);
         $this->call(Compatibility_Mesin::class);
         $this->call(ManHourSeeder::class);
+        $this->call(ManHourDrynonresin::class);
 
     }
 }

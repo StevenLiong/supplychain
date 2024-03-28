@@ -26,23 +26,26 @@
     <h5 class="text-center text-sm-center text-xs-center my-1 header-title card-title" style="font-size: 30px;color:#d02424;">
         <b>PERHITUNGAN MAN HOUR</b>
     </h5>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <form class="login-content floating-label" method="post" action="{{ route('store.dryresin') }}">
         @csrf
         <div class="row px-2">
             <div class="col-lg-12">
                 <div class="card card-body my-1 py-1">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <div class="alert-title">
-                                <p>Terjadi Kesalahan Input</p>
-                            </div>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <div class="row align-items-center justify-content-center px-3 ">
                         <div class="col-lg-6 col-md-6 col-sm-12 text-left input-group">
                             <div class="input-group-prepend">
@@ -77,7 +80,7 @@
             <div class="col-lg-12">
                 <div class="card card-body my-1 pt-3 pb-0">
                     <div class="row">
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
                                     value="Dry Cast Resin" id="category" disabled>
@@ -88,61 +91,60 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
-                                <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
+                                <input type="text" class="floating-input form-control" name="kd_manhour" id="kd_manhour"
+                                    readonly>
+                                <label>Kode Man Hour</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="floating-label form-group">
+                                <select class="floating-input form-control form-select input" name="ukuran_kapasitas"
                                     id="ukuran_kapasitas">
-                                    {{-- @php
-                                        $selectedValue = old('ukuran_kapasitas');
-                                        // fungsi apabila didalam kapasitas terdapat kategori produk yang sesuai
-                                        $kapasitasData = $kapasitas->pluck('ukuran_kapasitas');
-                                        $manhourData = $manhour
-                                            ->where('nama_kategoriproduk', 4)
-                                            ->whereIn('id_kapasitas', $kapasitas->pluck('id'));
-
-                                    @endphp
-
-                                    <option value="">Pilih</option>
-                                    @foreach ($kapasitasData as $index => $kapasitas)
-                                        <option value="{{ $kapasitas }}"
-                                            {{ $selectedValue == $kapasitas ? 'selected' : '' }}>
-                                            {{ $kapasitas }}
-                                        </option>
-                                    @endforeach --}}
+                                    <option value="" disabled selected>Pilih</option>
                                     @php
                                         $selectedValue = old('ukuran_kapasitas');
                                         $manhourData = $manhour
                                             ->where('nama_kategoriproduk', 'Dry Resin')
                                             ->unique('ukuran_kapasitas');
                                     @endphp
-                                    <option value="">Pilih</option>
                                     @foreach ($manhourData as $data)
+                                        @php
+                                            $kapasitasFiltered = $kapasitas
+                                                ->where('ukuran_kapasitas', $data->ukuran_kapasitas)
+                                                ->first();
+                                        @endphp
                                         <option value="{{ $data->ukuran_kapasitas }}"
+                                            data-id="{{ optional($kapasitasFiltered)->id }}"
                                             {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
-                                            {{ $data->ukuran_kapasitas }}
+                                            {{ $data->ukuran_kapasitas }} - {{ optional($kapasitasFiltered)->id }}
                                         </option>
                                     @endforeach
 
                                 </select>
                                 <label>Capacity</label>
                             </div>
+
                         </div>
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
-                                    value="{{ old('nomor_so') }}" id="so">
+                                    value="{{ old('nomor_so') }}" id="so"
+                                    oninput="this.value = this.value.toUpperCase()">
                                 <label>SO / No. Prospek</label>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
                                     value="{{ old('id_fg') }}" id="fg">
                                 <label>Kode Finish Good</label>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-6">
-                            <label for="Use Housing or Not">Menggunakan Housing?</label>
+
+                        <div class="col-lg-4 col-sm-6">
+                            <label for="Use Housing or Not">Apakah Menggunakan Housing?</label>
                             <div class="custom-control custom-radio custom-radio-color custom-control-inline">
                                 <input type="radio" id="customRadio01" name="customRadio-11" class="custom-control-input"
                                     value="Menggunakan Housing">
@@ -192,7 +194,7 @@
                                         <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
                                     </td>
                                     <td class="w-50">
-                                        <select class="form-control single_select" name="coil_lv" id="coil_lv">
+                                        <select class="form-control border border-dark rounded text-center"style="height: 33px;" name="coil_lv" id="coil_lv">
                                         </select>
                                     </td>
                                 </tr>
@@ -206,7 +208,7 @@
                                         <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
                                     </td>
                                     <td>
-                                        <select class=" form-control single_select" name="coil_hv" id="coil_hv">
+                                        <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="coil_hv" id="coil_hv">
                                         </select>
                                     </td>
                                 </tr>
@@ -221,7 +223,7 @@
                                         </h6>
                                     </td>
                                     <td>
-                                        <select class=" form-control single_select" name="potong_leadwire"
+                                        <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="potong_leadwire"
                                             id="potong_leadwire">
 
                                         </select>
@@ -239,8 +241,8 @@
                                         </h6>
                                     </td>
                                     <td>
-                                        <select class="form-control  multiple1"
-                                            name="potong_isolasi[]" id="potong_isolasi" multiple>
+                                        <select class="form-control  multiple1" name="potong_isolasi[]"
+                                            id="potong_isolasi" multiple>
                                         </select>
                                     </td>
                                 </tr>
@@ -280,7 +282,7 @@
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control single_select" name="hv_moulding"
+                                            <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_moulding"
                                                 id="hv_moulding">
 
                                             </select>
@@ -297,7 +299,7 @@
                                             <h6 class=" border border-dark rounded p-1 text-center">HV Casting</h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control single_select" name="hv_casting"
+                                            <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_casting"
                                                 id="hv_casting">
 
                                             </select>
@@ -315,7 +317,7 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control single_select" name="hv_demoulding"
+                                            <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_demoulding"
                                                 id="hv_demoulding">
 
                                             </select>
@@ -381,8 +383,8 @@
                                             <h6 class=" border border-dark rounded p-1 text-center">Oven</h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control multiple2" name="oven[]"
-                                                id="oven" multiple>
+                                            <select class=" form-control multiple2" name="oven[]" id="oven"
+                                                multiple>
 
                                             </select>
                                         </td>
@@ -425,7 +427,7 @@
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control single_select" name="type_susun_core"
+                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="type_susun_core"
                                                 id="type_susun_core">
 
                                             </select>
@@ -441,10 +443,7 @@
                                             <h6 class="border border-dark rounded p-1 text-center">Wiring</h6>
                                         </td>
                                         <td>
-                                            <select
-                                                class=" form-control single_select
-                                                 name="wiring"
-                                                id="wiring">
+                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="wiring" id="wiring">
                                             </select>
                                         </td>
                                     </tr>
@@ -459,7 +458,7 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control single_select" name="instal_housing"
+                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="instal_housing"
                                                 id="instal_housing">
 
                                             </select>
@@ -478,7 +477,7 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control single_select" name="bongkar_housing"
+                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="bongkar_housing"
                                                 id="bongkar_housing">
 
                                             </select>
@@ -497,7 +496,7 @@
                                             </h6>
                                         </td>
                                         <td>
-                                            <select class=" form-control single_select" name="pembuatan_cu_link"
+                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="pembuatan_cu_link"
                                                 id="pembuatan_cu_link">
 
                                             </select>
@@ -552,7 +551,6 @@
                                         <td style="width:500px ">
                                             <select class=" form-control multiple3" name="potong_isolasi_fiber[]"
                                                 id="potong_isolasi_fiber" multiple>
-
                                             </select>
                                         </td>
                                     </tr>
@@ -586,12 +584,12 @@
                                                 value="{{ old('hour_qc_testing') }}" readonly>
                                         </td>
                                         <td class="w-30">
-                                            <h6 class="border border-dark rounded p-1 text-center">Routine Test
+                                            <h6 class="border border-dark rounded p-1 text-center">QC Test
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control  multiple4"
-                                                name="qc_testing[]" id="qc_testing" multiple>
+                                            <select class=" form-control  multiple4" name="qc_testing[]" id="qc_testing"
+                                                multiple>
                                             </select>
                                         </td>
                                     </tr>
@@ -1067,12 +1065,143 @@
                     );
                 });
             }
-            $('#ukuran_kapasitas').on('change', function() {
-                var ukuran_kapasitas = $(this).val();
+            // $('#ukuran_kapasitas').on('change', function() {
+            //     var ukuran_kapasitas = $(this).val();
+            //     if (ukuran_kapasitas) {
+            //         $.ajax({
+            //             url: '/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/' +
+            //                 ukuran_kapasitas,
+            //             type: 'GET',
+            //             data: {
+            //                 '_token': '{{ csrf_token() }}'
+            //             },
+            //             dataType: 'json',
+            //             success: function(data) {
+            //                 if (data) {
+            //                     fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
+            //                     fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
+            //                     fillSelect('#potong_leadwire', data, 'POTONG LEAD WIRE',
+            //                         'COIL MAKING');
+            //                     fillSelect('#potong_isolasi', data, 'POTONG ISOLASI',
+            //                         'COIL MAKING');
+            //                     fillSelect('#hv_moulding', data, 'HV MOULDING',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#hv_casting', data, 'HV CASTING',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#hv_demoulding', data, 'HV DEMOULDING',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#lv_bobbin', data, 'LV BOBBIN',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#lv_moulding', data, 'LV MOULDING',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#touch_up', data, 'TOUCH UP',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#oven', data, 'OVEN',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#type_susun_core', data, 'TYPE SUSUN CORE',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#wiring', data, 'WIRING', 'CORE & ASSEMBLY');
+            //                     fillSelect('#instal_housing', data, 'INSTAL HOUSING',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#bongkar_housing', data, 'BONGKAR HOUSING',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#pembuatan_cu_link', data, 'PEMBUATAN CU LINK',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#others', data, 'OTHERS', 'CORE & ASSEMBLY');
+            //                     fillSelect('#accesories', data, 'ACCESSORIES',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#potong_isolasi_fiber', data,
+            //                         'POTONG ISOLASI FIBER', 'CORE & ASSEMBLY');
+            //                     fillSelect('#qc_testing', data, 'QC',
+            //                         'QC');
+            //                     $('#coil_lv').on('change', function() {
+            //                         showSelected('coil_lv');
+            //                     });
+            //                     $('#coil_hv').on('change', function() {
+            //                         showSelected('coil_hv');
+            //                     });
+            //                     $('#potong_leadwire').on('change', function() {
+            //                         showSelected('potong_leadwire');
+            //                     });
+            //                     $('#potong_isolasi').on('change', function() {
+            //                         showSelected('potong_isolasi');
+            //                     });
+            //                     $('#hv_moulding').on('change', function() {
+            //                         showSelected('hv_moulding');
+            //                     });
+            //                     $('#hv_casting').on('change', function() {
+            //                         showSelected('hv_casting');
+            //                     });
+            //                     $('#hv_demoulding').on('change', function() {
+            //                         showSelected('hv_demoulding');
+            //                     });
+            //                     $('#lv_bobbin').on('change', function() {
+            //                         showSelected('lv_bobbin');
+            //                     });
+            //                     $('#lv_moulding').on('change', function() {
+            //                         showSelected('lv_moulding');
+            //                     });
+            //                     $('#touch_up').on('change', function() {
+            //                         showSelected('touch_up');
+            //                     });
+            //                     $('#oven').on('change', function() {
+            //                         showSelected('oven');
+            //                     });
+            //                     $('#type_susun_core').on('change', function() {
+            //                         showSelected('type_susun_core');
+            //                     });
+            //                     $('#wiring').on('change', function() {
+            //                         showSelected('wiring');
+            //                     });
+            //                     $('#instal_housing').on('change', function() {
+            //                         showSelected('instal_housing');
+            //                     });
+            //                     $('#bongkar_housing').on('change', function() {
+            //                         showSelected('bongkar_housing');
+            //                     });
+            //                     $('#pembuatan_cu_link').on('change', function() {
+            //                         showSelected('pembuatan_cu_link');
+            //                     });
+            //                     $('#others').on('change', function() {
+            //                         showSelected('others');
+            //                     });
+            //                     $('#accesories').on('change', function() {
+            //                         showSelected('accesories');
+            //                     });
+            //                     $('#potong_isolasi_fiber').on('change', function() {
+            //                         showSelected('potong_isolasi_fiber');
+            //                     });
+            //                     $('#qc_testing').on('change', function() {
+            //                         showSelected('qc_testing');
+            //                     });
+            //                 } else {
+            //                     resetForm();
+            //                 }
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 alert(
+            //                     'Terjadi kesalahan saat mengambil data Man hour. Silakan coba lagi.'
+            //                 );
+            //             }
+            //         });
+            //     } else {
+            //         resetForm();
+            //     }
+            // });
+            var previousData; // Deklarasikan variabel previousData di luar fungsi
+
+            $(document).ready(function() {
+                loadData(); // Panggil fungsi loadData saat dokumen siap
+                $('#ukuran_kapasitas').on('change', function() {
+                    loadData(); // Panggil loadData saat perubahan terjadi pada select
+                });
+            });
+
+            function loadData() {
+                var ukuran_kapasitas = $('#ukuran_kapasitas').val();
                 if (ukuran_kapasitas) {
                     $.ajax({
-                        url: '/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/' +
-                            ukuran_kapasitas,
+                        url: '/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/' + ukuran_kapasitas,
                         type: 'GET',
                         data: {
                             '_token': '{{ csrf_token() }}'
@@ -1080,6 +1209,7 @@
                         dataType: 'json',
                         success: function(data) {
                             if (data) {
+                                previousData = data; // Simpan data sebelumnya
                                 fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
                                 fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
                                 fillSelect('#potong_leadwire', data, 'POTONG LEAD WIRE',
@@ -1176,20 +1306,15 @@
                                 $('#qc_testing').on('change', function() {
                                     showSelected('qc_testing');
                                 });
-                            } else {
-                                resetForm();
                             }
                         },
                         error: function(xhr, status, error) {
-                            alert(
-                                'Terjadi kesalahan saat mengambil data Man hour. Silakan coba lagi.'
-                            );
+                            if (previousData) {}
                         }
                     });
-                } else {
-                    resetForm();
                 }
-            });
+            }
+
             $('input[type="radio"][name="customRadio-11"]').change(function() {
                 if ($(this).val() === "Menggunakan Housing") {
                     $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', false);
@@ -1311,7 +1436,7 @@
                 selectedOptions.forEach(function(selectedOption) {
                     let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
                     let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-                    if (workCenterAttr === 'QC TEST') {
+                    if (workCenterAttr === 'QC') {
                         totalJam += durasi;
                         if (!workcenterInfo[workCenterAttr]) {
                             workcenterInfo[workCenterAttr] = durasi;
@@ -1336,12 +1461,50 @@
                     displayTotalJamMouldCasting();
                 } else if (workCenter === 'CORE & ASSEMBLY') {
                     displayTotalJamCoreCoilAssembly();
-                } else if (workCenter === 'QC TEST') {
+                } else if (workCenter === 'QC') {
                     displayTotalJamQCTest();
                 }
             });
         });
+        document.addEventListener('DOMContentLoaded', function() {
+            function generateKdManhour() {
+                var kategori = document.getElementById('kategori').value;
+                var nomor_so = document.getElementById('so').value.toUpperCase();
+                var selectedOption = document.getElementById('ukuran_kapasitas').options[document.getElementById(
+                    'ukuran_kapasitas').selectedIndex];
+                var kapasitasId = selectedOption.getAttribute('data-id');
+                var nomorSo = nomor_so.replace(/[\/-]/g, '');
+
+                nomorSo = nomorSo.slice(0, 10);
+
+                var remainingLength = 14 - (kategori.length + String(kapasitasId).length);
+
+                nomorSo = nomorSo.slice(0, remainingLength);
+
+                var kapasitasIdString = String(kapasitasId).padStart(3, '0').slice(-3);
+                var nomorSoString = nomorSo.padEnd(10, '0');
+                var kdManhour = kategori + kapasitasIdString + nomorSoString;
+
+                return kdManhour;
+            }
+            document.getElementById('kd_manhour').value = generateKdManhour();
+
+            document.getElementById('kategori').addEventListener('change', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
+            });
+
+            document.getElementById('ukuran_kapasitas').addEventListener('change', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
+            });
+
+            document.getElementById('so').addEventListener('input', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
+            });
+        });
     </script>
+
+
+
     {{-- <script>
         function previewForm() {
             //tampilan hour
@@ -1433,7 +1596,6 @@
                 .value;
 
 
-            // Tampilkan area pratinjau
             document.getElementById("preview").style.display = "block";
         }
     </script> --}}
@@ -1455,11 +1617,21 @@
                 placeholder: 'Pilih',
                 width: '100%',
             }).on('change', displayTotalJamQCTest);
-            $(".single_select").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                minimumResultsForSearch: Infinity
-            });
+            // $(".border border-dark rounded text-center").style="height: 33px;"select2({
+            //     placeholder: 'Pilih',
+            //     width: '100%',
+            //     minimumResultsForSearch: Infinity
+            // }).on('change', displayTotalJamCoilMaking);
+            // $(".border border-dark rounded text-center").style="height: 33px;"select2({
+            //     placeholder: 'Pilih',
+            //     width: '100%',
+            //     minimumResultsForSearch: Infinity
+            // }).on('change', displayTotalJamMouldCasting);
+            // $(".border border-dark rounded text-center").style="height: 33px;"select2({
+            //     placeholder: 'Pilih',
+            //     width: '100%',
+            //     minimumResultsForSearch: Infinity
+            // }).on('change', displayTotalJamCoreCoilAssembly);
         });
     </script>
 @endsection

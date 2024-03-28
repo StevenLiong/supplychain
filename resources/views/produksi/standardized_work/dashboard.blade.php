@@ -8,7 +8,11 @@
             </div>
         </div>
         <div class="card-body">
-            <!-- <p>Images in Bootstrap are made responsive with <code>.img-fluid</code>. <code>max-width: 100%;</code> and <code>height: auto;</code> are applied to the image so that it scales with the parent element.</p> -->
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="row mb-4 align-items-center flex-sm-row">
                 <!-- Tombol untuk memicu modal -->
                 <button class="btn btn-primary ml-3 mb-3 mb-sm-0" data-toggle="modal" data-target="#myModal">
@@ -43,14 +47,14 @@
                 </div>
 
                 <!-- <div class="dropdown ml-3 mb-3 mb-sm-0">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fa-solid fa-search mr-2"></i>Filter Data
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item filter-link" data-category="Dry Cast Resin">Dry Cast Resin</a>
-                        <a class="dropdown-item filter-link" data-category="Dry Non Cast Resin">Dry Non Resin</a>
-                    </div>
-                </div> -->
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-search mr-2"></i>Filter Data
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item filter-link" data-category="Dry Cast Resin">Dry Cast Resin</a>
+                            <a class="dropdown-item filter-link" data-category="Dry Non Cast Resin">Dry Non Resin</a>
+                        </div>
+                    </div> -->
 
                 <form id="filterForm" method="GET" action="{{ url('/standardized_work/FilterData') }}">
                     @csrf
@@ -84,8 +88,10 @@
                     </form>
                 </div>
             </div>
+
             <div id="filteredResults" class="table-responsive">
                 <div id="datatable_wrapper" id="filteredTable" class="dataTables_wrapper">
+
                     <table id="datatable" class="table data-table table-striped" data-ordering="false">
                         <thead>
                             <tr>
@@ -228,6 +234,7 @@
                                     <td class="text-center">
                                         <a type="button" href="{{ route('dryresin.detail', ['id' => $std->id]) }}"
                                             class="btn btn-primary m-1"><i class="fa-solid fa-circle-info m-1"></i></a>
+
                                         <a type="button" href="{{ route('dryresin.edit', ['id' => $std->id]) }}"
                                             class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a>
                                         <a href="#" class="btn btn-primary m-1" data-toggle="modal"
@@ -240,11 +247,13 @@
                                             <i class="fa-solid fa-trash m-1"></i>
                                         </a>
                                         <!-- delete modal -->
-                                        <div class="modal fade delete-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                        <div class="modal fade delete-modal" tabindex="-1" role="dialog"
+                                            aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
@@ -252,14 +261,18 @@
                                                         <p>Yakin ingin menghapus data ini?</p>
                                                     </div>
                                                     <div class="modal-footer justify-content-center">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                                        <button type="button" class="btn btn-danger" onclick="document.getElementById('delete-row-{{ $std->kd_manhour }}').submit();">Hapus</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Batal</button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="document.getElementById('delete-row-{{ $std->kd_manhour }}').submit();">Hapus</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <form id="delete-row-{{ $std->kd_manhour }}" action="{{ route('delete', ['kd_manhour' => $std->kd_manhour]) }}" method="POST">
+                                        <form id="delete-row-{{ $std->kd_manhour }}"
+                                            action="{{ route('delete', ['kd_manhour' => $std->kd_manhour]) }}"
+                                            method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             @csrf
                                         </form>
@@ -283,9 +296,8 @@
 
     <script>
         $(document).ready(function() {
-            $('.filter-link').on('click', function () {
+            $('.filter-link').on('click', function() {
                 var selectedCategory = $(this).data('category');
-                console.log('Selected Category:', selectedCategory);
                 $('#filterCategorySelect').val(selectedCategory);
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
                 $.ajaxSetup({
@@ -301,7 +313,9 @@
             $.ajax({
                 url: '/standardized_work/FilterData',
                 type: 'GET',
-                data: { category: selectedCategory },
+                data: {
+                    category: selectedCategory
+                },
             });
         }
     </script>

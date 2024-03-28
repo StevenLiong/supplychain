@@ -18,10 +18,15 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'nama_product' => [],
-            'id_fg' => [],
+            // 'id_fg' => [],
             'kategori' => [],
-            'nomor_so' => [],
-            'ukuran_kapasitas' => [],
+            // 'nomor_so' => [],
+            'kd_manhour' => [],
+            'nomor_so' => ['required'],
+            'id_fg' => ['required'],
+            'ukuran_kapasitas' => ['required'],
+            'total_hour' => ['required'],
+            // 'ukuran_kapasitas' => [],
             'coil_lv' => [],
             'coil_hv' => [],
             'potong_leadwire' => [],
@@ -64,7 +69,7 @@ class StoreProductRequest extends FormRequest
             'hour_accesories' => [],
             'hour_potong_isolasi_fiber' => [],
             'hour_qc_testing' => [],
-            'total_hour' => [],
+            // 'total_hour' => [],
         ];
     }
 }

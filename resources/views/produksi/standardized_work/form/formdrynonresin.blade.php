@@ -30,25 +30,6 @@
         <div class="row px-2">
             <div class="col-lg-12">
                 <div class="card card-body my-1 py-1">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <div class="alert-title">
-                                <h4>Whoops!</h4>
-                            </div>
-                            There are some problems with your input.
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
                     <div class="row align-items-center justify-content-center px-3 ">
                         <div class="col-lg-6 col-md-6 col-sm-12 text-left input-group">
                             <div class="input-group-prepend">
@@ -83,7 +64,7 @@
         <div class="row px-2">
             <div class="col-lg-12">
                 <div class="card card-body my-1 pt-3 pb-0">
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-lg-6 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
@@ -115,7 +96,7 @@
                                             {{ $selectedValue == $kapasitas ? 'selected' : '' }}>
                                             {{ $kapasitas }}
                                         </option>
-                                    @endforeach --}}
+                                    @endforeach
                                     @php
                                         $selectedValue = old('ukuran_kapasitas');
                                         $manhourData = $manhour
@@ -147,6 +128,85 @@
                                 <label>Kode Finish Good</label>
                             </div>
                         </div>
+
+                    </div> --}}
+                    <div class="row">
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
+                                    value="Dry Cast Resin" id="category" disabled>
+                                <label>Category</label>
+                                <div class="mb-3">
+                                    <input type="hidden" class="form-control" name="kategori" id="kategori"
+                                        value="6">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input type="text" class="floating-input form-control" name="kd_manhour" id="kd_manhour"
+                                    readonly>
+                                <label>Kode Man Hour</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="floating-label form-group">
+                                <select class="floating-input form-control form-select input" name="ukuran_kapasitas"
+                                    id="ukuran_kapasitas">
+                                    <option value="" disabled selected>Pilih</option>
+                                    @php
+                                        $selectedValue = old('ukuran_kapasitas');
+                                        $manhourData = $manhour
+                                            ->where('nama_kategoriproduk', 'Dry Non Resin')
+                                            ->unique('ukuran_kapasitas');
+                                    @endphp
+                                    @foreach ($manhourData as $data)
+                                        @php
+                                            $kapasitasFiltered = $kapasitas
+                                                ->where('ukuran_kapasitas', $data->ukuran_kapasitas)
+                                                ->first();
+                                        @endphp
+                                        <option value="{{ $data->ukuran_kapasitas }}"
+                                            data-id="{{ optional($kapasitasFiltered)->id }}"
+                                            {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
+                                            {{ $data->ukuran_kapasitas }} - {{ optional($kapasitasFiltered)->id }}
+                                        </option>
+                                    @endforeach
+
+                                </select>
+                                <label>Capacity</label>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
+                                    value="{{ old('nomor_so') }}" id="so"
+                                    oninput="this.value = this.value.toUpperCase()">
+                                <label>SO / No. Prospek</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="floating-label form-group">
+                                <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
+                                    value="{{ old('id_fg') }}" id="fg">
+                                <label>Kode Finish Good</label>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-6">
+                            <label for="Use Housing or Not">Apakah Menggunakan Housing?</label>
+                            <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                <input type="radio" id="customRadio01" name="customRadio-11" class="custom-control-input"
+                                    value="Menggunakan Housing">
+                                <label class="custom-control-label" for="customRadio01">Ya</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                <input type="radio" id="customRadio02" name="customRadio-11" class="custom-control-input"
+                                    value="Tidak Menggunakan Housing">
+                                <label class="custom-control-label" for="customRadio02">Tidak</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,10 +224,9 @@
                                             <span class="input-group-text">COIL MAKING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <input type="text" class="input-group-text bg-warning"
-                                            style="width: 3rem" id="totalHour_coil_making"
-                                            name="totalHour_coil_making" value="{{ old('totalHour_coil_making') }}"
-                                            readonly>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_coil_making" name="totalHour_coil_making"
+                                                value="{{ old('totalHour_coil_making') }}" readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -179,7 +238,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_coil_lv" name="hour_coil_lv" value="{{ old('hour_coil_lv') }}"  readonly>
+                                                    id="hour_coil_lv" name="hour_coil_lv"
+                                                    value="{{ old('hour_coil_lv') }}" readonly>
                                             </td>
                                             <td class="w-30">
                                                 <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
@@ -194,7 +254,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_coil_hv" name="hour_coil_hv" value="{{ old('hour_coil_hv') }}"  readonly>
+                                                    id="hour_coil_hv" name="hour_coil_hv"
+                                                    value="{{ old('hour_coil_hv') }}" readonly>
 
                                             </td>
                                             <td>
@@ -210,7 +271,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_potong_leadwire" name="hour_potong_leadwire" value="{{ old('hour_potong_leadwire') }}"  readonly>
+                                                    id="hour_potong_leadwire" name="hour_potong_leadwire"
+                                                    value="{{ old('hour_potong_leadwire') }}" readonly>
 
                                             </td>
                                             <td>
@@ -227,14 +289,16 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_potong_isolasi" name="hour_potong_isolasi" value="{{ old('hour_potong_isolasi') }}"  readonly>
+                                                    id="hour_potong_isolasi" name="hour_potong_isolasi"
+                                                    value="{{ old('hour_potong_isolasi') }}" readonly>
 
                                             </td>
                                             <td>
                                                 <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi</h6>
                                             </td>
                                             <td>
-                                                <select class="form-control border border-dark rounded text-center multiple1"
+                                                <select
+                                                    class="form-control border border-dark rounded text-center multiple1"
                                                     style="margin-bottom: 0rem" name="potong_isolasi[]"
                                                     id="potong_isolasi" multiple>
                                                 </select>
@@ -253,7 +317,9 @@
                                             <span class="input-group-text">MOULD & CASTING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_MouldCasting" name="totalHour_MouldCasting" value="{{ old('totalHour_MouldCasting') }}"  readonly>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_MouldCasting" name="totalHour_MouldCasting"
+                                                value="{{ old('totalHour_MouldCasting') }}" readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -265,7 +331,8 @@
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_moulding_casting" name="hour_moulding_casting" value="{{ old('hour_moulding_casting') }}"  readonly>
+                                                    id="hour_moulding_casting" name="hour_moulding_casting"
+                                                    value="{{ old('hour_moulding_casting') }}" readonly>
                                             </td>
                                             <td class="w-30">
                                                 <h6 class=" border border-dark rounded p-1 text-center">Moulding & Casting
@@ -281,8 +348,8 @@
                                         <tr !important>
                                             <td class="">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="hour_oven" name="hour_oven"
-                                                    value="{{ old('hour_oven') }}" readonly>
+                                                    id="hour_oven" name="hour_oven" value="{{ old('hour_oven') }}"
+                                                    readonly>
 
                                             </td>
                                             <td>
@@ -307,7 +374,9 @@
                                             <span class="input-group-text">QC TESTING</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_QCTest" name="totalHour_QCTest" value="{{ old('totalHour_QCTest') }}"  readonly>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_QCTest" name="totalHour_QCTest"
+                                                value="{{ old('totalHour_QCTest') }}" readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -319,14 +388,16 @@
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_qc_testing" name="hour_qc_testing" value="{{ old('hour_qc_testing') }}"  readonly>
+                                                    id="hour_qc_testing" name="hour_qc_testing"
+                                                    value="{{ old('hour_qc_testing') }}" readonly>
 
                                             </td>
                                             <td class="w-30">
                                                 <h6 class="border border-dark rounded p-1 text-center">Routine Test</h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center multiple4"
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center multiple4"
                                                     style="margin-bottom: 0rem" name="qc_testing[]" id="qc_testing"
                                                     multiple>
 
@@ -350,7 +421,9 @@
                                             <span class="input-group-text">CORE & ASSEMBLY</span>
                                         </div>
                                         <div class="input-group-append">
-                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem" id="totalHour_CoreCoilAssembly" name="totalHour_CoreCoilAssembly" value="{{ old('totalHour_CoreCoilAssembly') }}"  readonly>
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_CoreCoilAssembly" name="totalHour_CoreCoilAssembly"
+                                                value="{{ old('totalHour_CoreCoilAssembly') }}" readonly>
                                         </div>
                                         <div class="input-group-append">
                                             <span class="input-group-text">HOUR</span>
@@ -362,7 +435,8 @@
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_type_susun_core" name="hour_type_susun_core" value="{{ old('hour_type_susun_core') }}"  readonly>
+                                                    id="hour_type_susun_core" name="hour_type_susun_core"
+                                                    value="{{ old('hour_type_susun_core') }}" readonly>
 
                                             </td>
                                             <td class="w-30">
@@ -377,7 +451,8 @@
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_hv_connection" name="hour_hv_connection" value="{{ old('hour_hv_connection') }}"  readonly>
+                                                    id="hour_hv_connection" name="hour_hv_connection"
+                                                    value="{{ old('hour_hv_connection') }}" readonly>
 
                                             </td>
                                             <td class="w-30">
@@ -392,8 +467,9 @@
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_lv_connection" name="hour_lv_connection" value="{{ old('hour_lv_connection') }}"  readonly>
-                                                </td>
+                                                    id="hour_lv_connection" name="hour_lv_connection"
+                                                    value="{{ old('hour_lv_connection') }}" readonly>
+                                            </td>
                                             <td class="w-30">
                                                 <h6 class="border border-dark rounded p-1 text-center">LV Connection</h6>
                                             </td>
@@ -407,7 +483,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_wiring" name="hour_wiring" value="{{ old('hour_wiring') }}"  readonly>
+                                                    id="hour_wiring" name="hour_wiring" value="{{ old('hour_wiring') }}"
+                                                    readonly>
 
 
                                             </td>
@@ -425,7 +502,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_instal_housing" name="hour_instal_housing" value="{{ old('hour_instal_housing') }}"  readonly>
+                                                    id="hour_instal_housing" name="hour_instal_housing"
+                                                    value="{{ old('hour_instal_housing') }}" readonly>
 
 
                                             </td>
@@ -442,7 +520,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_bongkar_housing" name="hour_bongkar_housing" value="{{ old('hour_bongkar_housing') }}"  readonly>
+                                                    id="hour_bongkar_housing" name="hour_bongkar_housing"
+                                                    value="{{ old('hour_bongkar_housing') }}" readonly>
 
 
                                             </td>
@@ -459,7 +538,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_pembuatan_cu_link" name="hour_pembuatan_cu_link" value="{{ old('hour_pembuatan_cu_link') }}"  readonly>
+                                                    id="hour_pembuatan_cu_link" name="hour_pembuatan_cu_link"
+                                                    value="{{ old('hour_pembuatan_cu_link') }}" readonly>
 
 
                                             </td>
@@ -479,7 +559,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_others" name="hour_others" value="{{ old('hour_others') }}"  readonly>
+                                                    id="hour_others" name="hour_others" value="{{ old('hour_others') }}"
+                                                    readonly>
 
 
                                             </td>
@@ -487,7 +568,8 @@
                                                 <h6 class="border border-dark rounded p-1 text-center">Others</h6>
                                             </td>
                                             <td style="width:500px ">
-                                                <select class=" form-control border border-dark rounded text-center multiple3"
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center multiple3"
                                                     name="others[]" id="others" multiple>
 
                                                 </select>
@@ -496,13 +578,15 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_accesories" name="hour_accesories" value="{{ old('hour_accesories') }}"  readonly>
+                                                    id="hour_accesories" name="hour_accesories"
+                                                    value="{{ old('hour_accesories') }}" readonly>
                                             </td>
                                             <td>
                                                 <h6 class="border border-dark rounded p-1 text-center">Accessories</h6>
                                             </td>
                                             <td style="width:500px ">
-                                                <select class=" form-control border border-dark rounded text-center multiple3"
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center multiple3"
                                                     name="accesories[]" id="accesories" multiple>
 
                                                 </select>
@@ -511,7 +595,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_potong_isolasi_fiber" name="hour_potong_isolasi_fiber" value="{{ old('hour_potong_isolasi_fiber') }}"  readonly>
+                                                    id="hour_potong_isolasi_fiber" name="hour_potong_isolasi_fiber"
+                                                    value="{{ old('hour_potong_isolasi_fiber') }}" readonly>
 
                                             </td>
                                             <td>
@@ -519,7 +604,8 @@
                                                 </h6>
                                             </td>
                                             <td style="width:500px ">
-                                                <select class=" form-control border border-dark rounded text-center multiple3"
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center multiple3"
                                                     name="potong_isolasi_fiber[]" id="potong_isolasi_fiber" multiple>
 
                                                 </select>
@@ -737,7 +823,7 @@
                                 </div>
                                 <div class="col-lg-6" style="padding-left: 5px">
                                     {{-- core and Assembly  --}}
-                                    {{-- <div class="card card-body my-1 py-1">
+    {{-- <div class="card card-body my-1 py-1">
                                         <div style="padding: 5px;">
                                             <div class="row align-items-center ">
                                                 <div class="input-group input-group-md justify-content-center">
@@ -910,9 +996,9 @@
                                             </div>
                                         </div>
                                     </div> --}}
-                                {{-- </div> --}}
+    {{-- </div> --}}
 
-                            {{-- </div>
+    {{-- </div>
                         </div>
                     </div>
 
@@ -920,7 +1006,7 @@
                         <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
                     </div>
                 </div> --}}
-            {{-- </div>
+    {{-- </div>
         </div> --}}
     {{-- </div> --}}
     <script>
@@ -928,7 +1014,7 @@
             function fillSelect(elementId, data, selectedProses, selectedWorkcenter) {
                 var filteredData = data.filter(function(item) {
                     return (
-                        item.id_kategori_produk === 5 &&
+                        item.nama_kategoriproduk === 'Dry Non Resin' &&
                         item.nama_workcenter === selectedWorkcenter &&
                         item.nama_proses === selectedProses
                     );
@@ -947,7 +1033,6 @@
             }
             $('#ukuran_kapasitas').on('change', function() {
                 var ukuran_kapasitas = $(this).val();
-                console.log(ukuran_kapasitas);
                 if (ukuran_kapasitas) {
                     $.ajax({
                         url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' +
@@ -958,7 +1043,6 @@
                         },
                         dataType: 'json',
                         success: function(data) {
-                            console.log(data);
                             if (data) {
                                 fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
                                 fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
@@ -968,28 +1052,28 @@
                                     'COIL MAKING');
                                 fillSelect('#moulding_casting', data, 'MOULD & CASTING',
                                     'MOULD & CASTING');
-                                    fillSelect('#oven', data, 'OVEN',
+                                fillSelect('#oven', data, 'OVEN',
                                     'MOULD & CASTING');
                                 fillSelect('#type_susun_core', data, 'TYPE SUSUN CORE',
-                                    'CORE COIL ASSEMBLY');
-                                fillSelect('#hv_connection', data, 'HV CONNECTION',
-                                    'CORE COIL ASSEMBLY');
-                                fillSelect('#lv_connection', data, 'LV CONNECTION',
-                                    'CORE COIL ASSEMBLY');
-                                fillSelect('#wiring', data, 'WIRING', 'CORE COIL ASSEMBLY');
+                                    'CORE & ASSEMBLY');
+                                fillSelect('#hv_connection', data, 'HV CONNECTION TYPE',
+                                    'CORE & ASSEMBLY');
+                                fillSelect('#lv_connection', data, 'LV CONNECTION TYPE',
+                                    'CORE & ASSEMBLY');
+                                fillSelect('#wiring', data, 'WIRING', 'CORE & ASSEMBLY');
                                 fillSelect('#instal_housing', data, 'INSTAL HOUSING',
-                                    'CORE COIL ASSEMBLY');
+                                    'CORE & ASSEMBLY');
                                 fillSelect('#bongkar_housing', data, 'BONGKAR HOUSING',
-                                    'CORE COIL ASSEMBLY');
+                                    'CORE & ASSEMBLY');
                                 fillSelect('#pembuatan_cu_link', data, 'PEMBUATAN CU LINK',
-                                    'CORE COIL ASSEMBLY');
-                                fillSelect('#others', data, 'OTHERS', 'CORE COIL ASSEMBLY');
-                                fillSelect('#accesories', data, 'ACCESORIES',
-                                    'CORE COIL ASSEMBLY');
+                                    'CORE & ASSEMBLY');
+                                fillSelect('#others', data, 'OTHERS', 'CORE & ASSEMBLY');
+                                fillSelect('#accesories', data, 'ACCESSORIES',
+                                    'CORE & ASSEMBLY');
                                 fillSelect('#potong_isolasi_fiber', data,
-                                    'POTONG ISOLASI FIBER', 'CORE COIL ASSEMBLY');
-                                fillSelect('#qc_testing', data, 'QC TESTING',
-                                    'QC TEST');
+                                    'POTONG ISOLASI FIBER', 'CORE & ASSEMBLY');
+                                fillSelect('#qc_testing', data, 'QC',
+                                    'QC');
                                 $('#coil_lv').on('change', function() {
                                     showSelected('coil_lv');
                                 });
@@ -1046,7 +1130,6 @@
                             }
                         },
                         error: function(xhr, status, error) {
-                            console.error('AJAX Request Error:', xhr.responseText);
                             alert(
                                 'Terjadi kesalahan saat mengambil data barang. Silakan coba lagi.'
                             );
@@ -1071,7 +1154,6 @@
             let totalHourInput = document.getElementById('total_hour');
             totalHourInput.value = totalManhour;
             let select = document.getElementById(target);
-            console.log('Select Element:', select);
             let selectedOptions = Array.from(select.selectedOptions);
             let totalDurasi = 0;
             selectedOptions.forEach(function(selectedOption) {
@@ -1079,10 +1161,7 @@
                 totalDurasi += parseFloat(selectedDurasi || 0);
             });
             let hour = document.getElementById("hour_" + target);
-            console.log('Selected Info Element:', hour);
-            hour.value =  totalDurasi;
-            console.log(hour);
-            console.log(totalDurasi);
+            hour.value = totalDurasi;
         }
 
         function displayTotalJamCoilMaking() {
@@ -1104,7 +1183,6 @@
                     }
                 });
             });
-            console.log("Work Center (COIL MAKING):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_coil_making");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;
@@ -1130,7 +1208,6 @@
                     }
                 });
             });
-            console.log("Work Center (MOULD & CASTING):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_MouldCasting");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;
@@ -1146,7 +1223,7 @@
                 selectedOptions.forEach(function(selectedOption) {
                     let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
                     let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-                    if (workCenterAttr === 'CORE COIL ASSEMBLY') {
+                    if (workCenterAttr === 'CORE & ASSEMBLY') {
                         totalJam += durasi;
                         if (!workcenterInfo[workCenterAttr]) {
                             workcenterInfo[workCenterAttr] = durasi;
@@ -1156,7 +1233,6 @@
                     }
                 });
             });
-            console.log("Work Center (CORE COIL ASSEMBLY):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;
@@ -1172,7 +1248,7 @@
                 selectedOptions.forEach(function(selectedOption) {
                     let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
                     let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-                    if (workCenterAttr === 'QC TEST') {
+                    if (workCenterAttr === 'QC') {
                         totalJam += durasi;
                         if (!workcenterInfo[workCenterAttr]) {
                             workcenterInfo[workCenterAttr] = durasi;
@@ -1182,7 +1258,6 @@
                     }
                 });
             });
-            console.log("Work Center (QC TEST):", workcenterInfo);
             let totalJamElement = document.getElementById("totalHour_QCTest");
             if (totalJamElement) {
                 totalJamElement.value = totalJam;
@@ -1196,11 +1271,46 @@
                     displayTotalJamCoilMaking();
                 } else if (workCenter === 'MOULD & CASTING') {
                     displayTotalJamMouldCasting();
-                } else if (workCenter === 'CORE COIL ASSEMBLY') {
+                } else if (workCenter === 'CORE & ASSEMBLY') {
                     displayTotalJamCoreCoilAssembly();
-                } else if (workCenter === 'QC TEST') {
+                } else if (workCenter === 'QC') {
                     displayTotalJamQCTest();
                 }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            function generateKdManhour() {
+                var kategori = document.getElementById('kategori').value;
+                var nomor_so = document.getElementById('so').value.toUpperCase();
+                var selectedOption = document.getElementById('ukuran_kapasitas').options[document.getElementById(
+                    'ukuran_kapasitas').selectedIndex];
+                var kapasitasId = selectedOption.getAttribute('data-id');
+                var nomorSo = nomor_so.replace(/[\/-]/g, '');
+
+                nomorSo = nomorSo.slice(0, 10);
+
+                var remainingLength = 14 - (kategori.length + String(kapasitasId).length);
+
+                nomorSo = nomorSo.slice(0, remainingLength);
+
+                var kapasitasIdString = String(kapasitasId).padStart(3, '0').slice(-3);
+                var nomorSoString = nomorSo.padEnd(10, '0');
+                var kdManhour = kategori + kapasitasIdString + nomorSoString;
+
+                return kdManhour;
+            }
+            document.getElementById('kd_manhour').value = generateKdManhour();
+
+            document.getElementById('kategori').addEventListener('change', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
+            });
+
+            document.getElementById('ukuran_kapasitas').addEventListener('change', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
+            });
+
+            document.getElementById('so').addEventListener('input', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
             });
         });
     </script>

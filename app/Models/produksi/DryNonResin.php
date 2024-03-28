@@ -57,10 +57,10 @@ class DryNonResin extends Model
         'hour_qc_testing',
     ];
 
-    public function man_hour(): BelongsTo
-    {
-        return $this->belongsTo(ManHour::class,'manhour_id','id');
-    }
+    // public function man_hour(): BelongsTo
+    // {
+    //     return $this->belongsTo(ManHour::class,'manhour_id','id');
+    // }
 
     public static function boot()
     {

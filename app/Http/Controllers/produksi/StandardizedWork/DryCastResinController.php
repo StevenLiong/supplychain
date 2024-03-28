@@ -8,9 +8,11 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+
 
 class DryCastResinController extends Controller
 {
@@ -19,7 +21,6 @@ class DryCastResinController extends Controller
         $title = 'Form Dry Cast Resin';
         $manhour = Manhour::all();
         $kapasitas = Kapasitas::all();
-
         // dd($kapasitas->where(''));
         return response(view('produksi.standardized_work.form.formdrycastresin', ['manhour' => $manhour, 'kapasitas' => $kapasitas, 'title' => $title]));
     }
@@ -38,7 +39,19 @@ class DryCastResinController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->input('customRadio-11'));
+        // Validasi input
+        $request->validate([
+            'total_hour' => 'required',
+            'ukuran_kapasitas' => 'required',
+            'id_fg' => 'required',
+            'nomor_so' => 'required',
+        ], [
+            'total_hour.required' => 'Total hour is required.',
+            'ukuran_kapasitas.required' => 'Ukuran kapasitas is required.',
+            'id_fg.required' => 'ID FG is required.',
+            'nomor_so.required' => 'Nomor SO is required.',
+        ]);
+
         $params = $request->all();
 
         // Cek apakah 'customRadio-11' ada dalam permintaan
@@ -62,10 +75,20 @@ class DryCastResinController extends Controller
             }
         }
 
+        // Check if kd_manhour already exists
+        $existingDryResin = DryCastResin::where('kd_manhour', $params['kd_manhour'])->first();
+
+        if ($existingDryResin) {
+            return redirect()->back()->withInput()->with('error', 'Nomor SO yang anda input sudah ada coba periksa kembali  !');
+        }
+
+        // Kd_manhour doesn't exist, create new DryCastResin
         DryCastResin::create($params);
 
         return redirect(route('home'))->with('success', 'Added!');
     }
+
+
 
     public function detail(string $id): Response
     {
@@ -80,7 +103,8 @@ class DryCastResinController extends Controller
         $title = 'Edit Dry Cast Resin';
         $product = DryCastResin::findOrFail($id);
         $manhour = ManHour::orderBy('id')->get();
-        return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour, 'title' => $title]));
+        // $kapasitas = Kapasitas::all();
+        return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour,  'title' => $title]));
     }
 
     /**

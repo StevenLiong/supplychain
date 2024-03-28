@@ -6,34 +6,7 @@
             @csrf
             <div class="row px-2">
                 <div class="col-lg-12">
-                    <!-- Total Hour -->
                     <div class="card card-body my-1 py-1">
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <div class="alert-title">
-                                    <h4>Whoops!</h4>
-                                </div>
-                                There are some problems with your input.
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-                        @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
-                        @if (session('error'))
-                            <div class="alert alert-danger">{{ session('error') }}</div>
-                        @endif
-                        @if (session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
-                        @if (session('error'))
-                            <div class="alert alert-danger">{{ session('error') }}</div>
-                        @endif
-                        <!-- tampilan total hour pada tiap work center -->
                         <div class="row align-items-center justify-content-center px-3 ">
                             <div class="col-lg-6 col-md-6 col-sm-12 text-left input-group">
                                 <div class="input-group-prepend">
@@ -44,7 +17,6 @@
                                         name="total_hour" value="{{ old('total_hour', $product->total_hour) }}" readonly>
                                 </div>
                             </div>
-
                             <div class="col-lg-6 col-md-6 col-sm-12 text-right">
                                 <button type="submit" class="btn btn-primary m-2"> <i
                                         class="fa-regular fa-floppy-disk mr-2"></i>Update</button>
@@ -61,7 +33,6 @@
             <div class="row px-2">
                 <div class="col-lg-12">
                     <div class="card card-body my-1 pt-3 pb-0">
-                        <!-- head input  -->
                         <div class="row">
                             <div class="col-lg-4 col-sm-6">
                                 <div class="floating-label form-group">
@@ -74,8 +45,32 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-6">
+                            {{-- <div class="col-lg-4 col-sm-6">
                                 <div class="floating-label form-group">
+                                    <select class="floating-input form-control form-select input" name="ukuran_kapasitas"
+                                        id="ukuran_kapasitas">
+                                        <option value="" disabled selected>Pilih</option>
+                                        @php
+                                            $selectedValue = $product->ukuran_kapasitas;
+                                            $manhourData = $manhour
+                                                ->where('nama_kategoriproduk', 'Dry Resin')
+                                                ->unique('ukuran_kapasitas');
+                                        @endphp
+                                        @foreach ($manhourData as $data)
+                                            @php
+                                                $kapasitasFiltered = $kapasitas
+                                                    ->where('ukuran_kapasitas', $data->ukuran_kapasitas)
+                                                    ->first();
+                                            @endphp
+                                            <option value="{{ $data->ukuran_kapasitas }}" data-id="{{ $kapasitasFiltered->id }}"
+                                                {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
+                                                {{ $data->ukuran_kapasitas }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label>Capacity</label>
+                                </div>
+                                {{-- <div class="floating-label form-group">
                                     <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
                                         id="ukuran_kapasitas" readonly>
                                         @php
@@ -91,8 +86,8 @@
                                         @endforeach
                                     </select>
                                     <label style="border-radius: 40px;">Capacity</label>
-                                </div>
-                            </div>
+                                </div> 
+                            </div> --}}
                             <div class="col-lg-4 col-sm-6">
                                 <div class="floating-label form-group">
                                     <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
@@ -100,6 +95,43 @@
                                     <label style="border-radius: 40px;">SO / No. Prospek</label>
                                 </div>
                             </div>
+
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="floating-label form-group">
+                                    <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
+                                        value="{{ old('id_fg', $product->id_fg) }}" id="fg" readonly>
+                                    <label>Kode Finish Good</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="floating-label form-group">
+                                    <input type="text" class="floating-input form-control" name="kd_manhour" id="kd_manhour"value="{{ old('kd_manhour', $product->kd_manhour) }}"
+                                        readonly>
+                                    <label>Kode Man Hour</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-sm-6">
+                                <label for="Use Housing or Not">Apakah Menggunakan Housing?</label>
+                                <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                    <input type="radio" id="customRadio01" name="customRadio-11" class="custom-control-input"
+                                        value="Menggunakan Housing" {{ $product->keterangan === 'Menggunakan Housing' ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="customRadio01">Ya</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-radio-color custom-control-inline">
+                                    <input type="radio" id="customRadio02" name="customRadio-11" class="custom-control-input"
+                                        value="Tidak Menggunakan Housing" {{ $product->keterangan === 'Tidak Menggunakan Housing' ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="customRadio02">Tidak</label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-lg-4 col-sm-6">
+
+
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -108,12 +140,10 @@
             <div class="row px-2">
                 <div class="col-lg-12  mb-0">
                     <div class="row">
-                        <!-- kiri  -->
                         <div class="col-lg-6" style="padding-right: 5px">
                             <!--Coil Making  -->
                             <div class="card card-body my-1 py-1">
                                 <div style="padding: 5px;">
-                                    <!-- tampilan total hour pada tiap work center  -->
                                     <div class="row align-items-center ">
                                         <div class="input-group input-group-md justify-content-center">
                                             <div class="input-group-prepend">
@@ -128,20 +158,16 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- kolom isi  -->
                                     <div class="align-items-center justify-content-left pt-1 px-1">
                                         <table class="w-100">
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p class="border border-dark rounded text-center" style="width:100%;"
                                                         id="selectedInfo_coil_lv" name="hour_coil_lv">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td class="w-30">
                                                     <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td class="w-50">
                                                     <select
                                                         class="form-control form-select input border border-dark rounded text-center"
@@ -171,16 +197,13 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_coil_hv">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;"name="coil_hv" id="coil_hv"
@@ -210,17 +233,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_potong_leadwire">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Potong Lead Wire
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="potong_leadwire" id="potong_leadwire"
@@ -250,17 +270,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_potong_isolasi">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class="form-control border border-dark rounded text-center "
                                                         style="margin-bottom: 0rem" name="potong_isolasi[]"
@@ -295,10 +312,8 @@
 
                                 </div>
                             </div>
-                            <!-- Mould & Casting  -->
                             <div class="card card-body my-1 py-1">
                                 <div style="padding: 5px;">
-                                    <!-- tampilan total hour pada tiap work center  -->
                                     <div class="row align-items-center">
                                         <div class="input-group input-group-md justify-content-center">
                                             <div class="input-group-prepend">
@@ -313,21 +328,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- kolom isi  -->
                                     <div class="align-items-center justify-content-left pt-1 px-1">
                                         <table class="w-100">
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_hv_moulding"> 0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td class="w-30">
                                                     <h6 class=" border border-dark rounded p-1 text-center">HV Moulding
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td class="w-50">
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;"name="hv_moulding" id="hv_moulding"
@@ -359,16 +370,13 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_hv_casting">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class=" border border-dark rounded p-1 text-center">HV Casting</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="hv_casting" id="hv_casting"
@@ -399,17 +407,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_hv_demoulding">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class=" border border-dark rounded p-1 text-center">HV Demoulding
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="hv_demoulding" id="hv_demoulding"
@@ -441,17 +446,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;"id="selectedInfo_lv_bobbin">0</p>
                                                     {{-- <h6 class="border border-dark rounded p-1 text-center"></h6> --}}
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class=" border border-dark rounded p-1 text-center">LV Bobbin</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         name="lv_bobbin[]" id="lv_bobbin"
@@ -484,18 +486,15 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_lv_moulding">0</p>
                                                     {{-- <h6 class="border border-dark rounded p-1 text-center"></h6> --}}
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class=" border border-dark rounded p-1 text-center">LV Moulding
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         name="lv_moulding[]" id="lv_moulding"
@@ -526,17 +525,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_touch_up">0</p>
                                                     {{-- <h6 class="border border-dark rounded p-1 text-center"></h6> --}}
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class=" border border-dark rounded p-1 text-center">Touch Up</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         name="touch_up[]" id="touch_up"
@@ -573,12 +569,10 @@
                             </div>
 
                         </div>
-                        <!-- kanan  -->
                         <div class="col-lg-6" style="padding-left: 5px">
                             {{-- core & Assembly  --}}
                             <div class="card card-body my-1 py-1">
                                 <div style="padding: 5px;">
-                                    <!-- tampilan total hour pada tiap work center  -->
                                     <div class="row align-items-center ">
                                         <div class="input-group input-group-md justify-content-center">
                                             <div class="input-group-prepend">
@@ -593,21 +587,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- kolom isi  -->
                                     <div class="align-items-center justify-content-left pt-1 px-1">
                                         <table class="w-100">
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_type_susun_core">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td class="w-30">
                                                     <h6 class="border border-dark rounded p-1 text-center">Type Susun Core
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td class="w-50">
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="type_susun_core" id="type_susun_core"
@@ -640,17 +630,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_wiring">0</p>
 
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Wiring</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="wiring" id="wiring"
@@ -683,18 +670,15 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_instal_housing">0</p>
 
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Instal Housing
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="instal_housing" id="instal_housing"
@@ -726,18 +710,15 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_bongkar_housing">0</p>
 
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Bongkar Housing
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="bongkar_housing" id="bongkar_housing"
@@ -769,19 +750,16 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_pembuatan_cu_link">0</p>
 
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Pembuatan CU
                                                         Link
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td>
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="height: 33px;" name="pembuatan_cu_link"
@@ -815,17 +793,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_others">0</p>
 
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Others</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td style="width:500px ">
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         name="others[]" id="others" onchange="showSelected('others')"
@@ -858,17 +833,14 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_accesories"p>0</p>
 
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Accessories</h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td style="width:500px ">
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         name="accesories[]" id="accesories"
@@ -901,18 +873,15 @@
                                                 </td>
                                             </tr>
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td>
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_potong_isolasi_fiber">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td>
                                                     <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi
                                                         Fiber
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td style="width:500px ">
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         name="potong_isolasi_fiber[]" id="potong_isolasi_fiber"
@@ -950,7 +919,6 @@
                             {{-- qc testing  --}}
                             <div class="card card-body my-1 py-1">
                                 <div style="padding: 5px;">
-                                    <!-- tampilan total hour pada tiap work center  -->
                                     <div class="row align-items-center ">
                                         <div class="input-group input-group-md justify-content-center">
                                             <div class="input-group-prepend">
@@ -965,21 +933,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- kolom isi  -->
                                     <div class="align-items-center justify-content-left pt-1 px-1">
                                         <table class="w-100">
                                             <tr !important>
-                                                <!-- tampilan hour dari inputan  -->
                                                 <td class="w-20">
                                                     <p type="text" class="border border-dark rounded p-1 text-center"
                                                         style="width:100%;" id="selectedInfo_routine_test">0</p>
                                                 </td>
-                                                <!-- nama proses-->
                                                 <td class="w-30">
                                                     <h6 class="border border-dark rounded p-1 text-center">Routine Test
                                                     </h6>
                                                 </td>
-                                                <!-- inputan spek -->
                                                 <td class="w-50">
                                                     <select class=" form-control border border-dark rounded text-center"
                                                         style="margin-bottom: 0rem" name="routine_test[]"

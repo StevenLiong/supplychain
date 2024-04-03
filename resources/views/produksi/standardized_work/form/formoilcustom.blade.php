@@ -1,54 +1,27 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
-    <style>
-        label {
-            font-weight: bold;
-        }
-
-        .col-lg-6 {
-            padding: 2;
-        }
-
-        td {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
-
-        tr {
-            padding-bottom: 0px;
-        }
-
-        .label {
-            margin-bottom: 0px;
-        }
-    </style>
     <h5 class="text-center my-3 header-title card-title " style="font-size: 40px;color:#d02424;"><b>PERHITUNGAN MAN HOUR</b>
     </h5>
-
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form class="login-content floating-label " method="post" action="{{ route('store.drynonresin') }}">
         @csrf
         <div class="row px-2">
             <div class="col-lg-12">
                 <div class="card card-body my-1 py-1">
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <div class="alert-title">
-                                <h4>Whoops!</h4>
-                            </div>
-                            There are some problems with your input.
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (session('success'))
-                        <div class="alert alert-success">{{ session('success') }}</div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">{{ session('error') }}</div>
-                    @endif
+
                     <div class="row align-items-center justify-content-center px-3 ">
                         <div class="col-lg-6 col-md-6 col-sm-12 text-left input-group">
                             <div class="input-group-prepend">
@@ -84,10 +57,10 @@
             <div class="col-lg-12">
                 <div class="card card-body my-1 pt-3 pb-0">
                     <div class="row">
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
-                                <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
-                                    value="Oil Custom" id="category" disabled>
+                                <input class="floating-input form-control" type="text" name="nama_product"
+                                    value="Oli Custon" id="category" disabled>
                                 <label>Category</label>
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" name="kategori" id="kategori"
@@ -95,42 +68,56 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
-                                <select class="floating-input form-control form-select input"name="ukuran_kapasitas"
+                                <input type="text" class="floating-input form-control" name="kd_manhour" id="kd_manhour"
+                                    readonly>
+                                <label>Kode Man Hour</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="floating-label form-group">
+                                <select class="floating-input form-control form-select input" name="ukuran_kapasitas"
                                     id="ukuran_kapasitas">
+                                    <option value="" disabled selected>Pilih</option>
                                     @php
                                         $selectedValue = old('ukuran_kapasitas');
                                         $manhourData = $manhour
-                                            ->where('id_kategori_produk', '2')
+                                            ->where('nama_kategoriproduk', 'Oli Custom')
                                             ->unique('ukuran_kapasitas');
                                     @endphp
-                                    <option value="">Pilih</option>
                                     @foreach ($manhourData as $data)
+                                        @php
+                                            $kapasitasFiltered = $kapasitas
+                                                ->where('ukuran_kapasitas', $data->ukuran_kapasitas)
+                                                ->first();
+                                        @endphp
                                         <option value="{{ $data->ukuran_kapasitas }}"
+                                            data-id="{{ optional($kapasitasFiltered)->id }}"
                                             {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
-                                            {{ $data->ukuran_kapasitas }}
+                                            {{ $data->ukuran_kapasitas }} - {{ optional($kapasitasFiltered)->id }}
                                         </option>
                                     @endforeach
                                 </select>
                                 <label>Capacity</label>
                             </div>
+
                         </div>
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nomor_so"
-                                    value="{{ old('nomor_so') }}" id="so">
+                                    value="{{ old('nomor_so') }}" id="so"
+                                    oninput="this.value = this.value.toUpperCase()">
                                 <label>SO / No. Prospek</label>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-sm-6">
+                        <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="id_fg"
                                     value="{{ old('id_fg') }}" id="fg">
                                 <label>Kode Finish Good</label>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -162,8 +149,8 @@
                                         <tr !important>
                                             <td>
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="hour_coil_lv" name="hour_coil_lv" value="{{ old('hour_coil_lv') }}"
-                                                    readonly>
+                                                    id="hour_coil_lv" name="hour_coil_lv"
+                                                    value="{{ old('hour_coil_lv') }}" readonly>
                                             </td>
                                             <td class="w-30">
                                                 <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
@@ -171,7 +158,7 @@
                                             <td class="w-50">
                                                 <select
                                                     class="form-control form-select input border border-dark rounded text-center multiple1"
-                                                    style="height: 33px;" name="coil_lv" id="coil_lv" multiple>
+                                                    style="height: 33px;" name="coil_lv[]" id="coil_lv" multiple>
                                                 </select>
                                             </td>
                                         </tr>
@@ -267,13 +254,14 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="connection" id="connection">
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center multiple3"
+                                                    style="height: 33px;"name="connection[]" id="connection" multiple>
 
                                                 </select>
                                             </td>
                                         </tr>
-                                        <tr !important>
+                                        {{-- <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
                                                     id="hour_hv_connection" name="hour_hv_connection"
@@ -289,12 +277,17 @@
 
                                                 </select>
                                             </td>
-                                        </tr>
+                                        </tr> --}}
 
                                     </table>
                                 </div>
                             </div>
                         </div>
+
+
+
+                    </div>
+                    <div class="col-lg-6" style="padding-left: 5px">
                         <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
                                 <div class="row align-items-center">
@@ -317,33 +310,34 @@
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="hour_final" name="hour_final"
-                                                    value="{{ old('hour_final') }}" readonly>
+                                                    id="hour_final_assy" name="hour_final_assy"
+                                                    value="{{ old('hour_final_assy') }}" readonly>
+
                                             </td>
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Final
-                                                </h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Final Assembly</h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="final" id="final">
+                                                <select class=" form-control multiple3" style="width:100%;"
+                                                    name="final_assy[]" id="final_assy" multiple>
 
                                                 </select>
                                             </td>
                                         </tr>
                                         <tr !important>
-                                            <td class="">
+                                            <td class="20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="hour_final_assy" name="hour_final_assy" value="{{ old('hour_final_assy') }}"
-                                                    readonly>
+                                                    id="hour_special_assembly" name="hour_special_assembly"
+                                                    value="{{ old('hour_special_assembly') }}" readonly>
 
                                             </td>
-                                            <td>
-                                                <h6 class=" border border-dark rounded p-1 text-center">Final Assembly</h6>
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center ">Special Assembly
+                                                </h6>
                                             </td>
-                                            <td>
-                                                <select class=" form-control multiple3" style="width:100%;"
-                                                    name="final_assy[]" id="final_assy" multiple>
+                                            <td class="w-50">
+                                                <select class=" form-control multiple4" style="width:100%;"
+                                                    name="special_assembly[]" id="special_assembly" multiple>
 
                                                 </select>
                                             </td>
@@ -352,138 +346,117 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- <div class="card card-body my-1 py-1"> --}}
+                        {{-- <div style="padding: 5px;"> --}}
+                        {{-- <div class="row align-items-center">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">SPECIAL ASSEMBLY</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_SpecialFinalAssembly" name="totalHour_SpecialFinalAssembly"
+                                                value="{{ old('totalHour_SpecialFinalAssembly') }}" readonly>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
 
-
-                    </div>
-                    <div class="col-lg-6" style="padding-left: 5px">
+                                    </table>
+                                </div> --}}
+                        {{-- </div> --}}
+                        {{-- </div> --}}
+                        {{-- <div class="card card-body my-1 py-1"> --}}
+                        {{-- <div style="padding: 5px;"> --}}
                         <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
-                                {{-- <div class="card card-body my-1 py-1"> --}}
-                                    {{-- <div style="padding: 5px;"> --}}
-                                        <div class="row align-items-center">
-                                            <div class="input-group input-group-md justify-content-center">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">SPECIAL ASSEMBLY</span>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <input type="text" class="input-group-text bg-warning"
-                                                        style="width: 3rem" id="totalHour_SpecialFinalAssembly"
-                                                        name="totalHour_SpecialFinalAssembly"
-                                                        value="{{ old('totalHour_SpecialFinalAssembly') }}" readonly>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">HOUR</span>
-                                                </div>
-                                            </div>
+                                <div class="row align-items-center">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">FINISHING</span>
                                         </div>
-                                        <div class="align-items-center justify-content-left pt-1 px-1">
-                                            <table class="w-100">
-                                                <tr !important>
-                                                    <td class="">
-                                                        <input class="border border-dark rounded text-center"
-                                                            style="width:100%;" id="hour_special_assembly" name="hour_special_assembly"
-                                                            value="{{ old('hour_special_assembly') }}" readonly>
-
-                                                    </td>
-                                                    <td class="w-30">
-                                                        <h6 class=" border border-dark rounded p-1 text-center ">Special Assembly</h6>
-                                                    </td>
-                                                    <td class="w-50">
-                                                        <select class=" form-control multiple4" style="width:100%;"
-                                                            name="special_assembly[]" id="special_assembly" multiple>
-
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_Finishing" name="totalHour_Finishing"
+                                                value="{{ old('totalHour_Finishing') }}" readonly>
                                         </div>
-                                    {{-- </div> --}}
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td class="w-20">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_finishing" name="hour_finishing"
+                                                    value="{{ old('hour_finishing') }}" readonly>
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Finishing</h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select class=" form-control multiple5" style="width:100%;"
+                                                    name="finishing[]" id="finishing" multiple>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                {{-- </div> --}}
                                 {{-- </div> --}}
                                 {{-- <div class="card card-body my-1 py-1"> --}}
-                                    {{-- <div style="padding: 5px;"> --}}
-                                        <div class="row align-items-center">
-                                            <div class="input-group input-group-md justify-content-center">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">FINISHING</span>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <input type="text" class="input-group-text bg-warning"
-                                                        style="width: 3rem" id="totalHour_Finishing"
-                                                        name="totalHour_Finishing"
-                                                        value="{{ old('totalHour_Finishing') }}" readonly>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">HOUR</span>
-                                                </div>
-                                            </div>
+                                {{-- <div style="padding: 5px;"> --}}
+                            </div>
+                        </div>
+                        <div class="card card-body my-1 py-1">
+                            <div style="padding: 5px;">
+                                <div class="row align-items-center ">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">QC TESTING</span>
                                         </div>
-                                        <div class="align-items-center justify-content-left pt-1 px-1">
-                                            <table class="w-100">
-                                                <tr !important>
-                                                    <td class="">
-                                                        <input class="border border-dark rounded text-center"
-                                                            style="width:100%;" id="hour_finishing" name="hour_finishing"
-                                                            value="{{ old('hour_finishing') }}" readonly>
-
-                                                    </td>
-                                                    <td class="w-30">
-                                                        <h6 class=" border border-dark rounded p-1 text-center">Finishing</h6>
-                                                    </td>
-                                                    <td class="w-50">
-                                                        <select class=" form-control multiple5" style="width:100%;"
-                                                            name="finishing[]" id="finishing" multiple>
-
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </table>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_QCTest" name="totalHour_QCTest"
+                                                value="{{ old('totalHour_QCTest') }}" readonly>
                                         </div>
-                                    {{-- </div> --}}
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td class="w-20">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_qc_testing" name="hour_qc_testing"
+                                                    value="{{ old('hour_qc_testing') }}" readonly>
+
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class="border border-dark rounded p-1 text-center">Routine Test
+                                                </h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center multiple6"
+                                                    style="margin-bottom: 0rem" name="qc_testing[]" id="qc_testing"
+                                                    multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+
                                 {{-- </div> --}}
-                                {{-- <div class="card card-body my-1 py-1"> --}}
-                                    {{-- <div style="padding: 5px;"> --}}
-                                        <div class="row align-items-center ">
-                                            <div class="input-group input-group-md justify-content-center">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">QC TESTING</span>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <input type="text" class="input-group-text bg-warning"
-                                                        style="width: 3rem" id="totalHour_QCTest" name="totalHour_QCTest"
-                                                        value="{{ old('totalHour_QCTest') }}" readonly>
-                                                </div>
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">HOUR</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="align-items-center justify-content-left pt-1 px-1">
-                                            <table class="w-100">
-                                                <tr !important>
-                                                    <td class="w-20">
-                                                        <input class="border border-dark rounded text-center"
-                                                            style="width:100%;" id="hour_qc_testing"
-                                                            name="hour_qc_testing" value="{{ old('hour_qc_testing') }}"
-                                                            readonly>
-
-                                                    </td>
-                                                    <td class="w-30">
-                                                        <h6 class="border border-dark rounded p-1 text-center">Routine Test
-                                                        </h6>
-                                                    </td>
-                                                    <td class="w-50">
-                                                        <select
-                                                            class=" form-control border border-dark rounded text-center multiple6"
-                                                            style="margin-bottom: 0rem" name="qc_testing[]"
-                                                            id="qc_testing" multiple>
-
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-
-                                    {{-- </div> --}}
                                 {{-- </div> --}}
                             </div>
                         </div>
@@ -517,7 +490,7 @@
                                             <td style="width:10%">
                                                 <p class="  p-2 pb-0"
                                                     style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="selectedInfo_coil_lv">
+                                                    id="hour_coil_lv">
                                                     0</p>
                                             </td>
                                             <td style=" width:40%">
@@ -537,7 +510,7 @@
                                             <td style="width:10%">
                                                 <p class="  p-2 pb-0"
                                                     style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="selectedInfo_coil_lv_plus">
+                                                    id="hour_coil_lv_plus">
                                                     0</p>
                                             </td>
                                             <td style=" width:40%">
@@ -557,7 +530,7 @@
                                             <td style="width:10%">
                                                 <p class="  p-2 pb-0"
                                                     style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="selectedInfo_coil_hv">
+                                                    id="hour_coil_hv">
                                                     0</p>
                                             </td>
                                             <td style=" width:40%">
@@ -577,7 +550,7 @@
                                             <td style="width:10%">
                                                 <p class="  p-2 pb-0"
                                                     style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="selectedInfo_coil_hv_plus">
+                                                    id="hour_coil_hv_plus">
                                                     0</p>
                                             </td>
                                             <td style=" width:40%">
@@ -1132,19 +1105,18 @@
             </div>
         </div> --}}
     </form>
-    {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             function fillSelect(elementId, data, selectedProses, selectedWorkcenter) {
                 var filteredData = data.filter(function(item) {
                     return (
-                        item.nama_kategoriproduk === 'TRANSFORMATOR OIL CUSTOMIZE' &&
+                        item.nama_kategoriproduk === 'Oli Custom' &&
                         item.nama_workcenter === selectedWorkcenter &&
                         item.nama_proses === selectedProses
                     );
                 });
                 $(elementId).empty();
-                $(elementId).append('<option value="">-Pilih-</option>');
+                // $(elementId).append('<option value="">-Pilih-</option>');
                 $.each(filteredData, function(key, data) {
                     $(elementId).append(
                         '<option value="' + data.nama_tipeproses + '" data-durasi="' + data
@@ -1159,7 +1131,7 @@
                 var ukuran_kapasitas = $(this).val();
                 if (ukuran_kapasitas) {
                     $.ajax({
-                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' +
+                        url: '/standardized_work/Create-Data/Oil-Custom/kapasitas/' +
                             ukuran_kapasitas,
                         type: 'GET',
                         data: {
@@ -1170,25 +1142,20 @@
                             if (data) {
                                 fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
                                 fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
-                                fillSelect('#cca', data, 'CORE COIL ASSEMBLY',
-                                    'CORE COIL ASSEMBLY');
+                                fillSelect('#cca', data, 'CORE-COIL ASSEMBLY',
+                                    'CORE & COIL ASSEMBLY');
                                 fillSelect('#connection', data, 'CONNECTION',
-                                    'CONNECT');
-                                fillSelect('#hv_connection', data, 'FINAL',
+                                    'CONNECTION');
+                                fillSelect('#final_assy', data, 'FINAL ASSY',
                                     'FINAL ASSEMBLY');
-                                fillSelect('#final', data, 'FINAL ASSEMBLY',
+                                fillSelect('#special_assembly', data,
+                                    'SPECIAL ASSEMBLY FOR FINAL ASSY',
                                     'FINAL ASSEMBLY');
-                                fillSelect('#final_assy', data, 'HV CONNECTION',
-                                    'CORE COIL ASSEMBLY');
-                                fillSelect('#special_assembly', data, 'SPECIAL ASSEMBLY',
-                                    'SPECIAL ASSEMBLY');
                                 fillSelect('#finishing', data, 'FINISHING', 'FINISHING');
-                                fillSelect('#qc_testing', data, 'QC TESTING',
-                                    'QC TEST');
-
-
+                                fillSelect('#qc_testing', data, 'QC',
+                                    'QC');
                                 $('#coil_lv').on('change', function() {
-                                    showSelected('z');
+                                    showSelected('coil_lv');
                                 });
                                 $('#coil_hv').on('change', function() {
                                     showSelected('coil_hv');
@@ -1198,13 +1165,6 @@
                                 });
                                 $('#connection').on('change', function() {
                                     showSelected('connection');
-                                });
-                                $('#hv_connection').on('change', function() {
-                                    showSelected('hv_connection');
-                                });
-
-                                $('#final').on('change', function() {
-                                    showSelected('final');
                                 });
                                 $('#final_assy').on('change', function() {
                                     showSelected('final_assy');
@@ -1218,7 +1178,6 @@
                                 $('#qc_testing').on('change', function() {
                                     showSelected('qc_testing');
                                 });
-
                             } else {
                                 resetForm();
                             }
@@ -1254,8 +1213,8 @@
                 let selectedDurasi = selectedOption.getAttribute('data-durasi');
                 totalDurasi += parseFloat(selectedDurasi || 0);
             });
-            let selectedInfo = document.getElementById("selectedInfo_" + target);
-            selectedInfo.textContent = " " + totalDurasi;
+            let hour = document.getElementById("hour_" + target);
+            hour.value = totalDurasi;
         }
 
         function displayTotalJamCoilMaking() {
@@ -1279,11 +1238,11 @@
             });
             let totalJamElement = document.getElementById("totalHour_coil_making");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
 
-        function displayTotalJamCCA() {
+        function displayTotalJamConnection() {
             let selectElements = document.querySelectorAll('select');
             let totalJam = 0;
             let workcenterInfo = {};
@@ -1292,32 +1251,7 @@
                 selectedOptions.forEach(function(selectedOption) {
                     let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
                     let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-                    if (workCenterAttr === 'CORE COIL ASSEMBLY') {
-                        totalJam += durasi;
-                        if (!workcenterInfo[workCenterAttr]) {
-                            workcenterInfo[workCenterAttr] = durasi;
-                        } else {
-                            workcenterInfo[workCenterAttr] += durasi;
-                        }
-                    }
-                });
-            });
-            let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
-            if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
-            }
-        }
-
-        function displayTotalJamConnect() {
-            let selectElements = document.querySelectorAll('select');
-            let totalJam = 0;
-            let workcenterInfo = {};
-            selectElements.forEach(function(select) {
-                let selectedOptions = Array.from(select.selectedOptions);
-                selectedOptions.forEach(function(selectedOption) {
-                    let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
-                    let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-                    if (workCenterAttr === 'CONNECT') {
+                    if (workCenterAttr === 'CONNECTION') {
                         totalJam += durasi;
                         if (!workcenterInfo[workCenterAttr]) {
                             workcenterInfo[workCenterAttr] = durasi;
@@ -1329,9 +1263,10 @@
             });
             let totalJamElement = document.getElementById("totalHour_Conect");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
+
         function displayTotalJamFinalAssembly() {
             let selectElements = document.querySelectorAll('select');
             let totalJam = 0;
@@ -1353,9 +1288,10 @@
             });
             let totalJamElement = document.getElementById("totalHour_FinalAssembly");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
+
         function displayTotalJamFinishing() {
             let selectElements = document.querySelectorAll('select');
             let totalJam = 0;
@@ -1377,7 +1313,33 @@
             });
             let totalJamElement = document.getElementById("totalHour_Finishing");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
+            }
+        }
+
+
+        function displayTotalJamCoreCoilAssembly() {
+            let selectElements = document.querySelectorAll('select');
+            let totalJam = 0;
+            let workcenterInfo = {};
+            selectElements.forEach(function(select) {
+                let selectedOptions = Array.from(select.selectedOptions);
+                selectedOptions.forEach(function(selectedOption) {
+                    let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
+                    let workCenterAttr = selectedOption.getAttribute('data-workcenter');
+                    if (workCenterAttr === 'CORE & COIL ASSEMBLY') {
+                        totalJam += durasi;
+                        if (!workcenterInfo[workCenterAttr]) {
+                            workcenterInfo[workCenterAttr] = durasi;
+                        } else {
+                            workcenterInfo[workCenterAttr] += durasi;
+                        }
+                    }
+                });
+            });
+            let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
+            if (totalJamElement) {
+                totalJamElement.value = totalJam;
             }
         }
 
@@ -1390,7 +1352,7 @@
                 selectedOptions.forEach(function(selectedOption) {
                     let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
                     let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-                    if (workCenterAttr === 'QC TEST') {
+                    if (workCenterAttr === 'QC') {
                         totalJam += durasi;
                         if (!workcenterInfo[workCenterAttr]) {
                             workcenterInfo[workCenterAttr] = durasi;
@@ -1402,7 +1364,7 @@
             });
             let totalJamElement = document.getElementById("totalHour_QCTest");
             if (totalJamElement) {
-                totalJamElement.textContent = totalJam;
+                totalJamElement.value = totalJam;
             }
         }
         document.querySelectorAll('select').forEach(function(select) {
@@ -1411,60 +1373,309 @@
                 let workCenter = selectedOption.getAttribute('data-workcenter');
                 if (workCenter === 'COIL MAKING') {
                     displayTotalJamCoilMaking();
-                } else if (workCenter === 'CORE COIL ASSEMBLY') {
-                    displayTotalJamCCA();
-                } else if (workCenter === 'CONNECT') {
-                    displayTotalJamConnect();
+                } else if (workCenter === 'CONNECTION') {
+                    displayTotalJamConnection();
                 } else if (workCenter === 'FINAL ASSEMBLY') {
                     displayTotalJamFinalAssembly();
-                } else if (workCenter === 'SPECIAL ASSEMBLY') {
-                    displayTotalJamSpecialAssembly();
+                } else if (workCenter === 'CORE & COIL ASSEMBLY') {
+                    displayTotalJamCoreCoilAssembly();
                 } else if (workCenter === 'FINISHING') {
                     displayTotalJamFinishing();
-                } else if (workCenter === 'QC TEST') {
+                } else if (workCenter === 'QC') {
                     displayTotalJamQCTest();
                 }
+            });
+        });
+        // function showSelected(target) {
+        //     let selectElements = document.querySelectorAll('select');
+        //     let totalManhour = 0;
+        //     selectElements.forEach(function(select) {
+        //         let selectedOptions = Array.from(select.selectedOptions);
+        //         selectedOptions.forEach(function(selectedOption) {
+        //             let durasi = selectedOption.getAttribute('data-durasi');
+        //             totalManhour += parseFloat(durasi || 0);
+        //         });
+        //     });
+        //     let totalHourInput = document.getElementById('total_hour');
+        //     totalHourInput.value = totalManhour;
+        //     let select = document.getElementById(target);
+        //     let selectedOptions = Array.from(select.selectedOptions);
+        //     let totalDurasi = 0;
+        //     selectedOptions.forEach(function(selectedOption) {
+        //         let selectedDurasi = selectedOption.getAttribute('data-durasi');
+        //         totalDurasi += parseFloat(selectedDurasi || 0);
+        //     });
+        //     let hour = document.getElementById("hour_" + target);
+        //     hour.textContent = " " + totalDurasi;
+        // }
+
+        // function displayTotalJamCoilMaking() {
+        //     let selectElements = document.querySelectorAll('select');
+        //     let totalJam = 0;
+        //     let workcenterInfo = {};
+        //     selectElements.forEach(function(select) {
+        //         let selectedOptions = Array.from(select.selectedOptions);
+        //         selectedOptions.forEach(function(selectedOption) {
+        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
+        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
+        //             if (workCenterAttr === 'COIL MAKING') {
+        //                 totalJam += durasi;
+        //                 if (!workcenterInfo[workCenterAttr]) {
+        //                     workcenterInfo[workCenterAttr] = durasi;
+        //                 } else {
+        //                     workcenterInfo[workCenterAttr] += durasi;
+        //                 }
+        //             }
+        //         });
+        //     });
+        //     let totalJamElement = document.getElementById("totalHour_coil_making");
+        //     if (totalJamElement) {
+        //         totalJamElement.value = totalJam;
+        //     }
+        // }
+
+        // function displayTotalJamCCA() {
+        //     let selectElements = document.querySelectorAll('select');
+        //     let totalJam = 0;
+        //     let workcenterInfo = {};
+        //     selectElements.forEach(function(select) {
+        //         let selectedOptions = Array.from(select.selectedOptions);
+        //         selectedOptions.forEach(function(selectedOption) {
+        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
+        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
+        //             if (workCenterAttr === 'CORE COIL ASSEMBLY') {
+        //                 totalJam += durasi;
+        //                 if (!workcenterInfo[workCenterAttr]) {
+        //                     workcenterInfo[workCenterAttr] = durasi;
+        //                 } else {
+        //                     workcenterInfo[workCenterAttr] += durasi;
+        //                 }
+        //             }
+        //         });
+        //     });
+        //     let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
+        //     if (totalJamElement) {
+        //         totalJamElement.textContent = totalJam;
+        //     }
+        // }
+
+        // function displayTotalJamConnect() {
+        //     let selectElements = document.querySelectorAll('select');
+        //     let totalJam = 0;
+        //     let workcenterInfo = {};
+        //     selectElements.forEach(function(select) {
+        //         let selectedOptions = Array.from(select.selectedOptions);
+        //         selectedOptions.forEach(function(selectedOption) {
+        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
+        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
+        //             if (workCenterAttr === 'CONNECT') {
+        //                 totalJam += durasi;
+        //                 if (!workcenterInfo[workCenterAttr]) {
+        //                     workcenterInfo[workCenterAttr] = durasi;
+        //                 } else {
+        //                     workcenterInfo[workCenterAttr] += durasi;
+        //                 }
+        //             }
+        //         });
+        //     });
+        //     let totalJamElement = document.getElementById("totalHour_Conect");
+        //     if (totalJamElement) {
+        //         totalJamElement.textContent = totalJam;
+        //     }
+        // }
+
+        // function displayTotalJamFinalAssembly() {
+        //     let selectElements = document.querySelectorAll('select');
+        //     let totalJam = 0;
+        //     let workcenterInfo = {};
+        //     selectElements.forEach(function(select) {
+        //         let selectedOptions = Array.from(select.selectedOptions);
+        //         selectedOptions.forEach(function(selectedOption) {
+        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
+        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
+        //             if (workCenterAttr === 'FINAL ASSEMBLY') {
+        //                 totalJam += durasi;
+        //                 if (!workcenterInfo[workCenterAttr]) {
+        //                     workcenterInfo[workCenterAttr] = durasi;
+        //                 } else {
+        //                     workcenterInfo[workCenterAttr] += durasi;
+        //                 }
+        //             }
+        //         });
+        //     });
+        //     let totalJamElement = document.getElementById("totalHour_FinalAssembly");
+        //     if (totalJamElement) {
+        //         totalJamElement.textContent = totalJam;
+        //     }
+        // }
+
+        // function displayTotalJamFinishing() {
+        //     let selectElements = document.querySelectorAll('select');
+        //     let totalJam = 0;
+        //     let workcenterInfo = {};
+        //     selectElements.forEach(function(select) {
+        //         let selectedOptions = Array.from(select.selectedOptions);
+        //         selectedOptions.forEach(function(selectedOption) {
+        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
+        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
+        //             if (workCenterAttr === 'FINISHING') {
+        //                 totalJam += durasi;
+        //                 if (!workcenterInfo[workCenterAttr]) {
+        //                     workcenterInfo[workCenterAttr] = durasi;
+        //                 } else {
+        //                     workcenterInfo[workCenterAttr] += durasi;
+        //                 }
+        //             }
+        //         });
+        //     });
+        //     let totalJamElement = document.getElementById("totalHour_Finishing");
+        //     if (totalJamElement) {
+        //         totalJamElement.textContent = totalJam;
+        //     }
+        // }
+
+        // function displayTotalJamQCTest() {
+        //     let selectElements = document.querySelectorAll('select');
+        //     let totalJam = 0;
+        //     let workcenterInfo = {};
+        //     selectElements.forEach(function(select) {
+        //         let selectedOptions = Array.from(select.selectedOptions);
+        //         selectedOptions.forEach(function(selectedOption) {
+        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
+        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
+        //             if (workCenterAttr === 'QC TEST') {
+        //                 totalJam += durasi;
+        //                 if (!workcenterInfo[workCenterAttr]) {
+        //                     workcenterInfo[workCenterAttr] = durasi;
+        //                 } else {
+        //                     workcenterInfo[workCenterAttr] += durasi;
+        //                 }
+        //             }
+        //         });
+        //     });
+        //     let totalJamElement = document.getElementById("totalHour_QCTest");
+        //     if (totalJamElement) {
+        //         totalJamElement.textContent = totalJam;
+        //     }
+        // }
+        // document.querySelectorAll('select').forEach(function(select) {
+        //     select.addEventListener('change', function() {
+        //         let selectedOption = select.options[select.selectedIndex];
+        //         let workCenter = selectedOption.getAttribute('data-workcenter');
+        //         if (workCenter === 'COIL MAKING') {
+        //             displayTotalJamCoilMaking();
+        //         } else if (workCenter === 'CORE COIL ASSEMBLY') {
+        //             displayTotalJamCCA();
+        //         } else if (workCenter === 'CONNECT') {
+        //             displayTotalJamConnect();
+        //         } else if (workCenter === 'FINAL ASSEMBLY') {
+        //             displayTotalJamFinalAssembly();
+        //         } else if (workCenter === 'SPECIAL ASSEMBLY') {
+        //             displayTotalJamSpecialAssembly();
+        //         } else if (workCenter === 'FINISHING') {
+        //             displayTotalJamFinishing();
+        //         } else if (workCenter === 'QC TEST') {
+        //             displayTotalJamQCTest();
+        //         }
+        //     });
+        // });
+        document.addEventListener('DOMContentLoaded', function() {
+            function generateKdManhour() {
+                var kategori = document.getElementById('kategori').value;
+                var nomor_so = document.getElementById('so').value.toUpperCase();
+                var selectedOption = document.getElementById('ukuran_kapasitas').options[document.getElementById(
+                    'ukuran_kapasitas').selectedIndex];
+                var kapasitasId = selectedOption.getAttribute('data-id');
+                var nomorSo = nomor_so.replace(/[\/-]/g, '');
+
+                nomorSo = nomorSo.slice(0, 10);
+
+                var remainingLength = 14 - (kategori.length + String(kapasitasId).length);
+
+                nomorSo = nomorSo.slice(0, remainingLength);
+
+                var kapasitasIdString = String(kapasitasId).padStart(3, '0').slice(-3);
+                var nomorSoString = nomorSo.padEnd(10, '0');
+                var kdManhour = kategori + kapasitasIdString + nomorSoString;
+
+                return kdManhour;
+            }
+            document.getElementById('kd_manhour').value = generateKdManhour();
+
+            document.getElementById('kategori').addEventListener('change', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
+            });
+
+            document.getElementById('ukuran_kapasitas').addEventListener('change', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
+            });
+
+            document.getElementById('so').addEventListener('input', function() {
+                document.getElementById('kd_manhour').value = generateKdManhour();
             });
         });
     </script>
     <script>
         $(document).ready(function() {
+            // Fungsi untuk menampilkan total jam
+            function displayTotalJam(selector, displayFunction) {
+                $(selector).select2({
+                    placeholder: 'Pilih',
+                    width: '100%',
+                    allowClear: true,
+                    maximumSelectionLength: Infinity
+                }).on('change', displayFunction);
+            }
+
+            // Daftar kelas selector dan fungsi tampilan total jam yang sesuai
+            var selectors = [".multiple1", ".multiple2", ".multiple3", ".multiple4", ".multiple5", ".multiple6"];
+            var displayFunctions = [displayTotalJamCoilMaking, displayTotalJamCoreCoilAssembly, displayTotalJamConnection, displayTotalJamFinalAssembly, displayTotalJamFinishing, displayTotalJamQCTest];
+
+            // Pengaturan Select2 untuk setiap elemen
+            $.each(selectors, function(index, selector) {
+                displayTotalJam(selector, displayFunctions[index]);
+            });
+        });
+    </script>
+
+    {{-- <script>
+        $(document).ready(function() {
             $(".multiple1").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
+                allowClear: true,
+                maximumSelectionLength: Infinity
             }).on('change', displayTotalJamCoilMaking);
             $(".multiple2").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
-            }).on('change', displayTotalJamCCA);
+                allowClear: true,
+                maximumSelectionLength: Infinity
+            }).on('change', displayTotalJamCoreCoilAssembly);
             $(".multiple3").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
-            }).on('change', displayTotalJamConnect);
+                allowClear: true,
+                maximumSelectionLength: Infinity
+            }).on('change', displayTotalJamConnection);
             $(".multiple4").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
+                allowClear: true,
+                maximumSelectionLength: Infinity
             }).on('change', displayTotalJamFinalAssembly);
             $(".multiple5").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
+                allowClear: true,
+                maximumSelectionLength: Infinity
             }).on('change', displayTotalJamFinishing);
             $(".multiple6").select2({
                 placeholder: 'Pilih',
                 width: '100%',
-                dropdownAutoWidth: true,
-                allowClear: true
+                allowClear: true,
+                maximumSelectionLength: Infinity
             }).on('change', displayTotalJamQCTest);
         });
-    </script>
+    </script> --}}
 @endsection

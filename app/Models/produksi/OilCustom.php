@@ -49,10 +49,10 @@ class OilCustom extends Model
         'hour_qc_testing',
     ];
 
-    public function man_hour(): BelongsTo
-    {
-        return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
-    }
+    // public function man_hour(): BelongsTo
+    // {
+    //     return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
+    // }
 
     public static function boot()
     {
@@ -60,21 +60,14 @@ class OilCustom extends Model
 
         static::created(function ($oil_custom) {
             StandardizeWork::create([
-                'id_oil_custom' => $oil_custom->id,
-                'nama_product' => 'Oil Custom',
-            ]);
-        });
-
-        self::creating(function ($oil_custom) {
-            $nomorSo = $oil_custom->nomor_so;
-            $kategori = $oil_custom->kategori;
-            $ukuranKapasitas = $oil_custom->ukuran_kapasitas;
-
-            $nomorSo = str_replace(['/', '-'], '', $nomorSo);
-
-            $kdManhour = $kategori . '' .  $ukuranKapasitas . '' . $nomorSo;
-
-            $oil_custom->kd_manhour = $kdManhour;
+            'id_oil_standard' => $oil_custom->id,
+            'total_hour' => $oil_custom->total_hour,
+            'id_fg' => $oil_custom->id_fg,
+            'kd_manhour' => $oil_custom->kd_manhour,
+            'nomor_so' => $oil_custom->nomor_so,
+            'ukuran_kapasitas' => $oil_custom->ukuran_kapasitas,
+            'nama_product' => 'Oil Standard',
+        ]);
         });
     }
 }

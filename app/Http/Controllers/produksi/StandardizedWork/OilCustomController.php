@@ -5,6 +5,7 @@ namespace App\Http\Controllers\produksi\StandardizedWork;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\produksi\ManHourOilCustom;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
 use App\Models\produksi\OilCustom;
@@ -18,8 +19,9 @@ class OilCustomController extends Controller
     {
 
         $title = 'Form Oil Custom';
-        $manhour = Manhour::all();
+        $manhour = ManHourOilCustom::all();
         $kapasitas = Kapasitas::all();
+        // dd($manhour);
 
         return response(view('produksi.standardized_work.form.formoilcustom', ['manhour' => $manhour, 'kapasitas' => $kapasitas, 'title' => $title]));
 
@@ -27,7 +29,7 @@ class OilCustomController extends Controller
 
     public function createManhour($id)
     {
-        $manhour = ManHour::where('ukuran_kapasitas', $id)->get();
+        $manhour = ManHourOilCustom::where('ukuran_kapasitas', $id)->get();
 
         return response()->json($manhour);
     }
@@ -54,27 +56,5 @@ class OilCustomController extends Controller
         return redirect(route('home'))->with('success', 'Added!');
     }
 
-    public function edit(string $id): Response
-    {
-        $product = OilCustom::findOrFail($id);
-        $manhour = ManHour::orderBy('id')->get();
 
-
-
-        return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductRequest $request, string $id): RedirectResponse
-    {
-        $product = OilCustom::findOrFail($id);
-        $params = $request->validated();
-
-        if ($product->update($params)) {
-
-            return redirect(route('home'))->with('success', 'Updated!');
-        }
-    }
 }

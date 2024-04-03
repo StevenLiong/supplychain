@@ -131,6 +131,8 @@ class DatabaseSeeder extends Seeder
         $this->call(Compatibility_Mesin::class);
         $this->call(ManHourSeeder::class);
         $this->call(ManHourDrynonresin::class);
+        $this->call(ManHourOilstandard::class);
+        $this->call(ManHourOilCustom::class);
 
     }
 }

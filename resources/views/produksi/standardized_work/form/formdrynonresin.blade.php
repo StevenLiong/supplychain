@@ -1,30 +1,22 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
-    <style>
-        label {
-            font-weight: bold;
-        }
-
-        .col-lg-6 {
-            padding: 2;
-        }
-
-        td {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
-
-        tr {
-            padding-bottom: 0px;
-        }
-
-        .label {
-            margin-bottom: 0px;
-        }
-    </style>
     <h5 class="text-center text-sm-center text-xs-center my-1 header-title card-title" style="font-size: 30px;color:#d02424;">
         <b>PERHITUNGAN MAN HOUR</b>
     </h5>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form class="login-content floating-label " method="post" action="{{ route('store.drynonresin') }}">
         @csrf
         <div class="row px-2">
@@ -134,7 +126,7 @@
                         <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
                                 <input class="floating-input form-control" type="text" placeholder="" name="nama_product"
-                                    value="Dry Cast Resin" id="category" disabled>
+                                    value="Dry Non Resin" id="category" disabled>
                                 <label>Category</label>
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" name="kategori" id="kategori"
@@ -393,7 +385,7 @@
 
                                             </td>
                                             <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">Routine Test</h6>
+                                                <h6 class="border border-dark rounded p-1 text-center">QC Testing</h6>
                                             </td>
                                             <td class="w-50">
                                                 <select
@@ -1031,19 +1023,137 @@
                     );
                 });
             }
-            $('#ukuran_kapasitas').on('change', function() {
-                var ukuran_kapasitas = $(this).val();
+            // $('#ukuran_kapasitas').on('change', function() {
+            //     var ukuran_kapasitas = $(this).val();
+            //     if (ukuran_kapasitas) {
+            //         $.ajax({
+            //             url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' +
+            //                 ukuran_kapasitas,
+            //             type: 'GET',
+            //             data: {
+            //                 '_token': '{{ csrf_token() }}'
+            //             },
+            //             dataType: 'json',
+            //             success: function(data) {
+            //                 if (data) {
+            //                     fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
+            //                     fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
+            //                     fillSelect('#potong_leadwire', data, 'POTONG LEAD WIRE',
+            //                         'COIL MAKING');
+            //                     fillSelect('#potong_isolasi', data, 'POTONG ISOLASI',
+            //                         'COIL MAKING');
+            //                     fillSelect('#moulding_casting', data, 'MOULD & CASTING',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#oven', data, 'OVEN',
+            //                         'MOULD & CASTING');
+            //                     fillSelect('#type_susun_core', data, 'TYPE SUSUN CORE',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#hv_connection', data, 'HV CONNECTION TYPE',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#lv_connection', data, 'LV CONNECTION TYPE',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#wiring', data, 'WIRING', 'CORE & ASSEMBLY');
+            //                     fillSelect('#instal_housing', data, 'INSTAL HOUSING',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#bongkar_housing', data, 'BONGKAR HOUSING',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#pembuatan_cu_link', data, 'PEMBUATAN CU LINK',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#others', data, 'OTHERS', 'CORE & ASSEMBLY');
+            //                     fillSelect('#accesories', data, 'ACCESSORIES',
+            //                         'CORE & ASSEMBLY');
+            //                     fillSelect('#potong_isolasi_fiber', data,
+            //                         'POTONG ISOLASI FIBER', 'CORE & ASSEMBLY');
+            //                     fillSelect('#qc_testing', data, 'QC',
+            //                         'QC');
+            //                     $('#coil_lv').on('change', function() {
+            //                         showSelected('coil_lv');
+            //                     });
+            //                     $('#coil_hv').on('change', function() {
+            //                         showSelected('coil_hv');
+            //                     });
+            //                     $('#potong_leadwire').on('change', function() {
+            //                         showSelected('potong_leadwire');
+            //                     });
+            //                     $('#potong_isolasi').on('change', function() {
+            //                         showSelected('potong_isolasi');
+            //                     });
+            //                     $('#moulding_casting').on('change', function() {
+            //                         showSelected('moulding_casting');
+            //                     });
+            //                     $('#oven').on('change', function() {
+            //                         showSelected('oven');
+            //                     });
+            //                     $('#type_susun_core').on('change', function() {
+            //                         showSelected('type_susun_core');
+            //                     });
+            //                     $('#hv_connection').on('change', function() {
+            //                         showSelected('hv_connection');
+            //                     });
+            //                     $('#lv_connection').on('change', function() {
+            //                         showSelected('lv_connection');
+            //                     });
+            //                     $('#wiring').on('change', function() {
+            //                         showSelected('wiring');
+            //                     });
+            //                     $('#instal_housing').on('change', function() {
+            //                         showSelected('instal_housing');
+            //                     });
+            //                     $('#bongkar_housing').on('change', function() {
+            //                         showSelected('bongkar_housing');
+            //                     });
+            //                     $('#pembuatan_cu_link').on('change', function() {
+            //                         showSelected('pembuatan_cu_link');
+            //                     });
+            //                     $('#others').on('change', function() {
+            //                         showSelected('others');
+            //                     });
+            //                     $('#accesories').on('change', function() {
+            //                         showSelected('accesories');
+            //                     });
+            //                     $('#potong_isolasi_fiber').on('change', function() {
+            //                         showSelected('potong_isolasi_fiber');
+            //                     });
+            //                     $('#qc_testing').on('change', function() {
+            //                         showSelected('qc_testing');
+            //                     });
+            //                 } else {
+            //                     resetForm();
+            //                 }
+            //             },
+            //             error: function(xhr, status, error) {
+            //                 alert(
+            //                     'Terjadi kesalahan saat mengambil data barang. Silakan coba lagi.'
+            //                 );
+            //             }
+            //         });
+            //     } else {
+            //         resetForm();
+            //     }
+            // });
+            var previousData; // Deklarasikan variabel previousData di luar fungsi
+
+            $(document).ready(function() {
+                loadData(); // Panggil fungsi loadData saat dokumen siap
+                $('#ukuran_kapasitas').on('change', function() {
+                    loadData(); // Panggil loadData saat perubahan terjadi pada select
+                });
+            });
+
+            function loadData() {
+                var ukuran_kapasitas = $('#ukuran_kapasitas').val();
                 if (ukuran_kapasitas) {
                     $.ajax({
-                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' +
-                            ukuran_kapasitas,
+                        url: '/standardized_work/Create-Data/Dry-Non-Resin/kapasitas/' + ukuran_kapasitas,
                         type: 'GET',
                         data: {
                             '_token': '{{ csrf_token() }}'
                         },
                         dataType: 'json',
                         success: function(data) {
+                            console.log(data);
                             if (data) {
+                                previousData = data; // Simpan data sebelumnya
                                 fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
                                 fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
                                 fillSelect('#potong_leadwire', data, 'POTONG LEAD WIRE',
@@ -1125,18 +1235,24 @@
                                 $('#qc_testing').on('change', function() {
                                     showSelected('qc_testing');
                                 });
-                            } else {
-                                resetForm();
                             }
                         },
                         error: function(xhr, status, error) {
-                            alert(
-                                'Terjadi kesalahan saat mengambil data barang. Silakan coba lagi.'
-                            );
+                            if (previousData) {}
                         }
                     });
-                } else {
-                    resetForm();
+                }
+            }
+
+            $('input[type="radio"][name="customRadio-11"]').change(function() {
+                if ($(this).val() === "Menggunakan Housing") {
+                    $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', false);
+                } else if ($(this).val() === "Tidak Menggunakan Housing") {
+                    $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', true);
+                    // Mengatur kembali ke tampilan "pilih" jika sebelumnya dipilih
+                    $('#instal_housing, #bongkar_housing, #wiring').prop('checked', false);
+                    $('#instal_housing, #bongkar_housing, #wiring, #hour_instal_housing, #hour_bongkar_housing, #hour_wiring')
+                        .val('');
                 }
             });
         });
@@ -1320,26 +1436,48 @@
                 placeholder: 'Pilih',
                 width: '100%',
                 dropdownAutoWidth: true,
-                allowClear: true
+                // allowClear: true
             }).on('change', displayTotalJamCoilMaking);
             $(".multiple2").select2({
                 placeholder: 'Pilih',
                 width: '100%',
                 dropdownAutoWidth: true,
-                allowClear: true
+                // allowClear: true
             }).on('change', displayTotalJamMouldCasting);
             $(".multiple3").select2({
                 placeholder: 'Pilih',
                 width: '100%',
                 dropdownAutoWidth: true,
-                allowClear: true
+                // allowClear: true
             }).on('change', displayTotalJamCoreCoilAssembly);
             $(".multiple4").select2({
                 placeholder: 'Pilih',
                 width: '100%',
                 dropdownAutoWidth: true,
-                allowClear: true
+                // allowClear: true
             }).on('change', displayTotalJamQCTest);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Fungsi untuk menampilkan total jam
+            function displayTotalJam(selector, displayFunction) {
+                $(selector).select2({
+                    placeholder: 'Pilih',
+                    width: '100%',
+                    allowClear: true,
+                    maximumSelectionLength: Infinity
+                }).on('change', displayFunction);
+            }
+
+            // Daftar kelas selector dan fungsi tampilan total jam yang sesuai
+            var selectors = [".multiple1", ".multiple2", ".multiple3", ".multiple4"];
+            var displayFunctions = [displayTotalJamCoilMaking, displayTotalJamMouldCasting, displayTotalJamCoreCoilAssembly, displayTotalJamQCTest];
+
+            // Pengaturan Select2 untuk setiap elemen
+            $.each(selectors, function(index, selector) {
+                displayTotalJam(selector, displayFunctions[index]);
+            });
         });
     </script>
     {{-- <script>

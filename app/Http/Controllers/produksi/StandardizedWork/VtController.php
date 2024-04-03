@@ -62,7 +62,7 @@ class VtController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, string $id): RedirectResponse
+    public function update( $request, string $id)
     {
         $product = Vt::findOrFail($id);
         $params = $request->validated();

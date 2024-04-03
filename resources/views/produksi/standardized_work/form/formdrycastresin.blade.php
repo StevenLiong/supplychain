@@ -1,28 +1,5 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
-    <style>
-        label {
-            font-weight: bold;
-        }
-
-        .col-lg-6 {
-            padding: 2;
-        }
-
-        td {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
-
-        tr {
-            padding-bottom: 0px;
-        }
-
-        .label {
-            margin-bottom: 0px;
-        }
-    </style>
-    {{-- <div style="margin-bottom:10px" !important> --}}
     <h5 class="text-center text-sm-center text-xs-center my-1 header-title card-title" style="font-size: 30px;color:#d02424;">
         <b>PERHITUNGAN MAN HOUR</b>
     </h5>
@@ -160,893 +137,463 @@
                 </div>
             </div>
         </div>
+        <div class="row px-2 mt-0"!important>
+            <div class="col-lg-12  mb-0">
+                <div class="row">
+                    <div class="col-lg-6" style="padding-right: 5px">
+                        <div class="card card-body my-1 py-1">
+                            <div style="padding: 5px;">
+                                <div class="row align-items-center ">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">COIL MAKING</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_coil_making" name="totalHour_coil_making"
+                                                value="{{ old('totalHour_coil_making') }}" readonly>
 
-        <div class="card card-body my-1 py-1">
-            <div class="row">
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <div style="padding: 5px;">
-                            <div class="row align-items-center ">
-                                <div class="input-group input-group-md justify-content-center">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">COIL MAKING</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
                                     </div>
-                                    <div class="input-group-append">
-                                        <input type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                            id="totalHour_coil_making" name="totalHour_coil_making"
-                                            value="{{ old('totalHour_coil_making') }}" readonly>
+                                </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_coil_lv" name="hour_coil_lv"
+                                                    value="{{ old('hour_coil_lv') }}" readonly>
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select
+                                                    class="form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="coil_lv" id="coil_lv">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_coil_hv" name="hour_coil_hv"
+                                                    value="{{ old('hour_coil_hv') }}" readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
+                                            </td>
+                                            <td>
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="coil_hv" id="coil_hv">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_potong_leadwire" name="hour_potong_leadwire"
+                                                    value="{{ old('hour_potong_leadwire') }}" readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Potong Lead Wire
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="potong_leadwire" id="potong_leadwire">
 
-                                    </div>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">HOUR</span>
-                                    </div>
+                                                </select>
+
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_potong_isolasi" name="hour_potong_isolasi"
+                                                    value="{{ old('hour_potong_isolasi') }}" readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select class="form-control  multiple1" name="potong_isolasi[]"
+                                                    id="potong_isolasi" multiple>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>
-                        <div class="align-items-center justify-content-left pt-1 px-1">
-                            <table class="w-100">
-                                <tr !important>
-                                    <td>
-                                        <input class="border border-dark rounded text-center" style="width:100%;"
-                                            id="hour_coil_lv" name="hour_coil_lv" value="{{ old('hour_coil_lv') }}"
-                                            readonly>
-                                    </td>
-                                    <td class="w-30">
-                                        <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
-                                    </td>
-                                    <td class="w-50">
-                                        <select class="form-control border border-dark rounded text-center"style="height: 33px;" name="coil_lv" id="coil_lv">
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr !important>
-                                    <td>
-                                        <input class="border border-dark rounded text-center" style="width:100%;"
-                                            id="hour_coil_hv" name="hour_coil_hv" value="{{ old('hour_coil_hv') }}"
-                                            readonly>
-                                    </td>
-                                    <td>
-                                        <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
-                                    </td>
-                                    <td>
-                                        <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="coil_hv" id="coil_hv">
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr !important>
-                                    <td>
-                                        <input class="border border-dark rounded text-center" style="width:100%;"
-                                            id="hour_potong_leadwire" name="hour_potong_leadwire"
-                                            value="{{ old('hour_potong_leadwire') }}" readonly>
-                                    </td>
-                                    <td>
-                                        <h6 class="border border-dark rounded p-1 text-center">Potong Lead Wire
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="potong_leadwire"
-                                            id="potong_leadwire">
+                        <div class="card card-body my-1 py-1">
+                            <div style="padding: 5px;">
+                                <div class="row align-items-center">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">MOULD & CASTING</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_MouldCasting" name="totalHour_MouldCasting"
+                                                value="{{ old('totalHour_MouldCasting') }}" readonly>
+                                        </div>
 
-                                        </select>
-
-                                    </td>
-                                </tr>
-                                <tr !important>
-                                    <td>
-                                        <input class="border border-dark rounded text-center" style="width:100%;"
-                                            id="hour_potong_isolasi" name="hour_potong_isolasi"
-                                            value="{{ old('hour_potong_isolasi') }}" readonly>
-                                    </td>
-                                    <td>
-                                        <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <select class="form-control  multiple1" name="potong_isolasi[]"
-                                            id="potong_isolasi" multiple>
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-
-                    </div>
-                    <div>
-                        <div style="padding: 5px;">
-                            <div class="row align-items-center">
-                                <div class="input-group input-group-md justify-content-center">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">MOULD & CASTING</span>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <input type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                            id="totalHour_MouldCasting" name="totalHour_MouldCasting"
-                                            value="{{ old('totalHour_MouldCasting') }}" readonly>
-                                    </div>
-
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">HOUR</span>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                <table class="w-100">
-                                    <tr !important>
-                                        <td class="">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_hv_moulding" name="hour_hv_moulding"
-                                                value="{{ old('hour_hv_moulding') }}" readonly>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_hv_moulding" name="hour_hv_moulding"
+                                                    value="{{ old('hour_hv_moulding') }}" readonly>
 
-                                        </td>
-                                        <td class="w-30">
-                                            <h6 class=" border border-dark rounded p-1 text-center">HV Moulding
-                                            </h6>
-                                        </td>
-                                        <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_moulding"
-                                                id="hv_moulding">
-
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td class="">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_hv_casting" name="hour_hv_casting"
-                                                value="{{ old('hour_hv_casting') }}" readonly>
-
-                                        </td>
-                                        <td>
-                                            <h6 class=" border border-dark rounded p-1 text-center">HV Casting</h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_casting"
-                                                id="hv_casting">
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class=" border border-dark rounded p-1 text-center">HV Moulding
+                                                </h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="hv_moulding" id="hv_moulding">
 
 
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td class="">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_hv_demoulding" name="hour_hv_demoulding"
-                                                value="{{ old('hour_hv_demoulding') }}" readonly>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_hv_casting" name="hour_hv_casting"
+                                                    value="{{ old('hour_hv_casting') }}" readonly>
 
-                                        </td>
-                                        <td>
-                                            <h6 class=" border border-dark rounded p-1 text-center">HV Demoulding
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control border border-dark rounded text-center" style="height: 33px;" name="hv_demoulding"
-                                                id="hv_demoulding">
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">HV Casting</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="hv_casting" id="hv_casting">
 
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td class="">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_lv_bobbin" name="hour_lv_bobbin"
-                                                value="{{ old('hour_lv_bobbin') }}" readonly>
 
-                                        </td>
-                                        <td>
-                                            <h6 class=" border border-dark rounded p-1 text-center">LV Bobbin</h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control multiple2" name="lv_bobbin[]" id="lv_bobbin"
-                                                multiple>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td class="">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_lv_moulding" name="hour_lv_moulding"
-                                                value="{{ old('hour_lv_moulding') }}" readonly>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_hv_demoulding" name="hour_hv_demoulding"
+                                                    value="{{ old('hour_hv_demoulding') }}" readonly>
 
-                                        </td>
-                                        <td>
-                                            <h6 class=" border border-dark rounded p-1 text-center">LV Moulding
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control multiple2" name="lv_moulding[]" id="lv_moulding"
-                                                multiple>
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">HV Demoulding
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="hv_demoulding" id="hv_demoulding">
 
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td class="">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_touch_up" name="hour_touch_up"
-                                                value="{{ old('hour_touch_up') }}" readonly>
-                                        </td>
-                                        <td>
-                                            <h6 class=" border border-dark rounded p-1 text-center">Touch Up</h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control multiple2" name="touch_up[]" id="touch_up"
-                                                multiple>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_lv_bobbin" name="hour_lv_bobbin"
+                                                    value="{{ old('hour_lv_bobbin') }}" readonly>
 
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td class="">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_oven" name="hour_oven" value="{{ old('hour_oven') }}" readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">LV Bobbin</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control multiple2" name="lv_bobbin[]" id="lv_bobbin"
+                                                    multiple>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_lv_moulding" name="hour_lv_moulding"
+                                                    value="{{ old('hour_lv_moulding') }}" readonly>
 
-                                        </td>
-                                        <td>
-                                            <h6 class=" border border-dark rounded p-1 text-center">Oven</h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control multiple2" name="oven[]" id="oven"
-                                                multiple>
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">LV Moulding
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control multiple2" name="lv_moulding[]"
+                                                    id="lv_moulding" multiple>
 
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <div>
-                        <div style="padding: 5px;">
-                            <div class="row align-items-center ">
-                                <div class="input-group input-group-md justify-content-center">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">CORE & ASSEMBLY</span>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <input type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                            id="totalHour_CoreCoilAssembly" name="totalHour_CoreCoilAssembly"
-                                            value="{{ old('totalHour_CoreCoilAssembly') }}" readonly>
-                                    </div>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_touch_up" name="hour_touch_up"
+                                                    value="{{ old('hour_touch_up') }}" readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Touch Up</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control multiple2" name="touch_up[]" id="touch_up"
+                                                    multiple>
 
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">HOUR</span>
-                                    </div>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td class="">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_oven" name="hour_oven" value="{{ old('hour_oven') }}"
+                                                    readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Oven</h6>
+                                            </td>
+                                            <td>
+                                                <select class=" form-control multiple2" name="oven[]" id="oven"
+                                                    multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
-                            </div>
-                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                <table class="w-100">
-                                    <tr !important>
-                                        <td class="w-20">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_type_susun_core" name="hour_type_susun_core"
-                                                value="{{ old('hour_type_susun_core') }}" readonly>
-
-                                        </td>
-                                        <td class="w-30">
-                                            <h6 class="border border-dark rounded p-1 text-center">Type Susun Core
-                                            </h6>
-                                        </td>
-                                        <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="type_susun_core"
-                                                id="type_susun_core">
-
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td>
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_wiring" name="hour_wiring" value="{{ old('hour_wiring') }}"
-                                                readonly>
-                                        </td>
-                                        <td>
-                                            <h6 class="border border-dark rounded p-1 text-center">Wiring</h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="wiring" id="wiring">
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td>
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_instal_housing" name="hour_instal_housing"
-                                                value="{{ old('hour_instal_housing') }}" readonly>
-                                        </td>
-                                        <td>
-                                            <h6 class="border border-dark rounded p-1 text-center">Instal Housing
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="instal_housing"
-                                                id="instal_housing">
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td>
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_bongkar_housing" name="hour_bongkar_housing"
-                                                value="{{ old('hour_bongkar_housing') }}" readonly>
-
-
-                                        </td>
-                                        <td>
-                                            <h6 class="border border-dark rounded p-1 text-center">Bongkar Housing
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="bongkar_housing"
-                                                id="bongkar_housing">
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td>
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_pembuatan_cu_link" name="hour_pembuatan_cu_link"
-                                                value="{{ old('hour_pembuatan_cu_link') }}" readonly>
-
-                                        </td>
-                                        <td>
-                                            <h6 class="border border-dark rounded p-1 text-center">Pembuatan CU
-                                                Link
-                                            </h6>
-                                        </td>
-                                        <td>
-                                            <select class=" form-control border border-dark rounded text-center"style="height: 33px;" name="pembuatan_cu_link"
-                                                id="pembuatan_cu_link">
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td>
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_others" name="hour_others" value="{{ old('hour_others') }}"
-                                                readonly>
-
-                                        </td>
-                                        <td>
-                                            <h6 class="border border-dark rounded p-1 text-center">Others</h6>
-                                        </td>
-                                        <td style="width:500px ">
-                                            <select class=" form-control multiple3" name="others[]" id="others"
-                                                multiple>
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td>
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_accesories" name="hour_accesories"
-                                                value="{{ old('hour_accesories') }}" readonly>
-
-                                        </td>
-                                        <td>
-                                            <h6 class="border border-dark rounded p-1 text-center">Accessories</h6>
-                                        </td>
-                                        <td style="width:500px ">
-                                            <select class=" form-control multiple3" name="accesories[]" id="accesories"
-                                                multiple>
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td>
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_potong_isolasi_fiber" name="hour_potong_isolasi_fiber"
-                                                value="{{ old('hour_potong_isolasi_fiber') }}" readonly>
-
-                                        </td>
-                                        <td>
-                                            <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi
-                                                Fiber
-                                            </h6>
-                                        </td>
-                                        <td style="width:500px ">
-                                            <select class=" form-control multiple3" name="potong_isolasi_fiber[]"
-                                                id="potong_isolasi_fiber" multiple>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div style="padding: 5px;">
-                            <div class="row align-items-center ">
-                                <div class="input-group input-group-md justify-content-center">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">QC TESTING</span>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <input type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                            id="totalHour_QCTest" name="totalHour_QCTest"
-                                            value="{{ old('totalHour_QCTest') }}" readonly>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">HOUR</span>
+                    <div class="col-lg-6" style="padding-left: 5px">
+                        <div class="card card-body my-1 py-1">
+                            <div style="padding: 5px;">
+                                <div class="row align-items-center ">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">CORE & ASSEMBLY</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_CoreCoilAssembly" name="totalHour_CoreCoilAssembly"
+                                                value="{{ old('totalHour_CoreCoilAssembly') }}" readonly>
+                                        </div>
+
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                <table class="w-100">
-                                    <tr !important>
-                                        <td class="w-20">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_qc_testing" name="hour_qc_testing"
-                                                value="{{ old('hour_qc_testing') }}" readonly>
-                                        </td>
-                                        <td class="w-30">
-                                            <h6 class="border border-dark rounded p-1 text-center">QC Test
-                                            </h6>
-                                        </td>
-                                        <td class="w-50">
-                                            <select class=" form-control  multiple4" name="qc_testing[]" id="qc_testing"
-                                                multiple>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td class="w-20">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_type_susun_core" name="hour_type_susun_core"
+                                                    value="{{ old('hour_type_susun_core') }}" readonly>
 
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class="border border-dark rounded p-1 text-center">Type Susun Core
+                                                </h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="type_susun_core" id="type_susun_core">
+
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_wiring" name="hour_wiring" value="{{ old('hour_wiring') }}"
+                                                    readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Wiring</h6>
+                                            </td>
+                                            <td>
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="wiring" id="wiring">
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_instal_housing" name="hour_instal_housing"
+                                                    value="{{ old('hour_instal_housing') }}" readonly>
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Instal Housing
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="instal_housing" id="instal_housing">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_bongkar_housing" name="hour_bongkar_housing"
+                                                    value="{{ old('hour_bongkar_housing') }}" readonly>
+
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Bongkar Housing
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="bongkar_housing" id="bongkar_housing">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_pembuatan_cu_link" name="hour_pembuatan_cu_link"
+                                                    value="{{ old('hour_pembuatan_cu_link') }}" readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Pembuatan CU
+                                                    Link
+                                                </h6>
+                                            </td>
+                                            <td>
+                                                <select
+                                                    class=" form-control border border-dark rounded text-center"style="height: 33px;"
+                                                    name="pembuatan_cu_link" id="pembuatan_cu_link">
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_others" name="hour_others" value="{{ old('hour_others') }}"
+                                                    readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Others</h6>
+                                            </td>
+                                            <td style="width:500px ">
+                                                <select class=" form-control multiple3" name="others[]" id="others"
+                                                    multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_accesories" name="hour_accesories"
+                                                    value="{{ old('hour_accesories') }}" readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Accessories</h6>
+                                            </td>
+                                            <td style="width:500px ">
+                                                <select class=" form-control multiple3" name="accesories[]"
+                                                    id="accesories" multiple>
+
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr !important>
+                                            <td>
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_potong_isolasi_fiber" name="hour_potong_isolasi_fiber"
+                                                    value="{{ old('hour_potong_isolasi_fiber') }}" readonly>
+
+                                            </td>
+                                            <td>
+                                                <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi
+                                                    Fiber
+                                                </h6>
+                                            </td>
+                                            <td style="width:500px ">
+                                                <select class=" form-control multiple3" name="potong_isolasi_fiber[]"
+                                                    id="potong_isolasi_fiber" multiple>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-body my-1 py-1">
+                            <div style="padding: 5px;">
+                                <div class="row align-items-center ">
+                                    <div class="input-group input-group-md justify-content-center">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">QC TESTING</span>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
+                                                id="totalHour_QCTest" name="totalHour_QCTest"
+                                                value="{{ old('totalHour_QCTest') }}" readonly>
+                                        </div>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">HOUR</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="align-items-center justify-content-left pt-1 px-1">
+                                    <table class="w-100">
+                                        <tr !important>
+                                            <td class="w-20">
+                                                <input class="border border-dark rounded text-center" style="width:100%;"
+                                                    id="hour_qc_testing" name="hour_qc_testing"
+                                                    value="{{ old('hour_qc_testing') }}" readonly>
+                                            </td>
+                                            <td class="w-30">
+                                                <h6 class="border border-dark rounded p-1 text-center">QC Test
+                                                </h6>
+                                            </td>
+                                            <td class="w-50">
+                                                <select class=" form-control  multiple4" name="qc_testing[]"
+                                                    id="qc_testing" multiple>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
-    {{-- <div class="modal fade preview" tabindex="-1" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Preview Data</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="">
-                            <p class="p-2 bg-warning rounded "><strong><i class="fa-solid fa-warning mr-2"></i> Mohon cek
-                                    kembali data yang anda input!<strong></p>
-                        </div>
-
-                        <div class="row ">
-                            <div class="col-md-12">
-                                <div class="card rounded-4" style="border-left-color: red; border-left-width: 10px;">
-                                    <div class="card-body shadow">
-                                        <div class="row">
-                                            <div class="col-lg-4">
-                                                <h6>Category</h6>
-                                                <p class="p-0 m-0" style="color: #d02424" id="preview-category"></p>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <h6>Kapasitas</h6>
-                                                <p class="p-0 m-0" style="color: #d02424" id="preview-ukuran_kapasitas">
-                                                </p>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <h6>SO/No.Proyek</h6>
-                                                <p class="p-0 m-0" style="color: #d02424" id="preview-so"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row px-2">
-                            <div class="col-lg-12  mb-0">
-                                <div class="row">
-                                    <div class="card card-body my-1 py-1">
-                                        <div style="padding: 5px;">
-                                            <div class="row align-items-center ">
-                                                <div class="input-group input-group-md justify-content-center">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">COIL MAKING</span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span type="text" class="input-group-text bg-warning"
-                                                            style="width: 3rem" id="preview-totalHour_coil_making"></span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">HOUR</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                                <table class="w-100">
-                                                    <tr !important>
-                                                        <td class="w-20">
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_coil_lv">
-                                                            </h6>
-                                                        </td>
-                                                        <td class="w-30">
-                                                            <h6 class=" border border-dark rounded p-1 text-center">
-                                                                Coil LV
-                                                            </h6>
-                                                        </td>
-                                                        <td class="w-50">
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-coil_lv"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_coil_hv">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">
-                                                                Coil HV
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-coil_hv"></h6>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_potong_leadwire"></h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Potong
-                                                                Lead Wire</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-potong_leadwire"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_potong_isolasi"></h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Potong
-                                                                Isolasi</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-potong_isolasi"></h6>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card card-body my-1 py-1">
-                                        <div style="padding: 5px;">
-                                            <div class="row align-items-center">
-                                                <div class="input-group input-group-md justify-content-center">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">MOULD & CASTING</span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text bg-warning"
-                                                            id="preview-totalHour_MouldCasting">
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">HOUR</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                                <table class="w-100">
-                                                    <tr !important>
-                                                        <td class="w-20">
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_hv_moulding"></h6>
-                                                        </td>
-                                                        <td class="w-30">
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Moulding</h6>
-                                                        </td>
-                                                        <td class="w-50">
-                                                            <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_moulding"></h6>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_hv_casting">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Casting</h6>
-                                                        </td>
-                                                        <td class="w-50">
-                                                            <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_casting"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_hv_demoulding"></h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">HV
-                                                                Demoulding</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border bg-warning rounded p-1 text-center"
-                                                                id="preview-hv_demoulding"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_lv_bobbin">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">LV
-                                                                Bobbin</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-lv_bobbin"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_lv_moulding">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">LV
-                                                                Moulding</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-lv_moulding"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_touch_up">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border border-dark rounded p-1 text-center">
-                                                                Touch
-                                                                Up</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-touch_up"></h6>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card card-body my-1 py-1">
-                                        <div style="padding: 5px;">
-                                            <div class="row align-items-center ">
-                                                <div class="input-group input-group-md justify-content-center">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">CORE & ASSEMBLY</span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text bg-warning"
-                                                            id="preview-totalHour_CoreCoilAssembly"></span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">HOUR</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                                <table class="w-100">
-                                                    <tr !important>
-                                                        <td class="w-20">
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_type_susun_core">
-                                                            </h6>
-                                                        </td>
-                                                        <td class="w-30">
-                                                            <h6 class="border border-dark rounded p-1 text-center">Type
-                                                                Susun Core</h6>
-                                                        </td>
-                                                        <td class="w-50">
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-type_susun_core"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_wiring">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Wiring
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-wiring"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_instal_housing">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Instal
-                                                                Housing</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-instal_housing"></h6>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_bongkar_housing">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Bongkar
-                                                                Housing</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-bongkar_housing"></h6>
-
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_pembuatan_cu_link">
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Pembuatan CU Link
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-pembuatan_cu_link"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_others"></h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Others
-                                                            </h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-others"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_accesories"></h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Accessories</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-accesories"></h6>
-                                                        </td>
-                                                    </tr>
-                                                    <tr !important>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_potong_isolasi_fiber">
-                                                            </h6>
-
-                                                        </td>
-                                                        <td>
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Potong
-                                                                Isolasi Fiber</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-potong_isolasi_fiber"></h6>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card card-body my-1 py-1">
-                                        <div style="padding: 5px;">
-                                            <div class="row align-items-center ">
-                                                <div class="input-group input-group-md justify-content-center">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">QC Testing</span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text bg-warning"
-                                                            id="preview-hour_qctesting"></span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text">HOUR</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                                <table class="w-100">
-                                                    <tr !important>
-                                                        <td class="w-20">
-                                                            <h6 class="border border-dark rounded p-1 text-center"
-                                                                id="preview-hour_qc_testing">
-                                                            </h6>
-                                                        </td>
-                                                        <td class="w-30">
-                                                            <h6 class="border border-dark rounded p-1 text-center">
-                                                                Routine
-                                                                Test</h6>
-                                                        </td>
-                                                        <td>
-                                                            <h6 class=" border bg-warning rounded p-1 text-center"
-                                                                id="preview-qc_testing"></h6>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-    {{-- </div> --}}
     <script>
         $(document).ready(function() {
             function fillSelect(elementId, data, selectedProses, selectedWorkcenter) {
@@ -1069,129 +616,6 @@
                     );
                 });
             }
-            // $('#ukuran_kapasitas').on('change', function() {
-            //     var ukuran_kapasitas = $(this).val();
-            //     if (ukuran_kapasitas) {
-            //         $.ajax({
-            //             url: '/standardized_work/Create-Data/Dry-Cast-Resin/kapasitas/' +
-            //                 ukuran_kapasitas,
-            //             type: 'GET',
-            //             data: {
-            //                 '_token': '{{ csrf_token() }}'
-            //             },
-            //             dataType: 'json',
-            //             success: function(data) {
-            //                 if (data) {
-            //                     fillSelect('#coil_lv', data, 'COIL LV', 'COIL MAKING');
-            //                     fillSelect('#coil_hv', data, 'COIL HV', 'COIL MAKING');
-            //                     fillSelect('#potong_leadwire', data, 'POTONG LEAD WIRE',
-            //                         'COIL MAKING');
-            //                     fillSelect('#potong_isolasi', data, 'POTONG ISOLASI',
-            //                         'COIL MAKING');
-            //                     fillSelect('#hv_moulding', data, 'HV MOULDING',
-            //                         'MOULD & CASTING');
-            //                     fillSelect('#hv_casting', data, 'HV CASTING',
-            //                         'MOULD & CASTING');
-            //                     fillSelect('#hv_demoulding', data, 'HV DEMOULDING',
-            //                         'MOULD & CASTING');
-            //                     fillSelect('#lv_bobbin', data, 'LV BOBBIN',
-            //                         'MOULD & CASTING');
-            //                     fillSelect('#lv_moulding', data, 'LV MOULDING',
-            //                         'MOULD & CASTING');
-            //                     fillSelect('#touch_up', data, 'TOUCH UP',
-            //                         'MOULD & CASTING');
-            //                     fillSelect('#oven', data, 'OVEN',
-            //                         'MOULD & CASTING');
-            //                     fillSelect('#type_susun_core', data, 'TYPE SUSUN CORE',
-            //                         'CORE & ASSEMBLY');
-            //                     fillSelect('#wiring', data, 'WIRING', 'CORE & ASSEMBLY');
-            //                     fillSelect('#instal_housing', data, 'INSTAL HOUSING',
-            //                         'CORE & ASSEMBLY');
-            //                     fillSelect('#bongkar_housing', data, 'BONGKAR HOUSING',
-            //                         'CORE & ASSEMBLY');
-            //                     fillSelect('#pembuatan_cu_link', data, 'PEMBUATAN CU LINK',
-            //                         'CORE & ASSEMBLY');
-            //                     fillSelect('#others', data, 'OTHERS', 'CORE & ASSEMBLY');
-            //                     fillSelect('#accesories', data, 'ACCESSORIES',
-            //                         'CORE & ASSEMBLY');
-            //                     fillSelect('#potong_isolasi_fiber', data,
-            //                         'POTONG ISOLASI FIBER', 'CORE & ASSEMBLY');
-            //                     fillSelect('#qc_testing', data, 'QC',
-            //                         'QC');
-            //                     $('#coil_lv').on('change', function() {
-            //                         showSelected('coil_lv');
-            //                     });
-            //                     $('#coil_hv').on('change', function() {
-            //                         showSelected('coil_hv');
-            //                     });
-            //                     $('#potong_leadwire').on('change', function() {
-            //                         showSelected('potong_leadwire');
-            //                     });
-            //                     $('#potong_isolasi').on('change', function() {
-            //                         showSelected('potong_isolasi');
-            //                     });
-            //                     $('#hv_moulding').on('change', function() {
-            //                         showSelected('hv_moulding');
-            //                     });
-            //                     $('#hv_casting').on('change', function() {
-            //                         showSelected('hv_casting');
-            //                     });
-            //                     $('#hv_demoulding').on('change', function() {
-            //                         showSelected('hv_demoulding');
-            //                     });
-            //                     $('#lv_bobbin').on('change', function() {
-            //                         showSelected('lv_bobbin');
-            //                     });
-            //                     $('#lv_moulding').on('change', function() {
-            //                         showSelected('lv_moulding');
-            //                     });
-            //                     $('#touch_up').on('change', function() {
-            //                         showSelected('touch_up');
-            //                     });
-            //                     $('#oven').on('change', function() {
-            //                         showSelected('oven');
-            //                     });
-            //                     $('#type_susun_core').on('change', function() {
-            //                         showSelected('type_susun_core');
-            //                     });
-            //                     $('#wiring').on('change', function() {
-            //                         showSelected('wiring');
-            //                     });
-            //                     $('#instal_housing').on('change', function() {
-            //                         showSelected('instal_housing');
-            //                     });
-            //                     $('#bongkar_housing').on('change', function() {
-            //                         showSelected('bongkar_housing');
-            //                     });
-            //                     $('#pembuatan_cu_link').on('change', function() {
-            //                         showSelected('pembuatan_cu_link');
-            //                     });
-            //                     $('#others').on('change', function() {
-            //                         showSelected('others');
-            //                     });
-            //                     $('#accesories').on('change', function() {
-            //                         showSelected('accesories');
-            //                     });
-            //                     $('#potong_isolasi_fiber').on('change', function() {
-            //                         showSelected('potong_isolasi_fiber');
-            //                     });
-            //                     $('#qc_testing').on('change', function() {
-            //                         showSelected('qc_testing');
-            //                     });
-            //                 } else {
-            //                     resetForm();
-            //                 }
-            //             },
-            //             error: function(xhr, status, error) {
-            //                 alert(
-            //                     'Terjadi kesalahan saat mengambil data Man hour. Silakan coba lagi.'
-            //                 );
-            //             }
-            //         });
-            //     } else {
-            //         resetForm();
-            //     }
-            // });
             var previousData; // Deklarasikan variabel previousData di luar fungsi
 
             $(document).ready(function() {
@@ -1506,139 +930,25 @@
             });
         });
     </script>
-
-
-
-    {{-- <script>
-        function previewForm() {
-            //tampilan hour
-            document.getElementById("preview-totalHour_coil_making").innerHTML = document.getElementById(
-                "totalHour_coil_making").innerHTML;
-            document.getElementById("preview-hour_coil_lv").innerHTML = document.getElementById(
-                "hour_coil_lv").innerHTML;
-            document.getElementById("preview-hour_coil_hv").innerHTML = document.getElementById(
-                "hour_coil_hv").innerHTML;
-            document.getElementById("preview-hour_potong_leadwire").innerHTML = document.getElementById(
-                "hour_potong_leadwire").innerHTML;
-            document.getElementById("preview-hour_potong_isolasi").innerHTML = document.getElementById(
-                "hour_potong_isolasi").innerHTML;
-            document.getElementById("preview-hour_hv_moulding").innerHTML = document.getElementById(
-                "hour_hv_moulding").innerHTML;
-            document.getElementById("preview-hour_hv_casting").innerHTML = document.getElementById(
-                "hour_hv_casting").innerHTML;
-            document.getElementById("preview-hour_hv_demoulding").innerHTML = document.getElementById(
-                "hour_hv_demoulding").innerHTML;
-            document.getElementById("preview-hour_lv_bobbin").innerHTML = document.getElementById(
-                "hour_lv_bobbin").innerHTML;
-            document.getElementById("preview-hour_lv_moulding").innerHTML = document.getElementById(
-                "hour_lv_moulding").innerHTML;
-            document.getElementById("preview-hour_touch_up").innerHTML = document.getElementById(
-                "hour_touch_up").innerHTML;
-            document.getElementById("preview-hour_type_susun_core").innerHTML = document.getElementById(
-                "hour_type_susun_core").innerHTML;
-            document.getElementById("preview-hour_wiring").innerHTML = document.getElementById(
-                "hour_wiring").innerHTML;
-            document.getElementById("preview-hour_instal_housing").innerHTML = document.getElementById(
-                "hour_instal_housing").innerHTML;
-            document.getElementById("preview-hour_bongkar_housing").innerHTML = document.getElementById(
-                "hour_bongkar_housing").innerHTML;
-            document.getElementById("preview-hour_pembuatan_cu_link").innerHTML = document.getElementById(
-                "hour_pembuatan_cu_link").innerHTML;
-            document.getElementById("preview-hour_others").innerHTML = document.getElementById(
-                "hour_others").innerHTML;
-            document.getElementById("preview-hour_accesories").innerHTML = document.getElementById(
-                "hour_accesories").innerHTML;
-            document.getElementById("preview-hour_potong_isolasi_fiber").innerHTML = document.getElementById(
-                "hour_potong_isolasi_fiber").innerHTML;
-            document.getElementById("preview-totalHour_MouldCasting").innerHTML = document.getElementById(
-                "totalHour_MouldCasting").innerHTML;
-            document.getElementById("preview-totalHour_CoreCoilAssembly").innerHTML = document.getElementById(
-                "totalHour_CoreCoilAssembly").innerHTML;
-
-            //tampilan khusus yang checkbox
-            document.getElementById('preview-potong_isolasi').innerHTML = '' + [...document.getElementById('potong_isolasi')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-lv_bobbin').innerHTML = '' + [...document.getElementById('lv_bobbin')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-lv_moulding').innerHTML = '' + [...document.getElementById('lv_moulding')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-touch_up').innerHTML = '' + [...document.getElementById('touch_up')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-others').innerHTML = '' + [...document.getElementById('others')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-accesories').innerHTML = '' + [...document.getElementById('accesories')
-                .selectedOptions
-            ].map(option => option.value).join(', ');
-            document.getElementById('preview-potong_isolasi_fiber').innerHTML = '' + [...document.getElementById(
-                'potong_isolasi_fiber').selectedOptions].map(option => option.value).join(', ');
-
-            //value setiap inputan
-            document.getElementById("preview-category").textContent = document.getElementById("category").value;
-            document.getElementById("preview-ukuran_kapasitas").textContent = document.getElementById("ukuran_kapasitas")
-                .value;
-            document.getElementById("preview-so").textContent = document.getElementById("so").value;
-            document.getElementById("preview-so").textContent = document.getElementById("fg").value;
-            document.getElementById("preview-coil_lv").textContent = document.getElementById("coil_lv").value;
-            document.getElementById("preview-coil_hv").textContent = document.getElementById("coil_hv").value;
-            document.getElementById("preview-potong_leadwire").textContent = document.getElementById("potong_leadwire")
-                .value;
-            document.getElementById("preview-hv_moulding").textContent = document.getElementById("hv_moulding").value;
-            document.getElementById("preview-hv_casting").textContent = document.getElementById("hv_casting").value;
-            document.getElementById("preview-hv_demoulding").textContent = document.getElementById("hv_demoulding").value;
-            document.getElementById("preview-type_susun_core").textContent = document.getElementById("type_susun_core")
-                .value;
-            document.getElementById("preview-wiring").textContent = document.getElementById("wiring").value;
-            document.getElementById("preview-instal_housing").textContent = document.getElementById("instal_housing").value;
-            document.getElementById("preview-bongkar_housing").textContent = document.getElementById("bongkar_housing")
-                .value;
-            document.getElementById("preview-pembuatan_cu_link").textContent = document.getElementById("pembuatan_cu_link")
-                .value;
-
-
-            document.getElementById("preview").style.display = "block";
-        }
-    </script> --}}
     <script>
         $(document).ready(function() {
-            $(".multiple1").select2({
-                placeholder: 'Pilih',
-                width: '100%',
+            function displayTotalJam(selector, displayFunction) {
+                $(selector).select2({
+                    placeholder: 'Pilih',
+                    width: '100%',
+                    allowClear: true,
+                    maximumSelectionLength: Infinity
+                }).on('change', displayFunction);
+            }
 
-            }).on('change', displayTotalJamCoilMaking);
-            $(".multiple2").select2({
-                placeholder: 'Pilih',
-                width: '100%',
+            // Daftar kelas selector dan fungsi tampilan total jam yang sesuai
+            var selectors = [".multiple1", ".multiple2", ".multiple3", ".multiple4"];
+            var displayFunctions = [displayTotalJamCoilMaking, displayTotalJamMouldCasting, displayTotalJamCoreCoilAssembly, displayTotalJamQCTest];
 
-            }).on('change', displayTotalJamMouldCasting);
-            $(".multiple3").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-
-            }).on('change', displayTotalJamCoreCoilAssembly);
-            $(".multiple4").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-            }).on('change', displayTotalJamQCTest);
-            // $(".border border-dark rounded text-center").style="height: 33px;"select2({
-            //     placeholder: 'Pilih',
-            //     width: '100%',
-            //     minimumResultsForSearch: Infinity
-            // }).on('change', displayTotalJamCoilMaking);
-            // $(".border border-dark rounded text-center").style="height: 33px;"select2({
-            //     placeholder: 'Pilih',
-            //     width: '100%',
-            //     minimumResultsForSearch: Infinity
-            // }).on('change', displayTotalJamMouldCasting);
-            // $(".border border-dark rounded text-center").style="height: 33px;"select2({
-            //     placeholder: 'Pilih',
-            //     width: '100%',
-            //     minimumResultsForSearch: Infinity
-            // }).on('change', displayTotalJamCoreCoilAssembly);
+            // Pengaturan Select2 untuk setiap elemen
+            $.each(selectors, function(index, selector) {
+                displayTotalJam(selector, displayFunctions[index]);
+            });
         });
     </script>
 @endsection

@@ -77,22 +77,22 @@ class DryNonResin extends Model
                 'nama_product' =>'Dry Non Cast Resin',
             ]);
         });
-        self::creating(function ($drynonresin) {
-            $nomorSo = strtoupper($drynonresin->nomor_so);
-            $kategori = $drynonresin->kategori;
-            $kapasitas = Kapasitas::where('ukuran_kapasitas', $drynonresin->ukuran_kapasitas)->first();
-            if ($kapasitas) {
-                $id_kapasitas = $kapasitas->id;
-            } else {
-                $id_kapasitas = '0';
-            }
+        // self::creating(function ($drynonresin) {
+        //     $nomorSo = strtoupper($drynonresin->nomor_so);
+        //     $kategori = $drynonresin->kategori;
+        //     $kapasitas = Kapasitas::where('ukuran_kapasitas', $drynonresin->ukuran_kapasitas)->first();
+        //     if ($kapasitas) {
+        //         $id_kapasitas = $kapasitas->id;
+        //     } else {
+        //         $id_kapasitas = '0';
+        //     }
 
-            $nomorSo = str_replace(['/', '-'], '', $nomorSo);
+        //     $nomorSo = str_replace(['/', '-'], '', $nomorSo);
 
-            $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
-            $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
-            $drynonresin->kd_manhour = $kdManhour;
-        });
+        //     $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
+        //     $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
+        //     $drynonresin->kd_manhour = $kdManhour;
+        // });
         // self::creating(function ($drynonresin) {
         //     $hour_potong_isolasi_fiber = $drynonresin->hour_potong_isolasi_fiber;
         //     $hour_susun_core = $drynonresin->hour_type_susun_core;

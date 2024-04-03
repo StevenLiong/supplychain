@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('nama_product')->default('VT')->index();
             $table->string('nomor_so');
             $table->string('id_fg');
-            $table->integer('total_hour');
+            $table->float('total_hour');
             // $table->foreignId('manhour_id')->nullable()->constrained('man_hours')->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('cca_balut_vt')->nullable();
             $table->string('buat_pasang_shelding')->nullable();

@@ -40,10 +40,10 @@ class OilStandard extends Model
         'hour_qc_testing'
     ];
 
-    public function man_hour(): BelongsTo
-    {
-        return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
-    }
+    // public function man_hour(): BelongsTo
+    // {
+    //     return $this->belongsTo(ManHour::class, 'manhour_id', 'id');
+    // }
 
     public static function boot()
     {
@@ -61,21 +61,5 @@ class OilStandard extends Model
             ]);
         });
 
-        self::creating(function ($oil_standard) {
-            $nomorSo = strtoupper($oil_standard->nomor_so);
-            $kategori = $oil_standard->kategori;
-            $kapasitas = Kapasitas::where('ukuran_kapasitas', $oil_standard->ukuran_kapasitas)->first();
-            if ($kapasitas) {
-                $id_kapasitas = $kapasitas->id;
-            } else {
-                $id_kapasitas = '0';
-            }
-
-            $nomorSo = str_replace(['/', '-'], '', $nomorSo);
-
-            $kdManhour = $kategori . '' .  $id_kapasitas . '' . $nomorSo;
-            $kdManhour = str_pad($kdManhour, 14, '0', STR_PAD_RIGHT);
-            $oil_standard->kd_manhour = $kdManhour;
-        });
     }
 }

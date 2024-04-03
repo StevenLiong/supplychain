@@ -53,6 +53,92 @@
             color: #fff;
             padding: 10px;
         }
+        label {
+            font-weight: bold;
+        }
+
+        .col-lg-6 {
+            padding: 2;
+        }
+
+        td {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        tr {
+            padding-bottom: 0px;
+        }
+
+        .label {
+            margin-bottom: 0px;
+        }
+
+        /* Perubahan pada bagian .select2.select2-container .select2-selection--multiple */
+        .select2.select2-container .select2-selection--multiple {
+            min-height: 34px;
+            height: auto !important;
+        }
+
+        /* Perubahan pada bagian .select2.select2-container .select2-selection--multiple .select2-selection__rendered */
+        .select2.select2-container .select2-selection--multiple .select2-selection__rendered {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Menambahkan gaya pada button silang */
+        .select2.select2-container .select2-selection--multiple .select2-selection__choice__remove {
+            margin-left: 4px;
+            font-size: 20px;
+            cursor: pointer;
+
+            /* Latar belakang awal */
+            border: 1px solid transparent;
+            /* Tambahkan border */
+            color: #ee1818;
+
+            /* Warna ikon */
+            border-radius: 4px;
+            /* Bentuk kotak */
+            /* transition: background-color 0.3s, color 0.3s, border-color 0.3s; */
+            /* Efek transisi */
+        }
+
+        /* Ubah warna latar belakang ketika dihover */
+        /* .select2.select2-container .select2-selection--multiple .select2-selection__choice__remove:hover {
+                background-color: #ee1818;
+
+                color: white;
+
+                border-color: #ee1818;
+
+            } */
+        /* Merubah style dari tombol clear */
+        .select2-selection__clear {
+            color: red;
+            font-size: 16px;
+        }
+
+        /* Merubah style dari tombol clear saat dihover */
+        .select2-selection__clear:hover {
+            color: darkred;
+            cursor: pointer;
+        }
+
+        /* Perubahan ukuran isian saat diisi */
+        .select2.select2-container .select2-selection--multiple .select2-search__field {
+            margin-top: 0;
+            height: 32px;
+            /* Tinggi isian */
+            font-size: 14px;
+            /* Ukuran font */
+            line-height: 30px;
+            /* Line height */
+            padding: 1px 6px;
+            /* Padding */
+        }
     </style>
 </head>
 

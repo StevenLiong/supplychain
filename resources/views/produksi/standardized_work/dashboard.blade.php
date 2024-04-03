@@ -232,21 +232,21 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        <a type="button" href="{{ route('dryresin.detail', ['id' => $std->id]) }}"
-                                            class="btn btn-primary m-1"><i class="fa-solid fa-circle-info m-1"></i></a>
-
-                                        <a type="button" href="{{ route('dryresin.edit', ['id' => $std->id]) }}"
+                                         <a type="button" href="{{ route('detail', [ 'kd_manhour' => $std->kd_manhour]) }}"
+                                            class="btn btn-primary m-1">
+                                            <i class="fa-solid fa-circle-info m-1"></i>
+                                         </a>
+                                         {{-- <a type="button" href="{{ route('edit', [ 'kd_manhour' => $std->kd_manhour]) }}"
+                                            class="btn btn-primary m-1">
+                                            <i class="fa-solid fa-circle-info m-1"></i>
+                                         </a> --}}
+                                        <a type="button" href="{{ route('edit', ['kd_manhour' => $std->kd_manhour]) }}"
                                             class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a>
+                                            
                                         <a href="#" class="btn btn-primary m-1" data-toggle="modal"
                                             data-target=".delete-modal">
-                                            {{-- onclick="
-                                                    event.preventDefault();
-                                                    if (confirm('Do you want to remove this?')) {
-                                                    document.getElementById('delete-row-{{ $std->id }}').submit();
-                                                    }"> --}}
                                             <i class="fa-solid fa-trash m-1"></i>
                                         </a>
-                                        <!-- delete modal -->
                                         <div class="modal fade delete-modal" tabindex="-1" role="dialog"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
+use App\Models\produksi\StandardizeWork;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
@@ -76,7 +77,7 @@ class DryCastResinController extends Controller
         }
 
         // Check if kd_manhour already exists
-        $existingDryResin = DryCastResin::where('kd_manhour', $params['kd_manhour'])->first();
+        $existingDryResin = StandardizeWork::where('kd_manhour', $params['kd_manhour'])->first();
 
         if ($existingDryResin) {
             return redirect()->back()->withInput()->with('error', 'Nomor SO yang anda input sudah ada coba periksa kembali  !');
@@ -90,34 +91,34 @@ class DryCastResinController extends Controller
 
 
 
-    public function detail(string $id): Response
+    public function detail(string $kd_manhour): Response
     {
         $title = 'Detail Dry Cast Resin';
-        $product = DryCastResin::findOrFail($id);
-        $manhour = ManHour::orderBy('id')->get();
-        return response(view('produksi.standardized_work.detaildrycastresin', ['product' => $product, 'manhour' => $manhour, 'title' => $title]));
+        $product = DryCastResin::where('kd_manhour', $kd_manhour)->firstOrFail();
+        return response(view('produksi.standardized_work.detaildrycastresin', ['product' => $product, 'title' => $title]));
     }
 
-    public function edit(string $id): Response
-    {
-        $title = 'Edit Dry Cast Resin';
-        $product = DryCastResin::findOrFail($id);
-        $manhour = ManHour::orderBy('id')->get();
-        // $kapasitas = Kapasitas::all();
-        return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour,  'title' => $title]));
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $product = DryCastResin::findOrFail($id);
-        $params = $request->all();
+    // public function edit(string $id): Response
+    // {
+    //     $title = 'Edit Dry Cast Resin';
+    //     $product = DryCastResin::findOrFail($id);
+    //     $manhour = ManHour::orderBy('id')->get();
+    //     $kapasitas = Kapasitas::all();
+    //     return response(view('produksi.standardized_work.editdrycastresin', ['product' => $product, 'manhour' => $manhour, 'kapasitas' => $kapasitas, 'title' => $title]));
+    // }
 
-        if ($product->update($params)) {
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, string $id)
+    // {
+    //     $product = DryCastResin::findOrFail($id);
+    //     $params = $request->all();
 
-            return redirect(route('home'))->with('success', 'Updated!');
-        }
-    }
+    //     if ($product->update($params)) {
+
+    //         return redirect(route('home'))->with('success', 'Updated!');
+    //     }
+    // }
 }

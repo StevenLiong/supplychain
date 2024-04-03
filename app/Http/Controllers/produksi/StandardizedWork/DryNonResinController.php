@@ -9,6 +9,7 @@ use App\Models\produksi\DryNonResin;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
 use App\Models\produksi\ManhourDrynonresin;
+use App\Models\produksi\StandardizeWork;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -79,11 +80,10 @@ class DryNonResinController extends Controller
             }
         }
 
-        // Check if kd_manhour already exists
-        $existingDryNonResin = DryNonResin::where('kd_manhour', $params['kd_manhour'])->first();
+        $existingStandardizeWork = StandardizeWork::where('kd_manhour', $params['kd_manhour'])->first();
 
-        if ($existingDryNonResin) {
-            return redirect()->back()->withInput()->with('error', 'Nomor SO yang anda input sudah ada coba periksa kembali  !');
+        if ($existingStandardizeWork) {
+            return redirect()->back()->withInput()->with('error', 'Nomor SO yang Anda input sudah ada. Harap periksa kembali!');
         }
         DryNonResin::create($params);
 
@@ -95,19 +95,16 @@ class DryNonResinController extends Controller
         $product = DryNonResin::findOrFail($id);
         $manhour = ManhourDrynonresin::orderBy('id')->get();
 
-
-
         return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, string $id): RedirectResponse
+    public function update($request,string $id)
     {
         $product = DryNonResin::findOrFail($id);
-        $params = $request->validated();
-
+        $params = $request->all();
         if ($product->update($params)) {
 
             return redirect(route('home'))->with('success', 'Updated!');

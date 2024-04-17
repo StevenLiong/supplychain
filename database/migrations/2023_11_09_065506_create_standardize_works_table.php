@@ -23,8 +23,7 @@ return new class extends Migration
             $table->foreignId('id_dry_non_resin')->nullable()->constrained('dry_non_resins')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('id_oil_standard')->nullable()->constrained('oil_standards')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('id_oil_custom')->nullable()->constrained('oil_customs')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('id_ct')->nullable()->constrained('cts')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('id_vt')->nullable()->constrained('vts')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('id_ctvt')->nullable()->constrained('ct_vts')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('id_repair')->nullable()->constrained('repairs')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });

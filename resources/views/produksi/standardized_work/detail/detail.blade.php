@@ -7,7 +7,6 @@
     </div>
     @php
         $kategori = null;
-
         if ($detail->dry_cast_resin) {
             $kategori = $detail->dry_cast_resin->kategori;
         } elseif ($detail->dry_non_resin) {
@@ -18,17 +17,19 @@
             $kategori = $detail->oil_custom->kategori;
         } elseif ($detail->oil_standard) {
             $kategori = $detail->oil_standard->kategori;
-        } elseif ($detail->vt) {
-            $kategori = $detail->vt->kategori;
-        } elseif ($detail->ct) {
-            $kategori = $detail->ct->kategori;
+        } elseif ($detail->ctvt) {
+            $kategori = $detail->ctvt->kategori;
         }
     @endphp
-    @if ($kategori == 5)
+    @if ($kategori == 4)
         <x-detaildry :id="$kd_manhour" :kategori="$kategori" />
-    @elseif($kategori == 6)
+    @elseif($kategori == 5)
         <x-detaildrynonresin :id="$kd_manhour" :kategori="$kategori" />
     @elseif($kategori == 2)
         <x-detailoilstandard :id="$kd_manhour" :kategori="$kategori" />
+    @elseif($kategori == 1)
+        <x-detailoilcustom :id="$kd_manhour" :kategori="$kategori" />
+    @elseif($kategori == 3)
+        <x-detailctvt :id="$kd_manhour" :kategori="$kategori" />
     @endif
 @endsection

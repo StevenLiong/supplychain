@@ -55,27 +55,27 @@ class RepairController extends Controller
         return redirect(route('home'))->with('success', 'Added!');
     }
 
-    public function edit(string $id): Response
-    {
-        $product = Repair::findOrFail($id);
-        $manhour = ManHour::orderBy('id')->get();
+    // public function edit(string $id): Response
+    // {
+    //     $product = Repair::findOrFail($id);
+    //     $manhour = ManHour::orderBy('id')->get();
 
 
 
-        return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
-    }
+    //     return response(view('produksi.standardized_work.edit', ['product' => $product, 'manhour' => $manhour]));
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductRequest $request, string $id): RedirectResponse
-    {
-        $product = Repair::findOrFail($id);
-        $params = $request->validated();
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(UpdateProductRequest $request, string $id): RedirectResponse
+    // {
+    //     $product = Repair::findOrFail($id);
+    //     $params = $request->validated();
 
-        if ($product->update($params)) {
+    //     if ($product->update($params)) {
 
-            return redirect(route('home'))->with('success', 'Updated!');
-        }
-    }
+    //         return redirect(route('home'))->with('success', 'Updated!');
+    //     }
+    // }
 }

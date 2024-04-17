@@ -3,7 +3,15 @@
         <div class="card rounded m-0" style="border-left-color: red; border-left-width: 10px;">
             <div class="card-body shadow">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
+                        <h6>Total Hour</h6>
+                        <p class="p-0 m-0" style="color: #d02424" id="preview-total_hour">
+                            <b>
+                                    {{ $detail->oil_standard->total_hour }}
+                            </b>
+                        </p>
+                    </div>
+                    <div class="col-lg-2 col-sm-6">
                         <h6>Category</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-category">
                             <b>
@@ -11,7 +19,7 @@
                             </b>
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
                         <h6>Kapasitas</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-ukuran_kapasitas">
                             <b>
@@ -19,7 +27,7 @@
                             </b>
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
                         <h6>SO/No.Proyek</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-so">
                             <b>
@@ -27,7 +35,7 @@
                             </b>
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
                         <h6>Kode Manhour</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-so">
                             <b>
@@ -186,80 +194,80 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="card card-body my-1 py-1">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center">
-                                    <div class="input-group input-group-md justify-content-center">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">FINAL ASSEMBLY</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-warning"
-                                                id="preview-totalHour_FinalAssembly">{{ $detail->oil_standard->totalHour_FinalAssembly }}
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
+                    </div>
+                </div>
+                <div class="card card-body my-1 py-1">
+                    <div style="padding: 5px;">
+                        <div class="row align-items-center">
+                            <div class="input-group input-group-md justify-content-center">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">FINAL ASSEMBLY</span>
                                 </div>
-                                <div class="align-items-center justify-content-left pt-1 px-1">
-                                    <table class="w-100">
-                                        <tr !important>
-                                            <td class="w-20">
-                                                <h6 class="border border-dark rounded p-1 text-center"
-                                                    id="preview-hour_hv_moulding">
-                                                    {{ $detail->oil_standard->hour_final_assembly }}</h6>
-                                            </td>
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">final_assembly</h6>
-                                            </td>
-                                            <td class="w-50">
-                                                <h6 class="border bg-warning rounded p-1 text-center" id="preview-final_assembly">
-                                                    {{ $detail->oil_standard->final_assembly }}</h6>
-
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-warning"
+                                        id="preview-totalHour_FinalAssembly">{{ $detail->oil_standard->totalHour_FinalAssembly }}
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">HOUR</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="card card-body my-1 py-1">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center ">
-                                    <div class="input-group input-group-md justify-content-center">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">QC Testing</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text bg-warning"
-                                                id="preview-hour_qctesting">{{ $detail->oil_standard->totalHour_QCTest }}</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
+                        <div class="align-items-center justify-content-left pt-1 px-1">
+                            <table class="w-100">
+                                <tr !important>
+                                    <td class="w-20">
+                                        <h6 class="border border-dark rounded p-1 text-center"
+                                            id="preview-hour_hv_moulding">
+                                            {{ $detail->oil_standard->hour_final_assembly }}</h6>
+                                    </td>
+                                    <td class="w-30">
+                                        <h6 class=" border border-dark rounded p-1 text-center">final_assembly</h6>
+                                    </td>
+                                    <td class="w-50">
+                                        <h6 class="border bg-warning rounded p-1 text-center" id="preview-final_assembly">
+                                            {{ $detail->oil_standard->final_assembly }}</h6>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card card-body my-1 py-1">
+                    <div style="padding: 5px;">
+                        <div class="row align-items-center ">
+                            <div class="input-group input-group-md justify-content-center">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">QC Testing</span>
                                 </div>
-                                <div class="align-items-center justify-content-left pt-1 px-1">
-                                    <table class="w-100">
-                                        <tr !important>
-                                            <td class="w-20">
-                                                <h6 class="border border-dark rounded p-1 text-center"
-                                                    id="preview-hour_qc_testing">
-                                                    {{ $detail->oil_standard->hour_qc_testing }}
-                                                </h6>
-                                            </td>
-                                            <td class="w-30">
-                                                <h6 class="border border-dark rounded p-1 text-center">QC</h6>
-                                            </td>
-                                            <td>
-                                                <h6 class=" border bg-warning rounded p-1 text-center"
-                                                    id="preview-qc_testing">{{ $detail->oil_standard->qc_testing }}
-                                                </h6>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div class="input-group-append">
+                                    <span class="input-group-text bg-warning"
+                                        id="preview-hour_qctesting">{{ $detail->oil_standard->totalHour_QCTest }}</span>
+                                </div>
+                                <div class="input-group-append">
+                                    <span class="input-group-text">HOUR</span>
                                 </div>
                             </div>
+                        </div>
+                        <div class="align-items-center justify-content-left pt-1 px-1">
+                            <table class="w-100">
+                                <tr !important>
+                                    <td class="w-20">
+                                        <h6 class="border border-dark rounded p-1 text-center"
+                                            id="preview-hour_qc_testing">
+                                            {{ $detail->oil_standard->hour_qc_testing }}
+                                        </h6>
+                                    </td>
+                                    <td class="w-30">
+                                        <h6 class="border border-dark rounded p-1 text-center">QC</h6>
+                                    </td>
+                                    <td>
+                                        <h6 class=" border bg-warning rounded p-1 text-center"
+                                            id="preview-qc_testing">{{ $detail->oil_standard->qc_testing }}
+                                        </h6>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>

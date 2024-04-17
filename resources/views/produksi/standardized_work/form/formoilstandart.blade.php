@@ -1,5 +1,6 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
+
     <h5 class="text-center rounded ml-2 text-sm-center text-xs-center my-1 header-title card-title"
         style="font-size: 30px;color:#d02424;"><b>PERHITUNGAN MAN HOUR</b></h5>
     @if (session('error'))
@@ -16,7 +17,28 @@
             </ul>
         </div>
     @endif
-    <form class="login-content floating-label " method="post" action="{{ route('store.oil_standard') }}">
+    <div class="modal fade saveModal" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center font-weight-bold ">
+                    <p style="font-size: 20px;">Apakah anda yakin ingin menyimpan data ini?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="submitButton">
+                        <i class="fa-regular fa-floppy-disk mr-2"></i>Simpan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="login-content floating-label " method="post" action="{{ route('store.oil_standard') }}" style="height: auto;">
         @csrf
         <div class="row px-2">
             <div class="col-lg-12">
@@ -31,17 +53,13 @@
                                     name="total_hour" value="{{ old('total_hour') }}">
                             </div>
                         </div>
-
                         <div class="col-lg-6 col-md-6 col-sm-12 text-right">
                             <button type="reset" class="btn btn-warning m-2">
                                 <i class="fa-solid fa-rotate-left mr-2"> </i>Reset
                             </button>
-                            <button type="submit" class="btn btn-primary m-2"> <i
-                                    class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
-                            {{-- <a href="#" class="btn btn-info m-2" data-target=".preview" onclick="previewForm()"
-                                data-toggle="modal">
-                                <i class="fa-solid fa-circle-check"></i>Preview
-                            </a> --}}
+                            <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#saveModal">
+                                <i class="fa-regular fa-floppy-disk mr-2"></i>Simpan
+                            </button>
                             <a href="/standardized_work/home" class="btn btn-primary m-2">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i>Cancel
                             </a>
@@ -100,7 +118,6 @@
                                 </select>
                                 <label>Capacity</label>
                             </div>
-
                         </div>
                         <div class="col-lg-4 col-sm-6">
                             <div class="floating-label form-group">
@@ -154,61 +171,30 @@
                                         <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
                                     </td>
                                     <td class="w-50">
-                                        <select class="form-control  multiple1" name="coil_lv[]"
-                                            id="coil_lv" multiple>
+                                        <select class="form-control  multiple1" name="coil_lv[]" id="coil_lv" multiple>
                                         </select>
                                     </td>
                                 </tr>
+
+                            </table>
+                            <table class="w-100">
+
                                 <tr !important>
-                                    <td>
+                                    <td class="w-20">
                                         <input class="border border-dark rounded text-center" style="width:100%;"
                                             id="hour_coil_hv" name="hour_coil_hv" value="{{ old('hour_coil_hv') }}"
                                             readonly>
                                     </td>
-                                    <td>
+                                    <td class="w-30">
                                         <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
                                     </td>
-                                    <td>
+                                    <td class="w-50">
                                         <select class=" form-control border border-dark rounded text-center multiple1"
                                             style="height: 33px;"name="coil_hv[]" id="coil_hv" multiple>
 
                                         </select>
                                     </td>
                                 </tr>
-                                {{-- <tr !important>
-                                    <td>
-                                        <input class="border border-dark rounded text-center" style="width:100%;"
-                                            id="hour_potong_leadwire" name="hour_potong_leadwire"
-                                            value="{{ old('hour_potong_leadwire') }}" readonly>
-                                    </td>
-                                    <td>
-                                        <h6 class="border border-dark rounded p-1 text-center">Potong Lead Wire
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <select class=" form-control border border-dark rounded text-center"
-                                            style="height: 33px;" name="potong_leadwire" id="potong_leadwire">
-
-                                        </select>
-
-                                    </td>
-                                </tr>
-                                <tr !important>
-                                    <td>
-                                        <input class="border border-dark rounded text-center" style="width:100%;"
-                                            id="hour_potong_isolasi" name="hour_potong_isolasi"
-                                            value="{{ old('hour_potong_isolasi') }}" readonly>
-                                    </td>
-                                    <td>
-                                        <h6 class="border border-dark rounded p-1 text-center">Potong Isolasi
-                                        </h6>
-                                    </td>
-                                    <td>
-                                        <select class="form-control  multiple1" style="margin-bottom: 0rem"
-                                            name="potong_isolasi" id="potong_isolasi">
-                                        </select>
-                                    </td>
-                                </tr> --}}
                             </table>
                         </div>
 
@@ -236,17 +222,17 @@
                                     <tr !important>
                                         <td class="">
                                             <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_connect" name="hour_connect"
-                                                value="{{ old('hour_connect') }}" readonly>
+                                                id="hour_connect" name="hour_connect" value="{{ old('hour_connect') }}"
+                                                readonly>
 
                                         </td>
                                         <td class="w-30">
-                                            <h6 class=" border border-dark rounded p-1 text-center">Off Load
+                                            <h6 class=" border border-dark rounded p-1 text-center">Connect
                                             </h6>
                                         </td>
                                         <td class="w-50">
                                             <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;"name="connect" id="connect" >
+                                                style="height: 33px;"name="connect" id="connect">
 
                                             </select>
                                         </td>
@@ -290,8 +276,8 @@
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control  multiple2"
-                                                style="height: 33px;" name="final_assembly[]" id="final_assembly" multiple>
+                                            <select class=" form-control  multiple2" style="height: 33px;"
+                                                name="final_assembly[]" id="final_assembly" multiple>
 
                                             </select>
                                         </td>
@@ -332,8 +318,9 @@
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control multiple3"
-                                                 name="core_coil_assembly[]" id="core_coil_assembly" multiple>
+                                            <select
+                                                class="form-control border border-dark rounded text-center"style="height: 33px;"
+                                                name="core_coil_assembly" id="core_coil_assembly">
 
                                             </select>
                                         </td>
@@ -342,84 +329,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div>
-                        <div style="padding: 5px;">
-                            <div class="row align-items-center ">
-                                <div class="input-group input-group-md justify-content-center">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">FINAL ASSEMBLY</span>
-                                    </div>
-                                    <div class="input-group-append">
-                                        <input type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                            id="totalHour_FinalAssembly	" name="totalHour_FinalAssembly	"
-                                            value="{{ old('totalHour_FinalAssembly	') }}" readonly>
-                                    </div>
-
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">HOUR</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="align-items-center justify-content-left pt-1 px-1">
-                                <table class="w-100">
-                                    <tr !important>
-                                        <td class="w-20">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_final_assembly" name="hour_final_assembly"
-                                                value="{{ old('hour_final_assembly') }}" readonly>
-
-                                        </td>
-                                        <td class="w-30">
-                                            <h6 class="border border-dark rounded p-1 text-center">final_assembly
-                                            </h6>
-                                        </td>
-                                        <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="final_assembly" id="final_assembly" multiple>
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    {{-- <tr !important>
-                                        <td class="w-20">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_type_susun_core" name="hour_type_susun_core"
-                                                value="{{ old('hour_type_susun_core') }}" readonly>
-
-                                        </td>
-                                        <td class="w-30">
-                                            <h6 class="border border-dark rounded p-1 text-center">Standard
-                                            </h6>
-                                        </td>
-                                        <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="type_susun_core" id="type_susun_core">
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr !important>
-                                        <td class="w-20">
-                                            <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_type_susun_core" name="hour_type_susun_core"
-                                                value="{{ old('hour_type_susun_core') }}" readonly>
-
-                                        </td>
-                                        <td class="w-30">
-                                            <h6 class="border border-dark rounded p-1 text-center">Pengisian Oli
-                                            </h6>
-                                        </td>
-                                        <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;" name="type_susun_core" id="type_susun_core">
-
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div>
                         <div style="padding: 5px;">
                             <div class="row align-items-center ">
@@ -442,15 +351,16 @@
                                     <tr !important>
                                         <td class="w-20">
                                             <input class="border border-dark rounded text-center" style="width:100%;"
-                                                id="hour_qc_testing" name="hour_qc_testing" value="{{ old('hour_qc_testing') }}" readonly>
+                                                id="hour_qc_testing" name="hour_qc_testing"
+                                                value="{{ old('hour_qc_testing') }}" readonly>
                                         </td>
                                         <td class="w-30">
                                             <h6 class="border border-dark rounded p-1 text-center">QC
                                             </h6>
                                         </td>
                                         <td class="w-50">
-                                            <select class=" form-control border border-dark rounded text-center" style="height: 33px;"
-                                                name="qc_testing" id="qc_testing">
+                                            <select class=" form-control border border-dark rounded text-center"
+                                                style="height: 33px;" name="qc_testing" id="qc_testing">
                                             </select>
                                         </td>
                                     </tr>
@@ -747,32 +657,12 @@
             });
         });
 
-    </script>
-    {{-- <script>
-        $(document).ready(function() {
-            $(".multiple1").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                dropdownAutoWidth: true,
-                // allowClear: true
-            }).on('change', displayTotalJamCoilMaking);
-            $(".multiple2").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                dropdownAutoWidth: true,
-                // allowClear: true
-            }).on('change', displayTotalJamFinalAssembly);
-            $(".multiple3").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                dropdownAutoWidth: true,
-                // allowClear: true
-            }).on('change', displayTotalJamCoreCoilAssembly);
+        document.getElementById("submitButton").addEventListener("click", function() {
+            document.querySelector("form").submit();
         });
-    </script> --}}
+    </script>
     <script>
         $(document).ready(function() {
-            // Fungsi untuk menampilkan total jam
             function displayTotalJam(selector, displayFunction) {
                 $(selector).select2({
                     placeholder: 'Pilih',
@@ -781,10 +671,10 @@
                     maximumSelectionLength: Infinity
                 }).on('change', displayFunction);
             }
-
             // Daftar kelas selector dan fungsi tampilan total jam yang sesuai
-            var selectors = [".multiple1", ".multiple2", ".multiple3"];
-            var displayFunctions = [displayTotalJamCoilMaking, displayTotalJamFinalAssembly, displayTotalJamCoreCoilAssembly];
+            var selectors = [".multiple1", ".multiple2"];
+            var displayFunctions = [displayTotalJamCoilMaking, displayTotalJamFinalAssembly
+            ];
 
             // Pengaturan Select2 untuk setiap elemen
             $.each(selectors, function(index, selector) {

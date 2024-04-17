@@ -4,6 +4,7 @@ namespace App\Http\Controllers\produksi\StandardizedWork;
 
 use App\Http\Controllers\Controller;
 use App\Models\produksi\Ct;
+use App\Models\produksi\CtVt;
 use App\Models\produksi\DryCastResin;
 use App\Models\produksi\DryNonResin;
 use App\Models\produksi\Kapasitas;
@@ -57,8 +58,9 @@ class StandardizeWorkController extends Controller
         // Delete records in other tables based on kd_manhour
         DryCastResin::where('kd_manhour', $kd_manhour)->delete();
         DryNonResin::where('kd_manhour', $kd_manhour)->delete();
-        Ct::where('kd_manhour', $kd_manhour)->delete();
-        Vt::where('kd_manhour', $kd_manhour)->delete();
+        // Ct::where('kd_manhour', $kd_manhour)->delete();
+        CtVt::where('kd_manhour', $kd_manhour)->delete();
+        // Vt::where('kd_manhour', $kd_manhour)->delete();
         OilCustom::where('kd_manhour', $kd_manhour)->delete();
         OilStandard::where('kd_manhour', $kd_manhour)->delete();
         Repair::where('kd_manhour', $kd_manhour)->delete();
@@ -68,10 +70,59 @@ class StandardizeWorkController extends Controller
 
         // return redirect(route('home'))->with('error', 'Sorry, unable to delete this!');
     }
+        public function delete(string $kd_manhour, Request $request): RedirectResponse
+    {
+        StandardizeWork::where('kd_manhour', $kd_manhour)->delete();
+
+        // Delete records in other tables based on kd_manhour
+        DryCastResin::where('kd_manhour', $kd_manhour)->delete();
+        DryNonResin::where('kd_manhour', $kd_manhour)->delete();
+        CtVt::where('kd_manhour', $kd_manhour)->delete();
+        OilCustom::where('kd_manhour', $kd_manhour)->delete();
+        OilStandard::where('kd_manhour', $kd_manhour)->delete();
+        Repair::where('kd_manhour', $kd_manhour)->delete();
+
+        // Check if request is AJAX
+        if ($request->ajax()) {
+            // Return JSON response
+            return response()->json(['success' => true]);
+        } else {
+            // Redirect with success message if deletion successful
+            return redirect(route('home'))->with('success', 'Deleted!');
+        }
+    }
     public function edit(string $kd_manhour)
     {
+        // Cari data Standard berdasarkan kd_manhour
         $product = StandardizeWork::where('kd_manhour', $kd_manhour)->first();
-        return response(view('produksi.standardized_work.edit', ['product' => $product,'kd_manhour' => $kd_manhour, 'title' => 'Detail Data']));
+
+        // Jika data Standard tidak ditemukan, tampilkan error 404
+        if (!$product) {
+            abort(404);
+        }
+
+        // Ambil data dari relasi masing-masing produk berdasarkan kd_manhour yang sama
+        $dryCastResin = DryCastResin::where('kd_manhour', $kd_manhour)->first();
+        $dryNonResin = DryNonResin::where('kd_manhour', $kd_manhour)->first();
+        // $ct = Ct::where('kd_manhour', $kd_manhour)->first();
+        // $vt = Vt::where('kd_manhour', $kd_manhour)->first();
+        $oilCustom = OilCustom::where('kd_manhour', $kd_manhour)->first();
+        $oilStandard = OilStandard::where('kd_manhour', $kd_manhour)->first();
+        $repair = Repair::where('kd_manhour', $kd_manhour)->first();
+
+        // Kemudian Anda dapat mengirimkan data ini ke tampilan untuk diedit
+        return view('produksi.standardized_work.edit', [
+            'product' => $product,
+            'dryCastResin' => $dryCastResin,
+            'dryNonResin' => $dryNonResin,
+            // 'ct' => $ct,
+            // 'vt' => $vt,
+            'oilCustom' => $oilCustom,
+            'oilStandard' => $oilStandard,
+            'repair' => $repair,
+            'kd_manhour' => $kd_manhour,
+            'title' => 'Edit Data'
+        ]);
     }
 
     /**
@@ -80,28 +131,6 @@ class StandardizeWorkController extends Controller
     public function update(Request $request, string $kd_manhour)
     {
         $standardizeWork = StandardizeWork::where('kd_manhour', $kd_manhour)->first();
-
-        if (!$standardizeWork) {
-            return redirect()->back()->with('error', 'Data Standardize Work tidak ditemukan.');
-        }
-
-        $products = [
-            DryNonResin::where('kd_manhour', $kd_manhour)->first(),
-            DryCastResin::where('kd_manhour', $kd_manhour)->first(),
-            Ct::where('kd_manhour', $kd_manhour)->first(),
-            Vt::where('kd_manhour', $kd_manhour)->first(),
-            OilCustom::where('kd_manhour', $kd_manhour)->first(),
-            OilStandard::where('kd_manhour', $kd_manhour)->first(),
-            Repair::where('kd_manhour', $kd_manhour)->first(),
-        ];
-
-        foreach ($products as $product) {
-            if ($product) {
-                $params = $request->all();
-
-                $product->update($params);
-            }
-        }
 
         return redirect(route('home'))->with('success', 'Produk berhasil diupdate.');
     }

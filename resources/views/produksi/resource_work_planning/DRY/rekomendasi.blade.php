@@ -12,7 +12,7 @@
                     <form action="{{ route('process.workcenter_rekomendasi') }}" method="post" class="ml-2"
                         id="workcenterForm_rekomendasi">
                         @csrf
-                        <div class="row align-items-center">
+                        <d iv class="row align-items-center">
                             <div class="col-md-auto">
                                 <label for="workcenterSelect_rekomendasi">Pilih Work Center:</label>
                                 <select class="custom-select" name="Workcenter_rekomendasi"
@@ -43,7 +43,7 @@
                                     <option value="3">3 Shift</option>
                                 </select>
                             </div> --}}
-                        </div>
+                        </d>
 
                     </form>
                 </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\logistic\Gudang;
 use App\Http\Controllers\Controller;
 use App\Models\logistic\Finishedgood;
+use App\Models\produksi\Wo2;
 
 class FinishedgoodController extends Controller
 {

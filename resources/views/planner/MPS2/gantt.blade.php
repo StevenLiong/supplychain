@@ -1,3 +1,5 @@
+gantt.blade.php
+
 @extends('planner.template.layout')
 @section('style')
 <style>
@@ -56,8 +58,22 @@
             <div id="tabelmps" class="table-wrapper">
                 <table class="table table-bordered mt-3">
                     <tbody>
+                        @php
+                            // Tentukan tahun yang ingin diperiksa
+                            $yearToCheck = 2024; // Misalnya, tahun 2024
+
+                            // Periksa apakah tahun tersebut adalah tahun kabisat atau tidak
+                            $tahunKabisat = \Carbon\Carbon::create($yearToCheck, 1, 1)->isLeapYear();
+                            
+                            // Menghitung jumlah hari dalam tahun 2024
+                            $totalDaysInYear = ($tahunKabisat ? 366 : 365);
+
+                            // Menambahkan 8 hari
+                            $totalDaysWithBuffer = $totalDaysInYear + 8;
+                        @endphp
+
                         <tr>
-                            <th colspan="69" style="text-align: center;">Kapasitas</th>
+                            <th colspan="{{ $totalDaysWithBuffer }}" style="text-align: center;">Kapasitas</th>
                         </tr>
                         <tr>
                             <td colspan="8" style="min-width: 145px; text-align: center;" class="freeze-column">PL 2</td>
@@ -140,8 +156,33 @@
                             <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">KVA</th>
                             <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Qty</th>
                             <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Manhour Code</th>
-                            <th colspan="31" style="text-align: center">{{ $monthName }}</th>
-                            <th colspan="30" style="text-align: center">{{ $monthName2 }}</th>
+                            @php
+                                // Tentukan tahun yang ingin diperiksa
+                                $yearToCheck = 2024; // Misalnya, tahun 2024
+
+                                // Periksa apakah tahun tersebut adalah tahun kabisat atau tidak
+                                $tahunKabisat = \Carbon\Carbon::create($yearToCheck, 1, 1)->isLeapYear();
+                            @endphp
+                            @php
+                                $daysInMonths = [
+                                    31, // Januari
+                                    ($tahunKabisat ? 29 : 28), // Februari
+                                    31, // Maret
+                                    30, // April
+                                    31, // Mei
+                                    30, // Juni
+                                    31, // Juli
+                                    31, // Agustus
+                                    30, // September
+                                    31, // Oktober
+                                    30, // November
+                                    31, // Desember
+                                ];
+                            @endphp
+                            
+                            @for ($i = 0; $i < 12; $i++)
+                                <th colspan="{{ $daysInMonths[$i] }}" style="text-align: center">{{ ucfirst(\Carbon\Carbon::create(2024, $i + 1, 1)->formatLocalized('%B')) }}</th>
+                            @endfor
                         </tr>
                         <tr>
                             @foreach ($tanggalHeaders as $tanggal)
@@ -173,43 +214,58 @@
                                 @endforeach
                             </tr>
                         @endforeach
-                        <tr>
-                            <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
-                                <input type="text" class="form-control" name="id_wo" value="">
-                            </td>
-                            <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
-                                <input type="text" class="form-control" name="id_so_new" value="" disabled>
-                            </td>
-                            <td class="freeze-column" style="position: relative; min-width: 85px; padding: 10px;">
-                                <input type="text" class="form-control" name="production_line" value="">
-                            </td>
-                            <td class="freeze-column" style="position: relative; min-width: 250px; padding: 10px;">
-                                <input type="text" class="form-control" name="project" value="">
-                            </td>
-                            <td class="freeze-column" style="position: relative; min-width: 150px; padding: 10px;">
-                                <input type="text" class="form-control" name="deadline" id="deadline_input" value="">
-                            </td>
-                            <td class="freeze-column" style="position: relative; min-width: 100px; padding: 10px;">
-                                <input type="text" class="form-control" name="kva" value="">
-                            </td>
-                            <td class="freeze-column" style="position: relative; min-width: 78px; padding: 10px;">
-                                <input type="text" class="form-control" name="qty_trafo" value="">
-                            </td>
-                            <td class="freeze-column" style="position: relative; min-width: 160px; padding: 10px;">
-                                <input type="text" class="form-control" name="manhour_code" value="" disabled>
-                            </td>
-                            @for ($i = 1; $i <= 61; $i++)
-                                <td><input type="text" class="form-control jan-input" name="jan_{{ $i }}" disabled></td>
-                            @endfor
-                        </tr>
-                        {{-- @for ($j = 1; $j <= 3; $j++)
+                        @for ($j = 1; $j <= 3; $j++)
+                            <tr>
+                                <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
+                                    <input type="text" class="form-control" name="id_wo[]" value="">
+                                </td>
+                                <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
+                                    <input type="text" class="form-control" name="id_so_new[]" value="" disabled>
+                                </td>
+                                <td class="freeze-column" style="position: relative; min-width: 85px; padding: 10px;">
+                                    <input type="text" class="form-control" name="production_line[]" value="">
+                                </td>
+                                <td class="freeze-column" style="position: relative; min-width: 250px; padding: 10px;">
+                                    <input type="text" class="form-control" name="project[]" value="">
+                                </td>
+                                <td class="freeze-column" style="position: relative; min-width: 150px; padding: 10px;">
+                                    <input type="text" class="form-control" name="deadline[]" id="deadline_input" value="">
+                                </td>
+                                <td class="freeze-column" style="position: relative; min-width: 100px; padding: 10px;">
+                                    <input type="text" class="form-control" name="kva[]" value="">
+                                </td>
+                                <td class="freeze-column" style="position: relative; min-width: 78px; padding: 10px;">
+                                    <input type="text" class="form-control" name="qty_trafo[]" value="">
+                                </td>
+                                <td class="freeze-column" style="position: relative; min-width: 160px; padding: 10px;">
+                                    <input type="text" class="form-control" name="manhour_code[]" value="" disabled>
+                                </td>
+                                @php
+                                    $daysInMonths = [
+                                        'January' => 31, 'February' => 28, 'March' => 31,
+                                        'April' => 30, 'May' => 31, 'June' => 30,
+                                        'July' => 31, 'August' => 31, 'September' => 30,
+                                        'October' => 31, 'November' => 30, 'December' => 31,
+                                    ];
+    
+                                    $totalDays = array_sum($daysInMonths); // Menghitung total jumlah hari dalam dua belas bulan
+                                @endphp
+                                @for ($i = 1; $i <= $totalDays; $i++)
+                                    <td><input type="text" class="form-control jan-input" name="jan_{{ $i }}" disabled></td>
+                                @endfor
+                            </tr>
                             
                             
-                        @endfor --}}
+                        @endfor
                     </tbody>
                 </table>   
             </div>
         </form>
+        {{-- <form action="{{ route('mps2.delete') }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah anda yakin ingin menghapus MPS tersebut?')">Delete MPS</button>
+        </form> --}}
     </div>
 </div>
 @endsection

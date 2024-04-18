@@ -18,25 +18,22 @@
                 <button class="btn btn-primary ml-3 mb-3 mb-sm-0" data-toggle="modal" data-target="#myModal">
                     <i class="fa-solid fa-plus mr-2"></i>Create Data
                 </button>
-
-
                 <!-- Modal -->
                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header justify-content-center">
                                 <h5 class="modal-title " id="exampleModalLabel">Select Product Category</h5>
                             </div>
                             <div class="modal-body">
+                                <a class="dropdown-item" href="/standardized_work/Create-Data/Oil-Custom">Oil Custom</a>
+                                <a class="dropdown-item" href="/standardized_work/Create-Data/Oil-Standard">Oil Standard</a>
+                                <a class="dropdown-item" href="/standardized_work/Create-Data/CtVt">CT/VT</a>
                                 <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Cast-Resin">Dry Cast
                                     Resin</a>
-                                <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Non-Resin">Dry Non
-                                    Resin</a>
-                                <a class="dropdown-item" href="/standardized_work/Create-Data/Ct">CT</a>
-                                <a class="dropdown-item" href="/standardized_work/Create-Data/Vt">VT</a>
-                                <a class="dropdown-item" href="/standardized_work/Create-Data/Oil-Standard">Oil Standard</a>
-                                <a class="dropdown-item" href="/standardized_work/Create-Data/Oil-Custom">Oil Custom</a>
+                                    <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Non-Resin">Dry Non
+                                        Resin</a>
                                 <a class="dropdown-item" href="/standardized_work/Create-Data/Repair">Repair</a>
                             </div>
                             <div class="modal-footer justify-content-center">
@@ -46,27 +43,16 @@
                     </div>
                 </div>
 
-                <!-- <div class="dropdown ml-3 mb-3 mb-sm-0">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-search mr-2"></i>Filter Data
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item filter-link" data-category="Dry Cast Resin">Dry Cast Resin</a>
-                            <a class="dropdown-item filter-link" data-category="Dry Non Cast Resin">Dry Non Resin</a>
-                        </div>
-                    </div> -->
-
                 <form id="filterForm" method="GET" action="{{ url('/standardized_work/FilterData') }}">
                     @csrf
                     <div class="dropdown ml-3 mb-3 mb-sm-0">
                         <select class="btn btn-primary dropdown-toggle" name="category" id="filterCategorySelect">
                             <option value="all">No Filter</option>
+                            <option value="Oil Custom">Oil Custom</option>
+                            <option value="Oil Standart">Oil Standart</option>
+                            <option value="CTVT">CT/VT</option>
                             <option value="Dry Cast Resin">Dry Cast Resin</option>
                             <option value="Dry Non Cast Resin">Dry Non Resin</option>
-                            <option value="CT">CT</option>
-                            <option value="VT">VT</option>
-                            <option value="Oil Standart">Oil Standart</option>
-                            <option value="Oil Custom">Oil Custom</option>
                             <option value="Repair">Repair</option>
                         </select>
                         <button type="submit" class="btn btn-primary">
@@ -75,12 +61,8 @@
                     </div>
                 </form>
                 <div class="ml-auto mr-3 float-right">
-                    {{-- <a href="#" class="ya-deh btn btn-primary ">
-                        <i class="mr-2 fa-solid fa-print"></i>Print
-                    </a> --}}
                 </div>
                 <div class=" mr-3 float-right">
-
                     <form action="/logout" method="POST">
                         @csrf
                         <button class="ya-deh btn btn-primary" type="submit"><i
@@ -88,11 +70,11 @@
                     </form>
                 </div>
             </div>
-
             <div id="filteredResults" class="table-responsive">
                 <div id="datatable_wrapper" id="filteredTable" class="dataTables_wrapper">
-
                     <table id="datatable" class="table data-table table-striped" data-ordering="false">
+                        {{-- <table id="datatable" class="table data-table table-striped dataTable" role="grid"
+                            aria-describedby="datatable_info" data-ordering="false"> --}}
                         <thead>
                             <tr>
                             <tr class="ligth" style="text-align: center;">
@@ -107,13 +89,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @dd($standardize_works) --}}
                             @forelse ($standardize_works as $std)
                                 <tr>
                                     <td class="text-center">
-
                                         @if ($std->dry_cast_resin)
-                                            {{-- @dd($std->dry_cast_resin) --}}
                                             {{ $std->nama_product }}
                                         @elseif ($std->dry_non_resin)
                                             {{ $std->nama_product }}
@@ -123,9 +102,7 @@
                                             {{ $std->nama_product }}
                                         @elseif ($std->oil_standard)
                                             {{ $std->nama_product }}
-                                        @elseif ($std->vt)
-                                            {{ $std->nama_product }}
-                                        @elseif ($std->ct)
+                                        @elseif ($std->ctvt)
                                             {{ $std->nama_product }}
                                         @endif
                                     </td>
@@ -140,10 +117,8 @@
                                             {{ $std->oil_custom->created_at->format('d-m-Y') }}
                                         @elseif ($std->oil_standard)
                                             {{ $std->oil_standard->created_at->format('d-m-Y') }}
-                                        @elseif ($std->vt)
-                                            {{ $std->vt->created_at->format('d-m-Y') }}
-                                        @elseif ($std->ct)
-                                            {{ $std->ct->created_at->format('d-m-Y') }}
+                                        @elseif ($std->ctvt)
+                                            {{ $std->ctvt->created_at->format('d-m-Y') }}
                                         @endif
                                     </td>
                                     <td class="text-center">
@@ -157,9 +132,7 @@
                                             {{ $std->nomor_so }}
                                         @elseif ($std->oil_standard)
                                             {{ $std->nomor_so }}
-                                        @elseif ($std->vt)
-                                            {{ $std->nomor_so }}
-                                        @elseif ($std->ct)
+                                        @elseif ($std->ctvt)
                                             {{ $std->nomor_so }}
                                         @endif
                                     </td>
@@ -174,9 +147,7 @@
                                             {{ $std->total_hour }}
                                         @elseif ($std->oil_standard)
                                             {{ $std->total_hour }}
-                                        @elseif ($std->vt)
-                                            {{ $std->total_hour }}
-                                        @elseif ($std->ct)
+                                        @elseif ($std->ctvt)
                                             {{ $std->total_hour }}
                                         @endif
                                     </td>
@@ -191,9 +162,7 @@
                                             {{ $std->ukuran_kapasitas }}
                                         @elseif ($std->oil_standard)
                                             {{ $std->ukuran_kapasitas }}
-                                        @elseif ($std->vt)
-                                            {{ $std->ukuran_kapasitas }}
-                                        @elseif ($std->ct)
+                                        @elseif ($std->ctvt)
                                             {{ $std->ukuran_kapasitas }}
                                         @endif
                                     </td>
@@ -208,9 +177,7 @@
                                             {{ $std->kd_manhour }}
                                         @elseif ($std->oil_standard)
                                             {{ $std->kd_manhour }}
-                                        @elseif ($std->vt)
-                                            {{ $std->kd_manhour }}
-                                        @elseif ($std->ct)
+                                        @elseif ($std->ctvt)
                                             {{ $std->kd_manhour }}
                                         @endif
                                     </td>
@@ -225,29 +192,23 @@
                                             {{ $std->oil_custom->id_fg }}
                                         @elseif ($std->oil_standard)
                                             {{ $std->oil_standard->id_fg }}
-                                        @elseif ($std->vt)
-                                            {{ $std->vt->id_fg }}
-                                        @elseif ($std->ct)
-                                            {{ $std->ct->id_fg }}
+                                        @elseif ($std->ctvt)
+                                            {{ $std->ctvt->id_fg }}
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                         <a type="button" href="{{ route('detail', [ 'kd_manhour' => $std->kd_manhour]) }}"
+                                        <a type="button"
+                                            href="{{ route('detail', ['kd_manhour' => $std->kd_manhour]) }}"
                                             class="btn btn-primary m-1">
                                             <i class="fa-solid fa-circle-info m-1"></i>
-                                         </a>
-                                         {{-- <a type="button" href="{{ route('edit', [ 'kd_manhour' => $std->kd_manhour]) }}"
-                                            class="btn btn-primary m-1">
-                                            <i class="fa-solid fa-circle-info m-1"></i>
-                                         </a> --}}
+                                        </a>
                                         <a type="button" href="{{ route('edit', ['kd_manhour' => $std->kd_manhour]) }}"
                                             class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a>
-                                            
-                                        <a href="#" class="btn btn-primary m-1" data-toggle="modal"
-                                            data-target=".delete-modal">
+                                        <button class="btn btn-primary m-1" data-toggle="modal"
+                                            data-target="#delete-modal{{ $std->kd_manhour}}">
                                             <i class="fa-solid fa-trash m-1"></i>
-                                        </a>
-                                        <div class="modal fade delete-modal" tabindex="-1" role="dialog"
+                                        </button>
+                                        <div class="modal fade " id="delete-modal{{ $std->kd_manhour}}"  tabindex="-1" role="dialog"
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
@@ -257,27 +218,24 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <p>Yakin ingin menghapus data ini?</p>
+                                                    <div class="modal-body text-center font-weight-bold ">
+                                                        <p style="font-size: 20px;">Apakah anda yakin ingin menghapus data ini?</p>
                                                     </div>
                                                     <div class="modal-footer justify-content-center">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-dismiss="modal">Batal</button>
-                                                        <button type="button" class="btn btn-danger"
-                                                            onclick="document.getElementById('delete-row-{{ $std->kd_manhour }}').submit();">Hapus</button>
+                                                        <button type="button" class="btn btn-primary"
+                                                            onclick="document.getElementById('delete-{{ $std->kd_manhour }}').submit();">Hapus</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <form id="delete-row-{{ $std->kd_manhour }}"
+                                        <form id="delete-{{ $std->kd_manhour }}"
                                             action="{{ route('delete', ['kd_manhour' => $std->kd_manhour]) }}"
                                             method="POST">
                                             <input type="hidden" name="_method" value="DELETE">
                                             @csrf
                                         </form>
-
-
                                     </td>
                                 </tr>
                             @empty
@@ -308,7 +266,6 @@
                 sendFilterRequest(selectedCategory);
             });
         });
-
         function sendFilterRequest(selectedCategory) {
             $.ajax({
                 url: '/standardized_work/FilterData',

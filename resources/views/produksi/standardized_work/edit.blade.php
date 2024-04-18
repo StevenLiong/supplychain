@@ -1,6 +1,5 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
-    <div class="container">
         <div class="card my-3">
             <div class="card-body">
                 <div class="row justify-content-center mb-1">
@@ -29,13 +28,9 @@
                     @elseif($kategori == 6)
                         <x-editdrynonresin :id="$kd_manhour" :kategori="$kategori" />
                     @endif
-                    <div class="col-lg-2 col-sm-2 col-md-2 text-left">
-                        <a href="/standardized_work/home" class="btn btn-secondary mt-2 ">
-                            <i class="fa-solid fa-circle-xmark mr-2"></i>Cancel
-                        </a>
-                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
+        
 @endsection

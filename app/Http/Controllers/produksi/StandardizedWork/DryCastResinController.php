@@ -55,14 +55,14 @@ class DryCastResinController extends Controller
 
         $params = $request->all();
 
-        // Cek apakah 'customRadio-11' ada dalam permintaan
-        if ($request->has('customRadio-11')) {
+        if ($request->has('housing')) {
             // Jika ada, set kolom 'keterangan' dengan nilai radio button
-            $params['keterangan'] = $request->input('customRadio-11');
+            $params['keterangan'] = $request->input('housing');
         } else {
             // Jika tidak ada, gunakan nilai default
             $params['keterangan'] = 'Tidak Menggunakan Housing';
         }
+
 
         $multipleFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'oven', 'potong_isolasi_fiber', 'qc_testing'];
 
@@ -91,12 +91,12 @@ class DryCastResinController extends Controller
 
 
 
-    public function detail(string $kd_manhour): Response
-    {
-        $title = 'Detail Dry Cast Resin';
-        $product = DryCastResin::where('kd_manhour', $kd_manhour)->firstOrFail();
-        return response(view('produksi.standardized_work.detaildrycastresin', ['product' => $product, 'title' => $title]));
-    }
+    // public function detail(string $kd_manhour): Response
+    // {
+    //     $title = 'Detail Dry Cast Resin';
+    //     $product = DryCastResin::where('kd_manhour', $kd_manhour)->firstOrFail();
+    //     return response(view('produksi.standardized_work.detaildrycastresin', ['product' => $product, 'title' => $title]));
+    // }
 
 
     // public function edit(string $id): Response

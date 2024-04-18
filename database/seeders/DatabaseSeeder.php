@@ -133,6 +133,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ManHourDrynonresin::class);
         $this->call(ManHourOilstandard::class);
         $this->call(ManHourOilCustom::class);
+        $this->call(ManHourCTVT::class);
 
     }
 }

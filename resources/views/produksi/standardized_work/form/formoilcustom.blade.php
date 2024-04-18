@@ -16,7 +16,28 @@
             </ul>
         </div>
     @endif
-    <form class="login-content floating-label " method="post" action="{{ route('store.drynonresin') }}">
+    <div class="modal fade saveModal" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header ">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center font-weight-bold ">
+                    <p style="font-size: 20px;">Apakah anda yakin ingin menyimpan data ini?</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" id="submitButton">
+                        <i class="fa-regular fa-floppy-disk mr-2"></i>Simpan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="login-content floating-label " method="post" action="{{ route('store.oil_custom') }}" style="height: auto;">
         @csrf
         <div class="row px-2">
             <div class="col-lg-12">
@@ -37,12 +58,9 @@
                             <button type="reset" class="btn btn-warning m-2">
                                 <i class="fa-solid fa-rotate-left mr-2"> </i>Reset
                             </button>
-                            <button type="submit" class="btn btn-primary m-2"> <i
-                                    class="fa-regular fa-floppy-disk mr-2"></i>Save</button>
-                            {{-- <a href="#" class="btn btn-info m-2" data-target=".preview" onclick="previewForm()"
-                                data-toggle="modal">
-                                <i class="fa-solid fa-circle-check"></i>Preview
-                            </a> --}}
+                            <button type="button" class="btn btn-primary m-2" data-toggle="modal" data-target="#saveModal">
+                                <i class="fa-regular fa-floppy-disk mr-2"></i>Simpan
+                            </button>
                             <a href="/standardized_work/home" class="btn btn-primary m-2">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i>Cancel
                             </a>
@@ -64,7 +82,7 @@
                                 <label>Category</label>
                                 <div class="mb-3">
                                     <input type="hidden" class="form-control" name="kategori" id="kategori"
-                                        value="2">
+                                        value="1">
                                 </div>
                             </div>
                         </div>
@@ -144,10 +162,11 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="align-items-center justify-content-left pt-1 px-1">
                                     <table class="w-100">
                                         <tr !important>
-                                            <td>
+                                            <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
                                                     id="hour_coil_lv" name="hour_coil_lv"
                                                     value="{{ old('hour_coil_lv') }}" readonly>
@@ -156,27 +175,25 @@
                                                 <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
                                             </td>
                                             <td class="w-50">
-                                                <select
-                                                    class="form-control form-select input border border-dark rounded text-center multiple1"
-                                                    style="height: 33px;" name="coil_lv[]" id="coil_lv" multiple>
+                                                <select class=" form-control multiple1" style="width:100%;"
+                                                    name="coil_lv[]" id="coil_lv" multiple>
                                                 </select>
                                             </td>
                                         </tr>
+                                    </table>
+                                    <table class="w-100">
                                         <tr !important>
-                                            <td>
+                                            <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
                                                     id="hour_coil_hv" name="hour_coil_hv"
                                                     value="{{ old('hour_coil_hv') }}" readonly>
-
                                             </td>
-                                            <td>
+                                            <td class="w-30">
                                                 <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
                                             </td>
-                                            <td>
-                                                <select
-                                                    class=" form-control border border-dark rounded text-center multiple1"
-                                                    style="height: 33px;"name="coil_hv" id="coil_hv" multiple>
-
+                                            <td class="w-50">
+                                                <select class=" form-control multiple1" style="width:100%;"
+                                                    name="coil_hv[]" id="coil_hv" multiple>
                                                 </select>
                                             </td>
                                         </tr>
@@ -205,18 +222,19 @@
                                 <div class="align-items-center justify-content-left pt-1 px-1">
                                     <table class="w-100">
                                         <tr !important>
-                                            <td class="">
+                                            <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
                                                     id="hour_cca" name="hour_cca" value="{{ old('hour_cca') }}"
                                                     readonly>
 
                                             </td class="w-30">
                                             <td>
-                                                <h6 class=" border border-dark rounded p-1 text-center">CCA</h6>
+                                                <h6 class=" border border-dark rounded p-1 text-center">Core Coil Assembly
+                                                </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control multiple2" style="width:100%;"
-                                                    name="cca[]" id="cca" multiple>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;" name="cca" id="cca">
                                                 </select>
                                             </td>
                                         </tr>
@@ -255,30 +273,12 @@
                                             </td>
                                             <td class="w-50">
                                                 <select
-                                                    class=" form-control border border-dark rounded text-center multiple3"
+                                                    class=" form-control border border-dark rounded text-center multiple2"
                                                     style="height: 33px;"name="connection[]" id="connection" multiple>
 
                                                 </select>
                                             </td>
                                         </tr>
-                                        {{-- <tr !important>
-                                            <td class="w-20">
-                                                <input class="border border-dark rounded text-center" style="width:100%;"
-                                                    id="hour_hv_connection" name="hour_hv_connection"
-                                                    value="{{ old('hour_hv_connection') }}" readonly>
-                                            </td>
-                                            <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">HV Connection
-                                                </h6>
-                                            </td>
-                                            <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;"name="hv_connection" id="hv_connection">
-
-                                                </select>
-                                            </td>
-                                        </tr> --}}
-
                                     </table>
                                 </div>
                             </div>
@@ -324,6 +324,9 @@
                                                 </select>
                                             </td>
                                         </tr>
+                                    </table>
+                                    <table class="w-100">
+
                                         <tr !important>
                                             <td class="20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
@@ -336,7 +339,7 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control multiple4" style="width:100%;"
+                                                <select class=" form-control multiple3" style="width:100%;"
                                                     name="special_assembly[]" id="special_assembly" multiple>
 
                                                 </select>
@@ -346,32 +349,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- <div class="card card-body my-1 py-1"> --}}
-                        {{-- <div style="padding: 5px;"> --}}
-                        {{-- <div class="row align-items-center">
-                                    <div class="input-group input-group-md justify-content-center">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">SPECIAL ASSEMBLY</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <input type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalHour_SpecialFinalAssembly" name="totalHour_SpecialFinalAssembly"
-                                                value="{{ old('totalHour_SpecialFinalAssembly') }}" readonly>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left pt-1 px-1">
-                                    <table class="w-100">
-
-                                    </table>
-                                </div> --}}
-                        {{-- </div> --}}
-                        {{-- </div> --}}
-                        {{-- <div class="card card-body my-1 py-1"> --}}
-                        {{-- <div style="padding: 5px;"> --}}
                         <div class="card card-body my-1 py-1">
                             <div style="padding: 5px;">
                                 <div class="row align-items-center">
@@ -401,17 +378,13 @@
                                                 <h6 class=" border border-dark rounded p-1 text-center">Finishing</h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control multiple5" style="width:100%;"
+                                                <select class=" form-control multiple4" style="width:100%;"
                                                     name="finishing[]" id="finishing" multiple>
                                                 </select>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                                {{-- </div> --}}
-                                {{-- </div> --}}
-                                {{-- <div class="card card-body my-1 py-1"> --}}
-                                {{-- <div style="padding: 5px;"> --}}
                             </div>
                         </div>
                         <div class="card card-body my-1 py-1">
@@ -446,7 +419,7 @@
                                             </td>
                                             <td class="w-50">
                                                 <select
-                                                    class=" form-control border border-dark rounded text-center multiple6"
+                                                    class=" form-control border border-dark rounded text-center multiple5"
                                                     style="margin-bottom: 0rem" name="qc_testing[]" id="qc_testing"
                                                     multiple>
 
@@ -455,655 +428,12 @@
                                         </tr>
                                     </table>
                                 </div>
-
-                                {{-- </div> --}}
-                                {{-- </div> --}}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- <div class="row px-2">
-            <div class="col-lg-12  mb-0">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="card card-body my-1 py-1">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center justify-content-center ">
-                                    <div class="input-group input-group-md justify-content-center">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">COIL MAKING</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span type="text" class="input-group-text bg-warning" style="width: 3rem"
-                                                id="totalHour_coil_making"></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left pt-1 px-1">
-                                    <table>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <p class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="hour_coil_lv">
-                                                    0</p>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    Coil LV</h6>
-                                            </td>
-                                            <td style="width:500px">
-                                                <select class="form-control" id="validationCustom04" name="z"
-                                                    id="z">
-
-                                                </select>
-
-                                            </td>
-                                        </tr>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <p class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="hour_coil_lv_plus">
-                                                    0</p>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    Coil LV</h6>
-                                            </td>
-                                            <td style="width:500px">
-                                                <select class="form-control" id="validationCustom04" name="coil_lv_plus"
-                                                    id="coil_lv_plus">
-
-                                                </select>
-
-                                            </td>
-                                        </tr>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <p class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="hour_coil_hv">
-                                                    0</p>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    Coil HV</h6>
-                                            </td>
-                                            <td style="width:500px">
-                                                <select class="form-control" id="validationCustom04" name="coil_hv"
-                                                    id="coil_hv">
-
-                                                </select>
-
-                                            </td>
-                                        </tr>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <p class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;"
-                                                    id="hour_coil_hv_plus">
-                                                    0</p>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    Coil HV</h6>
-                                            </td>
-                                            <td style="width:500px">
-                                                <select class="form-control" id="validationCustom04" name="coil_hv_plus"
-                                                    id="coil_hv_plus">
-
-                                                </select>
-
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card card-body">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center justify-content-center ">
-                                    <div class="input-group mb-3" style="width:60%; text-align: center;height:30px;">
-                                        <div class="input-group-prepend">
-                                            <span style="font-size: 18px;" class="input-group-text">CORE-COIL
-                                                ASSEMBLY</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;"
-                                                class="input-group-text bg-warning"><b>05</b></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;" class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left p-2">
-                                    <table>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:500px">
-                                                <div class="checkbox d-inline-block mr-3">
-                                                    <table>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Transpose">
-                                                                <label for="Transpose">Wound Kotak</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Press Coil">
-                                                                <label for="Press Coil">Stacking Kotak</label>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card card-body">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center justify-content-center ">
-                                    <div class="input-group mb-3" style="width:50%; text-align: center;height:30px;">
-                                        <div class="input-group-prepend">
-                                            <span style="font-size: 18px;" class="input-group-text">CONNECTION</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;"
-                                                class="input-group-text bg-warning"><b>05</b></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;" class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left p-2">
-                                    <table>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    XX</h6>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    Connection</h6>
-                                            </td>
-                                            <td style="width:500px">
-                                                <select class="form-control" id="validationCustom04" required="">
-                                                    <option selected="" disabled="" value="">Off Load
-                                                    </option>
-                                                    <option>On Load</option>
-                                                    <option>Chang Over Board</option>
-                                                    <option>Double Tap</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    XX</h6>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    HV Connection</h6>
-                                            </td>
-                                            <td style="width:500px">
-                                                <select class="form-control" id="validationCustom04" required="">
-                                                    <option selected="" disabled="" value="">Flat</option>
-                                                    <option>Rail</option>
-                                                    <option>Wire Soft</option>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card card-body">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center justify-content-center ">
-                                    <div class="input-group mb-3" style="width:50%; text-align: center;height:30px;">
-                                        <div class="input-group-prepend">
-                                            <span style="font-size: 18px;" class="input-group-text">FINAL ASSEMBLY</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;"
-                                                class="input-group-text bg-warning"><b>05</b></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;" class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left p-2">
-                                    <table>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    XX</h6>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    Final Assy</h6>
-                                            </td>
-                                            <td style="width:500px">
-                                                <select class="form-control" id="validationCustom04" required="">
-                                                    <option selected="" disabled="" value="">Flat</option>
-                                                    <option>Rail</option>
-                                                    <option>Wire Soft</option>
-                                                </select>
-                                                <div class="checkbox d-inline-block mr-3">
-                                                    <table>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Leadwire">
-                                                                <label for="Leadwire">Standard</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Groundshield">
-                                                                <label for="Groundshield">Non Standard</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Transpose">
-                                                                <label for="Transpose">Pengisian Oli</label>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="card card-body">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center justify-content-center ">
-                                    <div class="input-group mb-3" style="width:80%; text-align: center;height:30px;">
-                                        <div class="input-group-prepend">
-                                            <span style="font-size: 18px;" class="input-group-text">SPECIAL ASSEMBLY FOR
-                                                FINAL ASSEMBLY</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;"
-                                                class="input-group-text bg-warning"><b>05</b></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;" class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left p-2">
-                                    <table>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:10%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    XX</h6>
-                                            </td>
-                                            <td style=" width:40%">
-                                                <h6 class="  p-2 pb-0"
-                                                    style="border-style:solid;text-align: center;border-radius: 10px; border-width: 2px;">
-                                                    Special Assembly</h6>
-                                            </td>
-                                            <td style="width:500px ">
-                                                <div
-                                                    class="ml-3 form-group checkbox d-inline-block  align-items-center justify-content-center ">
-                                                    <div class="row align-items-center">
-                                                        <input type="checkbox" class="checkbox-input mr-1"
-                                                            id="Radiator Valve">
-                                                        <label class="m-0" for="Radiator Valve">Radiator Valve</label>
-                                                    </div>
-                                                    <div class="row align-items-center">
-                                                        <input type="checkbox" class="checkbox-input mr-1"
-                                                            id="Side Wall">
-                                                        <label class="m-0" for="Side Wall">Side Wall</label>
-                                                    </div>
-                                                    <div class="row align-items-center">
-                                                        <input type="checkbox" class="checkbox-input mr-1"
-                                                            id="Tap Changer Rotary">
-                                                        <label class="m-0" for="Tap Changer Rotary">Tap Changer
-                                                            Rotary</label>
-                                                    </div>
-                                                    <div class="row align-items-center">
-                                                        <input type="checkbox" class="checkbox-input mr-1"
-                                                            id="Assembly Pad Mounted">
-                                                        <label class="m-0" for="Assembly Pad Mounted">Assembly Pad
-                                                            Mounted</label>
-                                                    </div>
-                                                    <div class="row align-items-center">
-                                                        <input type="checkbox" class="checkbox-input mr-1"
-                                                            id="Assembly Pole Mounted">
-                                                        <label class="m-0" for="Assembly Pole Mounted">Assembly Pole
-                                                            Mounted</label>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card card-body">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center justify-content-center ">
-                                    <div class="input-group mb-3" style="width:50%; text-align: center;height:30px;">
-                                        <div class="input-group-prepend">
-                                            <span style="font-size: 18px;" class="input-group-text">FINISHING</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;"
-                                                class="input-group-text bg-warning"><b>05</b></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;" class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left p-2">
-                                    <table>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:600px">
-                                                <div class="checkbox d-inline-block mr-3">
-                                                    <table>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Rapid Pressure Rise Relay">
-                                                                <label for="Rapid Pressure Rise Relay">Rapid Pressure Rise
-                                                                    Relay</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="MOLG">
-                                                                <label for="MOLG">MOLG</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Winding Thermometer">
-                                                                <label for="Winding Thermometer">Winding
-                                                                    Thermometer</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="PRD">
-                                                                <label for="PRD">PRD</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="DGPT C/W Control Box">
-                                                                <label for="DGPT C/W Control Box">DGPT C/W Control
-                                                                    Box</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Control VT">
-                                                                <label for="Control VT">Control VT</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Membran Separator">
-                                                                <label for="Membran Separator">Membran Separator</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Differential VT">
-                                                                <label for="Differential VT">Differential VT</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Dial Thermometer">
-                                                                <label for="Dial Thermometer">Dial Thermometer</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Fan">
-                                                                <label for="Fan">Fan</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Oil Thermometer">
-                                                                <label for="Oil Thermometer">Oil Thermometer</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="NGR">
-                                                                <label for="NGR">NGR</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Buccholz Relay">
-                                                                <label for="Buccholz Relay">Buccholz Relay</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Arrester">
-                                                                <label for="Arrester">Arrester</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Anti Vibration">
-                                                                <label for="Anti Vibration">Anti Vibration</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Heater">
-                                                                <label for="Heater">Heater</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="OLTC">
-                                                                <label for="OLTC">OLTC</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="PT-100">
-                                                                <label for="PT-100">PT-100</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Cable Box LV/HV">
-                                                                <label for="Cable Box LV/HV">Cable Box LV/HV</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="LV + HV">
-                                                                <label for="Cable Box LV + HV">Cable Box LV + HV</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Wiring Control Box Standard">
-                                                                <label for="Wiring Control Box Standard">Wiring Control Box
-                                                                    Standard</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Wiring Control Box Non Standard">
-                                                                <label for="Wiring Control Box Non Standard">Wiring Control
-                                                                    Box Non Standard</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Copper Link LV/HV (Standard)">
-                                                                <label for="Copper Link LV/HV (Standard)">Copper Link LV/HV
-                                                                    (Standard)</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Copper Link LV + HV (Standard)">
-                                                                <label for="Copper Link LV + HV (Standard)">Copper Link LV
-                                                                    + HV (Standard)</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Copper Link LV/HV (Non Standard)">
-                                                                <label for="Copper Link LV/HV (Non Standard)">Copper Link
-                                                                    LV/HV (Non Standard)</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Copper Link LV + HV (Non Standard)">
-                                                                <label for="Copper Link LV + HV (Non Standard)">Copper Link
-                                                                    LV + HV (Non Standard)</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Radiator Panel Bongkar">
-                                                                <label for="Radiator Panel Bongkar">Radiator Panel
-                                                                    Bongkar</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Radiator Panel Pasang">
-                                                                <label for="Radiator Panel Pasang">Radiator Panel
-                                                                    Pasang</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Conservator Bongkar">
-                                                                <label for="Conservator Bongkar">Conservator
-                                                                    Bongkar</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Conservator Pasang">
-                                                                <label for="Conservator Pasang">Conservator Pasang</label>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="card card-body">
-                            <div style="padding: 5px;">
-                                <div class="row align-items-center justify-content-center ">
-                                    <div class="input-group mb-3" style="width:50%; text-align: center;height:30px;">
-                                        <div class="input-group-prepend">
-                                            <span style="font-size: 18px;" class="input-group-text">QC TESTING</span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;"
-                                                class="input-group-text bg-warning"><b>05</b></span>
-                                        </div>
-                                        <div class="input-group-append">
-                                            <span style="font-size: 18px;" class="input-group-text">HOUR</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="align-items-center justify-content-left p-2">
-                                    <table>
-                                        <tr style="height: 70px;" !important>
-                                            <td style="width:500px">
-                                                <div class="checkbox d-inline-block mr-3">
-                                                    <table>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Routing Test">
-                                                                <label for="Routing Test">Routing Test</label>
-                                                            </td>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Noise">
-                                                                <label for="Noise">Noise</label>
-                                                            </td>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Lightning Impluse">
-                                                                <label for="Lightning Impluse">Lightning Impluse</label>
-                                                            </td>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="SFRA">
-                                                                <label for="SFRA">SFRA</label>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><input type="checkbox" class="checkbox-input"
-                                                                    id="Temperature Rise">
-                                                                <label for="Temperature Rise">Temperature Rise</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="PD">
-                                                                <label for="PD">PD</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="Tan Delta">
-                                                                <label for="Tan Delta">Tan Delta</label>
-                                                            </td>
-                                                            <td>
-                                                                <input type="checkbox" class="checkbox-input"
-                                                                    id="DGA">
-                                                                <label for="DGA">DGA</label>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div> --}}
     </form>
     <script>
         $(document).ready(function() {
@@ -1116,7 +446,7 @@
                     );
                 });
                 $(elementId).empty();
-                // $(elementId).append('<option value="">-Pilih-</option>');
+                $(elementId).append('<option value="">-Pilih-</option>');
                 $.each(filteredData, function(key, data) {
                     $(elementId).append(
                         '<option value="' + data.nama_tipeproses + '" data-durasi="' + data
@@ -1193,7 +523,6 @@
                 }
             });
         });
-
         function showSelected(target) {
             let selectElements = document.querySelectorAll('select');
             let totalManhour = 0;
@@ -1386,199 +715,7 @@
                 }
             });
         });
-        // function showSelected(target) {
-        //     let selectElements = document.querySelectorAll('select');
-        //     let totalManhour = 0;
-        //     selectElements.forEach(function(select) {
-        //         let selectedOptions = Array.from(select.selectedOptions);
-        //         selectedOptions.forEach(function(selectedOption) {
-        //             let durasi = selectedOption.getAttribute('data-durasi');
-        //             totalManhour += parseFloat(durasi || 0);
-        //         });
-        //     });
-        //     let totalHourInput = document.getElementById('total_hour');
-        //     totalHourInput.value = totalManhour;
-        //     let select = document.getElementById(target);
-        //     let selectedOptions = Array.from(select.selectedOptions);
-        //     let totalDurasi = 0;
-        //     selectedOptions.forEach(function(selectedOption) {
-        //         let selectedDurasi = selectedOption.getAttribute('data-durasi');
-        //         totalDurasi += parseFloat(selectedDurasi || 0);
-        //     });
-        //     let hour = document.getElementById("hour_" + target);
-        //     hour.textContent = " " + totalDurasi;
-        // }
 
-        // function displayTotalJamCoilMaking() {
-        //     let selectElements = document.querySelectorAll('select');
-        //     let totalJam = 0;
-        //     let workcenterInfo = {};
-        //     selectElements.forEach(function(select) {
-        //         let selectedOptions = Array.from(select.selectedOptions);
-        //         selectedOptions.forEach(function(selectedOption) {
-        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
-        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-        //             if (workCenterAttr === 'COIL MAKING') {
-        //                 totalJam += durasi;
-        //                 if (!workcenterInfo[workCenterAttr]) {
-        //                     workcenterInfo[workCenterAttr] = durasi;
-        //                 } else {
-        //                     workcenterInfo[workCenterAttr] += durasi;
-        //                 }
-        //             }
-        //         });
-        //     });
-        //     let totalJamElement = document.getElementById("totalHour_coil_making");
-        //     if (totalJamElement) {
-        //         totalJamElement.value = totalJam;
-        //     }
-        // }
-
-        // function displayTotalJamCCA() {
-        //     let selectElements = document.querySelectorAll('select');
-        //     let totalJam = 0;
-        //     let workcenterInfo = {};
-        //     selectElements.forEach(function(select) {
-        //         let selectedOptions = Array.from(select.selectedOptions);
-        //         selectedOptions.forEach(function(selectedOption) {
-        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
-        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-        //             if (workCenterAttr === 'CORE COIL ASSEMBLY') {
-        //                 totalJam += durasi;
-        //                 if (!workcenterInfo[workCenterAttr]) {
-        //                     workcenterInfo[workCenterAttr] = durasi;
-        //                 } else {
-        //                     workcenterInfo[workCenterAttr] += durasi;
-        //                 }
-        //             }
-        //         });
-        //     });
-        //     let totalJamElement = document.getElementById("totalHour_CoreCoilAssembly");
-        //     if (totalJamElement) {
-        //         totalJamElement.textContent = totalJam;
-        //     }
-        // }
-
-        // function displayTotalJamConnect() {
-        //     let selectElements = document.querySelectorAll('select');
-        //     let totalJam = 0;
-        //     let workcenterInfo = {};
-        //     selectElements.forEach(function(select) {
-        //         let selectedOptions = Array.from(select.selectedOptions);
-        //         selectedOptions.forEach(function(selectedOption) {
-        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
-        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-        //             if (workCenterAttr === 'CONNECT') {
-        //                 totalJam += durasi;
-        //                 if (!workcenterInfo[workCenterAttr]) {
-        //                     workcenterInfo[workCenterAttr] = durasi;
-        //                 } else {
-        //                     workcenterInfo[workCenterAttr] += durasi;
-        //                 }
-        //             }
-        //         });
-        //     });
-        //     let totalJamElement = document.getElementById("totalHour_Conect");
-        //     if (totalJamElement) {
-        //         totalJamElement.textContent = totalJam;
-        //     }
-        // }
-
-        // function displayTotalJamFinalAssembly() {
-        //     let selectElements = document.querySelectorAll('select');
-        //     let totalJam = 0;
-        //     let workcenterInfo = {};
-        //     selectElements.forEach(function(select) {
-        //         let selectedOptions = Array.from(select.selectedOptions);
-        //         selectedOptions.forEach(function(selectedOption) {
-        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
-        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-        //             if (workCenterAttr === 'FINAL ASSEMBLY') {
-        //                 totalJam += durasi;
-        //                 if (!workcenterInfo[workCenterAttr]) {
-        //                     workcenterInfo[workCenterAttr] = durasi;
-        //                 } else {
-        //                     workcenterInfo[workCenterAttr] += durasi;
-        //                 }
-        //             }
-        //         });
-        //     });
-        //     let totalJamElement = document.getElementById("totalHour_FinalAssembly");
-        //     if (totalJamElement) {
-        //         totalJamElement.textContent = totalJam;
-        //     }
-        // }
-
-        // function displayTotalJamFinishing() {
-        //     let selectElements = document.querySelectorAll('select');
-        //     let totalJam = 0;
-        //     let workcenterInfo = {};
-        //     selectElements.forEach(function(select) {
-        //         let selectedOptions = Array.from(select.selectedOptions);
-        //         selectedOptions.forEach(function(selectedOption) {
-        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
-        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-        //             if (workCenterAttr === 'FINISHING') {
-        //                 totalJam += durasi;
-        //                 if (!workcenterInfo[workCenterAttr]) {
-        //                     workcenterInfo[workCenterAttr] = durasi;
-        //                 } else {
-        //                     workcenterInfo[workCenterAttr] += durasi;
-        //                 }
-        //             }
-        //         });
-        //     });
-        //     let totalJamElement = document.getElementById("totalHour_Finishing");
-        //     if (totalJamElement) {
-        //         totalJamElement.textContent = totalJam;
-        //     }
-        // }
-
-        // function displayTotalJamQCTest() {
-        //     let selectElements = document.querySelectorAll('select');
-        //     let totalJam = 0;
-        //     let workcenterInfo = {};
-        //     selectElements.forEach(function(select) {
-        //         let selectedOptions = Array.from(select.selectedOptions);
-        //         selectedOptions.forEach(function(selectedOption) {
-        //             let durasi = parseFloat(selectedOption.getAttribute('data-durasi')) || 0;
-        //             let workCenterAttr = selectedOption.getAttribute('data-workcenter');
-        //             if (workCenterAttr === 'QC TEST') {
-        //                 totalJam += durasi;
-        //                 if (!workcenterInfo[workCenterAttr]) {
-        //                     workcenterInfo[workCenterAttr] = durasi;
-        //                 } else {
-        //                     workcenterInfo[workCenterAttr] += durasi;
-        //                 }
-        //             }
-        //         });
-        //     });
-        //     let totalJamElement = document.getElementById("totalHour_QCTest");
-        //     if (totalJamElement) {
-        //         totalJamElement.textContent = totalJam;
-        //     }
-        // }
-        // document.querySelectorAll('select').forEach(function(select) {
-        //     select.addEventListener('change', function() {
-        //         let selectedOption = select.options[select.selectedIndex];
-        //         let workCenter = selectedOption.getAttribute('data-workcenter');
-        //         if (workCenter === 'COIL MAKING') {
-        //             displayTotalJamCoilMaking();
-        //         } else if (workCenter === 'CORE COIL ASSEMBLY') {
-        //             displayTotalJamCCA();
-        //         } else if (workCenter === 'CONNECT') {
-        //             displayTotalJamConnect();
-        //         } else if (workCenter === 'FINAL ASSEMBLY') {
-        //             displayTotalJamFinalAssembly();
-        //         } else if (workCenter === 'SPECIAL ASSEMBLY') {
-        //             displayTotalJamSpecialAssembly();
-        //         } else if (workCenter === 'FINISHING') {
-        //             displayTotalJamFinishing();
-        //         } else if (workCenter === 'QC TEST') {
-        //             displayTotalJamQCTest();
-        //         }
-        //     });
-        // });
         document.addEventListener('DOMContentLoaded', function() {
             function generateKdManhour() {
                 var kategori = document.getElementById('kategori').value;
@@ -1614,6 +751,9 @@
                 document.getElementById('kd_manhour').value = generateKdManhour();
             });
         });
+        document.getElementById("submitButton").addEventListener("click", function() {
+            document.querySelector("form").submit();
+        });
     </script>
     <script>
         $(document).ready(function() {
@@ -1628,8 +768,11 @@
             }
 
             // Daftar kelas selector dan fungsi tampilan total jam yang sesuai
-            var selectors = [".multiple1", ".multiple2", ".multiple3", ".multiple4", ".multiple5", ".multiple6"];
-            var displayFunctions = [displayTotalJamCoilMaking, displayTotalJamCoreCoilAssembly, displayTotalJamConnection, displayTotalJamFinalAssembly, displayTotalJamFinishing, displayTotalJamQCTest];
+            var selectors = [".multiple1", ".multiple2", ".multiple3", ".multiple4", ".multiple5"];
+            var displayFunctions = [displayTotalJamCoilMaking,
+                displayTotalJamConnection, displayTotalJamFinalAssembly, displayTotalJamFinishing,
+                displayTotalJamQCTest
+            ];
 
             // Pengaturan Select2 untuk setiap elemen
             $.each(selectors, function(index, selector) {
@@ -1638,44 +781,5 @@
         });
     </script>
 
-    {{-- <script>
-        $(document).ready(function() {
-            $(".multiple1").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                allowClear: true,
-                maximumSelectionLength: Infinity
-            }).on('change', displayTotalJamCoilMaking);
-            $(".multiple2").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                allowClear: true,
-                maximumSelectionLength: Infinity
-            }).on('change', displayTotalJamCoreCoilAssembly);
-            $(".multiple3").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                allowClear: true,
-                maximumSelectionLength: Infinity
-            }).on('change', displayTotalJamConnection);
-            $(".multiple4").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                allowClear: true,
-                maximumSelectionLength: Infinity
-            }).on('change', displayTotalJamFinalAssembly);
-            $(".multiple5").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                allowClear: true,
-                maximumSelectionLength: Infinity
-            }).on('change', displayTotalJamFinishing);
-            $(".multiple6").select2({
-                placeholder: 'Pilih',
-                width: '100%',
-                allowClear: true,
-                maximumSelectionLength: Infinity
-            }).on('change', displayTotalJamQCTest);
-        });
-    </script> --}}
+
 @endsection

@@ -9,6 +9,7 @@ use App\Models\produksi\ManHourOilCustom;
 use App\Models\produksi\Kapasitas;
 use App\Models\produksi\ManHour;
 use App\Models\produksi\OilCustom;
+use App\Models\produksi\StandardizeWork;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -42,13 +43,51 @@ class OilCustomController extends Controller
     public function store(Request $request)
     {
         // dd($request->input('customRadio-11'));
+        // $params = $request->all();
+
+        // $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
+
+        // foreach ($checkboxFields as $field) {
+        //     $checkbox = $request->input($field);
+        //     $params[$field] = implode(',', $checkbox);
+        // }
+
+
+
+        $request->validate([
+            'total_hour' => 'required',
+            'ukuran_kapasitas' => 'required',
+            'id_fg' => 'required',
+            'nomor_so' => 'required',
+        ], [
+            'total_hour.required' => 'Total hour is required.',
+            'ukuran_kapasitas.required' => 'Ukuran kapasitas is required.',
+            'id_fg.required' => 'ID FG is required.',
+            'nomor_so.required' => 'Nomor SO is required.',
+        ]);
+
         $params = $request->all();
 
-        $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
+        $multipleFields = ['coil_lv', 'coil_hv', 'cca', 'core_coil_assembly','connection','final_assy','special_assembly','finishing','qc_testing' ];
 
-        foreach ($checkboxFields as $field) {
-            $checkbox = $request->input($field);
-            $params[$field] = implode(',', $checkbox);
+        foreach ($multipleFields as $field) {
+            $multiple = $request->input($field);
+
+            // Periksa apakah $multiple adalah array sebelum menggunakan implode
+            if (is_array($multiple)) {
+                $params[$field] = implode(',', $multiple);
+            } else {
+                // Jika bukan array, mungkin lakukan penanganan sesuai kebutuhan Anda
+                $params[$field] = $multiple;
+            }
+        }
+
+        // dd($multiple);
+
+        $existingStandardizeWork = StandardizeWork::where('kd_manhour', $params['kd_manhour'])->first();
+
+        if ($existingStandardizeWork) {
+            return redirect()->back()->withInput()->with('error', 'Nomor SO yang Anda input sudah ada. Harap periksa kembali!');
         }
 
         OilCustom::create($params);

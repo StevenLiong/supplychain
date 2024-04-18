@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class DetailCt extends Component
+class DetailCtVt extends Component
 {
     /**
      * Create a new component instance.
@@ -26,6 +26,6 @@ class DetailCt extends Component
     public function render(): View|Closure|string
     {
         $detail = StandardizeWork::with('dry_cast_resin')->where('kd_manhour', $this->id)->first();
-        return view('components.detail-ct', ['detail' => $detail]);
+        return view('components.detail-ct-vt', ['detail' => $detail]);
     }
 }

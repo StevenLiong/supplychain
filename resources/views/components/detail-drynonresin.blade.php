@@ -3,7 +3,15 @@
         <div class="card rounded m-0" style="border-left-color: red; border-left-width: 10px;">
             <div class="card-body shadow">
                 <div class="row">
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
+                        <h6>Total Hour</h6>
+                        <p class="p-0 m-0" style="color: #d02424" id="preview-total_hour">
+                            <b>
+                                    {{ $detail->dry_non_resin->total_hour }}
+                            </b>
+                        </p>
+                    </div>
+                    <div class="col-lg-2 col-sm-6">
                         <h6>Category</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-category">
                             <b>
@@ -11,7 +19,7 @@
                             </b>
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
                         <h6>Kapasitas</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-ukuran_kapasitas">
                             <b>
@@ -19,7 +27,7 @@
                             </b>
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
                         <h6>SO/No.Proyek</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-so">
                             <b>
@@ -27,7 +35,7 @@
                             </b>
                         </p>
                     </div>
-                    <div class="col-lg-3 col-sm-6">
+                    <div class="col-lg-2 col-sm-6">
                         <h6>Kode Manhour</h6>
                         <p class="p-0 m-0" style="color: #d02424" id="preview-so">
                             <b>

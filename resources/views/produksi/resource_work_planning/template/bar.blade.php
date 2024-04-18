@@ -188,7 +188,7 @@
                     </a>
                 </div>
                 <div class="navbar-breadcrumb">
-                    <h5>Supply Chain DX - Planning Full-Cycle</h5>
+                    <h5>Resource Work Planning</h5>
                 </div>
                 <div class="d-flex align-items-center">
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -258,7 +258,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6 text-center     text-primary">
-                    <span class="mr-1"> Supply Chain Team </span>
+                    <span class="mr-1"> Resource Work Planning </span>
                 </div>
                 <div class="col-lg-6 text-right text-primary">
                     <span class="mr-1">

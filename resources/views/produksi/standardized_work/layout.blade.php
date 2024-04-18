@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/templatetrafindo/assets/vendor/tui-calendar/tui-time-picker/dist/tui-time-picker.css">
 
     <!-- icon  -->
-    <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script>
+    {{-- <script src="https://kit.fontawesome.com/yourcode.js" crossorigin="anonymous"></script> --}}
     <link rel="stylesheet" href="path/to/fontawesome/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -169,7 +169,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-6 text-left     text-primary">
-                    <span class="mr-1"> Supply Chain Team </span>
+                    <span class="mr-1"> Standardize Work System </span>
                 </div>
                 <div class="col-lg-6 text-right text-primary">
                     <span class="mr-1">

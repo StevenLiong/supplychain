@@ -591,6 +591,7 @@
             </div>
         </div>
     </form>
+</div>
     <script>
         $(document).ready(function() {
             function fillSelect(elementId, data, selectedProses, selectedWorkcenter) {
@@ -922,4 +923,4 @@
             });
         });
     </script>
-</div>
+{{-- </div> --}}

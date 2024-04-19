@@ -2,7 +2,7 @@
 @section('content')
 
     <h5 class="text-center rounded ml-2 text-sm-center text-xs-center my-1 header-title card-title"
-        style="font-size: 30px;color:#d02424;"><b>PERHITUNGAN MAN HOUR</b></h5>
+        style="font-size: 30px;color:#d02424;"><b>PERHITUNGAN MAN HOUR OIL STANDARD</b></h5>
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
@@ -112,7 +112,7 @@
                                         <option value="{{ $data->ukuran_kapasitas }}"
                                             data-id="{{ optional($kapasitasFiltered)->id }}"
                                             {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
-                                            {{ $data->ukuran_kapasitas }} - {{ optional($kapasitasFiltered)->id }}
+                                            {{ $data->ukuran_kapasitas }}
                                         </option>
                                     @endforeach
                                 </select>

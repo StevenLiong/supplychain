@@ -23,14 +23,14 @@
                         }
                         // dd($kategori);
                     @endphp
-                    @if ($kategori == 5)
+                    @if ($kategori == 4)
                         <x-editdryresin :id="$kd_manhour" :kategori="$kategori" />
-                    @elseif($kategori == 6)
+                    @elseif($kategori == 5)
                         <x-editdrynonresin :id="$kd_manhour" :kategori="$kategori" />
                     @endif
 
                 </div>
             </div>
         </div>
-        
+
 @endsection

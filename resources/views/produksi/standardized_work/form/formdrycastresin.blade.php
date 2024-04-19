@@ -1,7 +1,7 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
     <h5 class="text-center text-sm-center text-xs-center my-1 header-title card-title" style="font-size: 30px;color:#d02424;">
-        <b>PERHITUNGAN MAN HOUR</b>
+        <b>PERHITUNGAN MAN HOUR CAST RESIN</b>
     </h5>
     @if (session('error'))
         <div class="alert alert-danger">
@@ -112,7 +112,7 @@
                                         <option value="{{ $data->ukuran_kapasitas }}"
                                             data-id="{{ optional($kapasitasFiltered)->id }}"
                                             {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
-                                            {{ $data->ukuran_kapasitas }} - {{ optional($kapasitasFiltered)->id }}
+                                            {{ $data->ukuran_kapasitas }}
                                         </option>
                                     @endforeach
 
@@ -140,14 +140,14 @@
                         <div class="col-lg-4 col-sm-6">
                             <label for="Use Housing or Not">Apakah Menggunakan Housing?</label>
                             <div class="custom-control custom-radio custom-radio-color custom-control-inline">
-                                <input type="radio" id="customRadio01" name="customRadio-11" class="custom-control-input"
+                                <input type="radio" id="ya" name="housing" class="custom-control-input"
                                     value="Menggunakan Housing">
-                                <label class="custom-control-label" for="customRadio01">Ya</label>
+                                <label class="custom-control-label" for="ya">Ya</label>
                             </div>
                             <div class="custom-control custom-radio custom-radio-color custom-control-inline">
-                                <input type="radio" id="customRadio02" name="customRadio-11" class="custom-control-input"
+                                <input type="radio" id="tidak" name="housing" class="custom-control-input"
                                     value="Tidak Menggunakan Housing">
-                                <label class="custom-control-label" for="customRadio02">Tidak</label>
+                                <label class="custom-control-label" for="tidak">Tidak</label>
                             </div>
                         </div>
                     </div>
@@ -771,7 +771,7 @@
                 }
             }
 
-            $('input[type="radio"][name="customRadio-11"]').change(function() {
+            $('input[type="radio"][name="housing"]').change(function() {
                 if ($(this).val() === "Menggunakan Housing") {
                     $('#instal_housing, #bongkar_housing, #wiring').prop('disabled', false);
                 } else if ($(this).val() === "Tidak Menggunakan Housing") {

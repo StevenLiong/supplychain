@@ -42,18 +42,6 @@ class OilCustomController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->input('customRadio-11'));
-        // $params = $request->all();
-
-        // $checkboxFields = ['potong_isolasi', 'lv_bobbin', 'lv_moulding', 'touch_up', 'others', 'accesories', 'potong_isolasi_fiber'];
-
-        // foreach ($checkboxFields as $field) {
-        //     $checkbox = $request->input($field);
-        //     $params[$field] = implode(',', $checkbox);
-        // }
-
-
-
         $request->validate([
             'total_hour' => 'required',
             'ukuran_kapasitas' => 'required',

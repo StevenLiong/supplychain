@@ -60,7 +60,7 @@ class DryCastResinController extends Controller
             $params['keterangan'] = $request->input('housing');
         } else {
             // Jika tidak ada, gunakan nilai default
-            $params['keterangan'] = 'Tidak Menggunakan Housing';
+            $params['keterangan'] = 'Menggunakan Housing';
         }
 
 

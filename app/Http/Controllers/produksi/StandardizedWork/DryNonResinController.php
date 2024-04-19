@@ -57,13 +57,13 @@ class DryNonResinController extends Controller
 
         $params = $request->all();
 
-        // Cek apakah 'customRadio-11' ada dalam permintaan
-        if ($request->has('customRadio-11')) {
+        // Cek apakah 'housing' ada dalam permintaan
+        if ($request->has('housing')) {
             // Jika ada, set kolom 'keterangan' dengan nilai radio button
-            $params['keterangan'] = $request->input('customRadio-11');
+            $params['keterangan'] = $request->input('housing');
         } else {
             // Jika tidak ada, gunakan nilai default
-            $params['keterangan'] = 'Tidak Menggunakan Housing';
+            $params['keterangan'] = 'Menggunakan Housing';
         }
 
         $multipleFields = ['oven','potong_isolasi', 'others', 'accesories', 'potong_isolasi_fiber','qc_testing'];

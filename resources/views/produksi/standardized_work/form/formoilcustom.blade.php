@@ -1,6 +1,6 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
-    <h5 class="text-center my-3 header-title card-title " style="font-size: 40px;color:#d02424;"><b>PERHITUNGAN MAN HOUR</b>
+    <h5 class="text-center my-3 header-title card-title " style="font-size: 40px;color:#d02424;"><b>PERHITUNGAN MAN HOUR CUTOMIZE</b>
     </h5>
     @if (session('error'))
         <div class="alert alert-danger">
@@ -113,7 +113,7 @@
                                         <option value="{{ $data->ukuran_kapasitas }}"
                                             data-id="{{ optional($kapasitasFiltered)->id }}"
                                             {{ $selectedValue == $data->ukuran_kapasitas ? 'selected' : '' }}>
-                                            {{ $data->ukuran_kapasitas }} - {{ optional($kapasitasFiltered)->id }}
+                                            {{ $data->ukuran_kapasitas }}
                                         </option>
                                     @endforeach
                                 </select>

@@ -229,10 +229,6 @@
 
                                     </td>
                                 </tr>
-                            </table>
-                        </div>
-                        <div class="align-items-center justify-content-left pt-1 px-1">
-                            <table class="w-100">
                                 <tr !important>
                                     <td class="w-20">
                                         <h6 class="border border-dark rounded p-1 text-center"
@@ -252,6 +248,11 @@
                                 </tr>
                             </table>
                         </div>
+                        {{-- <div class="align-items-center justify-content-left pt-1 px-1">
+                            <table class="w-100">
+
+                            </table>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="card card-body my-1 py-1">

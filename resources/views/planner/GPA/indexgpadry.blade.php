@@ -44,6 +44,7 @@
                                         <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
                                         <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $item->deadline['year'] . '-' . $item->deadline['month'] . '-' . $item->deadline['day'])->format('d-M-Y') }}</td>
+
                                     </tr>
                                 @endif
                             @endforeach

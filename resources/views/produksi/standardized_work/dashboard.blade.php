@@ -202,8 +202,8 @@
                                             class="btn btn-primary m-1">
                                             <i class="fa-solid fa-circle-info m-1"></i>
                                         </a>
-                                        <a type="button" href="{{ route('edit', ['kd_manhour' => $std->kd_manhour]) }}"
-                                            class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a>
+                                        {{-- <a type="button" href="{{ route('edit', ['kd_manhour' => $std->kd_manhour]) }}"
+                                            class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a> --}}
                                         <button class="btn btn-primary m-1" data-toggle="modal"
                                             data-target="#delete-modal{{ $std->kd_manhour}}">
                                             <i class="fa-solid fa-trash m-1"></i>

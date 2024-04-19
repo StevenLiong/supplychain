@@ -31,5 +31,7 @@
         <x-detailoilcustom :id="$kd_manhour" :kategori="$kategori" />
     @elseif($kategori == 3)
         <x-detailctvt :id="$kd_manhour" :kategori="$kategori" />
+    @elseif($kategori == 6)
+        <x-detailrepair :id="$kd_manhour" :kategori="$kategori" />
     @endif
 @endsection

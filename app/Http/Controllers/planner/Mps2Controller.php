@@ -64,6 +64,11 @@ class Mps2Controller extends Controller
 
         for ($j = 0; $j < count($inputs['id_wo']); $j++) {
             $id_wo = $inputs['id_wo'][$j];
+            $cekidwo = GPADry::where('id_wo', $id_wo)->first();
+            // Validasi jika id_wo sudah ada
+            if ($cekidwo) {
+                return redirect()->back()->with('error', 'WO sudah disubmit sebelumnya.');
+            }
             $id_so = preg_replace('/(\D)(\d{1})(\d{2})(\d+)/', 'S$2/$3/$4', $id_wo);
 
             if (!empty($inputs['id_wo'][$j])) {

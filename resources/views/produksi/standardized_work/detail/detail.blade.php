@@ -1,9 +1,12 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
-    <div class="text-left mb-2 mt-2">
+    <div class="mb-2 mt-5 d-flex justify-content-between ">
         <a href="/standardized_work/home" class="btn btn-primary">
             <i class="fa-solid fa-arrow-left mr-2"></i>Back
         </a>
+        <button class="btn btn-success" onclick="printPage()">
+            <i class="fa-solid fa-print ml-2"></i>Cetak
+        </button>
     </div>
     @php
         $kategori = null;
@@ -34,4 +37,9 @@
     @elseif($kategori == 6)
         <x-detailrepair :id="$kd_manhour" :kategori="$kategori" />
     @endif
+    <script>
+        function printPage() {
+            window.print();
+        }
+    </script>
 @endsection

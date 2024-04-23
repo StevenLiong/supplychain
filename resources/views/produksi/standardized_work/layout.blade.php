@@ -139,6 +139,12 @@
             padding: 1px 6px;
             /* Padding */
         }
+
+        @media print {
+            .iq-footer{
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -168,7 +174,7 @@
     <footer class="iq-footer">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-6 text-left     text-primary">
+                <div class="col-lg-6 text-left text-primary">
                     <span class="mr-1"> Standardize Work System </span>
                 </div>
                 <div class="col-lg-6 text-right text-primary">
@@ -176,7 +182,7 @@
                         <script>
                             document.write(new Date().getFullYear())
                         </script>©
-                    </span> <a href="#" class="">MSIB TRAFINDO BATCH 5 1</a>
+                    </span> <a href="#" class="">PT Trafoindo Prima Perkasa</a>
                 </div>
             </div>
         </div>

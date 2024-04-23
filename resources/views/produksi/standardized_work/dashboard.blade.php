@@ -32,8 +32,8 @@
                                 <a class="dropdown-item" href="/standardized_work/Create-Data/CtVt">CT/VT</a>
                                 <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Cast-Resin">Dry Cast
                                     Resin</a>
-                                    <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Non-Resin">Dry Non
-                                        Resin</a>
+                                <a class="dropdown-item" href="/standardized_work/Create-Data/Dry-Non-Resin">Dry Non
+                                    Resin</a>
                                 <a class="dropdown-item" href="/standardized_work/Create-Data/Repair">Repair</a>
                             </div>
                             <div class="modal-footer justify-content-center">
@@ -62,13 +62,41 @@
                 </form>
                 <div class="ml-auto mr-3 float-right">
                 </div>
-                <div class=" mr-3 float-right">
+                {{-- <div class=" mr-3 float-right">
                     <form action="/logout" method="POST">
                         @csrf
                         <button class="ya-deh btn btn-primary" type="submit"><i
                                 class=" fa-solid fa-power-off"></i></button>
                     </form>
+                </div> --}}
+                <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center font-weight-bold">
+                                <p style="font-size: 20px;">Apakah Anda yakin ingin keluar?</p>
+                            </div>
+                            <div class="modal-footer justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <form id="logout-form" action="/logout" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">Keluar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="mr-3 float-right">
+                    <button class="ya-deh btn btn-primary" data-toggle="modal" data-target="#logout-modal">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
+
             </div>
             <div id="filteredResults" class="table-responsive">
                 <div id="datatable_wrapper" id="filteredTable" class="dataTables_wrapper">
@@ -205,11 +233,11 @@
                                         {{-- <a type="button" href="{{ route('edit', ['kd_manhour' => $std->kd_manhour]) }}"
                                             class="btn btn-primary m-1"><i class="fa-solid fa-pen-to-square m-1"></i></a> --}}
                                         <button class="btn btn-primary m-1" data-toggle="modal"
-                                            data-target="#delete-modal{{ $std->kd_manhour}}">
+                                            data-target="#delete-modal{{ $std->kd_manhour }}">
                                             <i class="fa-solid fa-trash m-1"></i>
                                         </button>
-                                        <div class="modal fade " id="delete-modal{{ $std->kd_manhour}}"  tabindex="-1" role="dialog"
-                                            aria-hidden="true">
+                                        <div class="modal fade " id="delete-modal{{ $std->kd_manhour }}" tabindex="-1"
+                                            role="dialog" aria-hidden="true">
                                             <div class="modal-dialog modal-dialog-centered" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
@@ -219,7 +247,8 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body text-center font-weight-bold ">
-                                                        <p style="font-size: 20px;">Apakah anda yakin ingin menghapus data ini?</p>
+                                                        <p style="font-size: 20px;">Apakah anda yakin ingin menghapus data
+                                                            ini?</p>
                                                     </div>
                                                     <div class="modal-footer justify-content-center">
                                                         <button type="button" class="btn btn-secondary"
@@ -266,6 +295,7 @@
                 sendFilterRequest(selectedCategory);
             });
         });
+
         function sendFilterRequest(selectedCategory) {
             $.ajax({
                 url: '/standardized_work/FilterData',

@@ -15,8 +15,8 @@ use App\Models\planner\KapasitasProduksi;
 class Mps2Controller extends Controller
 {
     public function index(){
-        $startDate = Carbon::create(2024, 3, 1); // Tanggal awal yang Anda inginkan
-        $endDate = Carbon::create(2024, 4, 30); // Tanggal akhir yang Anda inginkan
+        $startDate = Carbon::create(2024, 1, 1); // Tanggal awal yang Anda inginkan
+        $endDate = Carbon::create(2024, 12, 31); // Tanggal akhir yang Anda inginkan
         // Ambil nama bulan dari tanggal startdate atau enddate
         $monthName = ucfirst($startDate->translatedFormat('F')); // Ambil nama bulan dari startdate
         $monthName2 = ucfirst($endDate->translatedFormat('F')); // Ambil nama bulan dari startdate
@@ -48,6 +48,19 @@ class Mps2Controller extends Controller
         $deadlines = $inputs['deadline'];
         $kvas = $inputs['kva'];
         $qty_trafos = $inputs['qty_trafo'];
+
+        function isHoliday($date) {
+            return Holiday::whereDate('date', $date)->exists();
+        }
+        
+        
+
+        function reduceIfHoliday($date) {
+            while (Holiday::whereDate('date', $date)->exists()) {
+                $date = Carbon::parse($date)->subWeekdays()->format('Y-m-d');
+            }
+            return $date;
+        }
 
         for ($j = 0; $j < count($inputs['id_wo']); $j++) {
             $id_wo = $inputs['id_wo'][$j];
@@ -209,55 +222,66 @@ class Mps2Controller extends Controller
                     $deadline_pecah = $mps2['deadline'];
                     // dd($deadline_pecah);
                     $deadline = sprintf('%04d-%02d-%02d', $deadline_pecah['year'], $deadline_pecah['month'], $deadline_pecah['day']);
+                    $deadline_new = Carbon::parse($deadline);
                     // dd($deadline);
                     $deadline_awal = Carbon::parse($deadline)->subWeekdays($total_hari);
-                    // dd($deadline_awal);
 
-                    $deadline_wc1 = $deadline_awal;
-                    $deadline_wc2 = $deadline_wc1->copy()->addWeekdays($hari_ins_paper);
-                    $deadline_wc3 = $deadline_wc2->copy()->addWeekdays($hari_sup_mat_ins_coil);
-                    $deadline_wc5 = $deadline_wc3->copy()->addWeekdays($hari_coil_lv);
-                    $deadline_wc6 = $deadline_wc5->copy()->addWeekdays($hari_coil_hv);
-                    $deadline_wc7 = $deadline_wc5->copy()->addWeekdays($hari_core);
-                    $deadline_wc4 = $deadline_wc6->copy()->addWeekdays($hari_sup_mat_moulding);
-                    $deadline_wc8 = $deadline_wc7->copy()->addWeekdays($hari_sup_fix_core);
-                    $deadline_wc9 = $deadline_wc6->copy()->addWeekdays($hari_moulding);
-                    $deadline_wc10 = $deadline_wc8->copy()->addWeekdays($hari_susun_core);
-                    $deadline_wc11 = $deadline_wc9->copy()->addWeekdays($hari_sup_mat_con_fa);
-                    $deadline_wc12 = $deadline_wc11->copy()->addWeekdays($hari_connection_finalassembly);
-                    $deadline_wc13 = $deadline_wc12->copy()->addWeekdays($hari_finishing);
-                    $deadline_wc14 = $deadline_wc13->copy()->addWeekdays($hari_qc);
-                    $deadline_wc15 = $deadline_wc14->copy()->addWeekdays($hari_qc_tran_gudang);
+                    $holidays = Holiday::whereBetween('date', [$deadline_awal, $deadline_new])->count();
+                    // dd($holidays);
 
-                    // $deadline_wc1 = $deadline_awal;
-                    // // dd($deadline_wc1);
-                    // $deadline_wc2 = Carbon::parse($deadline_wc1)->addDays($hari_ins_paper);
-                    // // dd($deadline_wc2);
-                    // $deadline_wc3 = Carbon::parse($deadline_wc2)->addDays($hari_sup_mat_ins_coil);
-                    // // dd($deadline_wc3);
-                    // $deadline_wc5 = Carbon::parse($deadline_wc3)->addDays($hari_coil_lv);
-                    // // dd($deadline_wc5);
-                    // $deadline_wc6 = Carbon::parse($deadline_wc5)->addDays($hari_coil_hv);
-                    // // dd($deadline_wc6);
-                    // $deadline_wc7 = Carbon::parse($deadline_wc5)->addDays($hari_core);
-                    // // dd($deadline_wc7);
-                    // $deadline_wc4 = Carbon::parse($deadline_wc6)->addDays($hari_sup_mat_moulding);
-                    // // dd($deadline_wc4);
-                    // $deadline_wc8 = Carbon::parse($deadline_wc7)->addDays($hari_sup_fix_core);
-                    // // dd($deadline_wc8);
-                    // $deadline_wc9 = Carbon::parse($deadline_wc6)->addDays($hari_moulding);
-                    // // dd($deadline_wc9);
-                    // $deadline_wc10 = Carbon::parse($deadline_wc8)->addDays($hari_susun_core);
-                    // // dd($deadline_wc10);
-                    // $deadline_wc11 = Carbon::parse($deadline_wc10)->addDays($hari_sup_mat_con_fa);
-                    // // dd($deadline_wc11);
-                    // $deadline_wc12 = Carbon::parse($deadline_wc11)->addDays($hari_connection_finalassembly);
-                    // // dd($deadline_wc12);
-                    // $deadline_wc13 = Carbon::parse($deadline_wc12)->addDays($hari_finishing);
-                    // // dd($deadline_wc13);
-                    // $deadline_wc14 = Carbon::parse($deadline_wc13)->addDays($hari_qc);
-                    // // dd($deadline_wc14);
-                    // $deadline_wc15 = Carbon::parse($deadline_wc14)->addDays($hari_qc_tran_gudang);
+                    $deadline_awal_banget = Carbon::parse($deadline_awal)->addWeekdays($holidays);
+                    // dd($deadline_awal,$deadline_awal_banget);
+
+                    // $deadline_awal_v1 = $deadline_awal + Carbon::parse($deadline_awal)->subWeekdays(countHolidays($deadline_new, $deadline_awal));
+                    // dd($deadline_awal, $deadline_awal_v1, $deadline_new);
+                    
+                    $deadline_wc15_v1 = $deadline_new->copy()->subWeekdays($hari_qc_tran_gudang);
+                    $deadline_wc15_v2 = $deadline_wc15_v1->format('Y-m-d');
+                    $deadline_wc15 = reduceIfHoliday($deadline_wc15_v2);
+                    $deadline_wc14_v1 = Carbon::parse($deadline_wc15)->subWeekdays($hari_qc);
+                    $deadline_wc14_v2 = $deadline_wc14_v1->format('Y-m-d');
+                    $deadline_wc14 = reduceIfHoliday($deadline_wc14_v2);
+                    $deadline_wc13_v1 = Carbon::parse($deadline_wc14)->subWeekdays($hari_finishing);
+                    $deadline_wc13_v2 = $deadline_wc13_v1->format('Y-m-d');
+                    $deadline_wc13 = reduceIfHoliday($deadline_wc13_v2);
+                    $deadline_wc12_v1 = Carbon::parse($deadline_wc13)->subWeekdays($hari_connection_finalassembly);
+                    $deadline_wc12_v2 = $deadline_wc12_v1->format('Y-m-d');
+                    $deadline_wc12 = reduceIfHoliday($deadline_wc12_v2);
+                    $deadline_wc11_v1 = Carbon::parse($deadline_wc12)->subWeekdays($hari_sup_mat_con_fa);
+                    $deadline_wc11_v2 = $deadline_wc11_v1->format('Y-m-d');
+                    $deadline_wc11 = reduceIfHoliday($deadline_wc11_v2);
+                    $deadline_wc10_v1 = Carbon::parse($deadline_wc11)->subWeekdays($hari_susun_core);
+                    $deadline_wc10_v2 = $deadline_wc10_v1->format('Y-m-d');
+                    $deadline_wc10 = reduceIfHoliday($deadline_wc10_v2);
+                    $deadline_wc9_v1 = Carbon::parse($deadline_wc11)->subWeekdays($hari_moulding);
+                    $deadline_wc9_v2 = $deadline_wc9_v1->format('Y-m-d');
+                    $deadline_wc9 = reduceIfHoliday($deadline_wc9_v2);
+                    $deadline_wc8_v1 = Carbon::parse($deadline_wc10)->subWeekdays($hari_sup_fix_core);
+                    $deadline_wc8_v2 = $deadline_wc8_v1->format('Y-m-d');
+                    $deadline_wc8 = reduceIfHoliday($deadline_wc8_v2);
+                    $deadline_wc7_v1 = Carbon::parse($deadline_wc8)->subWeekdays($hari_core);
+                    $deadline_wc7_v2 = $deadline_wc7_v1->format('Y-m-d');
+                    $deadline_wc7 = reduceIfHoliday($deadline_wc7_v2);
+                    $deadline_wc4_v1 = Carbon::parse($deadline_wc9)->subWeekdays($hari_sup_mat_moulding);
+                    $deadline_wc4_v2 = $deadline_wc4_v1->format('Y-m-d');
+                    $deadline_wc4 = reduceIfHoliday($deadline_wc4_v2);
+                    $deadline_wc6_v1 = Carbon::parse($deadline_wc4)->subWeekdays($hari_coil_hv);
+                    $deadline_wc6_v2 = $deadline_wc6_v1->format('Y-m-d');
+                    $deadline_wc6 = reduceIfHoliday($deadline_wc6_v2);
+                    $deadline_wc5_v1 = Carbon::parse($deadline_wc6)->subWeekdays($hari_coil_lv);
+                    $deadline_wc5_v2 = $deadline_wc5_v1->format('Y-m-d');
+                    $deadline_wc5 = reduceIfHoliday($deadline_wc5_v2);
+                    $deadline_wc3_v1 = Carbon::parse($deadline_wc5)->subWeekdays($hari_sup_mat_ins_coil);
+                    $deadline_wc3_v2 = $deadline_wc3_v1->format('Y-m-d');
+                    $deadline_wc3 = reduceIfHoliday($deadline_wc3_v2);
+                    $deadline_wc2_v1 = Carbon::parse($deadline_wc3)->subWeekdays($hari_ins_paper);
+                    $deadline_wc2_v2 = $deadline_wc2_v1->format('Y-m-d');
+                    $deadline_wc2 = reduceIfHoliday($deadline_wc2_v2);
+                    $deadline_wc1_v1 = Carbon::parse($deadline_wc2)->subWeekdays($hari_bom);
+                    $deadline_wc1_v2 = $deadline_wc1_v1->format('Y-m-d');
+                    $deadline_wc1 = reduceIfHoliday($deadline_wc1_v2);
+
+                    // dd($deadline_wc9_v1, $hari_moulding, $deadline_wc1, $deadline_wc2, $deadline_wc3, $deadline_wc5, $deadline_wc6, $deadline_wc4, $deadline_wc7, $deadline_wc8, $deadline_wc9, $deadline_wc10, $deadline_wc11, $deadline_wc12, $deadline_wc13, $deadline_wc14, $deadline_wc15);
 
                     $gpadrys = new GPADry();
                     $gpadrys->id_mps = $mps2['id'];
@@ -266,6 +290,23 @@ class Mps2Controller extends Controller
                     $gpadrys->production_line = $mps2['production_line'];
                     $gpadrys->kva = $mps2['kva'];
                     $gpadrys->qty_trafo = $mps2['qty_trafo'];
+                    if($drycastresin->accesories == 'LEM SPACER BLOCK/AIR GAP')
+                    {
+                        $gpadrys->keterangan = 'Tidak Menggunakan Finishing & FAN';
+                    }
+                    elseif($drycastresin->accesories == "FAN,LEM SPACER BLOCK/AIR GAP" && $drycastresin->wiring === null)
+                    {
+                        $gpadrys->keterangan = 'Final Menggunakan FAN';
+                    }
+                    elseif($drycastresin->wiring === "COMPLETE" && $drycastresin->others === "PEMBUATAN CU BAR,PEMBUATAN KONEKSI HV,FINISHING" && $drycastresin->accesories === "FAN,LEM SPACER BLOCK/AIR GAP")
+                    {
+                        $gpadrys->keterangan = 'Finishing menggunakan FAN';
+                    }
+                    elseif($drycastresin->accesories == "FAN,OLTC,LEM SPACER BLOCK/AIR GAP" && $drycastresin->wiring === "COMPLETE")
+                    {
+                        $gpadrys->keterangan = 'Finishing menggunakan OLTC';
+                    }
+
                     $gpadrys->deadline = $deadline;
                     $gpadrys->deadline_wc15 = $deadline_wc15;
                     $gpadrys->deadline_wc14 = $deadline_wc14;
@@ -289,4 +330,20 @@ class Mps2Controller extends Controller
         }
         return redirect()->route('mps2-index')->with('success', 'Data berhasil disimpan.');
     }
+
+    // private function reduceIfHoliday($date)
+    // {
+    //     $carbonDate = Carbon::parse($date);
+        
+    //     // Cek apakah tanggal adalah hari libur
+    //     if (Holiday::whereDate('date', $carbonDate)->exists()) {
+    //         // Kurangi 1 hari dari tanggal
+    //         $carbonDate->subWeekdays();
+            
+    //         // // Jika tanggal setelah pengurangan masih hari libur, kurangi lagi
+    //         // return $this->reduceIfHoliday($carbonDate->format('Y-m-d'));
+    //     }
+        
+    //     return $carbonDate;
+    // }
 }

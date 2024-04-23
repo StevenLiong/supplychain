@@ -1,5 +1,3 @@
-gantt.blade.php
-
 @extends('planner.template.layout')
 @section('style')
 <style>

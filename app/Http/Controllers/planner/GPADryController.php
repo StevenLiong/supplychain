@@ -25,16 +25,8 @@ class GPADryController extends Controller
     {
         $dataMps = Mps2::where('id_wo', $id_wo)->first();
         $dataGpa = GPADry::where('id_wo', $id_wo)->get();
-        $keterangan = '';
-
-        // Cari keterangan yang sesuai dengan nama_workcenter 'Finishing'
-        foreach ($dataGpa as $gpa) {
-            if ($gpa->nama_workcenter === 'Finishing') {
-                $keterangan = $gpa->keterangan;
-                break;
-            }
-        }
-        return view('planner.gpa.detail-gpa-dry', compact('dataMps', 'dataGpa', 'keterangan'));
+    
+        return view('planner.gpa.detail-gpa-dry', compact('dataMps', 'dataGpa'));
     }
 
     public function exportToExcel()

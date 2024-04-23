@@ -14,7 +14,7 @@
                                             <h1 class="mb-4 text-white"><b><span>Log In</span></b></h1>
 
                                     
-                                            <form method="POST" action="{{ route('login') }}">
+                                            <form method="POST" action="{{ route('verifylogin') }}">
                                                 @csrf
                                                 <div class="row">
                                                     <div class="col-lg-12">

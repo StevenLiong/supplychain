@@ -24,6 +24,7 @@
                                     <option value="4">Susun Core</option>
                                     <option value="5">Connection & Final Assembly</option>
                                     <option value="6">Finishing</option>
+                                    <option value="7">QC</option>
                                 </select>
                             </div>
                             <div class="col-md-auto">

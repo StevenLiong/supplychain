@@ -60,6 +60,7 @@ class ResourceDryKebutuhanController extends Controller
         $gpadryfilterCCASusun = clone $gpadry;
         $gpadryfilterCCAFinishing = clone $gpadry;
         $gpadryfilterCCAConect = clone $gpadry;
+        $gpadryfilterQc = clone $gpadry;
 
 
         $request->session()->put('selectedPeriodeDryKebutuhan', $periode);
@@ -70,101 +71,109 @@ class ResourceDryKebutuhanController extends Controller
         $woDrySusun = $gpadryfilterCCASusun->pluck('id_wo');
         $woDryFinishing = $gpadryfilterCCAFinishing->pluck('id_wo');
         $woDryConect = $gpadryfilterCCAConect->pluck('id_wo');
+        $woDryQc = $gpadryfilterQc->pluck('id_wo');
 
-        $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->where('nama_workcenter', 'LV Windling')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryLV)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
+        $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->whereBetween('start_wc5', $deadlineDate)
+        ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDryLV)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
-                if ($workData) {
-                    $hourCoilLV = $workData->totalHour_coil_makinglv ?? 0;
-                    return $hourCoilLV * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
+            if ($workData) {
+                $hourCoilLV = $workData->totalHour_coil_makinglv ?? 0;
+                return $hourCoilLV * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
 
-        $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->where('nama_workcenter', 'HV Windling')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryHV)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
+    $jumlahtotalHourCoil_Making_HV =  $gpadryfilterHV->whereBetween('start_wc6', $deadlineDate)
+        ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDryHV)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
-                if ($workData) {
-                    $totalHourCoil_making_HV = $workData->hour_coil_hv ?? 0;
-                    return $totalHourCoil_making_HV * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
+            if ($workData) {
+                $totalHourCoil_making_HV = $workData->hour_coil_hv ?? 0;
+                return $totalHourCoil_making_HV * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
 
-        $jumlahtotalHourMould_Casting = $gpadryfilterMoulding->where('nama_workcenter', 'Moulding')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryMould)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
+    $jumlahtotalHourMould_Casting = $gpadryfilterMoulding->whereBetween('start_wc9', $deadlineDate)
+        ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDryMould)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
-                if ($workData) {
-                    $totalHourMouldCasting = $workData->totalHour_MouldCasting ?? 0;
-                    return $totalHourMouldCasting * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
-        $jumlahtotalHourCCASusun = $gpadryfilterCCASusun->where('nama_workcenter', 'Susun Core')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDrySusun)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
+            if ($workData) {
+                $totalHourMouldCasting = $workData->totalHour_MouldCasting ?? 0;
+                return $totalHourMouldCasting * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
+    $jumlahtotalHourCCASusun = $gpadryfilterCCASusun->whereBetween('start_wc10', $deadlineDate)
+        ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDrySusun)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
-                if ($workData) {
-                    $hour_type_susun_core = $workData->totalHour_SusunCore ?? 0;
-                    return $hour_type_susun_core * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
+            if ($workData) {
+                $hour_type_susun_core = $workData->totalHour_SusunCore ?? 0;
+                return $hour_type_susun_core * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
 
-        $jumlahtotalHourCCAConect = $gpadryfilterCCAConect->where('nama_workcenter', 'Connection & Final Assembly')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryConect)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
+    $jumlahtotalHourCCAConect = $gpadryfilterCCAConect->whereBetween('start_wc12', $deadlineDate)
+        ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDryConect)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
-                if ($workData) {
-                    $totalHour_Connection_Final_Assembly = $workData->totalHour_Connection_Final_Assembly ?? 0;
-                    return $totalHour_Connection_Final_Assembly * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
-        $jumlahtotalHourCCAFinishing = $gpadryfilterCCAFinishing->where('nama_workcenter', 'Finishing')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
-            ->whereIn('id_wo', $woDryFinishing)
-            ->get()
-            ->sum(function ($item) {
-                $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
+            if ($workData) {
+                $totalHour_Connection_Final_Assembly = $workData->totalHour_Connection_Final_Assembly ?? 0;
+                return $totalHour_Connection_Final_Assembly * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
+    $jumlahtotalHourCCAFinishing = $gpadryfilterCCAFinishing->whereBetween('start_wc13', $deadlineDate)
+        ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDryFinishing)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
-                if ($workData) {
-                    $totalHour_Finishing = $workData->totalHour_Finishing ?? 0;
-                    return $totalHour_Finishing * $item->qty_trafo;
-                } else {
-                    return 0;
-                }
-            });
+            if ($workData) {
+                $totalHour_Finishing = $workData->totalHour_Finishing ?? 0;
+                return $totalHour_Finishing * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
+    $jumlahtotalHourQc = $gpadryfilterQc->whereBetween('start_wc14', $deadlineDate)
+        ->with(['mps2.standardize_work', 'mps2.standardize_work.dry_cast_resin', 'mps2.standardize_work.dry_non_resin'])
+        ->whereIn('id_wo', $woDryQc)
+        ->get()
+        ->sum(function ($item) {
+            $workData = $item->mps2->standardize_work->dry_cast_resin ?? $item->mps2->standardize_work->dry_non_resin;
 
+            if ($workData) {
+                $totalHour_QCTest = $workData->totalHour_QCTest ?? 0;
+                return $totalHour_QCTest * $item->qty_trafo;
+            } else {
+                return 0;
+            }
+        });
         switch ($periode) {
             case 1:
                 $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
@@ -173,6 +182,7 @@ class ResourceDryKebutuhanController extends Controller
                 $kebutuhanMPCCASusun = $jumlahtotalHourCCASusun / (173  * 0.93);
                 $kebutuhanMPCCAFinishing = $jumlahtotalHourCCAFinishing / (173  * 0.93);
                 $kebutuhanMPCCAConect = $jumlahtotalHourCCAConect / (173  * 0.93);
+                $kebutuhanMPQc = $jumlahtotalHourQc / (173  * 0.93);
                 break;
             case 2:
                 $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
@@ -181,6 +191,7 @@ class ResourceDryKebutuhanController extends Controller
                 $kebutuhanMPCCASusun = $jumlahtotalHourCCASusun / (40  * 0.93);
                 $kebutuhanMPCCAFinishing = $jumlahtotalHourCCAFinishing / (40  * 0.93);
                 $kebutuhanMPCCAConect = $jumlahtotalHourCCAConect / (40  * 0.93);
+                $kebutuhanMPQc = $jumlahtotalHourQc / (40  * 0.93);
                 break;
             case 3:
                 $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
@@ -189,6 +200,7 @@ class ResourceDryKebutuhanController extends Controller
                 $kebutuhanMPCCASusun = $jumlahtotalHourCCASusun / (40  * 0.93);
                 $kebutuhanMPCCAFinishing = $jumlahtotalHourCCAFinishing / (40  * 0.93);
                 $kebutuhanMPCCAConect = $jumlahtotalHourCCAConect / (40  * 0.93);
+                $kebutuhanMPQc = $jumlahtotalHourQc / (40  * 0.93);
                 break;
             case 4:
                 $kebutuhanMPCoil_Making_HV = $jumlahtotalHourCoil_Making_HV / (173  * 0.93);
@@ -197,6 +209,7 @@ class ResourceDryKebutuhanController extends Controller
                 $kebutuhanMPCCASusun = $jumlahtotalHourCCASusun / (173  * 0.93);
                 $kebutuhanMPCCAFinishing = $jumlahtotalHourCCAFinishing / (173  * 0.93);
                 $kebutuhanMPCCAConect = $jumlahtotalHourCCAConect / (173  * 0.93);
+                $kebutuhanMPQc = $jumlahtotalHourQc / (173  * 0.93);
                 break;
         }
 
@@ -206,6 +219,7 @@ class ResourceDryKebutuhanController extends Controller
         $selisihMPCCASusun = $kebutuhanMPCCASusun - $totalManPower;
         $selisihMPCCAFinishing = $kebutuhanMPCCAFinishing - $totalManPower;
         $selisihMPCCAConect = $kebutuhanMPCCAConect - $totalManPower;
+        $selisihMPQc = $kebutuhanMPQc - $totalManPower;
 
         if ($kebutuhanMPCoil_Making_HV != 0) {
             $presentaseKurangMPCoil_Making_HV = ($selisihMPCoil_Making_HV / $kebutuhanMPCoil_Making_HV) * 100;
@@ -237,6 +251,11 @@ class ResourceDryKebutuhanController extends Controller
         } else {
             $presentaseKurangMPCCAConect = 0;
         }
+        if ($kebutuhanMPQc != 0) {
+            $presentaseKurangMPQc = ($selisihMPQc / $kebutuhanMPQc) * 100;
+        } else {
+            $presentaseKurangMPQc = 0;
+        }
 
         $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV - ($kebutuhanMPCoil_Making_HV * $presentaseKurangMPCoil_Making_HV) / 100;
         $ketersediaanMPCoil_Making_LV = $kebutuhanMPCoil_Making_LV - ($kebutuhanMPCoil_Making_LV * $presentaseKurangMPCoil_Making_LV) / 100;
@@ -244,6 +263,7 @@ class ResourceDryKebutuhanController extends Controller
         $ketersediaanMPCCASusun = $kebutuhanMPCCASusun - ($kebutuhanMPCCASusun * $presentaseKurangMPCCASusun) / 100;
         $ketersediaanMPCCAFinishing = $kebutuhanMPCCAFinishing - ($kebutuhanMPCCAFinishing * $presentaseKurangMPCCAFinishing) / 100;
         $ketersediaanMPCCAConect = $kebutuhanMPCCAConect - ($kebutuhanMPCCAConect * $presentaseKurangMPCCAConect) / 100;
+        $ketersediaanMPQc = $kebutuhanMPQc - ($kebutuhanMPQc * $presentaseKurangMPQc) / 100;
         if ($kebutuhanMPCoil_Making_HV <= $ketersediaanMPCoil_Making_HV) {
             $selisihMPCoil_Making_HV = 0;
             $ketersediaanMPCoil_Making_HV = $kebutuhanMPCoil_Making_HV;
@@ -268,6 +288,10 @@ class ResourceDryKebutuhanController extends Controller
             $selisihMPCCAConect = 0;
             $ketersediaanMPCCAConect = $kebutuhanMPCCAConect;
         }
+        if ($kebutuhanMPQc <= $ketersediaanMPQc) {
+            $selisihMPQc = 0;
+            $ketersediaanMPQc = $kebutuhanMPQc;
+        }
 
         $wc_Coil_Making_HV =  'Coil Making HV';
         $wc_Coil_Making_LV =  'Coil Making LV';
@@ -275,6 +299,7 @@ class ResourceDryKebutuhanController extends Controller
         $wc_CCASusun =  'Susun Core';
         $wc_CCAFinishing =  'Finishing';
         $wc_CCAConect =  'Connection & Final Assembly';
+        $wc_Qc =  'QC';
 
         $data = [
             'jumlahtotalHourCoil_Making_LV' => $jumlahtotalHourCoil_Making_LV,
@@ -283,12 +308,14 @@ class ResourceDryKebutuhanController extends Controller
             'jumlahtotalHourCCASusun' => $jumlahtotalHourCCASusun,
             'jumlahtotalHourCCAFinishing' => $jumlahtotalHourCCAFinishing,
             'jumlahtotalHourCCAConect' => $jumlahtotalHourCCAConect,
+            'jumlahtotalHourQc' => $jumlahtotalHourQc,
             'selisihMPCoil_Making_HV' => $selisihMPCoil_Making_HV,
             'selisihMPCoil_Making_LV' => $selisihMPCoil_Making_LV,
             'selisihMPMould_Casting' => $selisihMPMould_Casting,
             'selisihMPCCASusun' => $selisihMPCCASusun,
             'selisihMPCCAFinishing' => $selisihMPCCAFinishing,
             'selisihMPCCAConect' => $selisihMPCCAConect,
+            'selisihMPQc' => $selisihMPQc,
             'totalManPower;' => $totalManPower,
             'kebutuhanMPCoil_Making_HV' => $kebutuhanMPCoil_Making_HV,
             'kebutuhanMPCoil_Making_LV' => $kebutuhanMPCoil_Making_LV,
@@ -296,18 +323,21 @@ class ResourceDryKebutuhanController extends Controller
             'kebutuhanMPCCASusun' => $kebutuhanMPCCASusun,
             'kebutuhanMPCCAFinishing' => $kebutuhanMPCCAFinishing,
             'kebutuhanMPCCAConect' => $kebutuhanMPCCAConect,
+            'kebutuhanMPQc' => $kebutuhanMPQc,
             'wc_Coil_Making_HV' => $wc_Coil_Making_HV,
             'wc_Coil_Making_LV' => $wc_Coil_Making_LV,
             'wc_Mould_Casting' => $wc_Mould_Casting,
             'wc_CCASusun' => $wc_CCASusun,
             'wc_CCAFinishing' => $wc_CCAFinishing,
             'wc_CCAConect' => $wc_CCAConect,
+            'wc_Qc' => $wc_Qc,
             'ketersediaanMPCoil_Making_HV' => $ketersediaanMPCoil_Making_HV,
             'ketersediaanMPCoil_Making_LV' => $ketersediaanMPCoil_Making_LV,
             'ketersediaanMPMould_Casting' => $ketersediaanMPMould_Casting,
             'ketersediaanMPCCASusun' => $ketersediaanMPCCASusun,
             'ketersediaanMPCCAFinishing' => $ketersediaanMPCCAFinishing,
             'ketersediaanMPCCAConect' => $ketersediaanMPCCAConect,
+            'ketersediaanMPQc' => $ketersediaanMPQc,
             'title1' => $title1,
             'kapasitas' => $kapasitas,
             'PL' => $PL,

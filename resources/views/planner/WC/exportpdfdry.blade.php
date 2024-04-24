@@ -68,25 +68,24 @@
     <table border="1">
         <thead>
             <tr>
-                <th style="text-align: center">No</th>
-                <th style="text-align: center">Work Order</th>
-                <th style="text-align: center">Project</th>
-                <th style="text-align: center">Production Line</th>
-                <th style="text-align: center">KVA</th>
-                <th style="text-align: center">Quantity</th>
-                <th style="text-align: center">Deadline</th>
+                <<th style="width: 1rem;text-align: center;">No</th>
+                <th style="width: 6rem; text-align: center">Work Order Code</th>
+                <th style="width: 6rem; text-align:center">Start Date</th>
+                <th style="width: 6rem; text-align:center">Dead Line</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($dataGpa as $index => $gpa)
-                <tr>
-                    <td style="text-align: center">{{ $index + 1 }}</td>
-                    <td style="text-align: center">{{ $gpa->wo->id_wo }}</td>
-                    <td style="width: 10rem; text-align:center">{{ $gpa->project }}</td>
-                    <td style="text-align: center">{{ $gpa->production_line }}</td>
-                    <td style="text-align: center">{{ $gpa->kva }}</td>
-                    <td style="text-align: center">{{ $gpa->qty_trafo }}</td>
-                    <td style="width: 9rem; text-align:center">{{ \Carbon\Carbon::parse($gpa->deadline)->format('d-F-Y') }}</td>
+            @foreach ($deadlines as $index => $deadline)
+                <tr role="row" class="odd">
+                    <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
+                    <td style="width: 6rem; text-align: center">{{ $deadline['id_wo'] }}</td>
+                    {{-- <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->project }}</td>
+                    <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->production_line }}</td>
+                    <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->kva }}</td>
+                    <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->qty_trafo }}</td>
+                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($dataWorkcenter->start)->format('d-F-Y') }}</td> --}}
+                    <td style="width: 6rem; text-align: center">{{ $deadline['startWc'] }}</td>
+                    <td style="width: 6rem; text-align: center">{{ $deadline['deadlineWc'] }}</td>
                 </tr>
             @endforeach
         </tbody>

@@ -23,11 +23,14 @@ class FinishgoodImport implements ToModel, WithHeadingRow, WithCalculatedFormula
             return null;
         }
 
+        // print_r($row);
+        // dd($row);
+
         if (empty($row)) {
             return null;
         }
 
-        $kd_finishedgood = $row['kode_fg'];
+        $kd_finishedgood = $row['kode_item'];
 
         $fgoods = Finishedgood::where('kd_finishedgood', $kd_finishedgood)->first();
 
@@ -40,7 +43,7 @@ class FinishgoodImport implements ToModel, WithHeadingRow, WithCalculatedFormula
 
         return new Kanbanfg([
             'no' => $row['no'],
-            'kode_fg' => $row['kode_fg'],
+            'kode_fg' => $row['kode_item'],
             'nama_item' => $row['nama_item'],
             'max_kanban' => $row['max_kanban'],
             'stock_on_hand' => $stockOnHand,

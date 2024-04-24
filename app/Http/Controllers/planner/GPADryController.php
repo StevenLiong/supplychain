@@ -49,9 +49,11 @@ class GPADryController extends Controller
         ->select('deadline')
         ->get();
         // dd($dataMps);
-        $dataGpa = GPADry::where('id_wo', $id_wo)
-        ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'start', 'nama_workcenter', 'keterangan')
-        ->get();
+        // $dataGpa = GPADry::where('id_wo', $id_wo)
+        // ->select('id', 'id_wo', 'production_line', 'kva', 'qty_trafo', 'start', 'nama_workcenter', 'keterangan')
+        // ->get();
+        $dataGpa = GPADry::where('id_wo', $id_wo)->get();
+        // dd($dataGpa);
         // Menyimpan keterangan yang sesuai dengan workcenter "Finishing"
         $keteranganFinishing = $dataGpa->where('nama_workcenter', 'Finishing')->first()->keterangan ?? '';
         $pdf = PDF::loadView('planner.gpa.view-detail-gpa-dry', ['dataGpa' => $dataGpa, 'dataMps' => $dataMps, 'keteranganFinishing' => $keteranganFinishing,]);

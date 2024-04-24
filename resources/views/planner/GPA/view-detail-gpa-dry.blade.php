@@ -95,63 +95,63 @@
             @foreach ($dataGpa as $detailGpa)
             <tr role="row" class="odd">
                 <td class="sorting_1">Bill of Material</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc1)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc1)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Insulation Paper</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc2)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc2)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Supply Material Insulation & Coil</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc3)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc3)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Supply Material Moulding</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc4)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc4)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">LV Windling</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc5)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc5)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">HV Windling</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc6)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc6)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Core</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc7)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc7)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Supply Fixing Parts & Core</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc8)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc8)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Moulding</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc9)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc9)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Susun Core</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc10)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc10)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Supply Material Connection & Final Assembly</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc11)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc11)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Connection & Final Assembly</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc12)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc12)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Finishing</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc13)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc13)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Quality Control</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc14)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc14)->format('j-M-Y') }}</td>
             </tr>
             <tr role="row" class="odd">
                 <td class="sorting_1">Quality Control Transfer Gudang</td>
-                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->first()->deadline_wc15)->format('j-M-Y') }}</td>
+                <td class="sorting_1">{{ \Carbon\Carbon::parse($detailGpa->deadline_wc15)->format('j-M-Y') }}</td>
             </tr>
             @endforeach
         </tbody>

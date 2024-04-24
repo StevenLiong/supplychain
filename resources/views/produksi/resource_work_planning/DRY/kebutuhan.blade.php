@@ -167,6 +167,23 @@
                                         {{ $data['selisihMPCCAFinishing'] }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        {{ $data['wc_Qc'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['jumlahtotalHourQc'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['kebutuhanMPQc'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['ketersediaanMPQc'] }}
+                                    </td>
+                                    <td>
+                                        {{ $data['selisihMPQc'] }}
+                                    </td>
+                                </tr>
 
                             </tbody>
                             {{-- <tfoot class="text-center">

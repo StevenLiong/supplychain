@@ -64,7 +64,7 @@ use App\Http\Controllers\produksi\ResourceWorkPlanning\ResourceKalkulasiSDMrCont
 use App\Http\Controllers\produksi\ResourceWorkPlanning\ResourceDryRekomendasiController;
 
 Auth::routes();
-Route::get('/login', [loginController::class, 'showLogin'])->name('showlogin');
+Route::get('/', [loginController::class, 'showLogin'])->name('showlogin');
 Route::post('/verifylogin', [loginController::class, 'verifyLogin'])->name('verifylogin');
 Route::post('/logout', [loginController::class, 'logout'])->name('logout');
 Route::post('/register', [RegisterController::class, 'registers'])->name('register');

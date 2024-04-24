@@ -14,6 +14,7 @@ class WorkcenterDryTypeSeeder extends Seeder
     public function run(): void
     {
         $data = [
+            ['nama_workcenter'=>'Bill Of Material'],
             ['nama_workcenter'=>'Insulation Paper'],
             ['nama_workcenter'=>'Supply Material Insulation & Coil'],
             ['nama_workcenter'=>'Supply Material Moulding'],

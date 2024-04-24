@@ -24,6 +24,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {{-- <td style="width: 6rem; text-align: center"><a href="{{ route('wc-detailworkcenterdry') }}">Bill Of Material</a></td> --}}
                             @foreach ($dataWorkcenter as $index => $item)
                                 <tr role="row" class="odd">
                                     <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>

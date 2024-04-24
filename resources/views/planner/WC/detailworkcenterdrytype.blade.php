@@ -31,29 +31,24 @@
                                 <tr class="ligth sorting_asc" role="row" tabindex="0" aria-controls="datatable" aria-sort="ascending" aria-label="activate to sort column descending" style="width: auto;">
                                     <th style="width: 1rem;text-align: center;">No</th>
                                     <th style="width: 6rem; text-align: center">Work Order Code</th>
-                                    <th style="width: 6rem; text-align: center">Project Name</th>
-                                    <th style="width: 6rem; text-align:center">Production Line</th>
-                                    <th style="width: 6rem; text-align:center">KVA</th>
-                                    <th style="width: 6rem; text-align:center">Quantity</th>
                                     <th style="width: 6rem; text-align:center">Start Date</th>
                                     <th style="width: 6rem; text-align:center">Dead Line</th>
                                 </tr>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($dataGpa as $index => $item)
-                                @if ($item->production_line === 'Dry')
-                                    <tr role="row" class="odd">
-                                        <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->id_wo }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->start)->format('d-F-Y') }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
-                                    </tr>
-                                @endif
+                            @foreach ($deadlines as $index => $deadline)
+                                <tr role="row" class="odd">
+                                    <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $deadline['id_wo'] }}</td>
+                                    {{-- <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->project }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->production_line }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->kva }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $dataWorkcenter->qty_trafo }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($dataWorkcenter->start)->format('d-F-Y') }}</td> --}}
+                                    <td style="width: 6rem; text-align: center">{{ $deadline['startWc'] }}</td>
+                                    <td style="width: 6rem; text-align: center">{{ $deadline['deadlineWc'] }}</td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>

@@ -69,7 +69,7 @@ class RepairController extends Controller
 
         $params = $request->all();
 
-        $multipleFields = [ 'coil_lv','coil_hv','connect','final_assembly','accessories','qc'];
+        $multipleFields = [ 'bongkar_accesories','coil_lv','coil_hv','hv_connect','lv_connect','final_assembly','accessories','radiator_panel','conservator','qc'];
 
         foreach ($multipleFields as $field) {
             $multiple = $request->input($field);

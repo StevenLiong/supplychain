@@ -35,9 +35,13 @@
     <div class="card-body">
         <div class="d-flex align-items-center justify-content-between breadcrumb-content">
             <div class="col d-flex align-items-center">
-                <a href="{{ route('bom-index') }}" class="btn btn-primary mr-2"><i aria-hidden="true"></i>Bill of Material</a>
-                <h5 class="mb-0">Master Production Schedule</h5>
-            </div>            
+                <a href="{{ route('bom-index') }}" class="btn btn-primary mr-2"><i aria-hidden="true"></i>Back</a>
+                <h5 class="mb-0 text-end">Master Production Schedule</h5>
+            </div>
+            <div class="items-center">
+            </div>
+
+                      
         </div>
         <br>
         <form id="mpsForm" action="{{ route('mps2.store') }}" method="POST">
@@ -196,7 +200,7 @@
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="project" value="{{ $mps2->project }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;">
                                     <input type="text" style="text-align:center;" class="form-control" name="deadline" value="{{ \Carbon\Carbon::createFromFormat('Y-m-d', $mps2->deadline['year'] . '-' . $mps2->deadline['month'] . '-' . $mps2->deadline['day'])->format('d-M-Y') }}" disabled>
-                                </td>                                
+                                </td>                                 
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="kva" value="{{ $mps2->kva }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="qty_trafo" value="{{ $mps2->qty_trafo }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="manhour_code" value="{{ $mps2->kd_manhour }}" disabled></td>
@@ -227,7 +231,7 @@
                                     <input type="text" class="form-control" name="project[]" value="">
                                 </td>
                                 <td class="freeze-column" style="position: relative; min-width: 150px; padding: 10px;">
-                                    <input type="text" class="form-control" name="deadline[]" id="deadline_input" value="">
+                                    <input type="text" class="form-control" name="deadline[]" placeholder="YYYY-MM-DD" id="deadline_input" value="">
                                 </td>
                                 <td class="freeze-column" style="position: relative; min-width: 100px; padding: 10px;">
                                     <input type="text" class="form-control" name="kva[]" value="">

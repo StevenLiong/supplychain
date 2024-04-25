@@ -47,6 +47,7 @@ class Mps2Controller extends Controller
         $id_standardizeworks = [];
         $deadlines = $inputs['deadline'];
         $kvas = $inputs['kva'];
+        // dd($kvas);
         $qty_trafos = $inputs['qty_trafo'];
 
         function isHoliday($date) {
@@ -69,21 +70,35 @@ class Mps2Controller extends Controller
 
         for ($j = 0; $j < count($inputs['id_wo']); $j++) {
             $id_wo = $inputs['id_wo'][$j];
-            $cekidwo = GPADry::where('id_wo', $id_wo)->first();
-            // Validasi jika id_wo sudah ada
-            if ($cekidwo) {
-                return redirect()->back()->with('error', 'WO sudah disubmit sebelumnya.');
-            }
+            // $cekidwo = GPADry::where('id_wo', $id_wo)->first();
+            // // Validasi jika id_wo sudah ada
+            // if ($cekidwo) {
+            //     return redirect()->back()->with('error', 'WO sudah disubmit sebelumnya.');
+            // }
             $id_so = preg_replace('/(\D)(\d{1})(\d{2})(\d+)/', 'S$2/$3/$4', $id_wo);
+            // dd($id_so);
 
             if (!empty($inputs['id_wo'][$j])) {
                 $kd_manhour = StandardizeWork::where('nomor_so', $id_so)
                         ->where('ukuran_kapasitas', $kvas[$j])
                         ->value('kd_manhour');
+                // dd($kd_manhour);
+
+                if(!$kd_manhour)
+                {
+                    return redirect()->back()->with('error', 'Kode Manhour tidak ada.');
+                }
 
                 $id_standardizework = StandardizeWork::where('nomor_so', $id_so)
                         ->where('ukuran_kapasitas', $kvas[$j])
                         ->value('id');
+                // dd($id_standardizework);
+
+                $cek_kd_manhour = Mps2::where('kd_manhour', $kd_manhour)->first();
+                // Validasi jika kd_manhour sudah ada
+                if ($cek_kd_manhour) {
+                    return redirect()->back()->with('error', 'Kode Manhour sudah disubmit sebelumnya.');
+                }
                 $id_standardizeworks[] = $id_standardizework;
                 $kd_manhours[] = $kd_manhour;
                 $mps2Data[] = [
@@ -416,20 +431,4 @@ class Mps2Controller extends Controller
         }
         return redirect()->route('mps2-index')->with('success', 'Data berhasil disimpan.');
     }
-
-    // private function reduceIfHoliday($date)
-    // {
-    //     $carbonDate = Carbon::parse($date);
-        
-    //     // Cek apakah tanggal adalah hari libur
-    //     if (Holiday::whereDate('date', $carbonDate)->exists()) {
-    //         // Kurangi 1 hari dari tanggal
-    //         $carbonDate->subWeekdays();
-            
-    //         // // Jika tanggal setelah pengurangan masih hari libur, kurangi lagi
-    //         // return $this->reduceIfHoliday($carbonDate->format('Y-m-d'));
-    //     }
-        
-    //     return $carbonDate;
-    // }
 }

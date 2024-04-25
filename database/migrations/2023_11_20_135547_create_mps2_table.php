@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('project');
             $table->string('qty_trafo');
             $table->date('deadline');
-            $table->integer('kva');
+            $table->string('kva');
             $table->string('kd_manhour');
             $table->foreignId('id_standardize_work')->nullable()->constrained('standardize_works');
             $table->timestamps();

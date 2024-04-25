@@ -27,7 +27,7 @@ class loginController extends Controller
         return redirect('/login');
     }
 
-    public function showLogin(){
+    public function login(){
 
         return view('auth.login');
     }

@@ -86,6 +86,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">Register</button>
+                                <a href="{{ route('login') }}" type="button" class="btn btn-secondary">Back to Login</a>
                             </div>
                         </div>
                     </form>
@@ -94,6 +95,9 @@
         </div>
     </div>
 </div>
+
+<!-- Meta tag untuk menyimpan route login -->
+{{-- <meta name="login-route" content="{{ route('login') }}"> --}}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -115,17 +119,14 @@
                 if (data.status === 'success') {
                     // Menampilkan alert
                     alert('Akun berhasil dibuat!');
-
-                    // Mengarahkan ke halaman login
-                    window.location.href = "{{ route('showlogin') }}";
                 } else {
                     alert('Ada kesalahan dalam proses pendaftaran.');
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Ada kesalahan dalam proses pendaftaran.');
-            });
+            // .catch(error => {
+            //     console.error('Error:', error);
+            //     alert('Ada kesalahan dalam proses pendaftaran.');
+            // });
         });
     });
 </script>

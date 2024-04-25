@@ -109,17 +109,19 @@ class ResourceDryRekomendasiController extends Controller
         $gpadryfilterHV = clone $gpadry;
         $gpadryfilterMoulding = clone $gpadry;
         $gpadryfilterCCASusun = clone $gpadry;
-        $gpadryfilterCCAFinishing = clone $gpadry;
         $gpadryfilterCCAConect = clone $gpadry;
+        $gpadryfilterCCAFinishing = clone $gpadry;
         $gpadryfilterQc = clone $gpadry;
 
         $woDryLV = $gpadryfilterLV->pluck('id_wo');
         $woDryHV = $gpadryfilterHV->pluck('id_wo');
         $woDryMould = $gpadryfilterMoulding->pluck('id_wo');
         $woDrySusun = $gpadryfilterCCASusun->pluck('id_wo');
-        $woDryFinishing = $gpadryfilterCCAFinishing->pluck('id_wo');
         $woDryConect = $gpadryfilterCCAConect->pluck('id_wo');
+        $woDryFinishing = $gpadryfilterCCAFinishing->pluck('id_wo');
         $woDryQc = $gpadryfilterQc->pluck('id_wo');
+
+
 
 
         $jumlahtotalHourCoil_Making_LV = $gpadryfilterLV->whereBetween('start_wc5', $getDay)
@@ -220,8 +222,8 @@ class ResourceDryRekomendasiController extends Controller
         $KebutuhanHV = $jumlahtotalHourCoil_Making_HV / (40  * 0.93);
         $KebutuhanMould = $jumlahtotalHourMould_Casting / (40  * 0.93);
         $KebutuhanSusun = $jumlahtotalHourCCASusun / (40  * 0.93);
-        $KebutuhanConect = $jumlahtotalHourCCAConect / (40  * 0.93);
         $KebutuhanFinishing = $jumlahtotalHourCCAFinishing / (40  * 0.93);
+        $KebutuhanConect = $jumlahtotalHourCCAConect / (40  * 0.93);
         $KebutuhanQc = $jumlahtotalHourQc / (40  * 0.93);
 
         $selisihMPCoil_Making_HV = $KebutuhanLV - $totalManPower;
@@ -252,15 +254,15 @@ class ResourceDryRekomendasiController extends Controller
         } else {
             $presentaseKurangMPCCASusun = 0;
         }
-        if ($KebutuhanFinishing != 0) {
-            $presentaseKurangMPCCAFinishing = ($selisihMPCCAFinishing / $KebutuhanFinishing) * 100;
-        } else {
-            $presentaseKurangMPCCAFinishing = 0;
-        }
         if ($KebutuhanConect != 0) {
             $presentaseKurangMPCCAConect = ($selisihMPCCAConect / $KebutuhanConect) * 100;
         } else {
             $presentaseKurangMPCCAConect = 0;
+        }
+        if ($KebutuhanFinishing != 0) {
+            $presentaseKurangMPCCAFinishing = ($selisihMPCCAFinishing / $KebutuhanFinishing) * 100;
+        } else {
+            $presentaseKurangMPCCAFinishing = 0;
         }
         if ($KebutuhanQc != 0) {
             $presentaseKurangMPQc = ($selisihMPQc / $KebutuhanQc) * 100;
@@ -268,16 +270,16 @@ class ResourceDryRekomendasiController extends Controller
             $presentaseKurangMPQc = 0;
         }
 
-        $ketersediaanMPCoil_Making_LV = $KebutuhanLV - ($KebutuhanLV * $presentaseKurangMPCoil_Making_HV) / 100;
+        $ketersediaanMPLV = $KebutuhanLV - ($KebutuhanLV * $presentaseKurangMPCoil_Making_HV) / 100;
         $ketersediaanMPCoil_Making_HV = $KebutuhanHV - ($KebutuhanHV * $presentaseKurangMPCoil_Making_LV) / 100;
         $ketersediaanMPMould_Casting = $KebutuhanMould - ($KebutuhanMould * $presentaseKurangMPMould_Casting) / 100;
         $ketersediaanMPCCASusun = $KebutuhanSusun - ($KebutuhanSusun * $presentaseKurangMPCCASusun) / 100;
         $ketersediaanMPCCAFinishing = $KebutuhanFinishing - ($KebutuhanFinishing * $presentaseKurangMPCCAFinishing) / 100;
         $ketersediaanMPCCAConect = $KebutuhanConect - ($KebutuhanConect * $presentaseKurangMPCCAConect) / 100;
         $ketersediaanMPQc = $KebutuhanQc - ($KebutuhanQc * $presentaseKurangMPQc) / 100;
-        if ($KebutuhanLV <= $ketersediaanMPCoil_Making_LV) {
+        if ($KebutuhanLV <= $ketersediaanMPLV) {
             $selisihMPCoil_Making_LV = 0;
-            $ketersediaanMPCoil_Making_LV = $KebutuhanLV;
+            $ketersediaanMPLV = $KebutuhanLV;
         }
         if ($KebutuhanHV <= $ketersediaanMPCoil_Making_HV) {
             $selisihMPCoil_Making_HV = 0;
@@ -291,13 +293,13 @@ class ResourceDryRekomendasiController extends Controller
             $selisihMPCCASusun = 0;
             $ketersediaanMPCCASusun = $KebutuhanSusun;
         }
-        if ($KebutuhanFinishing <= $ketersediaanMPCCAFinishing) {
-            $selisihMPCCAFinishing = 0;
-            $ketersediaanMPCCAFinishing = $KebutuhanFinishing;
-        }
         if ($KebutuhanConect <= $ketersediaanMPCCAConect) {
             $selisihMPCCAConect = 0;
             $ketersediaanMPCCAConect = $KebutuhanConect;
+        }
+        if ($KebutuhanFinishing <= $ketersediaanMPCCAFinishing) {
+            $selisihMPCCAFinishing = 0;
+            $ketersediaanMPCCAFinishing = $KebutuhanFinishing;
         }
         if ($KebutuhanQc <= $ketersediaanMPQc) {
             $selisihMPQc = 0;
@@ -319,18 +321,15 @@ class ResourceDryRekomendasiController extends Controller
 
         $gpadryfilterLV = $gpadryfilterLV->whereBetween('start_wc5', $getDay)
             ->get();
-        // dd($gpadryfilterLV);
-
         $dateStrings = $gpadryfilterLV->pluck('start_wc5');
-
 
         $woIds = $gpadryfilterLV->pluck('mps2.id_wo');
         $coilLv = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.coil_lv');
         $potong_leadwire = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.potong_leadwire');
         $potong_isolasi = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.potong_isolasi');
 
-        $ketersediaanMPLV = $ketersediaanMPCoil_Making_LV;
-        $namaMP = [];
+        $namaMPLV = [];
+
         $nama_ms_lv = [];
         $nama_ms_leadwire = [];
         $nama_ms_isolasi = [];
@@ -342,11 +341,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'COIL LV')
                 ->whereIn('tipe_proses', $coilLv)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPLV)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOBlv = [];
             foreach ($namaMP_currentSkillLV as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPLV)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter',  ['LV Windling'])
                         ->first();
@@ -366,11 +365,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'POTONG LEAD WIRE')
                 ->whereIn('tipe_proses', $potong_leadwire)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPLV)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_leadwire = [];
             foreach ($namaMP_currentSkill_leadwire as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPLV)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter',  ['LV Windling'])
                         ->first();
@@ -390,11 +389,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'POTONG ISOLASI')
                 ->whereIn('tipe_proses', $potong_isolasi)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPLV)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB = [];
             foreach ($namaMP_currentSkill_isolasi as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPLV)) {
                     $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter',  ['LV Windling'])
@@ -413,26 +412,26 @@ class ResourceDryRekomendasiController extends Controller
                 usort($namaMP_withDOBlv, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOBlv[0]['nama_mp'];
+                $namaMPLV[] = $namaMP_withDOBlv[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_leadwire)) {
                 usort($namaMP_withDOB_leadwire, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_leadwire[0]['nama_mp'];
+                $namaMPLV[] = $namaMP_withDOB_leadwire[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_isolasi)) {
                 usort($namaMP_withDOB_isolasi, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_isolasi[0]['nama_mp'];
+                $namaMPLV[] = $namaMP_withDOB_isolasi[0]['nama_mp'];
             }
-            $namaMP = array_unique($namaMP);
-            if (count($namaMP) >= $ketersediaanMPLV) {
+            $namaMPLV = array_unique($namaMPLV);
+            if (count($namaMPLV) >= $ketersediaanMPLV) {
                 break;
             }
         }
-        $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPLV));
+        $namaMPLV = array_slice($namaMPLV, 0, ceil($ketersediaanMPLV));
         for ($i = 2; $i >= 0; $i--) {
             if ($i > 0) {
                 $getMesin = $mesins->where('production_line', 'Dry Resin')
@@ -487,8 +486,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourLV = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.hour_coil_lv', $wo)->sum();
             $qtyLV = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
             $remainingHoursLV = $hourLV * $qtyLV;
-             if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+             if (isset($namaMPLV[$time]) && !empty($namaMPLV[$time])) {
+                $nama = $namaMPLV[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -538,12 +537,12 @@ class ResourceDryRekomendasiController extends Controller
             $hourLeadWire = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.hour_potong_leadwire', $wo)->sum();
             $qtyLeadWire = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
             $remainingHoursLeadWire = $hourLeadWire * $qtyLeadWire;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPLV[$time]) && !empty($namaMPLV[$time])) {
+                $nama = $namaMPLV[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
-            if (isset($nama_ms[$time]) && !empty($nama_ms[$time])) {
+            if (isset($nama_ms_leadwire[$time]) && !empty($nama_ms_leadwire[$time])) {
                 $mesin = $nama_ms_leadwire[$time];
             } else {
                 $mesin = "tidak Memakai Mesin";
@@ -589,12 +588,12 @@ class ResourceDryRekomendasiController extends Controller
             $hourIsolasi = $gpadryfilterLV->pluck('mps2.standardize_work.dry_cast_resin.hour_potong_isolasi', $wo)->sum();
             $qtyIsolasi = $gpadryfilterLV->pluck('qty_trafo', $wo)->sum();
             $remainingHoursIsolasi = $hourIsolasi * $qtyIsolasi;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPLV[$time]) && !empty($namaMPLV[$time])) {
+                $nama = $namaMPLV[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
-            if (isset($nama_ms[$time]) && !empty($nama_ms[$time])) {
+            if (isset($nama_ms_isolasi[$time]) && !empty($nama_ms_isolasi[$time])) {
                 $mesin = $nama_ms_isolasi[$time];
             } else {
                 $mesin = "tidak Memakai Mesin";
@@ -645,8 +644,8 @@ class ResourceDryRekomendasiController extends Controller
         $woIds = $gpadryfilterHV->pluck('mps2.id_wo');
         $coilHv = $gpadryfilterHV->pluck('mps2.standardize_work.dry_cast_resin.coil_hv');
         $ketersediaanMPHV = $ketersediaanMPCoil_Making_HV;
-        $namaMP = [];
-        $nama_ms = [];
+        $namaMPHv = [];
+        $nama_ms_hv = [];
 
         // Mendapatkan namaMP
         for ($i = 4; $i >= 0; $i--) {
@@ -655,11 +654,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'COIL HV')
                 ->whereIn('tipe_proses', $coilHv)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPHv)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB = [];
             foreach ($namaMP_currentSkill as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPHv)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter',  ['HV Windling'])
                         ->first();
@@ -678,13 +677,13 @@ class ResourceDryRekomendasiController extends Controller
                 usort($namaMP_withDOB, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
+                $namaMPHv[] = $namaMP_withDOB[0]['nama_mp'];
             }
-            if (count($namaMP) >= $ketersediaanMPHV) {
+            if (count($namaMPHv) >= $ketersediaanMPHV) {
                 break;
             }
         }
-        $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPHV));
+        $namaMPHv = array_slice($namaMPHv, 0, ceil($ketersediaanMPHV));
         for ($i = 2; $i >= 0; $i--) {
             if ($i > 0) {
                 $getMesin = $mesins->where('production_line', 'Dry Resin')
@@ -693,25 +692,25 @@ class ResourceDryRekomendasiController extends Controller
                     ->whereIn('tipe_proses', $coilHv)
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
-                $nama_ms = array_merge($nama_ms, $getMesin);
-                if (count($nama_ms) >= $ketersediaanMPHV) {
+                $nama_ms_hv = array_merge($nama_ms_hv, $getMesin);
+                if (count($nama_ms_hv) >= $ketersediaanMPHV) {
                     break;
                 }
             }
         }
-        $nama_ms = array_slice($nama_ms, 0, ceil($ketersediaanMPHV));
+        $nama_ms_hv = array_slice($nama_ms_hv, 0, ceil($ketersediaanMPHV));
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
             $hourHV = $gpadryfilterHV->pluck('mps2.standardize_work.dry_cast_resin.hour_coil_hv', $wo)->sum();
             $qty = $gpadryfilterHV->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourHV * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPHv[$time]) && !empty($namaMPHv[$time])) {
+                $nama = $namaMPHv[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
-            if (isset($nama_ms[$time]) && !empty($nama_ms[$time])) {
-                $mesin = $nama_ms[$time];
+            if (isset($nama_ms_hv[$time]) && !empty($nama_ms_hv[$time])) {
+                $mesin = $nama_ms_hv[$time];
             } else {
                 $mesin = "tidak Memakai Mesin";
             }
@@ -771,11 +770,7 @@ class ResourceDryRekomendasiController extends Controller
         $lv_moulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.lv_moulding');
         $touch_up = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.touch_up');
         $oven = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.oven');
-
-        // dd($oven);
-        $ketersediaanMPMould = $ketersediaanMPMould_Casting;
-
-        $namaMP = [];
+        $namaMPMould = [];
 
         $nama_ms_hv_mould = [];
         $nama_ms_hv_casting = [];
@@ -791,11 +786,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'HV MOULDING')
                 ->whereIn('tipe_proses', $hvmoulding)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPMould)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_hvmoulding = [];
             foreach ($namaMP_currentSkill_hvmoulding as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPMould)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
@@ -815,11 +810,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'HV CASTING')
                 ->whereIn('tipe_proses',  $hvcasting)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPMould)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_casting = [];
             foreach ($namaMP_currentSkill_casting as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPMould)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
@@ -839,11 +834,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'HV DEMOULDING')
                 ->whereIn('tipe_proses',  $hvdemoulding)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPMould)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_demoulding = [];
             foreach ($namaMP_currentSkill_demoulding as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPMould)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
@@ -863,11 +858,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'LV BOBBIN')
                 ->whereIn('tipe_proses',  $lvbobbin)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPMould)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_bobbin = [];
             foreach ($namaMP_currentSkill_bobbin as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPMould)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
@@ -887,11 +882,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'LV MOULDING')
                 ->whereIn('tipe_proses', $lv_moulding)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPMould)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_lvmoulding = [];
             foreach ($namaMP_currentSkill_lvmoulding as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPMould)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
@@ -911,11 +906,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'TOUCH UP')
                 ->whereIn('tipe_proses', $touch_up)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPMould)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_touchup = [];
             foreach ($namaMP_currentSkill_touchup as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPMould)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
@@ -935,11 +930,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'OVEN')
                 ->whereIn('tipe_proses', $oven)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPMould)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_oven = [];
             foreach ($namaMP_currentSkill_oven as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPMould)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Moulding'])
                         ->first();
@@ -960,49 +955,49 @@ class ResourceDryRekomendasiController extends Controller
                 usort($namaMP_withDOB_hvmoulding, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_hvmoulding[0]['nama_mp'];
+                $namaMPMould[] = $namaMP_withDOB_hvmoulding[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_casting)) {
                 usort($namaMP_withDOB_casting, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_casting[0]['nama_mp'];
+                $namaMPMould[] = $namaMP_withDOB_casting[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_demoulding)) {
                 usort($namaMP_withDOB_demoulding, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_demoulding[0]['nama_mp'];
+                $namaMPMould[] = $namaMP_withDOB_demoulding[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_bobbin)) {
                 usort($namaMP_withDOB_bobbin, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_bobbin[0]['nama_mp'];
+                $namaMPMould[] = $namaMP_withDOB_bobbin[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_hvmoulding)) {
                 usort($namaMP_withDOB_hvmoulding, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_hvmoulding[0]['nama_mp'];
+                $namaMPMould[] = $namaMP_withDOB_hvmoulding[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_touchup)) {
                 usort($namaMP_withDOB_touchup, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_touchup[0]['nama_mp'];
+                $namaMPMould[] = $namaMP_withDOB_touchup[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_oven)) {
                 usort($namaMP_withDOB_oven, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_oven[0]['nama_mp'];
+                $namaMPMould[] = $namaMP_withDOB_oven[0]['nama_mp'];
             }
-            if (count($namaMP) >= $ketersediaanMPMould) {
+            if (count($namaMPMould) >= $ketersediaanMPMould_Casting) {
                 break;
             }
         }
-        $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPMould));
+        $namaMPMould = array_slice($namaMPMould, 0, ceil($ketersediaanMPMould_Casting));
         for ($i = 2; $i >= 0; $i--) {
             if ($i > 0) {
                 $getMesin = $mesins->where('production_line', 'Dry Resin')
@@ -1012,7 +1007,7 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_hv_mould = array_merge($nama_ms_hv_mould, $getMesin);
-                if (count($nama_ms_hv_mould) >= $ketersediaanMPMould) {
+                if (count($nama_ms_hv_mould) >= $ketersediaanMPMould_Casting) {
                     break;
                 }
             }
@@ -1026,7 +1021,7 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_hv_demoulding = array_merge($nama_ms_hv_demoulding, $getMesin);
-                if (count($nama_ms_hv_demoulding) >= $ketersediaanMPMould) {
+                if (count($nama_ms_hv_demoulding) >= $ketersediaanMPMould_Casting) {
                     break;
                 }
             }
@@ -1040,7 +1035,7 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_hv_casting = array_merge($nama_ms_hv_casting, $getMesin);
-                if (count($nama_ms_hv_casting) >= $ketersediaanMPMould) {
+                if (count($nama_ms_hv_casting) >= $ketersediaanMPMould_Casting) {
                     break;
                 }
             }
@@ -1054,7 +1049,7 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_lv_moulding = array_merge($nama_ms_lv_moulding, $getMesin);
-                if (count($nama_ms_lv_moulding) >= $ketersediaanMPMould) {
+                if (count($nama_ms_lv_moulding) >= $ketersediaanMPMould_Casting) {
                     break;
                 }
             }
@@ -1068,7 +1063,7 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_lv_bobbin = array_merge($nama_ms_lv_bobbin, $getMesin);
-                if (count($nama_ms_lv_bobbin) >= $ketersediaanMPMould) {
+                if (count($nama_ms_lv_bobbin) >= $ketersediaanMPMould_Casting) {
                     break;
                 }
             }
@@ -1082,7 +1077,7 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_touch_up = array_merge($nama_ms_touch_up, $getMesin);
-                if (count($nama_ms_touch_up) >= $ketersediaanMPMould) {
+                if (count($nama_ms_touch_up) >= $ketersediaanMPMould_Casting) {
                     break;
                 }
             }
@@ -1096,18 +1091,18 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_oven = array_merge($nama_ms_oven, $getMesin);
-                if (count($nama_ms_oven) >= $ketersediaanMPMould) {
+                if (count($nama_ms_oven) >= $ketersediaanMPMould_Casting) {
                     break;
                 }
             }
         }
-        $nama_ms_hv_mould = array_slice($nama_ms_hv_mould, 0, ceil($ketersediaanMPMould));
-        $nama_ms_hv_casting = array_slice($nama_ms_hv_casting, 0, ceil($ketersediaanMPMould));
-        $nama_ms_hv_demoulding = array_slice($nama_ms_hv_demoulding, 0, ceil($ketersediaanMPMould));
-        $nama_ms_lv_bobbin = array_slice($nama_ms_lv_bobbin, 0, ceil($ketersediaanMPMould));
-        $nama_ms_lv_moulding = array_slice($nama_ms_lv_moulding, 0, ceil($ketersediaanMPMould));
-        $nama_ms_touch_up = array_slice($nama_ms_touch_up, 0, ceil($ketersediaanMPMould));
-        $nama_ms_oven = array_slice($nama_ms_oven, 0, ceil($ketersediaanMPMould));
+        $nama_ms_hv_mould = array_slice($nama_ms_hv_mould, 0, ceil($ketersediaanMPMould_Casting));
+        $nama_ms_hv_casting = array_slice($nama_ms_hv_casting, 0, ceil($ketersediaanMPMould_Casting));
+        $nama_ms_hv_demoulding = array_slice($nama_ms_hv_demoulding, 0, ceil($ketersediaanMPMould_Casting));
+        $nama_ms_lv_bobbin = array_slice($nama_ms_lv_bobbin, 0, ceil($ketersediaanMPMould_Casting));
+        $nama_ms_lv_moulding = array_slice($nama_ms_lv_moulding, 0, ceil($ketersediaanMPMould_Casting));
+        $nama_ms_touch_up = array_slice($nama_ms_touch_up, 0, ceil($ketersediaanMPMould_Casting));
+        $nama_ms_oven = array_slice($nama_ms_oven, 0, ceil($ketersediaanMPMould_Casting));
 
         // dd($nama_ms);
 
@@ -1117,8 +1112,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourMould = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_hv_moulding', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourMould * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPMould[$time]) && !empty($namaMPMould[$time])) {
+                $nama = $namaMPMould[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1168,8 +1163,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourCasting = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_hv_casting', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourCasting * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPMould[$time]) && !empty($namaMPMould[$time])) {
+                $nama = $namaMPMould[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1217,8 +1212,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourDemoulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_hv_demoulding', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourDemoulding * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPMould[$time]) && !empty($namaMPMould[$time])) {
+                $nama = $namaMPMould[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1266,8 +1261,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourLvbobbin = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_lv_bobbin', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourLvbobbin * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPMould[$time]) && !empty($namaMPMould[$time])) {
+                $nama = $namaMPMould[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1315,8 +1310,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourLvmoulding = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_lv_moulding', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourLvmoulding * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPMould[$time]) && !empty($namaMPMould[$time])) {
+                $nama = $namaMPMould[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1364,8 +1359,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourTouchup = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_touch_up', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourTouchup * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPMould[$time]) && !empty($namaMPMould[$time])) {
+                $nama = $namaMPMould[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1413,8 +1408,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourOven = $gpadryfilterMoulding->pluck('mps2.standardize_work.dry_cast_resin.hour_oven', $wo)->sum();
             $qty = $gpadryfilterMoulding->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourOven * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPMould[$time]) && !empty($namaMPMould[$time])) {
+                $nama = $namaMPMould[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1472,9 +1467,7 @@ class ResourceDryRekomendasiController extends Controller
         $susun_core = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.type_susun_core');
         $potong_isolasi_fiber = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.potong_isolasi_fiber');
 
-        $ketersediaanMPSusun = $ketersediaanMPCCASusun;
-
-        $namaMP = [];
+        $namaMPsusun = [];
         $nama_ms_susun = [];
         $nama_ms_potong_fiber = [];
         // Mendapatkan namaMP
@@ -1484,11 +1477,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'TYPE SUSUN CORE')
                 ->whereIn('tipe_proses', $susun_core)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPsusun)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_susun = [];
             foreach ($namaMP_currentSkill_susun as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPsusun)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Susun Core'])
                         ->first();
@@ -1510,11 +1503,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'POTONG ISOLASI FIBER')
                 ->whereIn('tipe_proses', $potong_isolasi_fiber)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPsusun)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_potongFiber = [];
             foreach ($namaMP_currentSkill_potongFiber as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPsusun)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Susun Core'])
                         ->first();
@@ -1536,20 +1529,20 @@ class ResourceDryRekomendasiController extends Controller
                 usort($namaMP_withDOB_susun, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_susun[0]['nama_mp'];
+                $namaMPsusun[] = $namaMP_withDOB_susun[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_potongFiber)) {
                 usort($namaMP_withDOB_potongFiber, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_potongFiber[0]['nama_mp'];
+                $namaMPsusun[] = $namaMP_withDOB_potongFiber[0]['nama_mp'];
             }
 
-            if (count($namaMP) >= $ketersediaanMPSusun) {
+            if (count($namaMPsusun) >= $ketersediaanMPCCASusun) {
                 break;
             }
         }
-        $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPSusun));
+        $namaMPsusun = array_slice($namaMPsusun, 0, ceil($ketersediaanMPCCASusun));
         for ($i = 2; $i >= 0; $i--) {
             if ($i > 0) {
                 $getMesin = $mesins->where('production_line', 'Dry Resin')
@@ -1559,7 +1552,7 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_susun = array_merge($nama_ms_susun, $getMesin);
-                if (count($nama_ms_susun) >= $ketersediaanMPSusun) {
+                if (count($nama_ms_susun) >= $ketersediaanMPCCASusun) {
                     break;
                 }
             }
@@ -1573,13 +1566,13 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_potong_fiber = array_merge($nama_ms_potong_fiber, $getMesin);
-                if (count($nama_ms_potong_fiber) >= $ketersediaanMPSusun) {
+                if (count($nama_ms_potong_fiber) >= $ketersediaanMPCCASusun) {
                     break;
                 }
             }
         }
-        $nama_ms_susun = array_slice($nama_ms_susun, 0, ceil($ketersediaanMPSusun));
-        $nama_ms_potong_fiber = array_slice($nama_ms_potong_fiber, 0, ceil($ketersediaanMPSusun));
+        $nama_ms_susun = array_slice($nama_ms_susun, 0, ceil($ketersediaanMPCCASusun));
+        $nama_ms_potong_fiber = array_slice($nama_ms_potong_fiber, 0, ceil($ketersediaanMPCCASusun));
         // dd($nama_ms);
 
         foreach ($woIds as $time => $wo) {
@@ -1588,8 +1581,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourSusun = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.hour_type_susun_core', $wo)->sum();
             $qty = $gpadryfilterCCASusun->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourSusun * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPsusun[$time]) && !empty($namaMPsusun[$time])) {
+                $nama = $namaMPsusun[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1639,8 +1632,8 @@ class ResourceDryRekomendasiController extends Controller
             $hourIsolasiFiber = $gpadryfilterCCASusun->pluck('mps2.standardize_work.dry_cast_resin.hour_potong_isolasi_fiber', $wo)->sum();
             $qty = $gpadryfilterCCASusun->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourIsolasiFiber * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPsusun[$time]) && !empty($namaMPsusun[$time])) {
+                $nama = $namaMPsusun[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -1686,27 +1679,28 @@ class ResourceDryRekomendasiController extends Controller
                 ResultRekomendasi::insert($currentDate_isolasi_fiber);
             }
         }
+
         $gpadryfilterCCAConect = $gpadryfilterCCAConect->whereBetween('start_wc12', $getDay)
         ->get();
 
         $dateStrings = $gpadryfilterCCAConect->pluck('start_wc12');
         $woIds = $gpadryfilterCCAConect->pluck('mps2.id_wo');
 
-        $others = $gpadryfilterCCAConect->pluck('mps2.standardize_work.dry_cast_resin.others');
+        $conect = $gpadryfilterCCAConect->pluck('mps2.standardize_work.dry_cast_resin.others');
         $namaMP_conect = [];
-        $nama_ms_others = [];
+        $nama_ms_conect = [];
 
         // Mendapatkan namaMP_conect
         for ($i = 4; $i >= 0; $i--) {
-            $namaMP_currentSkill_others = $matrixSkil->where('production_line', 'Dry Resin')
+            $namaMP_currentSkill_conect = $matrixSkil->where('production_line', 'Dry Resin')
                 ->where('nama_workcenter', 'Core Coil Assembly')
                 ->where('proses', 'OTHERS')
-                ->whereIn('tipe_proses', $others)
+                ->whereIn('tipe_proses', $conect)
                 ->where('skill', $i)
                 ->whereNotIn('man_power.nama', $namaMP_conect)
                 ->pluck('man_power.nama')->toArray();
-            $namaMP_withDOB_others = [];
-            foreach ($namaMP_currentSkill_others as $nama_mp) {
+            $namaMP_withDOB_conect = [];
+            foreach ($namaMP_currentSkill_conect as $nama_mp) {
                 if (!in_array($nama_mp, $namaMP_conect)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                     ->whereNotIn('nama_workcenter', ['Connection & Final Assembly'])
@@ -1716,7 +1710,7 @@ class ResourceDryRekomendasiController extends Controller
                             $tanggal_lahir = ManPower::where('nama', $nama_mp)->value('tanggal_lahir');
 
                         if ($tanggal_lahir) {
-                            $namaMP_withDOB_others[] = [
+                            $namaMP_withDOB_conect[] = [
                                 'nama_mp' => $nama_mp,
                                 'tanggal_lahir' => $tanggal_lahir
                             ];
@@ -1726,11 +1720,11 @@ class ResourceDryRekomendasiController extends Controller
             }
 
 
-            if (!empty($namaMP_withDOB_others)) {
-                usort($namaMP_withDOB_others, function ($a, $b) {
+            if (!empty($namaMP_withDOB_conect)) {
+                usort($namaMP_withDOB_conect, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP_conect[] = $namaMP_withDOB_others[0]['nama_mp'];
+                $namaMP_conect[] = $namaMP_withDOB_conect[0]['nama_mp'];
             }
 
 
@@ -1739,41 +1733,40 @@ class ResourceDryRekomendasiController extends Controller
             }
         }
         $namaMP_conect = array_slice($namaMP_conect, 0, ceil($ketersediaanMPCCAConect));
-
         for ($i = 2; $i >= 0; $i--) {
             if ($i > 0) {
                 $getMesin = $mesins->where('production_line', 'Dry Resin')
                 ->where('nama_workcenter', 'Core Coil Assembly')
                 ->where('proses', 'OTHERS')
-                ->whereIn('tipe_proses', $others)
+                ->whereIn('tipe_proses', $conect)
                 ->where('skill', $i)
                 ->pluck('nama_ms')->toArray();
-                $nama_ms_others = array_merge($nama_ms_others, $getMesin);
-                if (count($nama_ms_others) >= $ketersediaanMPCCAConect) {
+                $nama_ms_conect = array_merge($nama_ms_conect, $getMesin);
+                if (count($nama_ms_conect) >= $ketersediaanMPCCAConect) {
                     break;
                 }
             }
         }
 
-        // dd($nama_ms_others);
-        $nama_ms_others = array_slice($nama_ms_others, 0, ceil($ketersediaanMPCCAConect));
+        $nama_ms_conect = array_slice($nama_ms_conect, 0, ceil($ketersediaanMPCCAConect));
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourOthers = $gpadryfilterCCAConect->pluck('mps2.standardize_work.dry_cast_resin.hour_others', $wo)->sum();
+            $hourConect = $gpadryfilterCCAConect->pluck('mps2.standardize_work.dry_cast_resin.hour_others', $wo)->sum();
             $qty = $gpadryfilterCCAConect->pluck('qty_trafo', $wo)->sum();
-            $remainingHours = $hourOthers * $qty;
+            $remainingHours = $hourConect * $qty;
             if (isset($namaMP_conect[$time]) && !empty($namaMP_conect[$time])) {
                 $nama = $namaMP_conect[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
-            if (isset($nama_ms_others[$time]) && !empty($nama_ms_others[$time])) {
-                $mesin = $nama_ms_others[$time];
+            if (isset($nama_ms_conect[$time]) && !empty($nama_ms_conect[$time])) {
+                $mesin = $nama_ms_conect[$time];
             } else {
                 $mesin = "tidak ada mesin";
             }
             $currentDate_conect = [];
+
             while ($remainingHours > 0) {
                 if ($start->isWeekend() || $holidayDates->contains($start)) {
                     $start->nextWeekday();
@@ -1806,6 +1799,7 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
+            // dd($currentDate_conect);
             if (!empty($currentDate_conect)) {
                 ResultRekomendasi::insert($currentDate_conect);
             }
@@ -1825,10 +1819,8 @@ class ResourceDryRekomendasiController extends Controller
         $bongkar_housing = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.bongkar_housing');
         $pembuatan_cu_link = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.pembuatan_cu_link');
         $accesories = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.accesories');
+        $namaMPFinishing = [];
 
-        $ketersediaanMPFinishing = $ketersediaanMPCCAFinishing;
-
-        $namaMP = [];
         $nama_ms_wiring = [];
         $nama_ms_instal_housing= [];
         $nama_ms_bongkar_housing= [];
@@ -1841,11 +1833,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'WIRING')
                 ->whereIn('tipe_proses', $wiring)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPFinishing)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_wiring = [];
             foreach ($namaMP_currentSkill_wiring as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPFinishing)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Finishing'])
                         ->first();
@@ -1865,11 +1857,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'INSTAL HOUSING')
                 ->whereIn('tipe_proses', $instal_housing)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPFinishing)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_instalHosing = [];
             foreach ($namaMP_currentSkill_instalHousing as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPFinishing)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Finishing'])
                         ->first();
@@ -1889,11 +1881,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'BONGKAR HOUSING')
                 ->whereIn('tipe_proses', $bongkar_housing)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPFinishing)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_bongkarHosing = [];
             foreach ($namaMP_currentSkill_bongkarHousing as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPFinishing)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Finishing'])
                         ->first();
@@ -1913,11 +1905,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'PEMBUATAN CU LINK')
                 ->whereIn('tipe_proses', $pembuatan_cu_link)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPFinishing)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_pembuatanCU = [];
             foreach ($namaMP_currentSkill_pembuatanCU as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPFinishing)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Finishing'])
                         ->first();
@@ -1937,11 +1929,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'ACCESORIES')
                 ->whereIn('tipe_proses', $accesories)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPFinishing)
                 ->pluck('man_power.nama')->toArray();
             $namaMP_withDOB_accesoris = [];
             foreach ($namaMP_currentSkill_accesoris as $nama_mp) {
-                if (!in_array($nama_mp, $namaMP)) {
+                if (!in_array($nama_mp, $namaMPFinishing)) {
                     $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter', ['Finishing'])
                         ->first();
@@ -1960,39 +1952,39 @@ class ResourceDryRekomendasiController extends Controller
                 usort($namaMP_withDOB_wiring, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_wiring[0]['nama_mp'];
+                $namaMPFinishing[] = $namaMP_withDOB_wiring[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_instalHosing)) {
                 usort($namaMP_withDOB_instalHosing, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_instalHosing[0]['nama_mp'];
+                $namaMPFinishing[] = $namaMP_withDOB_instalHosing[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_bongkarHosing)) {
                 usort($namaMP_withDOB_bongkarHosing, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_bongkarHosing[0]['nama_mp'];
+                $namaMPFinishing[] = $namaMP_withDOB_bongkarHosing[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_pembuatanCU)) {
                 usort($namaMP_withDOB_pembuatanCU, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_pembuatanCU[0]['nama_mp'];
+                $namaMPFinishing[] = $namaMP_withDOB_pembuatanCU[0]['nama_mp'];
             }
             if (!empty($namaMP_withDOB_accesoris)) {
                 usort($namaMP_withDOB_accesoris, function ($a, $b) {
                     return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                 });
-                $namaMP[] = $namaMP_withDOB_accesoris[0]['nama_mp'];
+                $namaMPFinishing[] = $namaMP_withDOB_accesoris[0]['nama_mp'];
             }
-            $namaMP = array_unique($namaMP);
+            $namaMPFinishing = array_unique($namaMPFinishing);
 
-            if (count($namaMP) >= $ketersediaanMPFinishing) {
+            if (count($namaMPFinishing) >= $ketersediaanMPCCAFinishing) {
                 break;
             }
         }
-        $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPFinishing));
+        $namaMPFinishing = array_slice($namaMPFinishing, 0, ceil($ketersediaanMPCCAFinishing));
         for ($i = 2; $i >= 0; $i--) {
             if ($i > 0) {
                 $getMesin = $mesins->where('production_line', 'Dry Resin')
@@ -2002,20 +1994,20 @@ class ResourceDryRekomendasiController extends Controller
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
                 $nama_ms_wiring = array_merge($nama_ms_wiring, $getMesin);
-                if (count($nama_ms_wiring) >= $ketersediaanMPFinishing) {
+                if (count($nama_ms_wiring) >= $ketersediaanMPCCAFinishing) {
                     break;
                 }
             }
         }
-        $nama_ms_wiring = array_slice($nama_ms_wiring, 0, ceil($ketersediaanMPFinishing));
+        $nama_ms_wiring = array_slice($nama_ms_wiring, 0, ceil($ketersediaanMPCCAFinishing));
 
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
             $hourFinishing = $gpadryfilterCCAFinishing->pluck('mps2.standardize_work.dry_cast_resin.totalHour_Finishing', $wo)->sum();
             $qty = $gpadryfilterCCAFinishing->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourFinishing * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPFinishing[$time]) && !empty($namaMPFinishing[$time])) {
+                $nama = $namaMPFinishing[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
@@ -2070,8 +2062,8 @@ class ResourceDryRekomendasiController extends Controller
             $dateStrings = $gpadryfilterQc->pluck('start_wc14');
             $woIds = $gpadryfilterQc->pluck('mps2.id_wo');
             $qc = $gpadryfilterQc->pluck('mps2.standardize_work.dry_cast_resin.qc_testing');
-            $namaMP = [];
-            $nama_ms = [];
+            $namaMPQc = [];
+            $nama_ms_qc = [];
 
 
             // Mendapatkan namaMP
@@ -2081,11 +2073,11 @@ class ResourceDryRekomendasiController extends Controller
                 ->where('proses', 'QC TESTING')
                 ->whereIn('tipe_proses', $qc)
                 ->where('skill', $i)
-                ->whereNotIn('man_power.nama', $namaMP)
+                ->whereNotIn('man_power.nama', $namaMPQc)
                 ->pluck('man_power.nama')->toArray();
                 $namaMP_withDOB = [];
                 foreach ($namaMP_currentSkill as $nama_mp) {
-                    if (!in_array($nama_mp, $namaMP)) {
+                    if (!in_array($nama_mp, $namaMPQc)) {
                         $existingMP = ResultRekomendasi::where('nama_mp', $nama_mp)
                         ->whereNotIn('nama_workcenter',  ['QC'])
                         ->first();
@@ -2104,14 +2096,14 @@ class ResourceDryRekomendasiController extends Controller
                     usort($namaMP_withDOB, function ($a, $b) {
                         return strtotime($b['tanggal_lahir']) - strtotime($a['tanggal_lahir']);
                     });
-                    $namaMP[] = $namaMP_withDOB[0]['nama_mp'];
+                    $namaMPQc[] = $namaMP_withDOB[0]['nama_mp'];
                 }
-                if (count($namaMP) >= $ketersediaanMPQc) {
+                if (count($namaMPQc) >= $ketersediaanMPQc) {
                     break;
             }
         }
-        $namaMP = array_slice($namaMP, 0, ceil($ketersediaanMPQc));
-        // dd($namaMP);
+        $namaMPQc = array_slice($namaMPQc, 0, ceil($ketersediaanMPQc));
+        // dd($namaMPQc);
         for ($i = 2; $i >= 0; $i--) {
             if ($i > 0) {
                 $getMesin = $mesins->where('production_line', 'Dry Resin')
@@ -2120,25 +2112,25 @@ class ResourceDryRekomendasiController extends Controller
                     ->whereIn('tipe_proses', $qc)
                     ->where('skill', $i)
                     ->pluck('nama_ms')->toArray();
-                $nama_ms = array_merge($nama_ms, $getMesin);
-                if (count($nama_ms) >= $ketersediaanMPQc) {
+                $nama_ms_qc = array_merge($nama_ms_qc, $getMesin);
+                if (count($nama_ms_qc) >= $ketersediaanMPQc) {
                     break;
                 }
             }
         }
-        $nama_ms = array_slice($nama_ms, 0, ceil($ketersediaanMPQc));
+        $nama_ms_qc = array_slice($nama_ms_qc, 0, ceil($ketersediaanMPQc));
         foreach ($woIds as $time => $wo) {
             $start = Carbon::parse($dateStrings[$time])->startOfDay();
-            $hourQc = $gpadryfilterQc->pluck('mps2.standardize_work.dry_cast_resin.hour_coil_Qc', $wo)->sum();
+            $hourQc = $gpadryfilterQc->pluck('mps2.standardize_work.dry_cast_resin.totalHour_QCTest', $wo)->sum();
             $qty = $gpadryfilterQc->pluck('qty_trafo', $wo)->sum();
             $remainingHours = $hourQc * $qty;
-            if (isset($namaMP[$time]) && !empty($namaMP[$time])) {
-                $nama = $namaMP[$time];
+            if (isset($namaMPQc[$time]) && !empty($namaMPQc[$time])) {
+                $nama = $namaMPQc[$time];
             } else {
                 $nama = "tidak ada nama MP";
             }
-            if (isset($nama_ms[$time]) && !empty($nama_ms[$time])) {
-                $mesin = $nama_ms[$time];
+            if (isset($nama_ms_qc[$time]) && !empty($nama_ms_qc[$time])) {
+                $mesin = $nama_ms_qc[$time];
             } else {
                 $mesin = "tidak Memakai Mesin";
             }
@@ -2209,7 +2201,7 @@ class ResourceDryRekomendasiController extends Controller
                 break;
             case 5:
                 $workcenterLabel = 'Connection & Final Assembly';
-                $hasil = ResultRekomendasi::where('nama_workcenter', 'Connection & Final Assembly')
+                $hasil = ResultRekomendasi::where('nama_workcenter', 'Connect')
                     ->whereBetween('end', $getDay)
                     ->get();
                 break;
@@ -2238,7 +2230,6 @@ class ResourceDryRekomendasiController extends Controller
             'gpadry' => $gpadry,
             'manpower' => $matrixSkil,
             'hasil' => $hasil,
-            'namaMP' => $namaMP,
             // 'hour' => $hour,
             // // 'newDates' => $newDates,
             'resultRekomendasi' => $resultRekomendasi,

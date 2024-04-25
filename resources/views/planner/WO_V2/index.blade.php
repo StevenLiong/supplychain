@@ -14,11 +14,11 @@
         <div class="card-body">
             <div class="row d-flex mb-4">
                 <div class="col text-left">
-                    <a href="{{ route('wo_v2.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
-                    <a href="{{ route('wo_v2.exportExcel') }}" class="MR-3 btn btn-primary"><i class="mr-2 fa fa-table"></i>Download Exel</a>
+                    <!-- <a href="{{ route('wo_v2.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a> -->
+                    <!-- <a href="{{ route('wo_v2.exportExcel') }}" class="MR-3 btn btn-primary"><i class="mr-2 fa fa-table"></i>Download Exel</a> -->
                 </div>
                 <div class="col  text-right">
-                    <a href="{{ route('wo_v2-upload-excel') }}" class="btn btn-primary"><i class="mr-2 fa fa-plus" aria-hidden="true"></i>Create WO</a>
+                    <a href="{{ route('wo_v2-upload-excel') }}" class="btn btn-primary"><i class="mr-2 fa fa-plus" aria-hidden="true"></i>Upload WO</a>
                 </div>           
             </div>
             <div class="table-responsive">

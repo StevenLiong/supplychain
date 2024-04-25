@@ -312,5 +312,25 @@
                 }
             });
         });
+
+        // Validasi format deadline
+        $('input[name="deadline[]"]').on('blur', function() {
+            var deadlineValue = $(this).val();
+            var dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            
+            if (!dateRegex.test(deadlineValue)) {
+                alert('Format deadline tidak sesuai. Harap gunakan format YYYY-MM-DD.');
+                $(this).val(''); // Kosongkan nilai input
+            }
+        });
+
+        // Transformasi format production line
+        $('input[name="production_line[]"]').on('blur', function() {
+            var productionLineValue = $(this).val().toLowerCase();
+            
+            if (productionLineValue === 'dry') {
+                $(this).val('Dry');
+            }
+        });
     });
 </script>

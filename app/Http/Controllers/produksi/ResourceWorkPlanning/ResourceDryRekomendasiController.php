@@ -1799,7 +1799,6 @@ class ResourceDryRekomendasiController extends Controller
                 $remainingHours -= $minhourday;
                 $start->addDay();
             }
-            // dd($currentDate_conect);
             if (!empty($currentDate_conect)) {
                 ResultRekomendasi::insert($currentDate_conect);
             }

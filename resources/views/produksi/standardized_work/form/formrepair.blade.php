@@ -1,6 +1,7 @@
 @extends('produksi.standardized_work.layout')
 @section('content')
-    <h5 class="text-center my-3 header-title card-title " style="font-size: 40px;color:#d02424;"><b>PERHITUNGAN MAN HOUR REPAIR</b>
+    <h5 class="text-center my-3 header-title card-title " style="font-size: 40px;color:#d02424;"><b>PERHITUNGAN MAN HOUR
+            REPAIR</b>
     </h5>
     @if (session('error'))
         <div class="alert alert-danger">
@@ -243,13 +244,13 @@
                                                     value="{{ old('hour_bongkar_accesories') }}" readonly>
                                             </td>
                                             <td class="w-30">
-                                                <h6 class=" border border-dark rounded p-1 text-center">Bongkar Accesories /
+                                                <h6 class=" border border-dark rounded p-1 text-center">Bongkar Accesories
+                                                    /
                                                     Proteksi</h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="bongkar_accesories"
-                                                    id="bongkar_accesories">
+                                                <select class=" form-control multiple1" style="width:100%;"
+                                                    name="bongkar_accesories[]" id="bongkar_accesories" multiple>
                                                 </select>
                                             </td>
                                         </tr>
@@ -265,8 +266,7 @@
                                             </td>
                                             <td class="w-50">
                                                 <select class=" form-control border border-dark rounded text-center"
-                                                style="height: 33px;"
-                                                    name="bongkar_core" id="bongkar_core" >
+                                                    style="height: 33px;" name="bongkar_core" id="bongkar_core">
 
                                                 </select>
                                             </td>
@@ -310,7 +310,7 @@
                                                 <h6 class=" border border-dark rounded p-1 text-center">Coil LV</h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control multiple1" style="width:100%;"
+                                                <select class=" form-control multiple2" style="width:100%;"
                                                     name="coil_lv[]" id="coil_lv" multiple>
                                                 </select>
                                             </td>
@@ -327,7 +327,7 @@
                                                 <h6 class=" border border-dark rounded p-1 text-center">Coil HV</h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control multiple1" style="width:100%;"
+                                                <select class=" form-control multiple2" style="width:100%;"
                                                     name="coil_hv[]" id="coil_hv" multiple>
                                                 </select>
                                             </td>
@@ -435,9 +435,8 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select
-                                                    class=" form-control multiple2 "
-                                                    style="width:100%;"name="connect[]" id="connect" multiple>
+                                                <select class=" form-control border border-dark rounded text-center"
+                                                    style="height: 33px;"name="connect" id="connect">
 
                                                 </select>
                                             </td>
@@ -478,12 +477,14 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="hv_connect" id="hv_connect">
+                                                <select class=" form-control multiple3"
+                                                    style="width:100%;"name="hv_connect[]" id="hv_connect" multiple>
 
                                                 </select>
                                             </td>
                                         </tr>
+                                    </table>
+                                    <table class="w-100">
                                         <tr !important>
                                             <td class="20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
@@ -496,14 +497,12 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="lv_connect" id="lv_connect">
+                                                <select class=" form-control multiple3"
+                                                style="width:100%;"name="lv_connect[]" id="lv_connect" multiple>
 
                                                 </select>
                                             </td>
                                         </tr>
-                                    </table>
-
                                     </table>
                                     <table class="w-100">
 
@@ -614,6 +613,9 @@
                                                 </select>
                                             </td>
                                         </tr>
+                                        </tr>
+                                    </table>
+                                    <table class="w-100">
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
@@ -626,11 +628,13 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="radiator_panel" id="radiator_panel">
+                                                <select class=" form-control multiple4"
+                                                style="width:100%;"name="radiator_panel[]" id="radiator_panel" multiple>
                                                 </select>
                                             </td>
                                         </tr>
+                                    </table>
+                                    <table class="w-100">
                                         <tr !important>
                                             <td class="w-20">
                                                 <input class="border border-dark rounded text-center" style="width:100%;"
@@ -643,13 +647,10 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select class=" form-control border border-dark rounded text-center"
-                                                    style="height: 33px;" name="conservator" id="conservator">
+                                                <select class=" form-control multiple4"
+                                                style="width:100%;" name="conservator[]" id="conservator" multiple>
                                                 </select>
                                             </td>
-                                        </tr>
-
-
                                         </tr>
                                     </table>
                                     {{-- <table class="w-100">
@@ -704,9 +705,8 @@
                                                 </h6>
                                             </td>
                                             <td class="w-50">
-                                                <select
-                                                    class=" form-control multiple5 "
-                                                    style="width:100%;" name="qc[]" id="qc" multiple>
+                                                <select class=" form-control multiple5 " style="width:100%;"
+                                                    name="qc[]" id="qc" multiple>
 
                                                 </select>
                                             </td>
@@ -1138,9 +1138,8 @@
             }
 
             // Daftar kelas selector dan fungsi tampilan total jam yang sesuai
-            var selectors = [".multiple1",".multiple2",".multiple3",".multiple4",".multiple5"];
-            var displayFunctions = [displayTotalJamCoilMaking, 
-                displayTotalJamConnection, displayTotalJamFinalAssembly, displayTotalJamFinishing,
+            var selectors = [".multiple1", ".multiple2", ".multiple3", ".multiple4", ".multiple5"];
+            var displayFunctions = [displayTotalJamBongkar, displayTotalJamCoilMaking, displayTotalJamFinalAssembly, displayTotalJamFinishing,
                 displayTotalJamQCTest
             ];
 

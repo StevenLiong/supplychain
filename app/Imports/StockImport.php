@@ -27,8 +27,8 @@ class StockImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
           return null;
       }
 
-        print_r($row);
-        dd($row);
+        // print_r($row);
+        // dd($row);
 
         // $calculatedValue = $row['usage_of_material'];
 
@@ -36,7 +36,7 @@ class StockImport implements ToModel, WithHeadingRow, WithCalculatedFormulas
             'no' => $row['no'],
             'item_code' => $row['item_code'],
             'item_name' => $row['item_name'],
-            'tiga_item_name' => $row['2nd_item_name'],
+            'tiga_item_name' => $row['3rd_item_name'],
             'supplier' => $row['supplier'],
             'rop' => ceil(floatval($row['rop'])),
             'max' => ceil(floatval($row['max'])),

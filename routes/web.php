@@ -171,53 +171,10 @@ Route::middleware(['auth', 'logistic'])->group(function () {
 
 });
 
-
-
-// Planner Start
+// Planner Versi Baru Start
 
 Route::middleware(['auth', 'planner'])->group(function () {
 
-    // MENU BOM
-    Route::get('/BOM/IndexBom', [BomController::class, 'index'])->name('bom-index');
-
-    // --CREATE BOM & UPLOAD BOM--
-    Route::get('/bom/create', [BomController::class, 'create'])->name('bom-create');
-    Route::post('/bom/store', [BomController::class, 'store'])->name('bom.store');
-    Route::get('/bom/upload-excel/{idBom}', [DetailbomController::class, 'formUpload'])->name('bom-upload-excel');
-    Route::post('/bom/upload-excel', [DetailbomController::class, 'upload'])->name('bom-upload-excel-post');
-
-    // --EDIT & DETAIL BOM--
-    Route::get('/BOM/DetailBOM/{id_bom}', [DetailbomController::class, 'bomDetail'])->name('bom.detailbom');
-    Route::get('/bom/EditBOMInfo/{id_bom}', [BomController::class, 'infoBom'])->name('bom.editbom');
-    Route::put('/bom/updatebom/{id_bom}', [BomController::class, 'updateBom'])->name('bom.updatebom');
-    Route::get('/DetailBom/cek-material/{idBom}', [DetailbomController::class, 'CekMaterial']);
-    // web.php
-    Route::get('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@ajaxGetStatusAndKeterangan');
-
-    // --EDIT MATERIAL & ADD NEW MATERIAL--
-    Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
-    Route::post('/bom/storematerial', [DetailbomController::class, 'storematerial'])->name('bom.storematerial');
-    Route::get('/bom/editmaterial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'edit'])->name('bom.edit');
-    Route::put('/bom/updatematerial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'update'])->name('bom.update');
-
-    // --DELETE BOM--
-    Route::delete('/bom/delete/{id_bom}', [BomController::class, 'destroy'])->name('bom.delete');
-
-    // --EXPORT BOM--
-    Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
-
-    // --EXPORT DETAIL BOM--
-    Route::get('/DetailBom/ExportExcel', [DetailbomController::class, 'ExportExcel'])->name('dbom.exportExcel');
-    Route::get('/DetailBom/ExportPdf', [DetailbomController::class, 'ExportPdf'])->name('dbom.exportPdf');
-
-    //DELETE MATERIAL & RESTORE MATERIAL
-    Route::delete('/bommaterial/delete/{id_materialbom}/{id_bom}', [DetailbomController::class, 'deleteMaterial'])->name('bommaterial.delete');
-    Route::post('/restore-material/{id_materialbom}/{id_bom}', [DetailbomController::class, 'restoreMaterial'])->name('bommaterial.restore');
-
-    //SUBMIT MATERIAL (USAGE MATERIAL - JUMLAH)
-    Route::post('/bom/submit', [DetailbomController::class, 'submit'])->name('bom.submit');
-
-    //=======================================================BOM V2========================================================================
     // MENU BOM
     Route::get('/BOM_V2/IndexBom', [BomControllerV2::class, 'index'])->name('bom_v2-index');
 
@@ -259,21 +216,21 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::post('/bom_V2/submit', [DetailbomControllerV2::class, 'submit'])->name('bom_v2.submit');
     //======================================================================================================================
 
-    // MENU WORK ORDER
-    Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
-    Route::delete('/WorkOrder/delete/{id}}', [WoController::class, 'destroy'])->name('wo.delete');
+    // // MENU WORK ORDER
+    // Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
+    // Route::delete('/WorkOrder/delete/{id}}', [WoController::class, 'destroy'])->name('wo.delete');
 
-    // --CREATE WORK ORDER--
-    Route::get('/wo/create', [WoController::class, 'create'])->name('wo-create');
-    Route::post('/wo/store', [WoController::class, 'store'])->name('wo.store');
+    // // --CREATE WORK ORDER--
+    // Route::get('/wo/create', [WoController::class, 'create'])->name('wo-create');
+    // Route::post('/wo/store', [WoController::class, 'store'])->name('wo.store');
 
-    // --EDIT WORK ORDER--
-    Route::get('/bom/editWO/{id_wo}', [WoController::class, 'edit'])->name('wo.editwo');
-    Route::put('/bom/updateWO/{id_wo}', [WoController::class, 'update'])->name('wo.updatewo');
+    // // --EDIT WORK ORDER--
+    // Route::get('/bom/editWO/{id_wo}', [WoController::class, 'edit'])->name('wo.editwo');
+    // Route::put('/bom/updateWO/{id_wo}', [WoController::class, 'update'])->name('wo.updatewo');
 
-    // --EXPORT WORK ORDER--
-    Route::get('/WO/ExportExcel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
-    Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
+    // // --EXPORT WORK ORDER--
+    // Route::get('/WO/ExportExcel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
+    // Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
 
 
     //=======================================================WO V2========================================================================
@@ -296,93 +253,93 @@ Route::middleware(['auth', 'planner'])->group(function () {
     Route::get('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'formUpload'])->name('wo_v2-upload-excel');
     Route::post('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'upload'])->name('wo_v2-upload-excel-post');
     //======================================================================================================================
-    // MENU MPS
-    Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
-    Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');
-    Route::post('/MPS2/UploadMPS', [Mps2Controller::class, 'store'])->name('mps2.store');
-    // --UPLOAD MPS--
-    Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
-    Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
-    Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
-    Route::get('/getdataid-wo/{idWo}', [MpsController::class, 'getDataByIdWo']);
+    // // MENU MPS
+    // Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
+    // Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');
+    // Route::post('/MPS2/UploadMPS', [Mps2Controller::class, 'store'])->name('mps2.store');
+    // // --UPLOAD MPS--
+    // Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
+    // Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
+    // Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
+    // Route::get('/getdataid-wo/{idWo}', [MpsController::class, 'getDataByIdWo']);
 
-    // --EXPORT MPS--
-    Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
-    Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
-    Route::get('/get-holiday', [CalendarController::class, 'getHolidays'])->name('get-holiday');
+    // // --EXPORT MPS--
+    // Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
+    // Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+    // Route::get('/get-holiday', [CalendarController::class, 'getHolidays'])->name('get-holiday');
 
-    // MENU GPA
-    // --CALENDAR--
+    // // MENU GPA
+    // // --CALENDAR--
 
-    // --GPA DRY---
-    Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
-    Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
+    // // --GPA DRY---
+    // Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+    // Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
 
-    // --EXPORT GPA DRY--
-    Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
-    Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
-    Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
+    // // --EXPORT GPA DRY--
+    // Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
+    // Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
+    // Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
 
-    // --GPA OIL--
-    Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
-    Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
+    // // --GPA OIL--
+    // Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
+    // Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
 
-    // --EXPORT GPA OIL--
-    Route::get('/GPA/ExportPdfOil', [GPAOilController::class, 'exportToPdf'])->name('gpa.exportPdfoil');
+    // // --EXPORT GPA OIL--
+    // Route::get('/GPA/ExportPdfOil', [GPAOilController::class, 'exportToPdf'])->name('gpa.exportPdfoil');
 
-    // MENU STOCK
-    Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
-    Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
-    Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
-    // --DELETE STOCK--
-    Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
+    // // MENU STOCK
+    // Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
+    // Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
+    // Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
+    // // --DELETE STOCK--
+    // Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
 
-    // MENU WORK CENTER OIL
-    Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
-    Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
+    // // MENU WORK CENTER OIL
+    // Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
+    // Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
 
-    // EXPORT WORKCENTER OIL TRAFO
-    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
+    // // EXPORT WORKCENTER OIL TRAFO
+    // Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
 
-    // MENU WORK CENTER DRY TYPE
-    Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
-    Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
+    // // MENU WORK CENTER DRY TYPE
+    // Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
+    // Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
 
-    // EXPORT WORKCENTER DRY TYPE
-    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
+    // // EXPORT WORKCENTER DRY TYPE
+    // Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
 
-    // MENU FINISH GOOD
-    Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
-    Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
-    Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
-    Route::get('/FinishGood/EditFG/{kode_fg}', [FinishgoodController::class, 'edit'])->name('fg.editfg');
-    Route::put('/FinishGood/updatefg/{kode_fg}', [FinishgoodController::class, 'updatefg'])->name('fg.updatefg');
-    // --DELETE STOCK--
-    Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
-    Route::get('/FinishGood/ExportExcel', [FinishgoodController::class, 'exportToExcel'])->name('fg.exportExcel');
+    // // MENU FINISH GOOD
+    // Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
+    // Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
+    // Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+    // Route::get('/FinishGood/EditFG/{kode_fg}', [FinishgoodController::class, 'edit'])->name('fg.editfg');
+    // Route::put('/FinishGood/updatefg/{kode_fg}', [FinishgoodController::class, 'updatefg'])->name('fg.updatefg');
+    // // --DELETE STOCK--
+    // Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
+    // Route::get('/FinishGood/ExportExcel', [FinishgoodController::class, 'exportToExcel'])->name('fg.exportExcel');
 
-    //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
-    Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
-    Route::get('/getdatawo/{id_fg}', [WoController::class, 'getDataWO']);
+    // //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
+    // Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
+    // Route::get('/getdatawo/{id_fg}', [WoController::class, 'getDataWO']);
 
-    //NYOBA EMAIL 2 HARI & 7 HARI
-    Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
+    // //NYOBA EMAIL 2 HARI & 7 HARI
+    // Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
 
-    Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
+    // Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
 
-    //MENU KAPASITAS PRODUKSI
-    Route::get('/KapasitasProduksi/Index', [KapasitasProduksiController::class, 'index'])->name('kp-index');
-    ROute::get('/KapasitasProduksi/{nama_pl}', [KapasitasProduksiController::class, 'detailPl'])->name('kp-detail');
-    Route::get('/KapasitasProduksi/EditKp/{id}', [KapasitasProduksiController::class, 'editData'])->name('kp.editkp');
-    Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
-    Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
-    Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
+    // //MENU KAPASITAS PRODUKSI
+    // Route::get('/KapasitasProduksi/Index', [KapasitasProduksiController::class, 'index'])->name('kp-index');
+    // ROute::get('/KapasitasProduksi/{nama_pl}', [KapasitasProduksiController::class, 'detailPl'])->name('kp-detail');
+    // Route::get('/KapasitasProduksi/EditKp/{id}', [KapasitasProduksiController::class, 'editData'])->name('kp.editkp');
+    // Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
+    // Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
+    // Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
 
-    //MENU MATERIAL
-    Route::get('/Material/IndexMaterial', [PlannerMaterialController::class, 'index'])->name('material-index');
-    Route::get('/Material/upload-excel', [PlannerMaterialController::class, 'formUpload'])->name('material-upload-excel');
-    Route::post('/Material/upload-excel-post', [PlannerMaterialController::class, 'upload'])->name('material-upload-excel-post');
-    Route::delete('/Material/delete', [PlannerMaterialController::class, 'destroy'])->name('material.delete');
+    // //MENU MATERIAL
+    // Route::get('/Material/IndexMaterial', [PlannerMaterialController::class, 'index'])->name('material-index');
+    // Route::get('/Material/upload-excel', [PlannerMaterialController::class, 'formUpload'])->name('material-upload-excel');
+    // Route::post('/Material/upload-excel-post', [PlannerMaterialController::class, 'upload'])->name('material-upload-excel-post');
+    // Route::delete('/Material/delete', [PlannerMaterialController::class, 'destroy'])->name('material.delete');
 });
 
 // Planner End
@@ -485,4 +442,359 @@ Route::middleware(['auth', 'purchaseorder'])->group(function () {
     Route::post('/purchaseorder/editPo/{id_po}', [poController::class, 'storeEditpo']);
 
     Route::get('/reportpo', [poController::class, 'reportPo']);
+});
+
+
+Route::middleware(['auth', 'plannerversilama'])->group(function () {
+
+    // Route::get('/Dashboard', [BomControllerV2::class, 'dashboard'])->name('dashboard-index');
+
+    // MENU BOM
+    Route::get('/BOM/IndexBom', [BomController::class, 'index'])->name('bom-index');
+
+    // --CREATE BOM & UPLOAD BOM--
+    Route::get('/bom/create', [BomController::class, 'create'])->name('bom-create');
+    Route::post('/bom/store', [BomController::class, 'store'])->name('bom.store');
+    Route::get('/bom/upload-excel/{idBom}', [DetailbomController::class, 'formUpload'])->name('bom-upload-excel');
+    Route::post('/bom/upload-excel', [DetailbomController::class, 'upload'])->name('bom-upload-excel-post');
+
+    // --EDIT & DETAIL BOM--
+    Route::get('/BOM/DetailBOM/{id_bom}', [DetailbomController::class, 'bomDetail'])->name('bom.detailbom');
+    Route::get('/bom/EditBOMInfo/{id_bom}', [BomController::class, 'infoBom'])->name('bom.editbom');
+    Route::put('/bom/updatebom/{id_bom}', [BomController::class, 'updateBom'])->name('bom.updatebom');
+    Route::get('/DetailBom/cek-material/{idBom}', [DetailbomController::class, 'CekMaterial']);
+    // web.php
+    Route::get('/DetailBom/get-status-and-keterangan/{id_bom}', 'DetailbomController@ajaxGetStatusAndKeterangan');
+
+    // --EDIT MATERIAL & ADD NEW MATERIAL--
+    Route::get('/bom/addmaterial/{id_bom}', [DetailbomController::class, 'addmaterial'])->name('bom-addmaterial');
+    Route::post('/bom/storematerial', [DetailbomController::class, 'storematerial'])->name('bom.storematerial');
+    Route::get('/bom/editmaterial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'edit'])->name('bom.edit');
+    Route::put('/bom/updatematerial/{id_materialbom}/{id_bom}', [DetailbomController::class, 'update'])->name('bom.update');
+
+    // --DELETE BOM--
+    Route::delete('/bom/delete/{id_bom}', [BomController::class, 'destroy'])->name('bom.delete');
+
+    // --EXPORT BOM--
+    Route::get('/bom/download-excel', [BomController::class, 'downloadExcel'])->name('download-excel');
+
+    // --EXPORT DETAIL BOM--
+    Route::get('/DetailBom/ExportExcel', [DetailbomController::class, 'ExportExcel'])->name('dbom.exportExcel');
+    Route::get('/DetailBom/ExportPdf', [DetailbomController::class, 'ExportPdf'])->name('dbom.exportPdf');
+
+    //DELETE MATERIAL & RESTORE MATERIAL
+    Route::delete('/bommaterial/delete/{id_materialbom}/{id_bom}', [DetailbomController::class, 'deleteMaterial'])->name('bommaterial.delete');
+    Route::post('/restore-material/{id_materialbom}/{id_bom}', [DetailbomController::class, 'restoreMaterial'])->name('bommaterial.restore');
+
+    //SUBMIT MATERIAL (USAGE MATERIAL - JUMLAH)
+    Route::post('/bom/submit', [DetailbomController::class, 'submit'])->name('bom.submit');
+
+    // MENU WORK ORDER
+    Route::get('/WorkOrder/IndexWorkOrder', [WoController::class, 'index'])->name('workorder-index');
+    Route::delete('/WorkOrder/delete/{id}}', [WoController::class, 'destroy'])->name('wo.delete');
+
+    // --CREATE WORK ORDER--
+    Route::get('/wo/create', [WoController::class, 'create'])->name('wo-create');
+    Route::post('/wo/store', [WoController::class, 'store'])->name('wo.store');
+
+    // --EDIT WORK ORDER--
+    Route::get('/bom/editWO/{id_wo}', [WoController::class, 'edit'])->name('wo.editwo');
+    Route::put('/bom/updateWO/{id_wo}', [WoController::class, 'update'])->name('wo.updatewo');
+
+    // --EXPORT WORK ORDER--
+    Route::get('/WO/ExportExcel', [WoController::class, 'exportToExcel'])->name('wo.exportExcel');
+    Route::get('/WO/ExportPdf', [WoController::class, 'exportToPdf'])->name('wo.exportPdf');
+
+
+    //=======================================================WO V2========================================================================
+    // // MENU WORK ORDER V2
+    // Route::get('/WorkOrderV2/IndexWorkOrder', [WoControllerV2::class, 'index'])->name('workorder_v2-index');
+    // Route::delete('/WorkOrderV2/delete/{id}}', [WoControllerV2::class, 'destroy'])->name('wo_v2.delete');
+
+    // // --CREATE WORK ORDER--
+    // // Route::get('/WorkOrderV2/create', [WoControllerV2::class, 'create'])->name('wo_v2-create');
+    // Route::post('/WorkOrderV2/store', [WoControllerV2::class, 'store'])->name('wo_v2.store');
+
+    // // --EDIT WORK ORDER--
+    // Route::get('/WorkOrderV2/editWO/{id_wo}', [WoControllerV2::class, 'edit'])->name('wo_v2.editwo');
+    // Route::put('/WorkOrderV2/updateWO/{id_wo}', [WoControllerV2::class, 'update'])->name('wo_v2.updatewo');
+
+    // // --EXPORT WORK ORDER--
+    // Route::get('/WorkOrderV2/ExportExcel', [WoControllerV2::class, 'exportToExcel'])->name('wo_v2.exportExcel');
+    // Route::get('/WorkOrderV2/ExportPdf', [WoControllerV2::class, 'exportToPdf'])->name('wo_v2.exportPdf');
+
+    // Route::get('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'formUpload'])->name('wo_v2-upload-excel');
+    // Route::post('/WorkOrderV2/upload-excel', [WoControllerV2::class, 'upload'])->name('wo_v2-upload-excel-post');
+    //======================================================================================================================
+    // // MENU MPS
+    // Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
+    // Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');
+    // Route::post('/MPS2/UploadMPS', [Mps2Controller::class, 'store'])->name('mps2.store');
+    // // --UPLOAD MPS--
+    // Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
+    // Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
+    // Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
+    // Route::get('/getdataid-wo/{idWo}', [MpsController::class, 'getDataByIdWo']);
+
+    // // --EXPORT MPS--
+    // Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
+    // Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+    // Route::get('/get-holiday', [CalendarController::class, 'getHolidays'])->name('get-holiday');
+
+    // // MENU GPA
+    // // --CALENDAR--
+
+    // // --GPA DRY---
+    // Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+    // Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
+
+    // // --EXPORT GPA DRY--
+    // Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
+    // Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
+    // Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
+
+    // // --GPA OIL--
+    // Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
+    // Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
+
+    // // --EXPORT GPA OIL--
+    // Route::get('/GPA/ExportPdfOil', [GPAOilController::class, 'exportToPdf'])->name('gpa.exportPdfoil');
+
+    // // MENU STOCK
+    // Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
+    // Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
+    // Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
+    // // --DELETE STOCK--
+    // Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
+
+    // // MENU WORK CENTER OIL
+    // Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
+    // Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
+
+    // // EXPORT WORKCENTER OIL TRAFO
+    // Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
+
+    // // MENU WORK CENTER DRY TYPE
+    // Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
+    // Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
+
+    // // EXPORT WORKCENTER DRY TYPE
+    // Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
+
+    // // MENU FINISH GOOD
+    // Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
+    // Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
+    // Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+    // Route::get('/FinishGood/EditFG/{kode_fg}', [FinishgoodController::class, 'edit'])->name('fg.editfg');
+    // Route::put('/FinishGood/updatefg/{kode_fg}', [FinishgoodController::class, 'updatefg'])->name('fg.updatefg');
+    // // --DELETE STOCK--
+    // Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
+    // Route::get('/FinishGood/ExportExcel', [FinishgoodController::class, 'exportToExcel'])->name('fg.exportExcel');
+
+    // //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
+    // Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
+    // Route::get('/getdatawo/{id_fg}', [WoController::class, 'getDataWO']);
+
+    // //NYOBA EMAIL 2 HARI & 7 HARI
+    // Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
+
+    // Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
+
+    // //MENU KAPASITAS PRODUKSI
+    // Route::get('/KapasitasProduksi/Index', [KapasitasProduksiController::class, 'index'])->name('kp-index');
+    // ROute::get('/KapasitasProduksi/{nama_pl}', [KapasitasProduksiController::class, 'detailPl'])->name('kp-detail');
+    // Route::get('/KapasitasProduksi/EditKp/{id}', [KapasitasProduksiController::class, 'editData'])->name('kp.editkp');
+    // Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
+    // Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
+    // Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
+
+    // //MENU MATERIAL
+    // Route::get('/Material/IndexMaterial', [PlannerMaterialController::class, 'index'])->name('material-index');
+    // Route::get('/Material/upload-excel', [PlannerMaterialController::class, 'formUpload'])->name('material-upload-excel');
+    // Route::post('/Material/upload-excel-post', [PlannerMaterialController::class, 'upload'])->name('material-upload-excel-post');
+    // Route::delete('/Material/delete', [PlannerMaterialController::class, 'destroy'])->name('material.delete');
+});
+
+// Route::middleware(['auth', 'planner', 'plannerversilama'])->group(function () {
+//     Route::get('/Dashboard', [BomControllerV2::class, 'dashboard'])->name('dashboard-index');
+
+//     // MENU MPS
+//     Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
+//     Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');
+//     Route::post('/MPS2/UploadMPS', [Mps2Controller::class, 'store'])->name('mps2.store');
+//     // --UPLOAD MPS--
+//     Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
+//     Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
+//     Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
+//     Route::get('/getdataid-wo/{idWo}', [MpsController::class, 'getDataByIdWo']);
+
+//     // --EXPORT MPS--
+//     Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
+//     Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+//     Route::get('/get-holiday', [CalendarController::class, 'getHolidays'])->name('get-holiday');
+
+//     // MENU GPA
+//     // --CALENDAR--
+
+//     // --GPA DRY---
+//     Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+//     Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
+
+//     // --EXPORT GPA DRY--
+//     Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
+//     Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
+//     Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
+
+//     // --GPA OIL--
+//     Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
+//     Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
+
+//     // --EXPORT GPA OIL--
+//     Route::get('/GPA/ExportPdfOil', [GPAOilController::class, 'exportToPdf'])->name('gpa.exportPdfoil');
+
+//     // MENU STOCK
+//     Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
+//     Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
+//     Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
+//     // --DELETE STOCK--
+//     Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
+
+//     // MENU WORK CENTER OIL
+//     Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
+//     Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
+
+//     // EXPORT WORKCENTER OIL TRAFO
+//     Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
+
+//     // MENU WORK CENTER DRY TYPE
+//     Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
+//     Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
+
+//     // EXPORT WORKCENTER DRY TYPE
+//     Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
+
+//     // MENU FINISH GOOD
+//     Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
+//     Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
+//     Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+//     Route::get('/FinishGood/EditFG/{kode_fg}', [FinishgoodController::class, 'edit'])->name('fg.editfg');
+//     Route::put('/FinishGood/updatefg/{kode_fg}', [FinishgoodController::class, 'updatefg'])->name('fg.updatefg');
+//     // --DELETE STOCK--
+//     Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
+//     Route::get('/FinishGood/ExportExcel', [FinishgoodController::class, 'exportToExcel'])->name('fg.exportExcel');
+
+//     //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
+//     Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
+//     Route::get('/getdatawo/{id_fg}', [WoController::class, 'getDataWO']);
+
+//     //NYOBA EMAIL 2 HARI & 7 HARI
+//     Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
+
+//     Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
+
+//     //MENU KAPASITAS PRODUKSI
+//     Route::get('/KapasitasProduksi/Index', [KapasitasProduksiController::class, 'index'])->name('kp-index');
+//     ROute::get('/KapasitasProduksi/{nama_pl}', [KapasitasProduksiController::class, 'detailPl'])->name('kp-detail');
+//     Route::get('/KapasitasProduksi/EditKp/{id}', [KapasitasProduksiController::class, 'editData'])->name('kp.editkp');
+//     Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
+//     Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
+//     Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
+
+//     //MENU MATERIAL
+//     Route::get('/Material/IndexMaterial', [PlannerMaterialController::class, 'index'])->name('material-index');
+//     Route::get('/Material/upload-excel', [PlannerMaterialController::class, 'formUpload'])->name('material-upload-excel');
+//     Route::post('/Material/upload-excel-post', [PlannerMaterialController::class, 'upload'])->name('material-upload-excel-post');
+//     Route::delete('/Material/delete', [PlannerMaterialController::class, 'destroy'])->name('material.delete');
+// });
+
+Route::middleware(['check.role:2,7'])->group(function () {
+    Route::get('/Dashboard', [BomControllerV2::class, 'dashboard'])->name('dashboard-index');
+
+    // MENU MPS
+    Route::get('/MPS/IndexMPS', [MpsController::class, 'index'])->name('mps-index');
+    Route::get('/MPS2/IndexMPS2', [Mps2Controller::class, 'index'])->name('mps2-index');
+    Route::post('/MPS2/UploadMPS', [Mps2Controller::class, 'store'])->name('mps2.store');
+    // --UPLOAD MPS--
+    Route::get('/MPS/UploadMPS', [MpsController::class, 'upload'])->name('mps-upload');
+    Route::post('/MPS/UploadMPS', [MpsController::class, 'store'])->name('mps.store');
+    Route::get('/MPS/getManHour/{id}', [MpsController::class, 'getTotalHour']);
+    Route::get('/getdataid-wo/{idWo}', [MpsController::class, 'getDataByIdWo']);
+
+    // --EXPORT MPS--
+    Route::get('/MPS/ExportExcel', [MpsController::class, 'exportToExcel'])->name('mps.exportExcel');
+    Route::get('/MPS/ExportPdf', [MpsController::class, 'exportToPdf'])->name('mps.exportPdf');
+    Route::get('/get-holiday', [CalendarController::class, 'getHolidays'])->name('get-holiday');
+
+    // MENU GPA
+    // --CALENDAR--
+
+    // --GPA DRY---
+    Route::get('/GPA/IndexGPA-Dry', [GPADryController::class, 'index'])->name('gpa-indexgpadry');
+    Route::get('/GPA/Detail-GPA-Dry/{id_wo}', [GPADryController::class, 'gpaDryDetail'])->name('gpa.detail-gpa-dry');
+
+    // --EXPORT GPA DRY--
+    Route::get('/GPA/ExportExcel', [GPADryController::class, 'exportToExcel'])->name('gpa.exportExcel');
+    Route::get('/GPA/ExportPdf', [GPADryController::class, 'exportToPdf'])->name('gpa.exportPdf');
+    Route::get('/GPA/ExportPdfDetail/{id_wo}', [GPADryController::class, 'exportToPdfDetail'])->name('gpa.exportPdfDetail');
+
+    // --GPA OIL--
+    Route::get('/GPA/IndexGPA-Oil', [GPAOilController::class, 'index'])->name('gpa-indexgpaoil');
+    Route::get('/GPA/Detail-GPA-Oil/{id_wo}', [GPAOilController::class, 'gpaOilDetail'])->name('gpa.detail-gpa-oil');
+
+    // --EXPORT GPA OIL--
+    Route::get('/GPA/ExportPdfOil', [GPAOilController::class, 'exportToPdf'])->name('gpa.exportPdfoil');
+
+    // MENU STOCK
+    Route::get('/Stock/IndexStock', [StockController::class, 'indexSt'])->name('st-index');
+    Route::get('/Stock/upload-excel', [StockController::class, 'formUpload'])->name('stock-upload-excel');
+    Route::post('/Stock/upload-excel-post', [StockController::class, 'upload'])->name('stock-upload-excel-post');
+    // --DELETE STOCK--
+    Route::delete('/Stock/delete', [StockController::class, 'destroy'])->name('stock.delete');
+
+    // MENU WORK CENTER OIL
+    Route::get('/WorkCenter/IndexWorkcenter-OilTrafo', [WorkcenterOilTrafoController::class, 'index'])->name('wc-indexworkcenteroil');
+    Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
+
+    // EXPORT WORKCENTER OIL TRAFO
+    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
+
+    // MENU WORK CENTER DRY TYPE
+    Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
+    Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
+
+    // EXPORT WORKCENTER DRY TYPE
+    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
+
+    // MENU FINISH GOOD
+    Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');
+    Route::get('/FinishGood/upload-excel', [FinishgoodController::class, 'formUpload'])->name('fg-upload-excel');
+    Route::post('/FinishGood/upload-excel-post', [FinishgoodController::class, 'upload'])->name('fg-upload-excel-post');
+    Route::get('/FinishGood/EditFG/{kode_fg}', [FinishgoodController::class, 'edit'])->name('fg.editfg');
+    Route::put('/FinishGood/updatefg/{kode_fg}', [FinishgoodController::class, 'updatefg'])->name('fg.updatefg');
+    // --DELETE STOCK--
+    Route::delete('/FinishGood/delete', [FinishgoodController::class, 'destroy'])->name('fg.delete');
+    Route::get('/FinishGood/ExportExcel', [FinishgoodController::class, 'exportToExcel'])->name('fg.exportExcel');
+
+    //NGAMBIL DATA si BOM & STANDARDIZE WORK (id_fg_)
+    Route::get('/getdataid-fg/{idFg}', [WoController::class, 'getDataByIdFg']);
+    Route::get('/getdatawo/{id_fg}', [WoController::class, 'getDataWO']);
+
+    //NYOBA EMAIL 2 HARI & 7 HARI
+    Route::get('/run-email-reminder', [DetailbomController::class, 'manualEmailReminder']);
+
+    Route::get('/get-capacity-by-date', [MpsController::class, 'getCapacityByDate'])->name('get-capacity-by-date');
+
+    //MENU KAPASITAS PRODUKSI
+    Route::get('/KapasitasProduksi/Index', [KapasitasProduksiController::class, 'index'])->name('kp-index');
+    ROute::get('/KapasitasProduksi/{nama_pl}', [KapasitasProduksiController::class, 'detailPl'])->name('kp-detail');
+    Route::get('/KapasitasProduksi/EditKp/{id}', [KapasitasProduksiController::class, 'editData'])->name('kp.editkp');
+    Route::put('/KapasitasProduksi/updateKp/{id}', [KapasitasProduksiController::class, 'updateData'])->name('kp.updatekp');
+    Route::get('/getData/{id}', [KapasitasProduksiController::class, 'getData']);
+    Route::post('KapasitasProduksi/Index/Periode', [KapasitasProduksiController::class, 'index'])->name('bulan.periode');
+
+    //MENU MATERIAL
+    Route::get('/Material/IndexMaterial', [PlannerMaterialController::class, 'index'])->name('material-index');
+    Route::get('/Material/upload-excel', [PlannerMaterialController::class, 'formUpload'])->name('material-upload-excel');
+    Route::post('/Material/upload-excel-post', [PlannerMaterialController::class, 'upload'])->name('material-upload-excel-post');
+    Route::delete('/Material/delete', [PlannerMaterialController::class, 'destroy'])->name('material.delete');
 });

@@ -14,6 +14,12 @@ use Illuminate\Http\RedirectResponse;
 
 class BomControllerV2 extends Controller
 {
+
+    public function dashboard()
+    {
+        return view('planner.dashboard.index');
+    }
+    
     public function index()
     {
         $dataBom = Bomv2::all();
@@ -97,7 +103,7 @@ class BomControllerV2 extends Controller
     //HAPUS BOM
     public function destroy($id_bom) : RedirectResponse
     {
-        $dataBom = Bom::where('id_bom', $id_bom)
+        $dataBom = Bomv2::where('id_bom', $id_bom)
             ->first();
         
         $id_bom = $dataBom->id_bom;

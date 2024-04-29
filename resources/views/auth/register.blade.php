@@ -51,6 +51,7 @@
                                     <option value="4">Resource Work Planning</option>
                                     <option value="5">PPIC</option>
                                     <option value="6">Purchaser</option>
+                                    <option value="7">Planner Versi Lama</option>
                                 </select>
 
                                 @error('role')

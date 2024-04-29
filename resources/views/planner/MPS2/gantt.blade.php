@@ -35,7 +35,7 @@
     <div class="card-body">
         <div class="d-flex align-items-center justify-content-between breadcrumb-content">
             <div class="col d-flex align-items-center">
-                <a href="{{ route('bom-index') }}" class="btn btn-primary mr-2"><i aria-hidden="true"></i>Back</a>
+                <a href="{{ route('dashboard-index') }}" class="btn btn-primary mr-2"><i aria-hidden="true"></i>Back</a>
                 <h5 class="mb-0 text-end">Master Production Schedule</h5>
             </div>
             <div class="items-center">

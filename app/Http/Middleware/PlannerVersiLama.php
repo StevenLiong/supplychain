@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Planner
+class PlannerVersiLama
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,9 @@ class Planner
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check() && auth()->user()->id_role == 2) {
+        if (auth()->check() && auth()->user()->id_role == 7) {
             return $next($request);
         }
-        return redirect('/Dashboard');
-    
+        return redirect('/');
     }
 }

@@ -8,11 +8,14 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row mb-4 align-items-center px-4">
+                <div class="mb-4">
                     <form action="{{ route('process.workcenter_rekomendasi') }}" method="post" class="ml-2"
                         id="workcenterForm_rekomendasi">
                         @csrf
-                        <d iv class="row align-items-center">
+                        <div class="row justify-content-end mr-4">
+                            <button type="button" class="btn btn-primary ml-2" data-toggle="modal" data-target="#resetConfirmationModal">Reset penjadwalan</button>
+                        </div>
+                        <div class="row align-items-center">
                             <div class="col-md-auto">
                                 <label for="workcenterSelect_rekomendasi">Pilih Work Center:</label>
                                 <select class="custom-select" name="Workcenter_rekomendasi"
@@ -36,17 +39,32 @@
                                     <option value="4">Minggu Depan</option>
                                 </select>
                             </div>
-                            {{-- <div class="col-md-auto">
-                                <label for="shiftSelect">Shift:</label>
-                                <select class="custom-select" name="shiftDry" id="shiftDrySelect">
-                                    <option value="1">1 Shift</option>
-                                    <option value="2">2 Shift</option>
-                                    <option value="3">3 Shift</option>
-                                </select>
-                            </div> --}}
-                        </d>
+                        </div>
+
 
                     </form>
+                    <div class="modal fade" id="resetConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="resetConfirmationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="resetConfirmationModalLabel">Konfirmasi Reset penjadwalan</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Apakah Anda yakin ingin mereset keseluruhan penjadwalan ? Tindakan ini akan menghapus semua data yang ada di dalam penjadwalan.
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Batal</button>
+                                    <form action="{{ route('reset.penjadwalan') }}" method="post">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Reset penjadwalan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <div id="datatable_wrapper" class="dataTables_wrapper">
@@ -57,25 +75,12 @@
                                     <th rowspan="2" style="width: 150px; vertical-align: middle;">Tanggal</th>
                                     <th rowspan="2" style="width: 100px; vertical-align: middle;">Jam</th>
                                     <th colspan="3">{{ $data['workcenterLabel'] }}</th>
-                                    {{-- <th colspan="3">Coil HV</th> --}}
                                 </tr>
                                 <tr>
-                                    {{-- <th>Jam</th> --}}
                                     <th>WO</th>
-                                    {{-- <th>Mesin</th> --}}
                                     <th>Operator</th>
                                     <th>Proses</th>
                                     <th>mesin</th>
-                                    {{-- <th></th> --}}
-                                    {{-- @foreach ($data['newDates'] as $date)
-                                    <th>{{ $date['end'] }}</th>
-                                    <th>{{ $date['hours'] }}</th>
-                                    <th>{{ $date['wo_id'] }}</th>
-                                @endforeach --}}
-
-                                    {{-- <th>WO</th>
-                                    <th>Mesin</th>
-                                    <th>Operator</th> --}}
                                 </tr>
                             </thead>
                             <tbody class="text-center">

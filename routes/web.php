@@ -407,10 +407,11 @@ Route::middleware(['auth', 'resourceworkplanning'])->group(function () {
     Route::get('resource_work_planning/CT-VT/Kebutuhan', [ResourceCtVtController::class, 'ctvtKebutuhan'])->name('ctvtKebutuhan');
     Route::post('resource_work_planning/CT-VT/Kebutuhan/data/process.periodeCTVT', [ResourceCtVtController::class, 'ctvtKebutuhan'])->name('process.periodeCTVT');
 
-    Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceDryRekomendasiController::class, 'dryRekomendasi']);
-    Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceDryRekomendasiController::class, 'dryRekomendasi'])->name('process.workcenter_rekomendasi');
-    Route::get('resource_work_planning/Dry/Rekomendasi/nama_mp/{id}}/edit', [ResourceDryRekomendasiController::class, 'edit'])->name('nama_mp.edit');
-    Route::put('resource_work_planning/Dry/Rekomendasi/nama_mp/{id}', [ResourceDryRekomendasiController::class, 'update'])->name('nama_mp.update');
+    Route::get('resource_work_planning/Dry/Rekomendasi', [ResourceDryRekomendasiController::class, 'checkAndRun']);
+    Route::post('resource_work_planning/Dry/Rekomendasi/data/proses-workcenter-rekomendasi', [ResourceDryRekomendasiController::class, 'checkAndRun'])->name('process.workcenter_rekomendasi');
+    Route::post('resource_work_planning/Dry/Rekomendasi/reset-database', [ResourceDryRekomendasiController::class, 'resetDatabase'])->name('reset.penjadwalan');
+    Route::get('resource_work_planning/Dry/Rekomendasi/reset-database', [ResourceDryRekomendasiController::class, 'resetDatabase'])->name('reset.penjadwalan');
+
     Route::get('resource_work_planning/Dry/Kebutuhan', [ResourceDryKebutuhanController::class, 'dryKebutuhan'])->name('dryKebutuhan');
     Route::post('resource_work_planning/Dry/Kebutuhan/data/process-periodeDryKebutuhan', [ResourceDryKebutuhanController::class, 'dryKebutuhan'])->name('process.periodeDryKebutuhan');
 

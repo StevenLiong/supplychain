@@ -7,6 +7,7 @@ use App\Http\Middleware\Materialrequest;
 use App\Http\Middleware\ResourceWorkPlanning;
 use App\Http\Middleware\StandardizedWork;
 use App\Http\Middleware\Planner;
+use App\Http\Middleware\PlannerVersiLama;
 use App\Http\Middleware\Purchaseorder;
 // use App\Models\produksi\StandardizeWork;
 use Barryvdh\DomPDF\Middleware\AddOutput;
@@ -82,5 +83,7 @@ class Kernel extends HttpKernel
         'standardizedwork' => StandardizedWork::class,
         'materialrequest' => Materialrequest::class,
         'purchaseorder' => Purchaseorder::class,
+        'plannerversilama' => PlannerVersiLama::class,
+        'check.role' => \App\Http\Middleware\CheckRole::class,
     ];
 }

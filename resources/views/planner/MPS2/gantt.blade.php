@@ -35,7 +35,7 @@
     <div class="card-body">
         <div class="d-flex align-items-center justify-content-between breadcrumb-content">
             <div class="col d-flex align-items-center">
-                <a href="{{ route('dashboard-index') }}" class="btn btn-primary mr-2"><i aria-hidden="true"></i>Back</a>
+                <a href="{{ route('bom-index') }}" class="btn btn-primary mr-2"><i aria-hidden="true"></i>Back</a>
                 <h5 class="mb-0 text-end">Master Production Schedule</h5>
             </div>
             <div class="items-center">
@@ -78,78 +78,61 @@
                             <th colspan="{{ $totalDaysWithBuffer }}" style="text-align: center;">Kapasitas</th>
                         </tr>
                         <tr>
-                            <td colspan="8" style="min-width: 145px; text-align: center;" class="freeze-column">PL 2</td>
+                            <td colspan="9" style="min-width: 145px; text-align: center;" class="freeze-column">PL 2</td>
                             @foreach ($kapasitasPL2 as $tanggal => $capacityPL2)
                                 @php
                                     // Tentukan warna latar belakang berdasarkan nilai kapasitas
-                                    $background_color = '';
-                                    switch ($capacityPL2) {
-                                        case 93:
-                                            $background_color = 'background-color: #00FF00;';
-                                            break;
-                                        case 1:
-                                            $background_color = 'background-color: #FFFF00;';
-                                            break;
-                                        case 0:
-                                            $background_color = 'background-color: #FF0000;';
-                                            break;
-                                        default:
-                                            $background_color = ''; // Tidak ada warna latar belakang
-                                            break;
+                                    if ($capacityPL2 >= 2 && $capacityPL2 <= 93) {
+                                        $background_color = 'background-color: #00FF00;'; // jika kapasitas antara 2 dan 93
+                                    } elseif ($capacityPL2 == 1) {
+                                        $background_color = 'background-color: #FFFF00;'; // jika kapasitas = 1
+                                    } elseif ($capacityPL2 == 0) {
+                                        $background_color = 'background-color: #FF0000;'; // jika kapasitas = 0
+                                    } else {
+                                        $background_color = ''; // Tidak ada warna latar belakang untuk nilai kapasitas lainnya
                                     }
                                 @endphp
                                 <td style="min-width: 57px; text-align: center; {{ $background_color }}">{{ $capacityPL2 }}</td>
                             @endforeach
                         </tr>
                         <tr>
-                            <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">PL 3</td>
+                            <td colspan="9" style="min-width: 145px; text-align:center;" class="freeze-column">PL 3</td>
                             @foreach ($kapasitasPL3 as $tanggal => $capacityPL3)
                                 @php
                                     // Tentukan warna latar belakang berdasarkan nilai kapasitas
-                                    $background_color = '';
-                                    switch ($capacityPL3) {
-                                        case 6:
-                                            $background_color = 'background-color: #00FF00;';
-                                            break;
-                                        case 1:
-                                            $background_color = 'background-color: #FFFF00;';
-                                            break;
-                                        case 0:
-                                            $background_color = 'background-color: #FF0000;';
-                                            break;
-                                        default:
-                                            $background_color = ''; // Tidak ada warna latar belakang
-                                            break;
+                                    if ($capacityPL3 >= 2 && $capacityPL3 <= 6) {
+                                        $background_color = 'background-color: #00FF00;'; // jika kapasitas antara 2 dan 93
+                                    } elseif ($capacityPL3 == 1) {
+                                        $background_color = 'background-color: #FFFF00;'; // jika kapasitas = 1
+                                    } elseif ($capacityPL3 == 0) {
+                                        $background_color = 'background-color: #FF0000;'; // jika kapasitas = 0
+                                    } else {
+                                        $background_color = ''; // Tidak ada warna latar belakang untuk nilai kapasitas lainnya
                                     }
                                 @endphp
                                 <td style="min-width: 57px; text-align: center; {{ $background_color }}">{{ $capacityPL3 }}</td>
                             @endforeach
                         </tr>
                         <tr>
-                            <td colspan="8" style="min-width: 145px; text-align:center;" class="freeze-column">DRYTYPE</td>
+                            <td colspan="9" style="min-width: 145px; text-align:center;" class="freeze-column">DRYTYPE</td>
                             @foreach ($kapasitasDrytype as $tanggal => $capacityDrytype)
                                 @php
                                     // Tentukan warna latar belakang berdasarkan nilai kapasitas
-                                    $background_color = '';
-                                    switch ($capacityDrytype) {
-                                        case 2:
-                                            $background_color = 'background-color: #00FF00;';
-                                            break;
-                                        case 1:
-                                            $background_color = 'background-color: #FFFF00;';
-                                            break;
-                                        case 0:
-                                            $background_color = 'background-color: #FF0000;';
-                                            break;
-                                        default:
-                                            $background_color = ''; // Tidak ada warna latar belakang
-                                            break;
+                                    if ($capacityDrytype >= 2 && $capacityDrytype <= 93) {
+                                        $background_color = 'background-color: #00FF00;'; // jika kapasitas antara 2 dan 93
+                                    } elseif ($capacityDrytype == 1) {
+                                        $background_color = 'background-color: #FFFF00;'; // jika kapasitas = 1
+                                    } elseif ($capacityDrytype == 0) {
+                                        $background_color = 'background-color: #FF0000;'; // jika kapasitas = 0
+                                    } else {
+                                        $background_color = ''; // Tidak ada warna latar belakang untuk nilai kapasitas lainnya
                                     }
                                 @endphp
                                 <td style="min-width: 57px; text-align: center; {{ $background_color }}">{{ $capacityDrytype }}</td>
                             @endforeach
                         </tr>
                         <tr>
+                            <th rowspan="2" class="freeze-column work-order-code" style="position: relative; text-align: center; white-space: nowrap; width: 50px; padding: 10px; vertical-align: middle;">Action</th>
                             <th rowspan="2" class="freeze-column work-order-code" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Work Order Code</th>
                             <th rowspan="2" class="freeze-column kode-so" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Kode SO</th>
                             <th rowspan="2" class="freeze-column" style="position: relative; text-align: center; white-space: nowrap; width: 200px; padding: 10px; vertical-align: middle;">Line</th>
@@ -194,6 +177,7 @@
                         @foreach ($mps2s as $mps2)
                             {{-- @dd($mps2->deadline['month']); --}}
                             <tr>
+                                <td class="freeze-column" style="position: relative; min-width: 50px; padding: 10px; text-align:center;"><button type="button" class="btn btn-danger delete-btn" data-id="{{ $mps2->id_wo }}"><i class="fa-solid fa-trash"></i></button></td>
                                 <td class="freeze-column" style="position: relative; min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_wo" value="{{ $mps2->id_wo }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; min-width: 165px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="id_so" value="{{ $mps2->id_so }}" disabled></td>
                                 <td class="freeze-column" style="position: relative; width: 200px; padding: 10px; text-align:center;"><input type="text" style="text-align:center;" class="form-control" name="production_line" value="{{ $mps2->production_line }}" disabled></td>
@@ -218,14 +202,23 @@
                         @endforeach
                         @for ($j = 1; $j <= 3; $j++)
                             <tr>
+                                <td class="freeze-column" style="position: relative; min-width: 50px; padding: 10px; text-align:center;"><button type="button" class="btn btn-primary"><i class="fa-solid fa-trash"></i></button></td>
                                 <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
                                     <input type="text" class="form-control" name="id_wo[]" value="">
                                 </td>
                                 <td class="freeze-column" style="position: relative; min-width: 167px; padding: 10px;">
                                     <input type="text" class="form-control" name="id_so_new[]" value="" disabled>
                                 </td>
-                                <td class="freeze-column" style="position: relative; min-width: 85px; padding: 10px;">
-                                    <input type="text" class="form-control" name="production_line[]" value="">
+                                <td class="freeze-column" style="position: relative; min-width: 150px; padding: 10px;">
+                                    <select class="form-control" name="production_line[]">
+                                        <option value="">Pilih Line</option>
+                                        <option value="PL2">PL2</option>
+                                        <option value="PL3">PL3</option>
+                                        <option value="CTVT">CTVT</option>
+                                        <option value="Dry">Drytype</option>
+                                        <option value="REPAIR">REPAIR</option>
+                                        <!-- Tambahkan opsi-opsi lainnya di sini sesuai kebutuhan -->
+                                    </select>
                                 </td>
                                 <td class="freeze-column" style="position: relative; min-width: 250px; padding: 10px;">
                                     <input type="text" class="form-control" name="project[]" value="">

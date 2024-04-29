@@ -756,14 +756,14 @@ Route::middleware(['check.role:2,7'])->group(function () {
     Route::get('/WorkCenter/Detail-Workcenter-Oil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'wcoildetail'])->name('wc-detailworkcenteroil');
 
     // EXPORT WORKCENTER OIL TRAFO
-    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
+    Route::get('/WC/ExportPdfDetailOil/{nama_workcenter}', [WorkcenterOilTrafoController::class, 'exportToPDF'])->name('wc.exportPDFoil');
 
     // MENU WORK CENTER DRY TYPE
     Route::get('/WorkCenter/IndexWorkcenter-DryType', [WorkcenterDryTypeController::class, 'index'])->name('wc-indexworkcenterdrytype');
     Route::get('/WorkCenter/Detail-Workcenter-DryType/{nama_workcenter}', [WorkcenterDryTypeController::class, 'wcdrytypedetail'])->name('wc-detailworkcenterdry');
 
     // EXPORT WORKCENTER DRY TYPE
-    Route::get('/WC/ExportPdfDetail/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
+    Route::get('/WC/ExportPdfDetailDry/{nama_workcenter}', [WorkcenterDryTypeController::class, 'exportToPDF'])->name('wc.exportPDFdry');
 
     // MENU FINISH GOOD
     Route::get('/FinishGood/IndexFG', [FinishgoodController::class, 'indexFg'])->name('fg-index');

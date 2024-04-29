@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('kva');
             $table->string('kd_manhour');
             $table->foreignId('id_standardize_work')->nullable()->constrained('standardize_works');
+            $table->string('nama_product');
             $table->timestamps();
         });
     }

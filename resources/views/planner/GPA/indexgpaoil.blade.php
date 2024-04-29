@@ -1,20 +1,20 @@
 @extends('planner.template.bar')
 @section('content')
-@section('gpaoil', 'active')
+@section('gpadry', 'active')
 @section('main', 'show')
 <div class="col-sm-12">
     <div class="card">
         <div class="card-header d-flex justify-content-between">
             <div class="header-title">
                 <h4 class="card-title">
-                    Global Picking Area - Oil Trafo
+                    Global Picking Area - Dry Type
                 </h4>
             </div>
         </div>
         <div class="card-body">
             <div class="row d-flex mb-4">
                 <div class="col text-left">
-                    <a href="{{ route('gpa.exportPdfoil') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
+                    <a href="{{ route('gpa.exportPdf') }}" class="btn btn-primary"><i class="mr-2 fa-regular fa-file-pdf"></i>Download PDF</a>
                 </div>          
             </div>
             <div class="table-responsive">
@@ -28,7 +28,6 @@
                                     <th style="width: 6rem; text-align: center">Project Name</th>
                                     <th style="width: 6rem; text-align:center">Production Line</th>
                                     <th style="width: 6rem; text-align:center">KVA</th>
-                                    <th style="width: 6rem; text-align:center">Jenis Trafo</th>
                                     <th style="width: 6rem; text-align:center">Quantity</th>
                                     <th style="width: 6rem; text-align:center">Dead Line</th>
                                 </tr>
@@ -36,16 +35,16 @@
                         </thead>
                         <tbody>
                             @foreach ($dataMps as $index => $item)
-                                @if ($item->jenis === 'Oil Trafo') <!-- Menampilkan hanya jenis Oil Trafo -->
+                                @if ($item->production_line === 'PL2' || $item->production_line === 'PL3')
                                     <tr role="row" class="odd">
-                                        <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index }}</td>
-                                        <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-oil', $item->id_wo) }}">{{ $item->wo->id_wo }}</a></td>
+                                        <td style="width: 1rem;text-align: center;" class="sorting_1">{{ $index + 1 }}</td>
+                                        <td style="width: 6rem; text-align: center"><a href="{{ route('gpa.detail-gpa-oil', $item->id_wo) }}">{{ $item->id_wo }}</a></td>
                                         <td style="width: 6rem; text-align: center">{{ $item->project }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->production_line }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->kva }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ $item->jenis }}</td>
                                         <td style="width: 6rem; text-align: center">{{ $item->qty_trafo }}</td>
-                                        <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::parse($item->deadline)->format('d-F-Y') }}</td>
+                                        <td style="width: 6rem; text-align: center">{{ \Carbon\Carbon::createFromFormat('Y-m-d', $item->deadline['year'] . '-' . $item->deadline['month'] . '-' . $item->deadline['day'])->format('d-M-Y') }}</td>
+
                                     </tr>
                                 @endif
                             @endforeach

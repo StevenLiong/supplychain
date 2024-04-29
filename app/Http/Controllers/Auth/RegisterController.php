@@ -55,7 +55,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'integer', 'between:1,6'], // Validasi untuk role
+            'role' => ['required', 'integer', 'between:1,7'], // Validasi untuk role
         ]);
     }
 

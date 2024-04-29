@@ -91,49 +91,49 @@ class StandardizeWorkController extends Controller
             return redirect(route('home'))->with('success', 'Deleted!');
         }
     }
-    public function edit(string $kd_manhour)
-    {
-        // Cari data Standard berdasarkan kd_manhour
-        $product = StandardizeWork::where('kd_manhour', $kd_manhour)->first();
+    // public function edit(string $kd_manhour)
+    // {
+    //     // Cari data Standard berdasarkan kd_manhour
+    //     $product = StandardizeWork::where('kd_manhour', $kd_manhour)->first();
 
-        // Jika data Standard tidak ditemukan, tampilkan error 404
-        if (!$product) {
-            abort(404);
-        }
+    //     // Jika data Standard tidak ditemukan, tampilkan error 404
+    //     if (!$product) {
+    //         abort(404);
+    //     }
 
-        // Ambil data dari relasi masing-masing produk berdasarkan kd_manhour yang sama
-        $dryCastResin = DryCastResin::where('kd_manhour', $kd_manhour)->first();
-        $dryNonResin = DryNonResin::where('kd_manhour', $kd_manhour)->first();
-        // $ct = Ct::where('kd_manhour', $kd_manhour)->first();
-        // $vt = Vt::where('kd_manhour', $kd_manhour)->first();
-        $oilCustom = OilCustom::where('kd_manhour', $kd_manhour)->first();
-        $oilStandard = OilStandard::where('kd_manhour', $kd_manhour)->first();
-        $repair = Repair::where('kd_manhour', $kd_manhour)->first();
+    //     // Ambil data dari relasi masing-masing produk berdasarkan kd_manhour yang sama
+    //     $dryCastResin = DryCastResin::where('kd_manhour', $kd_manhour)->first();
+    //     $dryNonResin = DryNonResin::where('kd_manhour', $kd_manhour)->first();
+    //     // $ct = Ct::where('kd_manhour', $kd_manhour)->first();
+    //     // $vt = Vt::where('kd_manhour', $kd_manhour)->first();
+    //     $oilCustom = OilCustom::where('kd_manhour', $kd_manhour)->first();
+    //     $oilStandard = OilStandard::where('kd_manhour', $kd_manhour)->first();
+    //     $repair = Repair::where('kd_manhour', $kd_manhour)->first();
 
-        // Kemudian Anda dapat mengirimkan data ini ke tampilan untuk diedit
-        return view('produksi.standardized_work.edit', [
-            'product' => $product,
-            'dryCastResin' => $dryCastResin,
-            'dryNonResin' => $dryNonResin,
-            // 'ct' => $ct,
-            // 'vt' => $vt,
-            'oilCustom' => $oilCustom,
-            'oilStandard' => $oilStandard,
-            'repair' => $repair,
-            'kd_manhour' => $kd_manhour,
-            'title' => 'Edit Data'
-        ]);
-    }
+    //     // Kemudian Anda dapat mengirimkan data ini ke tampilan untuk diedit
+    //     return view('produksi.standardized_work.edit', [
+    //         'product' => $product,
+    //         'dryCastResin' => $dryCastResin,
+    //         'dryNonResin' => $dryNonResin,
+    //         // 'ct' => $ct,
+    //         // 'vt' => $vt,
+    //         'oilCustom' => $oilCustom,
+    //         'oilStandard' => $oilStandard,
+    //         'repair' => $repair,
+    //         'kd_manhour' => $kd_manhour,
+    //         'title' => 'Edit Data'
+    //     ]);
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $kd_manhour)
-    {
-        $standardizeWork = StandardizeWork::where('kd_manhour', $kd_manhour)->first();
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, string $kd_manhour)
+    // {
+    //     $standardizeWork = StandardizeWork::where('kd_manhour', $kd_manhour)->first();
 
-        return redirect(route('home'))->with('success', 'Produk berhasil diupdate.');
-    }
+    //     return redirect(route('home'))->with('success', 'Produk berhasil diupdate.');
+    // }
 
 
 }

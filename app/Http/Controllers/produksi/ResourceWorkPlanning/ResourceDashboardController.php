@@ -66,14 +66,68 @@ class ResourceDashboardController extends Controller
         $filteredMpsREPAIR = $mps->where('production_line', 'REPAIR');
         $filteredMpsDRY = $mps->where('production_line', 'Dry');
 
-        //QTY PL NEW
+        //QTY PL Dry NEW
         $qtyDRY = $filteredMpsDRY->filter(function ($item) use ($deadlineDate) {
             $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
             return $deadline->between($deadlineDate[0], $deadlineDate[1]);
         })->sum('qty_trafo');
-
-        //get total hour new
+        //get total hour dry
         $jumlahtotalHourSumDRY = $filteredMpsDRY->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum(function ($item) {
+            return $item->standardize_work->total_hour * $item->qty_trafo;
+        });
+        //QTY PL2 NEW
+        $qtyPL2 = $filteredMpsPL2->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum('qty_trafo');
+
+        //get total hour PL2 new
+        $jumlahtotalHourSumPL2 = $filteredMpsPL2->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum(function ($item) {
+            return $item->standardize_work->total_hour * $item->qty_trafo;
+        });
+
+         //QTY PL 3 NEW
+        $qtyPL3 = $filteredMpsPL3->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum('qty_trafo');
+
+        //get total hour PL3 new
+        $jumlahtotalHourSumPL3 = $filteredMpsPL3->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum(function ($item) {
+            return $item->standardize_work->total_hour * $item->qty_trafo;
+        });
+
+         //QTY PL CTVT NEW
+        $qtyCTVT = $filteredMpsCTVT->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum('qty_trafo');
+
+        //get total hour CTVT new
+        $jumlahtotalHourSumCTVT = $filteredMpsCTVT->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum(function ($item) {
+            return $item->standardize_work->total_hour * $item->qty_trafo;
+        });
+
+         //QTY PL REPAIR NEW
+        $qtyREPAIR = $filteredMpsREPAIR->filter(function ($item) use ($deadlineDate) {
+            $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
+            return $deadline->between($deadlineDate[0], $deadlineDate[1]);
+        })->sum('qty_trafo');
+
+        //get total hour REPAIR new
+        $jumlahtotalHourSumREPAIR = $filteredMpsREPAIR->filter(function ($item) use ($deadlineDate) {
             $deadline = Carbon::create($item['deadline']['year'], $item['deadline']['month'], $item['deadline']['day']);
             return $deadline->between($deadlineDate[0], $deadlineDate[1]);
         })->sum(function ($item) {
@@ -83,55 +137,55 @@ class ResourceDashboardController extends Controller
 
 
         //QTY PL
-        $qtyPL2 =  $filteredMpsPL2->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
-        $qtyPL3 =  $filteredMpsPL3->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
-        $qtyCTVT =  $filteredMpsCTVT->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        // $qtyPL2 =  $filteredMpsPL2->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        // $qtyPL3 =  $filteredMpsPL3->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        // $qtyCTVT =  $filteredMpsCTVT->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
         // $qtyDRY =  $filteredMpsDRY->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
-        $qtyREPAIR =  $filteredMpsREPAIR->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
+        // $qtyREPAIR =  $filteredMpsREPAIR->whereBetween('deadline', $deadlineDate)->sum('qty_trafo');
 
         //ambil id WO
-        $woPL2 = Mps2::where('production_line', 'PL2')->pluck('id_wo');
-        $woPL3 = Mps2::where('production_line', 'PL3')->pluck('id_wo');
-        $woCTVT = Mps2::where('production_line', 'CTVT')->pluck('id_wo');
-        $woREPAIR = Mps2::where('production_line', 'REPAIR')->pluck('id_wo');
+        // $woPL2 = Mps2::where('production_line', 'PL2')->pluck('id_wo');
+        // $woPL3 = Mps2::where('production_line', 'PL3')->pluck('id_wo');
+        // $woCTVT = Mps2::where('production_line', 'CTVT')->pluck('id_wo');
+        // $woREPAIR = Mps2::where('production_line', 'REPAIR')->pluck('id_wo');
 
         //ambil data mps berdasarkan PL,
 
-        $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work.oil_standard'])
-            ->whereIn('id_wo', $woPL2)
-            ->get()
-            ->sum(function ($item) {
-                return $item->wo->standardize_work->oil_standard->total_hour * $item->qty_trafo;
-            });
+        // $jumlahtotalHourSumPL2 = Mps2::where('production_line', 'PL2')
+        //     ->whereBetween('deadline', $deadlineDate)
+        //     ->with(['wo.standardize_work.oil_standard'])
+        //     ->whereIn('id_wo', $woPL2)
+        //     ->get()
+        //     ->sum(function ($item) {
+        //         return $item->wo->standardize_work->oil_standard->total_hour * $item->qty_trafo;
+        //     });
 
-        $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work'])
-            ->whereIn('id_wo', $woPL3)
-            ->get()
-            ->sum(function ($item) {
-                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
-            });
+        // $jumlahtotalHourSumPL3 = Mps2::where('production_line', 'PL3')
+        //     ->whereBetween('deadline', $deadlineDate)
+        //     ->with(['wo.standardize_work'])
+        //     ->whereIn('id_wo', $woPL3)
+        //     ->get()
+        //     ->sum(function ($item) {
+        //         return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+        //     });
 
-        $jumlahtotalHourSumCTVT = Mps2::where('production_line', 'CTVT')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work'])
-            ->whereIn('id_wo', $woCTVT)
-            ->get()
-            ->sum(function ($item) {
-                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
-            });
+        // $jumlahtotalHourSumCTVT = Mps2::where('production_line', 'CTVT')
+        //     ->whereBetween('deadline', $deadlineDate)
+        //     ->with(['wo.standardize_work'])
+        //     ->whereIn('id_wo', $woCTVT)
+        //     ->get()
+        //     ->sum(function ($item) {
+        //         return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+        //     });
 
-        $jumlahtotalHourSumREPAIR = Mps2::where('production_line', 'REPAIR')
-            ->whereBetween('deadline', $deadlineDate)
-            ->with(['wo.standardize_work'])
-            ->whereIn('id_wo', $woREPAIR)
-            ->get()
-            ->sum(function ($item) {
-                return $item->wo->standardize_work->total_hour * $item->qty_trafo;
-            });
+        // $jumlahtotalHourSumREPAIR = Mps2::where('production_line', 'REPAIR')
+        //     ->whereBetween('deadline', $deadlineDate)
+        //     ->with(['wo.standardize_work'])
+        //     ->whereIn('id_wo', $woREPAIR)
+        //     ->get()
+        //     ->sum(function ($item) {
+        //         return $item->wo->standardize_work->total_hour * $item->qty_trafo;
+        //     });
 
         switch ($periode) {
             case 1:

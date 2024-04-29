@@ -31,7 +31,7 @@
                             @foreach ($dataBom as $key => $item)
                             <tr role="row" class="odd">
                                 <td style="text-align: center;">
-                                    <form method="POST" action="{{ route('bom.delete', ['id_bom' => $item->id_bom]) }}">
+                                    <form method="POST" action="{{ route('bom_v2.delete', ['id_bom' => $item->id_bom]) }}">
                                         <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                             <a href="{{ route('bom_v2.detailbom', $item->id_bom) }}" class="btn btn-primary"><i class="fa-solid fa-info"></i></a>
                                                 @csrf

@@ -13,7 +13,7 @@ class loginController extends Controller
             if (Auth()->user()->id_role == 1)
                 return redirect('/logistic');
             else if (Auth::user()->id_role == 2)
-                return redirect('BOM/IndexBom');
+                return redirect('/BOM_V2/IndexBom');
             else if (Auth::user()->id_role == 3)
                 return redirect('/standardized_work/home');
             else if (Auth::user()->id_role == 4)
@@ -22,6 +22,8 @@ class loginController extends Controller
                 return redirect('materialrequest/dashboard');
             else if (Auth::user()->id_role == 6)
                 return redirect('purchaseorder/dashboard');
+            else if (Auth::user()->id_role == 7)
+                return redirect('/BOM/IndexBom');
         }
 
         return redirect('/login');
@@ -43,7 +45,7 @@ class loginController extends Controller
             if (Auth::user()->id_role == 1)
                 return redirect('/logistic');
             else if (Auth::user()->id_role == 2)
-                return redirect('BOM/IndexBom');
+                return redirect('/BOM_V2/IndexBom');
             else if (Auth::user()->id_role == 3)
                 return redirect('/standardized_work/home');
             else if (Auth::user()->id_role == 4)
@@ -52,6 +54,8 @@ class loginController extends Controller
                 return redirect('/materialrequest');
             else if (Auth::user()->id_role == 6)
                 return redirect('/purchaseorder');
+            else if (Auth::user()->id_role == 7)
+                return redirect('/BOM/IndexBom');
         }
 
 

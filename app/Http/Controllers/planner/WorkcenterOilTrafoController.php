@@ -18,7 +18,7 @@ class WorkcenterOilTrafoController extends Controller
         return view('planner.WC.indexworkcenteroil', compact('dataWorkcenter'));
     }
 
-    public function wcdrytypedetail(String $nama_workcenter): View
+    public function wcoildetail(String $nama_workcenter): View
     {
         // Ambil data WorkcenterDryType berdasarkan nama_workcenter yang diberikan
         $dataWorkcenter = WorkcenterOilTrafo::where('nama_workcenter', $nama_workcenter)->first();

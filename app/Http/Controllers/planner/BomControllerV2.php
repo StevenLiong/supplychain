@@ -108,7 +108,7 @@ class BomControllerV2 extends Controller
         
         $id_bom = $dataBom->id_bom;
 
-        Detailbom::where('id_boms', $id_bom)->delete();
+        Detailbomv2::where('id_boms', $id_bom)->delete();
 
         $dataBom->delete();
 

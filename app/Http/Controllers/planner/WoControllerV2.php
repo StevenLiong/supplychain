@@ -31,39 +31,53 @@ class WoControllerV2 extends Controller
 
     public function upload(Request $request)
     {
-        $request->validate([
-            'file' => 'required|mimes:xls,xlsx'
-        ]);
+        try {
+            $request->validate([
+                'file' => 'required|mimes:xls,xlsx'
+            ]);
 
-        $file = $request->file('file');
-        $spreadsheet = IOFactory::load($file);
-        $worksheet = $spreadsheet->getActiveSheet();
+            $file = $request->file('file');
+            $spreadsheet = IOFactory::load($file);
+            $worksheet = $spreadsheet->getActiveSheet();
 
-        // $get_idboms = $worksheet->getCell('F5')->getValue(); //get_idboms mengambil seluruh value
+            for ($row = 4; $row <= 1000; $row++) {
+                try {
+                    $id_wo = $worksheet->getCell("B$row")->getValue();
+                    $wo_begin = $worksheet->getCell("C$row")->getFormattedValue();
+                    $wo_end = $worksheet->getCell("D$row")->getFormattedValue();
+                    $bom = $worksheet->getCell("N$row")->getValue();
+                    $id_fg = $worksheet->getCell("O$row")->getValue();
+                    $qty = $worksheet->getCell("P$row")->getValue();
 
-        for ($row = 4; $row <= 1000; $row++) {
-            $id_wo = $worksheet->getCell("B$row")->getValue();
-            $wo_begin = $worksheet->getCell("C$row")->getFormattedValue();
-            $wo_end = $worksheet->getCell("D$row")->getFormattedValue();
-            $bom = $worksheet->getCell("N$row")->getValue();
-            $id_fg = $worksheet->getCell("O$row")->getValue();
-            $qty = $worksheet->getCell("P$row")->getValue();
-    
-            $existing_wo = Wo::where('id_wo', $id_wo)->first();
-    
-            if (!$existing_wo && $id_wo !== null) {
-                $wo = new Wo();
-                $wo->id_wo = $id_wo;
-                $wo->start_date = $wo_begin;
-                $wo->finish_date = $wo_end;
-                $wo->id_fg = $id_fg;
-                $wo->qty_trafo = $qty;
-                $wo->id_boms = $bom;
-                $wo->save();
+                    $existing_wo = Wo::where('id_wo', $id_wo)->first();
+
+                    if (!$existing_wo && $id_wo !== null) 
+                    {
+                        $wo = new Wo();
+                        $wo->id_wo = $id_wo;
+                        $wo->start_date = $wo_begin;
+                        $wo->finish_date = $wo_end;
+                        $wo->id_fg = $id_fg;
+                        $wo->qty_trafo = $qty;
+                        $wo->id_boms = $bom;
+                        $wo->save();
+                    }
+                } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+                    return redirect()->back()->withErrors(['error' => 'Format file Excel tidak valid. Harap unggah file dengan format yang benar (xls/xlsx).']);
+                } catch (\Exception $e) {
+                    // Tangani kesalahan saat memproses data setiap baris
+                    return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memproses data dari file Excel.']);
+                }
             }
+            
+            // Pengalihan jika tidak ada kesalahan
+            return redirect('/WorkOrderV2/IndexWorkOrder');
+        } catch (\Exception $e) {
+            // Tangani kesalahan lain yang mungkin terjadi
+            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat memproses file Excel.']);
         }
-        return redirect('/WorkOrderV2/IndexWorkOrder');
     }
+
 
     public function store(Request $request): RedirectResponse
     {

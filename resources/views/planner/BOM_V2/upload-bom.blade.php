@@ -14,6 +14,19 @@
             {{ session('success') }}
           </div>
       @endif
+      <!-- @if (session()->has('error'))
+          <div class="alert alert-danger" role="alert">
+            {{ session('error') }}
+          </div>
+      @endif -->
+      @if ($errors->any())
+            <div class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}
+                    @endforeach
+                
+            </div>
+        @endif
        <form action="{{ route('bom_v2-upload-excel-post') }}" method="POST" enctype="multipart/form-data">
          @csrf
           <div class="form-row">

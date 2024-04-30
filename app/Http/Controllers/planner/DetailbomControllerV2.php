@@ -79,15 +79,16 @@ class DetailbomControllerV2 extends Controller
 
     public function upload(Request $request)
     {
-        $request->validate([
-            'file' => 'required|mimes:xls,xlsx'
-        ]);
-
-        $file = $request->file('file');
-        $spreadsheet = IOFactory::load($file);
-        $worksheet = $spreadsheet->getActiveSheet();
-
-        $get_idboms = $worksheet->getCell('F5')->getValue();
+        try {
+            $request->validate([
+                'file' => 'required|mimes:xls,xlsx'
+            ]);
+    
+            $file = $request->file('file');
+            $spreadsheet = IOFactory::load($file);
+            $worksheet = $spreadsheet->getActiveSheet();
+    
+            $get_idboms = $worksheet->getCell('F5')->getValue();
         $id_boms = strtok($get_idboms, ' ');
         // dd($id_boms);
 
@@ -101,7 +102,7 @@ class DetailbomControllerV2 extends Controller
             $bom->id_so = $id_so;
             // dd($id_so);
         } else {
-            dd("Tidak ada id_so");
+            // dd("Tidak ada id_so");
         }
 
         // Menyimpan data BOM
@@ -151,7 +152,6 @@ class DetailbomControllerV2 extends Controller
             $detailBom->comparison = $comparison;
             $detailBom->composite = $composite;
             $detailBom->tolerance = $tolerance;
-            // $detailBom->id_boms = $bom->id;
             $detailBom->id_boms = $bom->id_bom;
             if($comparison == 0 && $composite == 0){
                 $detailBom->usage_material = 0;
@@ -162,6 +162,95 @@ class DetailbomControllerV2 extends Controller
         }
         $this->updateData();
         return redirect('/BOM_V2/IndexBom');
+    
+        } catch (\PhpOffice\PhpSpreadsheet\Reader\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Format file Excel tidak valid. Harap unggah file dengan format yang benar (xls/xlsx).']);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Mohon upload file Excel Bill of Material yang didapat dari Erasoft']);
+        }
+        // $request->validate([
+        //     'file' => 'required|mimes:xls,xlsx'
+        // ]);
+
+        // $file = $request->file('file');
+        // $spreadsheet = IOFactory::load($file);
+        // $worksheet = $spreadsheet->getActiveSheet();
+
+        // $get_idboms = $worksheet->getCell('F5')->getValue();
+        // $id_boms = strtok($get_idboms, ' ');
+        // // dd($id_boms);
+
+        // $pattern = '/\((.*?)\)/';
+        // preg_match($pattern, $get_idboms, $matches);
+
+        // $bom = new Bom();
+
+        // if (isset($matches[1])) {
+        //     $id_so = $matches[1]; 
+        //     $bom->id_so = $id_so;
+        //     // dd($id_so);
+        // } else {
+        //     // dd("Tidak ada id_so");
+        // }
+
+        // // Menyimpan data BOM
+        // $bom = new Bomv2();
+        // $bom->id_bom = $id_boms;
+        // $bom->id_so = $id_so;
+        // $bom->deskripsi = $get_idboms;
+        // $bom->save();
+
+        // $id_warehouse = null;
+        // $workcenter = null;
+
+        // for ($row = 10; $row <= 100; $row++) {
+        //     $current_id_warehouse = $worksheet->getCell("B$row")->getValue();
+        //     $current_workcenter = $worksheet->getCell("D$row")->getValue();
+
+        //     if ($current_id_warehouse != '') {
+        //         $id_warehouse = $current_id_warehouse;
+        //     }
+        //     if ($current_workcenter != '') {
+        //         $workcenter = $current_workcenter;
+        //     }
+
+        //     if ($id_warehouse === null || $workcenter === null) {
+        //         continue;
+        //     }
+
+        //     $id_material = $worksheet->getCell("B$row")->getValue();
+        //     if ($id_material == '') {
+        //         continue;
+        //     }
+
+        //     $nama_material = $worksheet->getCell("H$row")->getValue();
+        //     $second_material_name = $worksheet->getCell("L$row")->getValue();
+        //     $uom = $worksheet->getCell("Q$row")->getValue();
+        //     $comparison = $worksheet->getCell("V$row")->getValue();
+        //     $composite = $worksheet->getCell("X$row")->getValue();
+        //     $tolerance = $worksheet->getCell("AB$row")->getValue();
+
+        //     $detailBom = new Detailbomv2();
+        //     $detailBom->id_warehouse1 = $id_warehouse;
+        //     $detailBom->nama_workcenter = $workcenter;
+        //     $detailBom->id_materialbom = $id_material;
+        //     $detailBom->nama_materialbom = $nama_material;
+        //     $detailBom->second_material_name = $second_material_name;
+        //     $detailBom->uom_material = $uom;
+        //     $detailBom->comparison = $comparison;
+        //     $detailBom->composite = $composite;
+        //     $detailBom->tolerance = $tolerance;
+        //     // $detailBom->id_boms = $bom->id;
+        //     $detailBom->id_boms = $bom->id_bom;
+        //     if($comparison == 0 && $composite == 0){
+        //         $detailBom->usage_material = 0;
+        //     }else{
+        //         $detailBom->usage_material = $comparison * $composite;
+        //     }
+        //     $detailBom->save();
+        // }
+        // $this->updateData();
+        // return redirect('/BOM_V2/IndexBom');
     }
 
     public function updateData()
